@@ -94,10 +94,10 @@ export function HeroPrompt() {
             <label key={c.id} className="cursor-pointer">
               <input type="radio" name="need" value={c.id} className="peer sr-only" />
               <span className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-background/50 px-2.5 text-[12px] whitespace-nowrap text-muted-foreground transition-colors sm:px-3 sm:text-[13px]",
+                "inline-flex h-8 items-center gap-1.5 rounded-[6px] border border-border bg-background/50 px-2.5 text-[12px] whitespace-nowrap text-muted-foreground transition-colors sm:px-3 sm:text-[13px]",
                 "peer-checked:border-foreground/30 peer-checked:bg-foreground/[0.07] peer-checked:text-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50 hover:text-foreground",
               )}>
-                <span aria-hidden className="text-brand max-sm:hidden">✦</span>
+                <span aria-hidden className="text-(--mark-eye-edge) max-sm:hidden">✦</span>
                 {"short" in c ? <><span className="sm:hidden">{c.short}</span><span className="max-sm:hidden">{c.label}</span></> : c.label}
               </span>
             </label>
