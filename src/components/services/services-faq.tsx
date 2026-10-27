@@ -42,10 +42,6 @@ export function ServicesFaq() {
           conversation to you when a person is needed.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="tax">
-        <AccordionTrigger>Do the prices include tax?</AccordionTrigger>
-        <AccordionContent>Prices in rupees exclude 18% GST.</AccordionContent>
-      </AccordionItem>
     </Accordion>
   )
 }

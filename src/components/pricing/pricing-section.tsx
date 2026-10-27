@@ -1,11 +1,10 @@
-import { OFFERS, type Region } from "@/lib/pricing"
+import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 import { Comparison } from "./comparison"
 import { FoundingBanner } from "./founding-banner"
 import { PlanCard } from "./plan-card"
 import { PriceList } from "./price-list"
 import { PricingFaq } from "./pricing-faq"
-import { RegionProvider, RegionSwitch, TaxNote } from "./region"
 import { SynccPlans } from "./syncc-plans"
 
 const founding = OFFERS.find((o) => o.id === "founding-ten")!
@@ -22,20 +21,19 @@ function Group({ title, note, children }: { title: string; note?: string; childr
   )
 }
 
-/** Every price on the site, read from the price book. `region` is the visitor's first guess; they can switch. */
-export async function PricingSection({ region }: { region: Region }) {
+/** Every price on the site, read from the price book. */
+export async function PricingSection() {
   const status = await offerStatus(founding)
   const offerFor = (id: string) => (status.open && founding.appliesTo.includes(id) ? founding : null)
 
   return (
-    <RegionProvider initial={region}>
+    <>
       <div className="grid gap-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="grid max-w-2xl gap-2">
             <span className="label-mono">PRICING</span>
-            <h2 className="text-3xl font-medium tracking-tight text-balance">Clear prices, in your currency.</h2>
+            <h2 className="text-3xl font-medium tracking-tight text-balance">Clear, fixed prices.</h2>
           </div>
-          <RegionSwitch />
         </div>
 
         <FoundingBanner status={status} />
@@ -80,8 +78,7 @@ export async function PricingSection({ region }: { region: Region }) {
           <PricingFaq />
         </Group>
 
-        <TaxNote className="label-mono" />
       </div>
-    </RegionProvider>
+    </>
   )
 }

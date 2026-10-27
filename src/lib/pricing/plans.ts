@@ -8,6 +8,9 @@
  *   - service details (who it's for, inclusions, timelines) agreed October 2026
  *   - syncc/pricing.js: the standalone Syncc scheduling app
  *
+ * The site shows US dollars only (see SITE_REGION). Rupee amounts stay here for
+ * invoicing Indian clients; nothing on the site displays them.
+ *
  * Offerings marked `placeholder: true` hold stand-in prices: shown with a
  * "Placeholder price" label, never sold. Syncc is one of them until its
  * prices are confirmed.
