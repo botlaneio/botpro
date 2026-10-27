@@ -22,7 +22,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { LANES, type Lane } from "@/lib/lanes"
 import { regionFor } from "@/lib/pricing"
-import { Keycaps, ThemeToggle } from "./lab-controls"
+import { ThemeSwitch } from "@/components/site/theme-switch"
+import { Keycaps } from "./lab-controls"
 
 export const metadata: Metadata = { title: "Component lab · Botlane" }
 
@@ -59,7 +60,7 @@ export default async function Lab() {
             shadcn/ui components themed by the Layer 0 tokens. botlane.io stays neutral; colour appears only inside a lane.
           </p>
         </div>
-        <ThemeToggle />
+        <ThemeSwitch />
       </header>
 
       <Section id="buttons" title="Buttons" note="The near-white primary is the site's main action. Lane buttons appear only on product pages.">
