@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { LANES } from "@/lib/lanes"
 import { SOLUTIONS } from "@/lib/nav"
 
+import { AmbientLight } from "./ambient-light"
 import { BotlaneMark } from "./botlane-mark"
 
 const STUDIO = [
@@ -23,6 +24,7 @@ export function SiteFooter() {
   const solutions = SOLUTIONS.flatMap((g) => g.items)
   return (
     <footer className="relative overflow-hidden border-t border-border/60">
+      <AmbientLight className="bottom-0 h-[34rem] [mask-image:linear-gradient(0deg,#000_25%,transparent)]" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">

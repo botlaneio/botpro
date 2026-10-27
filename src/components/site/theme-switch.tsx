@@ -21,7 +21,7 @@ export function ThemeSwitch({ className }: { className?: string }) {
   // The phone's browser bar follows the theme, not just the first paint.
   React.useEffect(() => {
     if (!mounted) return
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#0B0C0E" : "#FCFCFD")
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#0E0809" : "#FCFCFD")
   }, [mounted, dark])
 
   return (

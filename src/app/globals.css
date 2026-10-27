@@ -40,10 +40,14 @@
 }
 
 .dark {
-  /* Neutral · dark 1–12 */
-  --neutral-1: #0B0C0E;  --neutral-2: #101114;  --neutral-3: #16181C;  --neutral-4: #1C1F24;
-  --neutral-5: #23262C;  --neutral-6: #2B2F36;  --neutral-7: #363A43;  --neutral-8: #484D57;
-  --neutral-9: #6C727E;  --neutral-10: #8B919C; --neutral-11: #B6BAC2; --neutral-12: #EDEEF0;
+  /* Neutral · dark 1–12, warmed toward the accent: dark surfaces lit red from behind, after Raycast's.
+     Text steps keep their contrast (muted text 6.6:1 on the page). */
+  --neutral-1: #0E0809;  --neutral-2: #140B0C;  --neutral-3: #1B0F10;  --neutral-4: #221314;
+  --neutral-5: #2A1819;  --neutral-6: #331E1F;  --neutral-7: #412728;  --neutral-8: #563738;
+  --neutral-9: #85706F;  --neutral-10: #A3908F; --neutral-11: #CBBEBD; --neutral-12: #F2EDEC;
+
+  /* On dark the accent is Raycast's own red: it glows against the warm surfaces. */
+  --red-solid: #FF6363;    --red-hover: #FF8282;
 
   --ember-text: #FFB08F;  --ember-subtle: #35251E;  --ember-border: #633827;
   --teal-text: #99EDE1;   --teal-subtle: #1B302D;   --teal-border: #1F554E;
