@@ -23,6 +23,7 @@ import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { SolutionFlow } from "@/components/home/solution-flow"
+import { ServicesFaq } from "@/components/services/services-faq"
 import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
@@ -195,6 +196,10 @@ export default async function Lab() {
         <PetalReveal className="grid aspect-[16/9] place-items-center rounded-[1.6rem] p-6">
           <span className="surface-frosted px-4 py-2 text-sm">Content floats here</span>
         </PetalReveal>
+      </Section>
+
+      <Section id="faq" title="Split FAQ" note="The questions as one dark card. Opening one splits it into its own card and the rest regroup around it on a spring. Dark on light; a flat raised tone on dark.">
+        <ServicesFaq className="max-w-2xl" />
       </Section>
 
       <Section id="stats" title="Number cards" note="True numbers only. Each counts up once as it scrolls into view; a short arc of the accent runs round each edge, offset card to card.">
