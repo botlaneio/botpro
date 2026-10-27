@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   description: "Websites and web apps, designed and built end to end, and the care after launch. Clear, fixed prices in US dollars.",
 }
 
+// Three things that hold for every project, beside the questions.
+const FACTS = [
+  ["Fixed price", "agreed in writing before work starts."],
+  ["Yours to keep", "the site is yours after launch."],
+  ["Straight answers", "we'll say so if we're not the right fit."],
+]
+
 /** Every solution at a glance, each linking to its own page, then how we work and what people ask. */
 export default function Solutions() {
   return (
@@ -27,9 +34,22 @@ export default function Solutions() {
       <PageSection id="process" eyebrow="HOW WE WORK" title="From first call to launch.">
         <ProcessWheel />
       </PageSection>
-      <PageSection id="faq" eyebrow="QUESTIONS" title="What people ask before they hire us.">
+      <section id="faq" aria-labelledby="faq-title" className="grid scroll-mt-20 gap-10 border-t border-border/60 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-16">
+        <div className="grid content-start justify-items-start gap-5">
+          <span className="text-lg font-medium text-(--red-text)">Questions</span>
+          <h2 id="faq-title" className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">What people ask before they hire us.</h2>
+          <p className="max-w-md text-muted-foreground">Open a question for the straight answer. Anything else, ask us in your brief.</p>
+          <dl className="mt-4 grid gap-2.5 text-[15px]">
+            {FACTS.map(([term, detail]) => (
+              <div key={term}>
+                <dt className="inline font-semibold">{term}: </dt>
+                <dd className="inline text-muted-foreground">{detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
         <ServicesFaq />
-      </PageSection>
+      </section>
     </PageShell>
   )
 }
