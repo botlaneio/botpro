@@ -29,7 +29,7 @@ const PRODUCT_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>>
 
 function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="grid scroll-mt-20 gap-8 border-t border-border/60 py-16">
+    <section id={id} aria-labelledby={`${id}-title`} className="grid scroll-mt-20 gap-8 border-t border-border/60 py-12 sm:py-16">
       <div className="grid max-w-2xl gap-3">
         <span className="label-mono">{eyebrow}</span>
         <h2 id={`${id}-title`} className="text-3xl font-medium tracking-tight text-balance">{title}</h2>
@@ -48,7 +48,7 @@ export default async function Solutions() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
-        <header className="glow-brand flex flex-wrap items-end justify-between gap-6 py-20">
+        <header className="glow-brand flex flex-wrap items-end justify-between gap-6 py-12 sm:py-20">
           <div className="grid max-w-3xl justify-items-start gap-5">
             <FoundingBanner status={status} />
             <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">Websites and web apps, built properly.</h1>

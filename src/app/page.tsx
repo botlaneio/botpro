@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="grid scroll-mt-20 gap-10 border-t border-border/60 py-20">
+    <section id={id} aria-labelledby={`${id}-title`} className="grid scroll-mt-20 gap-8 border-t border-border/60 py-14 sm:gap-10 sm:py-20">
       <div className="grid max-w-2xl gap-3">
         <span className="label-mono">{eyebrow}</span>
         <h2 id={`${id}-title`} className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">{title}</h2>
@@ -35,9 +35,9 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
-        <header className="glow-brand grid justify-items-center gap-6 pt-20 pb-24 text-center sm:pt-28">
+        <header className="glow-brand grid justify-items-center gap-5 pt-14 pb-16 text-center sm:gap-6 sm:pt-28 sm:pb-24">
           <BotlaneMark size={88} id="hero-mark" />
-          <h1 className="text-5xl font-medium tracking-[-0.035em] text-balance sm:text-7xl">What are you building?</h1>
+          <h1 className="text-[2.75rem] leading-[1.05] font-medium tracking-[-0.035em] text-balance sm:text-7xl">What are you building?</h1>
           <p className="max-w-xl text-lg text-pretty text-muted-foreground">
             We design and build websites and web apps to the standard of the best software companies, at a fixed price agreed before we start.
           </p>
@@ -61,7 +61,7 @@ export default function Home() {
           <ProcessWheel />
         </Section>
 
-        <section aria-labelledby="cta-title" className="surface-glass my-20 grid justify-items-start gap-5 p-8 sm:p-12">
+        <section aria-labelledby="cta-title" className="surface-glass my-14 grid justify-items-start gap-5 p-6 sm:my-20 sm:p-12">
           <FoundingBanner />
           <h2 id="cta-title" className="max-w-xl text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
           <p className="max-w-lg text-muted-foreground">We read every brief ourselves, and we&apos;ll tell you honestly whether we&apos;re the right fit.</p>

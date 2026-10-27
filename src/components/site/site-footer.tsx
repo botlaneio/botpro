@@ -23,8 +23,8 @@ export function SiteFooter() {
   const solutions = SOLUTIONS.flatMap((g) => g.items)
   return (
     <footer className="relative overflow-hidden border-t border-border/60">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 pt-16 pb-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div className="grid content-start justify-items-start gap-4">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 pt-14 pb-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
+        <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
             <BotlaneMark size={30} id="footer-mark" />
             <span className="text-lg font-semibold tracking-[-0.035em]">botlane</span>

@@ -26,12 +26,12 @@ export function Comparison({ planIds, caption }: { planIds: string[]; caption: s
         </thead>
         <tbody className="divide-y divide-border">
           <tr>
-            <th scope="row" className="px-5 py-3 text-left font-normal text-muted-foreground">Price</th>
+            <th scope="row" className="sticky left-0 bg-background px-5 py-3 text-left font-normal text-muted-foreground sm:static sm:bg-transparent">Price</th>
             {plans.map((p) => <td key={p.id} className="px-5 py-3 tabular-nums"><ChargeText charge={p.charges[0]} /></td>)}
           </tr>
           {allowances && (
             <tr>
-              <th scope="row" className="px-5 py-3 text-left font-normal text-muted-foreground">Included</th>
+              <th scope="row" className="sticky left-0 bg-background px-5 py-3 text-left font-normal text-muted-foreground sm:static sm:bg-transparent">Included</th>
               {plans.map((p) => (
                 <td key={p.id} className="px-5 py-3 tabular-nums">
                   {p.allowance ? `${p.allowance.amount.toLocaleString("en-US")} ${p.allowance.unit} a ${p.allowance.per}` : "—"}
@@ -41,7 +41,7 @@ export function Comparison({ planIds, caption }: { planIds: string[]; caption: s
           )}
           {rows.map((row) => (
             <tr key={row}>
-              <th scope="row" className="px-5 py-3 text-left font-normal text-muted-foreground">{row}</th>
+              <th scope="row" className="sticky left-0 bg-background px-5 py-3 text-left font-normal text-muted-foreground sm:static sm:bg-transparent">{row}</th>
               {plans.map((p) => (
                 <td key={p.id} className="px-5 py-3">
                   {p.includes?.includes(row)

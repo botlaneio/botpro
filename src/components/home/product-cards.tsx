@@ -105,7 +105,7 @@ function ProductCard({ lane }: { lane: Lane }) {
   const Visual = VISUALS[lane.id]
   const live = lane.status === "live"
   return (
-    <article className={cn(lane.scope, "surface-product group/card flex flex-col overflow-hidden")}>
+    <article className={cn(lane.scope, "surface-product group/card flex w-[86%] shrink-0 snap-start flex-col overflow-hidden md:w-auto")}>
       <div className="flex items-center gap-3 p-5 pb-0">
         <span className="tile-depth size-11 shrink-0"><Icon className="size-5" /></span>
         <h3 className="text-lg font-medium">{lane.name}</h3>
@@ -129,7 +129,7 @@ function ProductCard({ lane }: { lane: Lane }) {
 /** The three Lane products, as proof of what we build: each card a small window onto the product. */
 export function ProductCards() {
   return (
-    <div className="grid gap-5 md:grid-cols-3">
+    <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
       {LANES.map((l) => <ProductCard key={l.id} lane={l} />)}
     </div>
   )
