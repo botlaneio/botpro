@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
-import { NAV_ICONS } from "@/components/site/nav-icons"
+import { NAV_ICON_TONES, NAV_ICONS } from "@/components/site/nav-icons"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { SOLUTIONS } from "@/lib/nav"
 
@@ -54,7 +54,7 @@ export function PageShell({ eyebrow, title, intro, banner, current, children }: 
                 return (
                   <li key={i.href}>
                     <Link href={i.href} className="surface-hairline group/o flex h-full items-start gap-3 p-4 transition-colors hover:bg-foreground/[0.03]">
-                      <span className="tile-depth size-9 shrink-0"><Icon className="size-4" /></span>
+                      <span className={`tile-depth size-9 shrink-0 ${NAV_ICON_TONES[i.icon]}`}><Icon className="size-4" /></span>
                       <span className="grid gap-0.5">
                         <span className="font-medium">{i.title}</span>
                         <span className="label-mono text-[11px]">{i.price}</span>
