@@ -205,7 +205,7 @@ export default async function Lab() {
         <ProductCards />
       </Section>
 
-      <Section id="process" title="Process wheel" note="How we work. Pins while the page scrolls through it; the arc turns a step per screen, and each step's hairline figure acts itself out. A list on phones and under reduced motion.">
+      <Section id="process" title="Process dial" note="How we work. Pins while the page scrolls through it; the arc turns a step per screen, and the cluster of tools beside it swaps to the step's own, rippling out from the centre. A list on phones and under reduced motion.">
         <ProcessWheel />
       </Section>
 
