@@ -5,8 +5,8 @@ import { offerStatus } from "@/lib/pricing/offer-status"
 
 import { SiteNav, type NavEntry, type NavMenu } from "./site-nav"
 
-// The plain links beside the menus. Contact sits with the actions on the right.
-const LINKS = [{ href: "/solutions#process", label: "How we work" }]
+// The plain links beside the menus: pages only, never sections of one. Contact sits with the actions on the right.
+const LINKS = [{ href: "/blog", label: "Insights" }]
 
 const founding = OFFERS.find((o) => o.id === "founding-ten")!
 
@@ -17,7 +17,7 @@ async function foundingCard(): Promise<{ discount: string; places: number } | nu
   return { discount: `${Math.round(founding.discount * 100)}%`, places: founding.places }
 }
 
-/** The navigation on every page: the Solutions and Products menus, How we work, and the main action. */
+/** The navigation on every page: the Solutions and Products menus, Insights, and the main action. */
 export async function SiteHeader() {
   const card = await foundingCard()
   const solutions = SOLUTIONS.flatMap((g) => g.items)
