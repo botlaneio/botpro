@@ -57,7 +57,7 @@ export default async function Lab() {
         <ThemeSwitch />
       </header>
 
-      <Section id="buttons" title="Buttons" note="The near-white primary is the site's main action. Lane buttons appear only on product pages.">
+      <Section id="buttons" title="Buttons" note="The near-white primary is the site's main action.">
         <div className="flex flex-wrap items-center gap-3">
           <Button className="btn-light h-9 px-4">Start a project</Button>
           <Button variant="outline" className="h-9 px-4">Book a call</Button>
@@ -70,26 +70,13 @@ export default async function Lab() {
           </Tooltip>
           <Button variant="link" className="h-9 px-1">Read the docs <ArrowUpRight /></Button>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          {LANES.map((l) => (
-            <span key={l.id} className={l.scope}>
-              <Button className="btn-lane h-9 px-4 text-lane-ink">Try {l.name}</Button>
-            </span>
-          ))}
-        </div>
       </Section>
 
-      <Section id="badges" title="Badges and keys" note="Status pills use the lane's subtle shades. Shortcuts use the mono face.">
+      <Section id="badges" title="Badges and keys" note="Status pills and keyboard shortcuts.">
         <div className="flex flex-wrap items-center gap-2">
           <Badge>New</Badge>
           <Badge variant="secondary">Beta</Badge>
           <Badge variant="outline">3 open</Badge>
-          {LANES.map((l) => (
-            <Badge key={l.id} className={`${l.scope} border-lane-border bg-lane-subtle text-lane-text`}>
-              <span className="size-1.5 rounded-full bg-lane" aria-hidden />
-              {l.name}{l.status === "soon" ? " · soon" : ""}
-            </Badge>
-          ))}
         </div>
         <div className="flex flex-wrap items-center gap-6">
           <KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
