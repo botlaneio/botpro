@@ -35,7 +35,7 @@ export async function SiteHeader() {
   const card = await foundingCard()
   return (
     <HeaderBar>
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-5 px-4 sm:px-6">
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-5 px-6">
         <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
           <BotlaneMark size={26} id="header-mark" />
           <span className="font-semibold tracking-[-0.035em]">botlane</span>

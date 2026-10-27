@@ -33,7 +33,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
     <>
       <SiteHeader />
       {/* On a phone: the pitch, then the form, then what happens next. From lg: pitch and steps left, form right. */}
-      <main className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-8 lg:py-24">
+      <main className="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-8 lg:py-24">
         <section className="glow-brand grid content-start justify-items-start gap-5 sm:gap-6">
           <FoundingBanner />
           <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">Tell us what you&apos;re building.</h1>

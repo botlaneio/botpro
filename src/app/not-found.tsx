@@ -14,7 +14,7 @@ export default function NotFound() {
   return (
     <>
       <SiteHeader />
-      <main className="glow-brand mx-auto grid min-h-[70svh] max-w-6xl place-content-center justify-items-center gap-6 px-4 py-24 text-center sm:px-6">
+      <main className="glow-brand mx-auto grid min-h-[70svh] max-w-6xl place-content-center justify-items-center gap-6 px-6 py-24 text-center">
         <BotlaneMark size={120} id="not-found-mark" />
         <span className="label-mono">404</span>
         <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">Nothing here but the dark.</h1>
