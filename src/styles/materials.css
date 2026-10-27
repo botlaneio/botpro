@@ -62,7 +62,7 @@
 }
 
 @utility btn-lane {
-  color: #0B0C0E;
+  color: var(--lane-ink);
   background: linear-gradient(180deg, color-mix(in oklch, var(--lane), white 12%), var(--lane));
   border-radius: var(--radius);
   box-shadow:

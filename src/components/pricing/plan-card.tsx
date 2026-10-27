@@ -90,7 +90,7 @@ export function PlanCard({ planId, featured, offer, perMonth, cta, note }: PlanC
       )}
 
       <Button
-        className={cn("mt-auto h-9 w-full", featured ? "btn-lane text-neutral-1 dark:text-neutral-1" : "")}
+        className={cn("mt-auto h-9 w-full", featured ? "btn-lane text-lane-ink" : "")}
         variant={featured ? "default" : "outline"}
         disabled={placeholder}
       >

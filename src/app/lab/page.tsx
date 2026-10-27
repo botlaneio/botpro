@@ -79,7 +79,7 @@ export default async function Lab() {
         <div className="flex flex-wrap items-center gap-3">
           {LANES.map((l) => (
             <span key={l.id} className={l.scope}>
-              <Button className="btn-lane h-9 px-4 text-neutral-1 dark:text-neutral-1">Try {l.name}</Button>
+              <Button className="btn-lane h-9 px-4 text-lane-ink">Try {l.name}</Button>
             </span>
           ))}
         </div>
@@ -119,7 +119,7 @@ export default async function Lab() {
                 </div>
                 <p className="text-sm text-foreground/85">{l.tagline}</p>
                 <div className="h-px bg-foreground/10" />
-                <p className="label-mono">{l.host}{l.status === "soon" ? " · opening soon" : ""}</p>
+                <p className="label-mono truncate">{l.host}{l.status === "soon" ? " · soon" : ""}</p>
               </article>
             )
           })}

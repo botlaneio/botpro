@@ -94,6 +94,8 @@
   --lane-text: var(--neutral-12);
   --lane-subtle: var(--neutral-3);
   --lane-border: var(--neutral-6);
+  /* Text on a lane-coloured fill. Fixed: lane solids are bright in both themes. */
+  --lane-ink: #0B0C0E;
 
   /* Radius: buttons and inputs use --radius, cards 1.4×, so 0.7rem gives 16px cards. */
   --radius: 0.7rem;
@@ -101,7 +103,7 @@
   /* Materials (Component Lab picks) */
   --edge-alpha: 0.08;       /* hairline border strength */
   --highlight-alpha: 0.10;  /* lit top edge */
-  --glow: 0.70;             /* tinted card and lane button glow */
+  --glow: 0.45;             /* tinted card and lane button glow; stronger in dark */
 
   /* Hairline figures take their one bright stroke from the lane in scope */
   --hairline-hi: var(--lane-text);
@@ -116,6 +118,8 @@
 }
 
 .dark {
+  --glow: 0.70;
+  --muted: var(--neutral-4);
   --border: var(--neutral-5);
   --input: var(--neutral-6);
   --ring: var(--neutral-8);
@@ -171,6 +175,7 @@
   --color-lane-text: var(--lane-text);
   --color-lane-subtle: var(--lane-subtle);
   --color-lane-border: var(--lane-border);
+  --color-lane-ink: var(--lane-ink);
 
   --color-success: var(--success);
   --color-warning: var(--warning);
