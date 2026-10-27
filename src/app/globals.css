@@ -93,6 +93,14 @@
   --brand: var(--ember-solid);
   --brand-text: var(--ember-text);
 
+  /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
+  --mark-rim: #232327;
+  --mark-crease: #D6D6DB;
+  --mark-eye-edge: #232327;
+  --mark-eye-core: #55585F;
+  --mark-eye-base: #111216;
+  --mark-glow: 0.12;
+
   /* The lane in scope. Neutral unless a .lane-* class sets it. */
   --lane: var(--neutral-12);
   --lane-hover: var(--neutral-11);
@@ -124,6 +132,12 @@
 
 .dark {
   --glow: 0.70;
+  --mark-rim: #D0D6E0;
+  --mark-crease: #3A3C42;
+  --mark-eye-edge: #C9D0DD;
+  --mark-eye-core: #FFFFFF;
+  --mark-eye-base: #B4BCCB;
+  --mark-glow: 0.85;
   --muted: var(--neutral-4);
   --border: var(--neutral-5);
   --input: var(--neutral-6);

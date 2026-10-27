@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { BotlaneMark } from "./botlane-mark"
 import { ThemeSwitch } from "./theme-switch"
 
 const NAV = [
@@ -14,8 +15,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/75 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
-          <span className="size-4 rounded-[5px] bg-brand" aria-hidden />
-          Botlane
+          <BotlaneMark size={26} id="header-mark" />
+          <span className="font-semibold tracking-[-0.035em]">botlane</span>
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
           {NAV.map((n) => (
