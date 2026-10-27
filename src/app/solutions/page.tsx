@@ -34,7 +34,7 @@ export default function Solutions() {
       <PageSection id="process" eyebrow="HOW WE WORK" title="From first call to launch.">
         <ProcessWheel />
       </PageSection>
-      <section id="faq" aria-labelledby="faq-title" className="grid scroll-mt-20 gap-10 border-t border-border/60 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-16">
+      <section id="faq" aria-labelledby="faq-title" className="grid scroll-mt-20 gap-10 border-t border-border/60 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-16">
         <div className="grid content-start justify-items-start gap-5">
           <span className="text-lg font-medium text-(--red-text)">Questions</span>
           <h2 id="faq-title" className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">What people ask before they hire us.</h2>
