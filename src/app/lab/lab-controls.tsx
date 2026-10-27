@@ -57,16 +57,15 @@ export function Keycaps() {
       {KEYS.map((k, i) => (
         <React.Fragment key={k.code}>
           {i > 0 && <span className="text-muted-foreground">+</span>}
-          <span
-            data-pressed={down.has(k.code)}
-            className={
-              k.wide
-                ? "key-physical relative h-16 w-20 place-items-end-start p-2.5 text-sm"
-                : "key-physical size-16 text-2xl"
-            }
-          >
-            {k.glyph && <span className="absolute top-2 right-2.5 text-base">{k.glyph}</span>}
-            {k.label}
+          <span data-pressed={down.has(k.code)} className={k.wide ? "key-physical block h-16 w-24" : "key-physical grid size-16 place-items-center text-2xl"}>
+            {k.wide ? (
+              <>
+                <span className="absolute top-2 right-3 text-base leading-none">{k.glyph}</span>
+                <span className="absolute bottom-2.5 left-3 text-sm leading-none">{k.label}</span>
+              </>
+            ) : (
+              k.label
+            )}
           </span>
         </React.Fragment>
       ))}
