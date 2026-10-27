@@ -38,7 +38,8 @@ Copy `.env.example` to `.env.local`. `STRIPE_SECRET_KEY` (a restricted key with 
 ## Rules
 
 - **botlane.io is neutral.** The primary button is near-white on dark (`btn-light`).
-- **Colour lives in a lane scope, and lanes are products only.** Wrap a product card, section or page in `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). Botlane's services stay neutral; `lane-ember` is kept free for a future product. `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
+- **Ember is Botlane's own accent,** used sparingly: the Apex beam and aura, the glow behind a page's opening section (`glow-brand`), the Founding Ten banner and the logo mark. Use `bg-brand` / `text-brand-text`; everything else stays neutral.
+- **Product colour lives in a lane scope.** Wrap a product card, section or page in `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
 - **Status colours are for mock UI only,** never for lanes.
 
 ## Open decisions

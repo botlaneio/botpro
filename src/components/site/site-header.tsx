@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/75 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
-          <span className="size-4 rounded-[5px] bg-foreground" aria-hidden />
+          <span className="size-4 rounded-[5px] bg-brand" aria-hidden />
           Botlane
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
