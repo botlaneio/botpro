@@ -20,12 +20,12 @@ export function SpecsTable({ planIds, caption }: { planIds: string[]; caption: s
         </thead>
         <tbody className="divide-y divide-border">
           <tr>
-            <th scope="row" className="px-5 py-3 text-left font-normal text-muted-foreground">Price</th>
+            <th scope="row" className="sticky left-0 bg-background px-5 py-3 text-left font-normal text-muted-foreground sm:static sm:bg-transparent">Price</th>
             {plans.map((p) => <td key={p.id} className="px-5 py-3 tabular-nums"><ChargeText charge={p.charges[0]} /></td>)}
           </tr>
           {rows.map((row) => (
             <tr key={row}>
-              <th scope="row" className="px-5 py-3 text-left font-normal text-muted-foreground">{row}</th>
+              <th scope="row" className="sticky left-0 bg-background px-5 py-3 text-left font-normal text-muted-foreground sm:static sm:bg-transparent">{row}</th>
               {plans.map((p) => <td key={p.id} className="px-5 py-3">{p.specs?.[row] ?? "—"}</td>)}
             </tr>
           ))}

@@ -30,10 +30,10 @@ function FolderCard({ item, n, tone }: { item: NavItem; n: number; tone: Tone })
   return (
     <Link
       href={item.href}
-      className="group/f block rounded-[1.6rem] p-2.5 shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)] transition-transform duration-500 ease-(--ease-lift) outline-none hover:-translate-y-1 focus-visible:ring-3 focus-visible:ring-ring/60"
+      className="group/f block w-[78%] shrink-0 snap-start rounded-[1.6rem] p-2.5 sm:w-auto shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)] transition-transform duration-500 ease-(--ease-lift) outline-none hover:-translate-y-1 focus-visible:ring-3 focus-visible:ring-ring/60"
       style={{ background: tone.frame }}
     >
-      <div className="relative h-[23rem] overflow-hidden rounded-[1.1rem]" style={{ background: tone.panel }}>
+      <div className="relative h-[20rem] overflow-hidden rounded-[1.1rem] sm:h-[23rem]" style={{ background: tone.panel }}>
         {/* The light above the folder, with grain. */}
         <div aria-hidden className="absolute inset-x-0 top-0 h-[42%]" style={{ background: tone.light }} />
         <div aria-hidden className="absolute inset-x-0 top-0 h-[42%] opacity-40 mix-blend-overlay" style={{ backgroundImage: GRAIN }} />
@@ -64,7 +64,7 @@ function FolderCard({ item, n, tone }: { item: NavItem; n: number; tone: Tone })
 /** What we build, as four numbered folders, after the folder cards shared as a reference. */
 export function SolutionCards({ items }: { items: NavItem[] }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
       {items.map((item, i) => <FolderCard key={item.title} item={item} n={i + 1} tone={TONES[i % TONES.length]} />)}
     </div>
   )

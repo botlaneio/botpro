@@ -77,7 +77,7 @@ export function HeroPrompt() {
             }
           }}
           placeholder={focused ? "What it is, who it's for, and what a good result looks like." : ""}
-          className="min-h-16 w-full resize-none bg-transparent px-2 pt-1.5 text-[17px] leading-relaxed text-foreground outline-none placeholder:text-muted-foreground/70"
+          className="min-h-24 w-full resize-none sm:min-h-16 bg-transparent px-2 pt-1.5 text-[17px] leading-relaxed text-foreground outline-none placeholder:text-muted-foreground/70"
         />
         {!brief && !focused && (
           <span aria-hidden className="pointer-events-none absolute top-1.5 left-2 text-[17px] leading-relaxed text-muted-foreground/80">

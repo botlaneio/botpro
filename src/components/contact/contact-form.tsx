@@ -24,7 +24,7 @@ type Values = Record<ContactField, string>
 const STARTERS = ["A website for my ", "A client portal where ", "A booking system for ", "An internal tool that "]
 
 const field =
-  "w-full rounded-xl border border-border bg-background/60 px-3.5 text-[15px] text-foreground shadow-[inset_0_1px_2px_rgb(0_0_0/0.06)] outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground/70 focus:border-foreground/30 focus:ring-4 focus:ring-foreground/[0.06] aria-invalid:border-[color-mix(in_oklch,var(--brand)_70%,transparent)]"
+  "w-full rounded-xl border border-border bg-background/60 px-3.5 text-base sm:text-[15px] text-foreground shadow-[inset_0_1px_2px_rgb(0_0_0/0.06)] outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground/70 focus:border-foreground/30 focus:ring-4 focus:ring-foreground/[0.06] aria-invalid:border-[color-mix(in_oklch,var(--brand)_70%,transparent)]"
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   return message ? <p id={id} className="text-[13px] text-brand-text">{message}</p> : null

@@ -235,6 +235,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Glows and bleeds may reach past the edge; the page never scrolls sideways. clip, not hidden, keeps sticky working. */
+    overflow-x: clip;
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
