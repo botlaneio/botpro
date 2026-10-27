@@ -1,0 +1,127 @@
+/*
+ * Botlane · Layer 0 materials
+ * The finishes picked in the Component Lab, as Tailwind v4 utilities.
+ * Apply one to a shadcn component: <Card className="surface-tinted lane-teal">.
+ *
+ *   surface-hairline  flat fill, 1px border
+ *   surface-glass     soft gradient, lit top edge, deep shadow   (panels, palette, CTA)
+ *   surface-tinted    glows in the lane colour                    (product cards)
+ *   btn-light         near-white bevelled primary                 (botlane.io)
+ *   btn-lane          lane-coloured primary                       (product pages only)
+ *   tile-depth        raised icon squircle
+ *   key-physical      keycap with a low edge
+ *   tip-frosted       blurred tooltip and menu panel
+ *   fade-spotlight    radial edge fade for grids and marquees
+ *   fade-sides        left and right fade for marquees
+ *   label-mono        metadata in the mono face
+ */
+
+/* "Ink" is what edges and highlights are drawn in: black on light, white on dark. */
+:root { --ink: 0 0 0; --shade: 0 0 0; }
+.dark { --ink: 255 255 255; --shade: 0 0 0; }
+
+@utility surface-hairline {
+  background: var(--card);
+  border: 1px solid rgb(var(--ink) / var(--edge-alpha));
+  border-radius: calc(var(--radius) * 1.4);
+}
+
+@utility surface-glass {
+  background: linear-gradient(180deg, rgb(var(--ink) / 0.05), rgb(var(--ink) / 0.015));
+  border: 1px solid rgb(var(--ink) / var(--edge-alpha));
+  border-radius: calc(var(--radius) * 1.4);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)),
+    0 1px 1px rgb(var(--shade) / 0.12),
+    0 24px 48px -24px rgb(var(--shade) / 0.45);
+  backdrop-filter: blur(12px);
+}
+
+@utility surface-tinted {
+  border: 1px solid rgb(var(--ink) / calc(var(--edge-alpha) + 0.03));
+  border-radius: calc(var(--radius) * 1.4);
+  background:
+    radial-gradient(85% 50% at 50% 24%, color-mix(in oklch, var(--lane) calc(var(--glow) * 42%), transparent), transparent 78%),
+    linear-gradient(180deg, color-mix(in oklch, var(--lane) 17%, var(--neutral-3)), color-mix(in oklch, var(--lane) 7%, var(--neutral-1)));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)),
+    0 30px 60px -30px color-mix(in oklch, var(--lane) calc(var(--glow) * 60%), transparent);
+}
+
+@utility btn-light {
+  color: var(--neutral-1);
+  background: linear-gradient(180deg, var(--neutral-12), color-mix(in oklch, var(--neutral-12), var(--neutral-1) 10%));
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 -1px 0 rgb(0 0 0 / 0.15),
+    0 0 0 1px rgb(var(--ink) / 0.12),
+    0 1px 2px rgb(var(--shade) / 0.4);
+  transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
+  &:hover { filter: brightness(1.08); }
+  &:active { transform: translateY(1px); }
+}
+
+@utility btn-lane {
+  color: #0B0C0E;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--lane), white 12%), var(--lane));
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.3),
+    0 8px 22px -10px color-mix(in oklch, var(--lane) calc(var(--glow) * 100%), transparent);
+  transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
+  &:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--lane-hover), white 12%), var(--lane-hover)); }
+  &:active { transform: translateY(1px); }
+}
+
+@utility tile-depth {
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  color: var(--lane-text);
+  background: linear-gradient(180deg, var(--neutral-5), var(--neutral-3));
+  border: 1px solid rgb(var(--ink) / 0.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) + 0.06)),
+    inset 0 0 0 3px rgb(0 0 0 / 0.12),
+    0 8px 20px -8px rgb(var(--shade) / 0.6);
+}
+
+@utility key-physical {
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  color: var(--neutral-11);
+  background: linear-gradient(180deg, var(--neutral-4), var(--neutral-2));
+  border: 1px solid rgb(var(--ink) / 0.07);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) * 0.7)),
+    0 1px 0 rgb(var(--shade) / 0.5),
+    0 6px 14px -4px rgb(var(--shade) / 0.5);
+  transition: transform 80ms var(--ease-soft), box-shadow 80ms var(--ease-soft), color var(--duration-base) var(--ease-soft);
+  &[data-pressed="true"] { transform: translateY(1px); color: var(--foreground); box-shadow: 0 2px 6px -2px rgb(var(--shade) / 0.5); }
+}
+
+@utility tip-frosted {
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--neutral-5) 72%, transparent);
+  border: 1px solid rgb(var(--ink) / 0.1);
+  border-radius: calc(var(--radius) * 0.8);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 10px 28px -8px rgb(var(--shade) / 0.5);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+
+@utility fade-spotlight {
+  mask-image: radial-gradient(closest-side at 50% 50%, #000 35%, transparent 100%);
+}
+
+@utility fade-sides {
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+}
+
+@utility label-mono {
+  font-family: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12.5px;
+  letter-spacing: 0;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
