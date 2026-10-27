@@ -21,6 +21,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
+import { PetalReveal } from "@/components/home/petal-reveal"
 import { SolutionFlow } from "@/components/home/solution-flow"
 import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
@@ -188,6 +189,12 @@ export default async function Lab() {
 
       <Section id="flow" title="Solution flow" note="What we build, as a small automation on a dotted canvas: a brief branches into a website or a web app, and both run on into Care. Curves are measured from lg, with a dot of light running each; stacked on phones; still under reduced motion.">
         <SolutionFlow items={SOLUTIONS.flatMap((g) => g.items)} />
+      </Section>
+
+      <Section id="reveal" title="Petal reveal" note="The homepage's closing panel. Washed-out petals with boxes opening onto full colour in turn; now and then the whole picture floods. A CURSOR box follows a mouse. Three boxes stay open, still, under reduced motion.">
+        <PetalReveal className="grid aspect-[16/9] place-items-center rounded-[1.6rem] p-6">
+          <span className="surface-frosted px-4 py-2 text-sm">Content floats here</span>
+        </PetalReveal>
       </Section>
 
       <Section id="stats" title="Number cards" note="True numbers only. Each counts up once as it scrolls into view; a short arc of the accent runs round each edge, offset card to card.">

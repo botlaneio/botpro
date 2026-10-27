@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { HeroPrompt } from "@/components/home/hero-prompt"
+import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
 import { SolutionFlow } from "@/components/home/solution-flow"
@@ -75,14 +76,19 @@ export default function Home() {
           <ProcessWheel />
         </Section>
 
-        <section aria-labelledby="cta-title" className="surface-glass my-14 grid justify-items-start gap-5 p-6 sm:my-20 sm:p-12">
-          <FoundingBanner />
-          <h2 id="cta-title" className="max-w-xl text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
-          <p className="max-w-lg text-muted-foreground">We read every brief ourselves, and we&apos;ll tell you honestly whether we&apos;re the right fit.</p>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href="/contact" className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
-            <Link href="/solutions" className="inline-flex h-10 items-center px-3 text-sm text-muted-foreground hover:text-foreground">See solutions and prices</Link>
-          </div>
+        <section aria-labelledby="cta-title" className="my-14 sm:my-20">
+          {/* The petals, washed out, with boxes opening onto them in colour; the panel floats in the clear middle. */}
+          <PetalReveal className="grid min-h-[34rem] place-items-center rounded-[1.6rem] p-4 sm:aspect-[16/9] sm:min-h-0 sm:p-10">
+            <div className="surface-frosted grid max-w-xl justify-items-center gap-5 p-6 text-center sm:p-10">
+              <FoundingBanner />
+              <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
+              <p className="max-w-md text-muted-foreground">We read every brief ourselves, and we&apos;ll tell you honestly whether we&apos;re the right fit.</p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link href="/contact" className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
+                <Link href="/solutions" className="inline-flex h-10 items-center px-3 text-sm text-muted-foreground hover:text-foreground">See solutions and prices</Link>
+              </div>
+            </div>
+          </PetalReveal>
         </section>
       </main>
       <SiteFooter />
