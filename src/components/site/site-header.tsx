@@ -58,15 +58,5 @@ export async function SiteHeader() {
   )
 }
 
-export function SiteFooter() {
-  return (
-    <footer className="border-t border-border/60">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-10 text-sm text-muted-foreground sm:px-6">
-        <span>© {new Date().getFullYear()} Botlane</span>
-        <nav aria-label="Footer" className="flex gap-5">
-          {[{ href: "/solutions", label: "Solutions" }, ...LINKS].map((n) => <Link key={n.href} href={n.href} className="hover:text-foreground">{n.label}</Link>)}
-        </nav>
-      </div>
-    </footer>
-  )
-}
+// The footer lives in its own file; pages import it from here alongside the header.
+export { SiteFooter } from "./site-footer"
