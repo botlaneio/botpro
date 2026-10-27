@@ -8,9 +8,9 @@ import { ServiceCard } from "@/components/services/service-card"
 import { ServicesFaq } from "@/components/services/services-faq"
 import { SpecsTable } from "@/components/services/specs-table"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
+import { ProcessWheel } from "@/components/process/process-wheel"
 import { LANES, type LaneId } from "@/lib/lanes"
 import { OFFERS } from "@/lib/pricing"
-import { STEPS } from "@/lib/process"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
 export const metadata: Metadata = {
@@ -91,15 +91,7 @@ export default async function Solutions() {
         </Section>
 
         <Section id="process" eyebrow="HOW WE WORK" title="From first call to launch.">
-          <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {STEPS.map((s, i) => (
-              <li key={s.title} className="grid content-start gap-2">
-                <span className="label-mono">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="font-medium">{s.title}</h3>
-                <p className="text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
+          <ProcessWheel />
         </Section>
 
         <Section

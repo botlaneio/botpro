@@ -8,8 +8,8 @@ import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { NAV_ICONS } from "@/components/site/nav-icons"
+import { ProcessWheel } from "@/components/process/process-wheel"
 import { SOLUTIONS } from "@/lib/nav"
-import { STEPS } from "@/lib/process"
 
 export const metadata: Metadata = {
   title: "Botlane · Websites and web apps, built properly",
@@ -73,15 +73,7 @@ export default function Home() {
         </Section>
 
         <Section id="process" eyebrow="HOW WE WORK" title="From first call to launch, at one fixed price.">
-          <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {STEPS.map((s, i) => (
-              <li key={s.title} className="grid content-start gap-2 border-t border-border pt-4">
-                <span className="label-mono">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="font-medium">{s.title}</h3>
-                <p className="text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
+          <ProcessWheel />
         </Section>
 
         <section aria-labelledby="cta-title" className="surface-glass my-20 grid justify-items-start gap-5 p-8 sm:p-12">
