@@ -13,7 +13,7 @@ import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
 export const metadata: Metadata = {
-  title: "Services · Botlane",
+  title: "Solutions · Botlane",
   description: "Websites and web apps, designed and built end to end. Clear, fixed prices in US dollars.",
 }
 
@@ -47,7 +47,7 @@ function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow:
   )
 }
 
-export default async function Services() {
+export default async function Solutions() {
   const status = await offerStatus(founding)
   const offerFor = (id: string) => (status.open && founding.appliesTo.includes(id) ? founding : null)
 
