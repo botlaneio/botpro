@@ -113,8 +113,8 @@ export function SolutionsMenu({
       <NavigationMenuList className="gap-1">
         <NavigationMenuItem>
           <NavigationMenuTrigger className={navText}>Solutions</NavigationMenuTrigger>
-          <NavigationMenuContent className="mt-3! w-[min(880px,calc(100vw-12rem))] overflow-visible! rounded-none! bg-transparent! p-0! shadow-none! ring-0! data-open:duration-200! data-closed:duration-150!">
-            <div className="surface-menu grid grid-cols-2 gap-2 p-2 lg:grid-cols-[1fr_1fr_16rem]">
+          <NavigationMenuContent className="absolute! top-full! left-0! mt-3! w-auto! overflow-visible! rounded-none! bg-transparent! p-0! shadow-none! ring-0! data-open:duration-200! data-closed:duration-150!">
+            <div className="surface-menu grid w-[min(880px,calc(100vw-12rem))] grid-cols-2 gap-2 p-2 lg:grid-cols-[1fr_1fr_16rem]">
               {groups.map((g) => (
                 <div key={g.label} className="grid content-start gap-1">
                   <span className="label-mono px-3 pt-3 pb-1 text-[11px]">{g.label.toUpperCase()}</span>
