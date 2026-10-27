@@ -16,7 +16,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
           <BotlaneMark size={26} id="header-mark" />
-          Botlane
+          <span className="font-semibold tracking-[-0.035em]">botlane</span>
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
           {NAV.map((n) => (
