@@ -23,7 +23,7 @@ export function SiteFooter() {
   const solutions = SOLUTIONS.flatMap((g) => g.items)
   return (
     <footer className="relative overflow-hidden border-t border-border/60">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 pt-14 pb-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
             <BotlaneMark size={30} id="footer-mark" />
@@ -63,7 +63,7 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-4 py-6 text-[13px] text-muted-foreground sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-6 py-6 text-[13px] text-muted-foreground sm:px-6">
         <span>© {new Date().getFullYear()} Botlane</span>
         <span className="label-mono text-[11px]">FIXED PRICES · US DOLLARS</span>
       </div>

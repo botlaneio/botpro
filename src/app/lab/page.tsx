@@ -53,7 +53,7 @@ function Section({ id, title, note, children }: { id: string; title: string; not
 
 export default async function Lab() {
   return (
-    <main className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+    <main className="mx-auto max-w-6xl px-6 pb-24">
       <header className="flex flex-wrap items-end justify-between gap-6 py-14">
         <div className="grid max-w-2xl gap-3">
           <span className="label-mono">BOTLANE · COMPONENT LAB · LAYER 1–2</span>

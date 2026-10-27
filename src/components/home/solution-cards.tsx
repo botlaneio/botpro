@@ -65,7 +65,7 @@ function FolderCard({ item, n, tone }: { item: NavItem; n: number; tone: Tone })
 /** What we build, as four numbered folders, after the folder cards shared as a reference. */
 export function SolutionCards({ items }: { items: NavItem[] }) {
   return (
-    <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+    <div className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-3 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
       {items.map((item, i) => <FolderCard key={item.title} item={item} n={i + 1} tone={TONES[i % TONES.length]} />)}
     </div>
   )

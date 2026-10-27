@@ -47,7 +47,7 @@ export default async function Solutions() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 sm:px-6">
+      <main className="mx-auto max-w-6xl px-6">
         <header className="glow-brand flex flex-wrap items-end justify-between gap-6 py-12 sm:py-20">
           <div className="grid max-w-3xl justify-items-start gap-5">
             <FoundingBanner status={status} />

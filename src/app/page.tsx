@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 sm:px-6">
+      <main className="mx-auto max-w-6xl px-6">
         <header className="glow-brand grid justify-items-center gap-5 pt-14 pb-16 text-center sm:gap-6 sm:pt-28 sm:pb-24">
           <BotlaneMark size={88} id="hero-mark" />
           <h1 className="text-[2.75rem] leading-[1.05] font-medium tracking-[-0.035em] text-balance sm:text-7xl">What are you building?</h1>
