@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
+import { HeroStory } from "@/components/home/hero-story"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { SolutionFlow } from "@/components/home/solution-flow"
@@ -186,6 +187,12 @@ export default async function Lab() {
 
       <Section id="prompt" title="Prompt bar" note="The homepage hero. A plain GET form to /contact: the brief and chip fill the contact form's first two steps.">
         <HeroPrompt />
+      </Section>
+
+      <Section id="story" title="Hero story" note="Build, Launch, Care as a silent film in hairlines either side of the homepage prompt, on a 20-second loop. Wide screens only on the homepage; pauses off screen; one still frame under reduced motion.">
+        <div className="relative aspect-[16/9] overflow-hidden rounded-[1.6rem] border border-border/60">
+          <HeroStory className="absolute inset-0 size-full" />
+        </div>
       </Section>
 
       <Section id="flow" title="Solution flow" note="What we build, as a small automation on a dotted canvas: a brief branches into a website or a web app, and both run on into Care. Curves are measured from lg, with a dot of light running each; stacked on phones; still under reduced motion.">
