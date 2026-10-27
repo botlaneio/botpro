@@ -24,6 +24,7 @@ export const OFFERINGS: readonly Offering[] = [
     plans: [
       {
         id: "website-core",
+        finish: "glass",
         name: "Core",
         founding: true,
         bestFor: "A new business, a consultant or a single product getting online properly.",
@@ -34,6 +35,7 @@ export const OFFERINGS: readonly Offering[] = [
       },
       {
         id: "website-ascend",
+        finish: "spotlight",
         name: "Ascend",
         founding: true,
         bestFor: "An established business that needs a full company site it can update itself.",
@@ -44,6 +46,7 @@ export const OFFERINGS: readonly Offering[] = [
       },
       {
         id: "website-apex",
+        finish: "apex",
         name: "Apex",
         founding: true,
         bestFor: "A brand where the website is part of the product experience.",
@@ -73,6 +76,7 @@ export const OFFERINGS: readonly Offering[] = [
       },
       {
         id: "app-prototype",
+        finish: "spotlight",
         name: "Prototype",
         founding: true,
         bestFor: "Testing the idea with real users or investors.",
@@ -106,6 +110,7 @@ export const OFFERINGS: readonly Offering[] = [
       },
       {
         id: "care-plus",
+        finish: "spotlight",
         name: "Care Plus",
         bestFor: "A site that keeps changing and needs a team on call.",
         includes: ["Everything in Care", "Up to 3 hours of edits a month", "Priority support, reply within 1 business day", "Monthly performance and SEO report", "A quarterly design review"],

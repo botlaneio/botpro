@@ -48,6 +48,8 @@ export interface Plan {
   terms?: string
   /** Eligible for the Founding Ten offer. */
   founding?: boolean
+  /** The card finish, by rank: glass, then spotlight, then apex (one per page). Unset means glass. */
+  finish?: "glass" | "spotlight" | "apex"
 }
 
 /** A group of plans that are sold, priced and shown together. */
