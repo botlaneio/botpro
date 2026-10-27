@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight, Check, CircleHelp } from "lucide-react"
 
 import { sendBrief, type ContactState } from "@/app/contact/actions"
-import { NAV_ICONS } from "@/components/site/solutions-menu"
+import { NAV_ICONS } from "@/components/site/nav-icons"
 import { HONEYPOT, STEPS, checkStep, needLabel, type ContactField, type FieldErrors, type NeedId } from "@/lib/contact"
 import type { NavIcon } from "@/lib/nav"
 import { cn } from "@/lib/utils"

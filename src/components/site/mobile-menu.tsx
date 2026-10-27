@@ -6,7 +6,7 @@ import { Menu } from "lucide-react"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import type { NavGroup } from "@/lib/nav"
 
-import { NAV_ICONS } from "./solutions-menu"
+import { NAV_ICONS } from "./nav-icons"
 
 /** On phones, the whole navigation in a sheet from the top: the solutions, then the other sections. */
 export function MobileMenu({ groups, links }: { groups: NavGroup[]; links: { href: string; label: string }[] }) {

@@ -12,7 +12,7 @@ import { ThemeSwitch } from "./theme-switch"
 
 // The plain links beside the Solutions menu, and in the footer with it.
 const LINKS = [
-  { href: "/solutions#products", label: "Our products" },
+  { href: "/#products", label: "Our products" },
   { href: "/contact", label: "Contact" },
 ]
 
