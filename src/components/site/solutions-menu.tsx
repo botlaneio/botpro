@@ -51,8 +51,8 @@ function Item({ item }: { item: NavItem }) {
           />
         </span>
         <span className="grid gap-1.5">
-          <span className="text-[13px] leading-snug text-muted-foreground">{item.body}</span>
-          <span className="label-mono text-[11px] text-foreground/60">{item.price}</span>
+          <span className="text-[13px] leading-snug text-pretty text-muted-foreground">{item.body}</span>
+          <span className="label-mono text-[11px] whitespace-nowrap text-foreground/60">{item.price}</span>
         </span>
       </Link>
     </NavigationMenuLink>
@@ -62,7 +62,7 @@ function Item({ item }: { item: NavItem }) {
 /** The feature on the right: the Founding Ten while it is open, otherwise a plain invitation to talk. */
 function Feature({ founding }: { founding: FoundingCard | null }) {
   return (
-    <div className="surface-spotlight relative flex flex-col gap-3 overflow-hidden p-5">
+    <div className="surface-spotlight relative col-span-2 flex flex-col gap-3 overflow-hidden p-5 lg:col-span-1">
       <span aria-hidden className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-[radial-gradient(50%_60%_at_50%_100%,color-mix(in_oklch,var(--brand)_28%,transparent),transparent)]" />
       {founding ? (
         <>
@@ -113,8 +113,8 @@ export function SolutionsMenu({
       <NavigationMenuList className="gap-1">
         <NavigationMenuItem>
           <NavigationMenuTrigger className={navText}>Solutions</NavigationMenuTrigger>
-          <NavigationMenuContent className="mt-3! w-[min(780px,calc(100vw-2rem))] overflow-visible! rounded-none! bg-transparent! p-0! shadow-none! ring-0! data-open:duration-200! data-closed:duration-150!">
-            <div className="surface-menu grid gap-2 p-2 md:grid-cols-[1fr_1fr_15rem]">
+          <NavigationMenuContent className="mt-3! w-[min(880px,calc(100vw-12rem))] overflow-visible! rounded-none! bg-transparent! p-0! shadow-none! ring-0! data-open:duration-200! data-closed:duration-150!">
+            <div className="surface-menu grid grid-cols-2 gap-2 p-2 lg:grid-cols-[1fr_1fr_16rem]">
               {groups.map((g) => (
                 <div key={g.label} className="grid content-start gap-1">
                   <span className="label-mono px-3 pt-3 pb-1 text-[11px]">{g.label.toUpperCase()}</span>

@@ -15,7 +15,7 @@
  *   tile-depth        raised icon squircle
  *   key-physical      keycap with a low edge
  *   tip-frosted       blurred tooltip and menu panel
- *   surface-menu      a near-opaque frosted panel that floats over content (the mega menu)
+ *   surface-menu      a solid panel that floats over content (the mega menu)
  *   fade-spotlight    radial edge fade for grids and marquees
  *   fade-sides        left and right fade for marquees
  *   label-mono        metadata in the mono face
@@ -42,7 +42,7 @@
   --shadow-lift: 0 1px 2px rgb(16 24 40 / 0.04), 0 18px 36px -22px rgb(16 24 40 / 0.22);
   --glass-top: rgb(255 255 255 / 0.92); --glass-bottom: rgb(255 255 255 / 0.72);
   --tip-bg: rgb(255 255 255 / 0.86);
-  --menu-top: rgb(255 255 255 / 0.97); --menu-bottom: rgb(250 250 250 / 0.94);
+  --menu-top: #FFFFFF; --menu-bottom: var(--neutral-1);
   --menu-drop: 0 32px 64px -32px rgb(16 24 40 / 0.28);
   --tint-base-top: #FFFFFF; --tint-base-bottom: var(--neutral-1);
   --tint-top: 9%; --tint-bottom: 2%;
@@ -70,7 +70,7 @@
   --shadow-lift: 0 1px 1px rgb(0 0 0 / 0.12), 0 24px 48px -24px rgb(0 0 0 / 0.45);
   --glass-top: rgb(255 255 255 / 0.05); --glass-bottom: rgb(255 255 255 / 0.015);
   --tip-bg: color-mix(in oklch, var(--neutral-5) 72%, transparent);
-  --menu-top: color-mix(in oklch, var(--neutral-3) 94%, transparent); --menu-bottom: color-mix(in oklch, var(--neutral-2) 96%, transparent);
+  --menu-top: var(--neutral-3); --menu-bottom: var(--neutral-2);
   --menu-drop: 0 40px 80px -32px rgb(0 0 0 / 0.7);
   --tint-base-top: var(--neutral-3); --tint-base-bottom: var(--neutral-1);
   --tint-top: 17%; --tint-bottom: 7%;
@@ -229,14 +229,14 @@
   backdrop-filter: blur(14px) saturate(150%);
 }
 
-/* A large panel floating over the page: frosted but near-opaque, so content behind never competes with it. */
+/* A large panel floating over the page. Solid, not frosted: content behind never shows through, and WebKit
+   misdraws a blurred panel nested inside the blurred header. */
 @utility surface-menu {
   color: var(--foreground);
   background: linear-gradient(180deg, var(--menu-top), var(--menu-bottom));
   border: 1px solid var(--raised-edge);
   border-radius: calc(var(--radius) * 1.6);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-lift), var(--menu-drop);
-  backdrop-filter: blur(20px) saturate(160%);
 }
 
 @utility fade-spotlight {
