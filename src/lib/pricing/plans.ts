@@ -102,5 +102,7 @@ export const OFFERS: readonly Offer[] = [
     endsOn: "2027-03-31",
     places: 10,
     appliesTo: OFFERINGS.flatMap((o) => o.plans).filter((p) => p.founding).map((p) => p.id),
+    // 20% off, once, at most 10 uses, redeemable until 31 March 2027 (end of day, India time).
+    stripeCouponId: "FOUNDING10",
   },
 ]

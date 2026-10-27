@@ -68,6 +68,8 @@ export interface Offer {
   places: number
   /** Plan ids it applies to. */
   appliesTo: string[]
+  /** The Stripe coupon that applies the discount and counts the places taken. */
+  stripeCouponId?: string
 }
 
 /** What a page shows beside a price that isn't final. */

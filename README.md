@@ -17,12 +17,17 @@ npm run lint
 npm run build
 ```
 
+## Environment
+
+Copy `.env.example` to `.env.local`. `STRIPE_SECRET_KEY` (a restricted key with read access to Coupons) lets the site show how many Founding Ten places are left; without it the offer still shows, without a count.
+
 ## Where things are
 
 | Path | What it holds |
 |---|---|
 | `src/app/globals.css` | Layer 0 tokens: neutral scales, lane colours, status colours, shadcn semantic tokens, radius, motion |
 | `src/styles/materials.css` | The finishes as utilities: `surface-glass`, `surface-tinted`, `btn-light`, `btn-lane`, `tile-depth`, `key-physical`, `tip-frosted`, `fade-spotlight`, `fade-sides`, `label-mono` |
+| `src/lib/pricing/` | The price book (`plans.ts`), price formatting by region, and the Founding Ten status read from Stripe |
 | `src/lib/lanes.ts` | Buildlane, Syncc, Scriblane and Flowlane: host, status, colour scope, hairline figure |
 | `src/lib/motion.ts` | The two motion clocks: a 700ms lift for discrete changes, a spring for pointer input |
 | `src/components/ui/` | shadcn/ui primitives (Layer 1–2) |

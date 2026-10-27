@@ -73,3 +73,19 @@ test("Syncc prices are marked as placeholders and can't be bought", () => {
 test("final prices can't be bought until Stripe knows them", () => {
   assert.ok(!purchasable("scriblane-starter", "US"))
 })
+
+test("Founding Ten places come from its Stripe coupon", async () => {
+  const { statusFrom, todayInIndia } = await import("./offer-status.ts")
+  const ft = OFFERS.find((o) => o.id === "founding-ten")!
+  assert.equal(ft.stripeCouponId, "FOUNDING10")
+  const coupon = (used: number, valid = true) => ({ valid, max_redemptions: 10, times_redeemed: used })
+
+  assert.deepEqual(statusFrom(ft, coupon(3), "2026-11-01"), { open: true, placesLeft: 7 })
+  assert.deepEqual(statusFrom(ft, coupon(10, false), "2026-11-01"), { open: false, placesLeft: 0 })
+  assert.deepEqual(statusFrom(ft, coupon(3), "2027-04-01"), { open: false, placesLeft: 7 })
+  // Stripe unreachable or not set up yet: show the offer by date, without a count.
+  assert.deepEqual(statusFrom(ft, null, "2026-11-01"), { open: true, placesLeft: null })
+  // The end date is India's: 31 March 2027 ends at midnight IST, which is 18:30 UTC.
+  assert.equal(todayInIndia(new Date("2027-03-31T18:29:00Z")), "2027-03-31")
+  assert.equal(todayInIndia(new Date("2027-03-31T18:31:00Z")), "2027-04-01")
+})
