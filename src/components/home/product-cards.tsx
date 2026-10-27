@@ -32,7 +32,7 @@ function SynccVisual() {
           ))}
         </div>
       </div>
-      <div className="absolute right-3 bottom-10 left-10 flex items-center gap-3 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_14%,var(--background))] p-3 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.5)] [animation:float-y_5s_ease-in-out_infinite]">
+      <div className="absolute right-3 bottom-10 left-10 flex items-center gap-3 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_14%,var(--background))] p-3 shadow-[0_16px_40px_-16px_var(--float-shadow)] [animation:float-y_5s_ease-in-out_infinite]">
         <span className="tile-depth size-9 shrink-0"><CalendarCheck className="size-4" /></span>
         <span className="grid min-w-0">
           <span className="truncate text-[13px] font-medium">A good time to connect</span>
@@ -64,7 +64,7 @@ function ScriblaneVisual() {
           {k > 0 && <div className="h-36" />}
         </div>
       ))}
-      <div className="absolute right-4 bottom-9 left-4 flex items-center gap-2.5 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_12%,var(--background))] px-3.5 py-2.5 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.5)]">
+      <div className="absolute right-4 bottom-9 left-4 flex items-center gap-2.5 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_12%,var(--background))] px-3.5 py-2.5 shadow-[0_16px_40px_-16px_var(--float-shadow)]">
         <Search className="size-4 text-muted-foreground" />
         <span className="text-[13px]">Find the indemnity clause<span className="ml-px inline-block h-3.5 w-px translate-y-0.5 bg-foreground [animation:caret-blink_1.1s_steps(1)_infinite]" /></span>
         <span className="label-mono ml-auto text-[10px]">⌘K</span>
@@ -82,7 +82,7 @@ function FlowlaneVisual() {
   return (
     <div className={cn("relative h-full", fadeOut)}>
       <div aria-hidden className="absolute top-6 left-1/2 size-56 -translate-x-1/2 rounded-full border border-[color-mix(in_oklch,var(--lane)_22%,transparent)]" />
-      <div className="absolute top-8 right-0 left-4 flex items-center gap-3 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_14%,var(--background))] p-3 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.5)] [animation:float-y_5s_ease-in-out_infinite]">
+      <div className="absolute top-8 right-0 left-4 flex items-center gap-3 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_14%,var(--background))] p-3 shadow-[0_16px_40px_-16px_var(--float-shadow)] [animation:float-y_5s_ease-in-out_infinite]">
         <span className="tile-depth size-9 shrink-0"><Workflow className="size-4" /></span>
         <span className="grid min-w-0">
           <span className="truncate text-[13px] font-medium">Lead captured</span>
