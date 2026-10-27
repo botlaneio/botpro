@@ -1,23 +1,15 @@
 import type { Metadata } from "next"
 
-import { ContactForm, type NeedOption } from "@/components/contact/contact-form"
+import { ContactForm } from "@/components/contact/contact-form"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
-import { NEEDS, type NeedId } from "@/lib/contact"
-import { SOLUTIONS, type NavIcon } from "@/lib/nav"
+import { NEEDS } from "@/lib/contact"
+import { NEED_OPTIONS } from "@/lib/contact-options"
 
 export const metadata: Metadata = {
   title: "Start a project · Botlane",
   description: "Tell us what you're building. We read every brief ourselves and reply with honest advice.",
 }
-
-// Each need, with the matching solution's icon and starting price from the Solutions menu.
-const ICON_FOR: Partial<Record<NeedId, NavIcon>> = { website: "websites", "web-app": "apps", care: "care", assistant: "assistant" }
-const items = SOLUTIONS.flatMap((g) => g.items)
-const OPTIONS: NeedOption[] = NEEDS.map((n) => {
-  const icon = ICON_FOR[n.id]
-  return { id: n.id, label: n.label, icon, price: items.find((i) => i.icon === icon)?.price }
-})
 
 // What happens after the brief is sent. The first is what the visitor is doing now.
 const AFTER = [
@@ -64,7 +56,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
             <div className="absolute top-0 left-[12%] size-72 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--brand)_42%,transparent),transparent_68%)] blur-2xl" />
             <div className="absolute right-[4%] bottom-[6%] size-80 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--neutral-9)_32%,transparent),transparent_68%)] blur-2xl" />
           </div>
-          <ContactForm needs={OPTIONS} initial={initial} />
+          <ContactForm needs={NEED_OPTIONS} initial={initial} />
         </section>
       </main>
       <SiteFooter />

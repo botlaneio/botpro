@@ -18,7 +18,13 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { ContactForm } from "@/components/contact/contact-form"
+import { HeroPrompt } from "@/components/home/hero-prompt"
+import { ProductCards } from "@/components/home/product-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
+import { ProcessWheel } from "@/components/process/process-wheel"
+import { BotlaneMark } from "@/components/site/botlane-mark"
+import { NEED_OPTIONS } from "@/lib/contact-options"
 import { LANES, type Lane } from "@/lib/lanes"
 import { ThemeSwitch } from "@/components/site/theme-switch"
 import { Keycaps } from "./lab-controls"
@@ -158,6 +164,30 @@ export default async function Lab() {
           </FieldGroup>
           <Button type="button" className="btn-light h-9 w-fit px-4">Send</Button>
         </form>
+      </Section>
+
+      <Section id="mark" title="The mark" note="The Visor: a helmet seen only where light catches its right edge. Below 64px it switches to heavier eyes for small sizes.">
+        <div className="flex flex-wrap items-end gap-10">
+          <BotlaneMark size={26} id="lab-mark-s" />
+          <BotlaneMark size={64} id="lab-mark-m" />
+          <BotlaneMark size={120} id="lab-mark-l" />
+        </div>
+      </Section>
+
+      <Section id="prompt" title="Prompt bar" note="The homepage hero. A plain GET form to /contact: the brief and chip fill the contact form's first two steps.">
+        <HeroPrompt />
+      </Section>
+
+      <Section id="products" title="Product cards" note="The Lane products, after the Botlane components lab feature cards: lit in the lane colour, each with a small live visual.">
+        <ProductCards />
+      </Section>
+
+      <Section id="process" title="Process wheel" note="How we work. Pins while the page scrolls through it; the arc turns a step per screen, and each step's hairline figure acts itself out. A list on phones and under reduced motion.">
+        <ProcessWheel />
+      </Section>
+
+      <Section id="contact" title="Contact form" note="Four steps on glass. Sending needs RESEND_API_KEY, CONTACT_TO and CONTACT_FROM; without them it shows an error.">
+        <div className="max-w-xl"><ContactForm needs={NEED_OPTIONS} initial={{}} /></div>
       </Section>
 
       <Section id="disclosure" title="Tabs, accordion and overlays" note="Pricing toggles, FAQs, the mobile menu and dialogs.">
