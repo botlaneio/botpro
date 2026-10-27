@@ -184,7 +184,7 @@ export default async function Lab() {
         <SolutionCards items={SOLUTIONS.flatMap((g) => g.items)} />
       </Section>
 
-      <Section id="products" title="Product cards" note="The Lane products, after the Botlane components lab feature cards: lit in the lane colour, each with a small live visual.">
+      <Section id="products" title="Product cards" note="The Lane products in a fan: one upright in the middle, the others fanned behind. Cards trading places melt as they pass. Buttons, arrow keys, swipe, or tap a side card.">
         <ProductCards />
       </Section>
 
