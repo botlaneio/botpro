@@ -14,6 +14,9 @@ export interface ProductDetail {
   limit: string
 }
 
+/** Counts quoted on the site, checked against the product repositories: 742 community pieces in flow; 14 accepted file types in scriblane. */
+export const PRODUCT_NUMBERS = { flowlaneIntegrations: 700, scriblaneFileTypes: 14 }
+
 export const PRODUCT_DETAILS: Record<LaneId, ProductDetail> = {
   syncc: {
     features: [

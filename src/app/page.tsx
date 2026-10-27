@@ -4,17 +4,30 @@ import { ArrowRight } from "lucide-react"
 
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
+import { StatCards, type Stat } from "@/components/home/stat-cards"
 import { SolutionCards } from "@/components/home/solution-cards"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { HeroMark } from "@/components/site/hero-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { SOLUTIONS } from "@/lib/nav"
+import { LANES } from "@/lib/lanes"
+import { OFFERS } from "@/lib/pricing"
+import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
   title: "Botlane · Websites and web apps, built properly",
   description: "We design and build websites and web apps to the standard of the best software companies, at a fixed price agreed before we start.",
 }
+
+// Only true numbers: what we have built. The product count and the discount come from the data they describe.
+const founding = OFFERS.find((o) => o.id === "founding-ten")!
+const STATS: Stat[] = [
+  { value: LANES.length, label: "products built and run in-house" },
+  { value: PRODUCT_NUMBERS.flowlaneIntegrations, suffix: "+", label: "app integrations in Flowlane" },
+  { value: PRODUCT_NUMBERS.scriblaneFileTypes, label: "file types Scriblane can read" },
+  { value: Math.round(founding.discount * 100), suffix: "%", label: `off for our first ${founding.places} clients` },
+]
 
 function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
   return (
@@ -55,6 +68,7 @@ export default function Home() {
           intro="We're a new studio, so there's no client work to show yet. Instead, here is what we've built and run ourselves, to the same standard."
         >
           <ProductCards />
+          <StatCards stats={STATS} />
         </Section>
 
         <Section id="process" eyebrow="HOW WE WORK" title="From first call to launch, at one fixed price.">

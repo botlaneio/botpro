@@ -16,6 +16,7 @@
  *   key-physical      keycap with a low edge
  *   tip-frosted       blurred tooltip and menu panel
  *   surface-menu      a solid panel that floats over content (the mega menu)
+ *   surface-stat      a number card: a hairline panel with a short arc of the accent running round its edge
  *   surface-frosted   a heavily frosted panel in the page colour, for forms over a bright image
  *   surface-prompt    the homepage prompt bar: a solid field with accent-to-steel light running round its edge
  *   surface-product   a product card: dark glass lit from the top in its lane colour
@@ -252,6 +253,23 @@
   border-radius: calc(var(--radius) * 0.8);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft);
   backdrop-filter: blur(14px) saturate(150%);
+}
+
+/* A number card: the Apex beam's technique, quieter. A short arc of the accent travels round the edge every
+   9 seconds; stagger cards with a negative animation-delay. Reduced motion stops it. */
+@utility surface-stat {
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) * 1.4);
+  background:
+    linear-gradient(180deg, var(--glass-top), var(--glass-bottom)) padding-box,
+    linear-gradient(var(--background), var(--background)) padding-box,
+    conic-gradient(from var(--beam-angle), transparent 0%, transparent 76%, color-mix(in oklch, var(--brand) 55%, transparent) 86%, var(--brand) 92%, transparent 98%) border-box,
+    linear-gradient(rgb(var(--ink) / calc(var(--edge-alpha) + 0.03)), rgb(var(--ink) / calc(var(--edge-alpha) + 0.03))) border-box;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-lift);
+  animation: apex-beam 9s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 /* A form floating over a bright picture: mostly the page's own colour, blurred hard, so text stays readable. */
