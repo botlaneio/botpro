@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { HeroPrompt } from "@/components/home/hero-prompt"
+import { HeroStory } from "@/components/home/hero-story"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
@@ -49,7 +50,10 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
-        <header className="glow-brand grid min-h-[calc(100svh-3.5rem)] content-center justify-items-center gap-5 py-10 text-center sm:gap-6">
+        <header className="glow-brand relative isolate grid min-h-[calc(100svh-3.5rem)] content-center justify-items-center gap-5 py-10 text-center sm:gap-6">
+          {/* Build, Launch, Care, played in hairlines either side of the prompt. Wide screens only: narrower,
+              the sides are too small to keep clear of it. */}
+          <HeroStory className="absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 xl:block" />
           <HeroMark size={88} />
           <h1 className="sr-only">Botlane: websites and web apps, built properly</h1>
           <div className="mt-2 w-full"><HeroPrompt /></div>

@@ -384,3 +384,37 @@
     animation: none;
   }
 }
+
+/* The hero story's timeline. Each element's draw-in (--story-in) and fade-out (--story-out) come from its
+   own timing and don't inherit, so a card inside a fading group never fades twice. Before the script runs,
+   everything timed is undrawn, so the story draws itself in on load. */
+@property --story-in {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --story-out {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+.story [data-in]:not([data-draw]) {
+  opacity: calc(var(--story-in) * var(--story-out));
+}
+.story [data-draw] {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: calc(1 - var(--story-in));
+  opacity: var(--story-out);
+}
+.story [data-out]:not([data-in]) {
+  opacity: var(--story-out);
+}
+.story [data-rise] {
+  transform: translateY(calc((1 - var(--story-in)) * 6px));
+}
+@keyframes story-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes story-orbit {
+  to { transform: rotate(360deg); }
+}
