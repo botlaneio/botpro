@@ -30,7 +30,7 @@
   --ember-solid: #FF7A45;  --ember-hover: #FF9466;  --ember-text: #C24E1E;  --ember-subtle: #FFF1EA;  --ember-border: #FFC9B0;
   --teal-solid: #2DD4BF;   --teal-hover: #5EE0CF;   --teal-text: #0E8C7C;   --teal-subtle: #E8FAF7;   --teal-border: #A8EDE3;
   /* Botlane's accent: a deep red, after Raycast's */
-  --red-solid: #F04848;    --red-hover: #F46666;    --red-text: #C22B2F;    --red-subtle: #FDECEC;    --red-border: #F7BDBE;
+  --red-solid: #2F55F0;    --red-hover: #4A6CF5;    --red-text: #1E3FC8;    --red-subtle: #ECF0FE;    --red-border: #BCC9FB;
   --violet-solid: #8B7CFF; --violet-hover: #A397FF; --violet-text: #5B4BD6; --violet-subtle: #F1EFFF; --violet-border: #CEC8FF;
   /* Flowlane: proposed, not yet on the palette sheet */
   --orchid-solid: #E36BD3; --orchid-hover: #EB8BDF; --orchid-text: #A3248F; --orchid-subtle: #FCEEFA; --orchid-border: #F2C2EB;
@@ -46,11 +46,11 @@
   --neutral-9: #6C727E;  --neutral-10: #8B919C; --neutral-11: #B6BAC2; --neutral-12: #EDEEF0;
 
   /* On dark the accent is Raycast's own red, used as light: the beams and small bright points. */
-  --red-solid: #FF6363;    --red-hover: #FF8282;
+  --red-solid: #4F7BFF;    --red-hover: #6A99F2;
 
   --ember-text: #FFB08F;  --ember-subtle: #35251E;  --ember-border: #633827;
   --teal-text: #99EDE1;   --teal-subtle: #1B302D;   --teal-border: #1F554E;
-  --red-text: #FF8A8A;    --red-subtle: #351F21;    --red-border: #692A2D;
+  --red-text: #9DB5FF;    --red-subtle: #1A2140;    --red-border: #2C3D7A;
   --violet-text: #C4BCFF; --violet-subtle: #292739; --violet-border: #3F3A67;
   --orchid-text: #F4B9EC; --orchid-subtle: #33232F; --orchid-border: #5E3655;
 }
