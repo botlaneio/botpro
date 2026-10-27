@@ -49,7 +49,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
-        <header className="glow-brand grid justify-items-center gap-5 pt-14 pb-16 text-center sm:gap-6 sm:pt-28 sm:pb-24">
+        <header className="glow-brand grid min-h-[calc(100svh-3.5rem-1px)] content-center justify-items-center gap-5 py-10 text-center sm:gap-6">
           <HeroMark size={88} />
           <h1 className="sr-only">Botlane: websites and web apps, built properly</h1>
           <div className="mt-2 w-full"><HeroPrompt /></div>
