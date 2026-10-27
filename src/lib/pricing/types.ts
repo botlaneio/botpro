@@ -37,7 +37,15 @@ export interface Plan {
   charges: Charge[]
   /** Usage included per interval, e.g. { pages: 500 }. */
   allowance?: { unit: string; amount: number; per: Interval }
+  /** Who the plan is for, in one sentence. */
+  bestFor?: string
+  /** Short facts compared across plans, in display order: { Pages: "Up to 5", Timeline: "2–3 weeks" }. */
+  specs?: Record<string, string>
   includes?: string[]
+  /** Kinds of project this plan suits. */
+  examples?: string[]
+  /** One line of terms shown under the price, e.g. a credit towards a later stage. */
+  terms?: string
   /** Eligible for the Founding Ten offer. */
   founding?: boolean
 }
@@ -45,8 +53,8 @@ export interface Plan {
 /** A group of plans that are sold, priced and shown together. */
 export interface Offering {
   id: string
-  /** The lane whose colour and pages it lives in. */
-  lane: "buildlane" | "syncc" | "scriblane" | "flowlane"
+  /** "botlane" for the studio's own services (neutral, no lane colour); otherwise the product lane. */
+  lane: "botlane" | "syncc" | "scriblane" | "flowlane"
   name: string
   kind: "service" | "product" | "add-on"
   /**

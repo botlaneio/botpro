@@ -40,15 +40,15 @@ export async function PricingSection({ region }: { region: Region }) {
 
         <FoundingBanner status={status} />
 
-        <div className="lane-ember grid gap-12">
-          <Group title="Buildlane websites" note="one-time">
+        <div className="grid gap-12">
+          <Group title="Websites" note="one-time">
             <div className="grid gap-5 md:grid-cols-3">
               <PlanCard planId="website-starter" offer={offerFor("website-starter")} cta="Start a project" />
               <PlanCard planId="website-business" offer={offerFor("website-business")} featured cta="Start a project" />
               <PlanCard planId="website-pro" offer={offerFor("website-pro")} cta="Start a project" />
             </div>
           </Group>
-          <Group title="Buildlane web apps" note="subject to scoping">
+          <Group title="Web apps" note="plan, prove, build">
             <div className="grid gap-5 md:grid-cols-3">
               <PlanCard planId="app-scoping" offer={offerFor("app-scoping")} cta="Book a sprint" />
               <PlanCard planId="app-prototype" offer={offerFor("app-prototype")} cta="Talk to us" />
@@ -56,7 +56,7 @@ export async function PricingSection({ region }: { region: Region }) {
             </div>
           </Group>
           <Group title="Care and add-ons">
-            <PriceList offeringId="buildlane-care" />
+            <PriceList offeringId="care" />
           </Group>
         </div>
 
