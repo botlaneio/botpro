@@ -55,7 +55,7 @@ export default async function Services() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
-        <header className="flex flex-wrap items-end justify-between gap-6 py-20">
+        <header className="glow-brand flex flex-wrap items-end justify-between gap-6 py-20">
           <div className="grid max-w-3xl gap-4">
             <span className="label-mono">SERVICES</span>
             <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">Websites and web apps, built properly.</h1>

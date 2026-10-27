@@ -88,6 +88,11 @@
   --sidebar-border: var(--neutral-6);
   --sidebar-ring: var(--neutral-9);
 
+  /* Botlane's accent: ember, used sparingly (the Apex beam, the hero glow, the Founding Ten).
+     Everything else stays neutral so the warmth reads as a signature. */
+  --brand: var(--ember-solid);
+  --brand-text: var(--ember-text);
+
   /* The lane in scope. Neutral unless a .lane-* class sets it. */
   --lane: var(--neutral-12);
   --lane-hover: var(--neutral-11);
@@ -170,6 +175,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-brand: var(--brand);
+  --color-brand-text: var(--brand-text);
   --color-lane: var(--lane);
   --color-lane-hover: var(--lane-hover);
   --color-lane-text: var(--lane-text);
