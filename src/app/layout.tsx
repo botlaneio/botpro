@@ -11,7 +11,7 @@ const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["lati
 
 // The colour phones paint their browser bar: the site opens in the dark theme.
 export const viewport: Viewport = {
-  themeColor: "#0E0809",
+  themeColor: "#0B0C0E",
   colorScheme: "dark light",
 }
 

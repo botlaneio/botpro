@@ -61,7 +61,7 @@ function Wheel({ p }: { p: number }) {
   const active = Math.round(p)
   const ticks = Array.from({ length: (STEPS.length + 6) * TICKS }, (_, j) => (p * TICKS - (j - 3 * TICKS)) * (GAP / TICKS))
   return (
-    <svg viewBox="0 0 400 800" className="h-full w-auto overflow-visible" aria-hidden>
+    <svg viewBox="0 0 400 800" className="size-full overflow-visible" aria-hidden>
       <circle cx={CX} cy={CY} r={R} fill="none" className="stroke-border" strokeWidth={1.2} />
       {ticks.map((a, j) => {
         if (Math.abs(a) > Math.PI / 2.6) return null
@@ -136,7 +136,9 @@ export function ProcessWheel() {
 
   return (
     <div ref={section} className="relative" style={{ height: `calc(100svh + ${(STEPS.length - 1) * 75}svh)` }}>
-      <div className="sticky top-14 grid h-[calc(100svh-3.5rem)] grid-cols-[minmax(9rem,16rem)_1fr_minmax(16rem,26rem)] items-center gap-8 overflow-hidden">
+      <div className="sticky top-14 grid h-[calc(100svh-3.5rem)] grid-cols-[min(calc((100svh-6.5rem)/2),30vw)_minmax(0,1fr)_minmax(13rem,24rem)] items-center gap-8 overflow-hidden">
+        {/* The dial is half as wide as it is tall, so its column is sized from the screen's height (capped at 30% of
+            the width); the dial then fits it exactly and never runs under the words. */}
         <div className="h-full py-6"><Wheel p={p} /></div>
 
         {/* The words for every step share one place; each fades and slides by how far the page is from it. */}

@@ -298,18 +298,19 @@
   backdrop-filter: blur(28px) saturate(150%);
 }
 
-/* The homepage prompt bar. Light runs round the edge, accent into steel, on the same angle as the Apex beam
-   but slower and wider, with a soft aura in the same colours. The inside stays solid so text reads cleanly. */
+/* The homepage prompt bar. Light runs round the edge in the logo's eye colours (white into silver on dark,
+   graphite on light), on the same angle as the Apex beam but slower and wider, with a soft aura in the same
+   colours. The inside stays solid so text reads cleanly. */
 @utility surface-prompt {
   border: 1px solid transparent;
   border-radius: calc(var(--radius) * 1.8);
   background:
     linear-gradient(180deg, var(--menu-top), var(--menu-bottom)) padding-box,
-    conic-gradient(from var(--beam-angle), color-mix(in oklch, var(--brand) 85%, transparent), color-mix(in oklch, var(--neutral-9) 70%, transparent) 30%, transparent 50%, color-mix(in oklch, var(--neutral-9) 55%, transparent) 70%, color-mix(in oklch, var(--brand) 85%, transparent)) border-box;
+    conic-gradient(from var(--beam-angle), color-mix(in oklch, var(--mark-eye-core) 90%, transparent), color-mix(in oklch, var(--mark-eye-edge) 60%, transparent) 25%, transparent 50%, color-mix(in oklch, var(--mark-eye-edge) 50%, transparent) 75%, color-mix(in oklch, var(--mark-eye-core) 90%, transparent)) border-box;
   box-shadow:
     0 0 0 1px rgb(var(--ink) / 0.04),
-    0 20px 56px -30px color-mix(in oklch, var(--brand) calc(var(--glow) * 32%), transparent),
-    0 10px 40px -26px color-mix(in oklch, var(--neutral-9) calc(var(--glow) * 28%), transparent),
+    0 20px 56px -30px color-mix(in oklch, var(--mark-eye-edge) calc(var(--glow) * 30%), transparent),
+    0 10px 40px -26px color-mix(in oklch, var(--mark-eye-core) calc(var(--glow) * 18%), transparent),
     var(--shadow-lift);
   animation: apex-beam 12s linear infinite;
   @media (prefers-reduced-motion: reduce) {
