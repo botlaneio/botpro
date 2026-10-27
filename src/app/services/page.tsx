@@ -56,8 +56,8 @@ export default async function Services() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="glow-brand flex flex-wrap items-end justify-between gap-6 py-20">
-          <div className="grid max-w-3xl gap-4">
-            <span className="label-mono">SERVICES</span>
+          <div className="grid max-w-3xl justify-items-start gap-5">
+            <FoundingBanner status={status} />
             <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">Websites and web apps, built properly.</h1>
             <p className="max-w-2xl text-lg text-muted-foreground">
               We design and build every project end to end, to the standard of the best software companies. Every price is fixed
@@ -65,8 +65,6 @@ export default async function Services() {
             </p>
           </div>
         </header>
-
-        <FoundingBanner status={status} />
 
         <Section id="websites" eyebrow="WEBSITES · ONE-TIME" title="Three kinds of website, by what your business needs.">
           <div className="grid gap-5 lg:grid-cols-3">
