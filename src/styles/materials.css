@@ -121,6 +121,17 @@
   to { stroke-dashoffset: -9; }
 }
 
+/* The petal reveal: boxes opening onto colour in turn, and now and then the whole picture flooding. */
+@keyframes reveal-box {
+  0%, 100% { opacity: 0; }
+  4%, 34% { opacity: 1; }
+  40% { opacity: 0; }
+}
+@keyframes reveal-flood {
+  0%, 62%, 92%, 100% { opacity: 0; }
+  70%, 82% { opacity: 1; }
+}
+
 @keyframes apex-beam {
   to { --beam-angle: 360deg; }
 }
@@ -342,4 +353,23 @@
   letter-spacing: 0;
   color: var(--muted-foreground);
   font-variant-numeric: tabular-nums;
+}
+
+/* The petal reveal's layers. Reduced motion stops them; the boxes marked data-still stay open. */
+@utility reveal-box {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: reveal-box 14s var(--ease-lift) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    &[data-still] { opacity: 1; }
+  }
+}
+@utility reveal-flood {
+  opacity: 0;
+  animation: reveal-flood 28s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
