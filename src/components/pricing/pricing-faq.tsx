@@ -10,10 +10,6 @@ const founding = OFFERS.find((o) => o.id === "founding-ten")!
 export function PricingFaq() {
   return (
     <Accordion type="single" collapsible className="max-w-3xl">
-      <AccordionItem value="gst">
-        <AccordionTrigger>Do the prices include tax?</AccordionTrigger>
-        <AccordionContent>Prices in rupees exclude 18% GST.</AccordionContent>
-      </AccordionItem>
       <AccordionItem value="one-time">
         <AccordionTrigger>Are website prices one-time or monthly?</AccordionTrigger>
         <AccordionContent>

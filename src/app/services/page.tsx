@@ -1,22 +1,20 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { headers } from "next/headers"
 import { CalendarDays, FileText, Workflow } from "lucide-react"
 
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { PriceList } from "@/components/pricing/price-list"
-import { RegionProvider, RegionSwitch, TaxNote } from "@/components/pricing/region"
 import { ServiceCard } from "@/components/services/service-card"
 import { ServicesFaq } from "@/components/services/services-faq"
 import { SpecsTable } from "@/components/services/specs-table"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { LANES, type LaneId } from "@/lib/lanes"
-import { OFFERS, regionFor } from "@/lib/pricing"
+import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
 export const metadata: Metadata = {
   title: "Services · Botlane",
-  description: "Websites and web apps, designed and built end to end. Clear prices in dollars and rupees.",
+  description: "Websites and web apps, designed and built end to end. Clear, fixed prices in US dollars.",
 }
 
 const founding = OFFERS.find((o) => o.id === "founding-ten")!
@@ -50,13 +48,11 @@ function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow:
 }
 
 export default async function Services() {
-  const h = await headers()
-  const region = regionFor(h.get("x-vercel-ip-country") ?? h.get("cf-ipcountry"))
   const status = await offerStatus(founding)
   const offerFor = (id: string) => (status.open && founding.appliesTo.includes(id) ? founding : null)
 
   return (
-    <RegionProvider initial={region}>
+    <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="flex flex-wrap items-end justify-between gap-6 py-20">
@@ -68,7 +64,6 @@ export default async function Services() {
               before we start.
             </p>
           </div>
-          <RegionSwitch />
         </header>
 
         <FoundingBanner status={status} />
@@ -141,7 +136,6 @@ export default async function Services() {
 
         <Section id="faq" eyebrow="QUESTIONS" title="What people ask before they hire us.">
           <ServicesFaq />
-          <TaxNote className="label-mono" />
         </Section>
 
         <section aria-labelledby="cta-title" className="surface-glass my-16 flex flex-wrap items-center justify-between gap-6 p-8">
@@ -153,6 +147,6 @@ export default async function Services() {
         </section>
       </main>
       <SiteFooter />
-    </RegionProvider>
+    </>
   )
 }
