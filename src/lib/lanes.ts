@@ -37,7 +37,7 @@ export const LANES: readonly Lane[] = [
     status: "live",
     scope: "lane-violet",
     host: "scriblane.botlane.io",
-    tagline: "Turn contracts, notices and statements into clean data your firm can search.",
+    tagline: "Invoices, scans and Office files in. Clean, checked data out.",
     figure: "reader",
   },
   {

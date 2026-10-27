@@ -1,6 +1,7 @@
-import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Search, Workflow } from "lucide-react"
+import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Workflow } from "lucide-react"
 
 import { LANES, type Lane, type LaneId } from "@/lib/lanes"
+import { PRODUCT_DETAILS } from "@/lib/products"
 import { cn } from "@/lib/utils"
 
 import { ProductFan } from "./product-fan"
@@ -44,30 +45,35 @@ function SynccVisual() {
   )
 }
 
-/** Scriblane: a stack of documents, one clause lit as the search finds it. */
+/** Scriblane: an invoice being read, its fields picked out with their confidence, and the maths checked. */
 function ScriblaneVisual() {
+  const fields: [string, string, string][] = [["Vendor", "Northwind Studio", "0.92"], ["Invoice", "INV-0042", "0.98"], ["Total", "$2,696.00", "0.95"]]
   return (
     <div className={cn("relative h-full", fadeOut)}>
-      {[2, 1, 0].map((k) => (
-        <div key={k} className="surface-hairline absolute left-1/2 w-[64%] p-4" style={{ top: 12 + k * 10, transform: `translateX(-50%) rotate(${(k - 1) * 3}deg)`, opacity: 1 - k * 0.25 }}>
-          {k === 0 && (
+      {[1, 0].map((k) => (
+        <div key={k} className="surface-hairline absolute left-1/2 w-[70%] p-4" style={{ top: 12 + k * 10, transform: `translateX(-50%) rotate(${k * 3}deg)`, opacity: 1 - k * 0.35 }}>
+          {k === 0 ? (
             <div className="grid gap-2">
-              <span className="label-mono text-[10px]">MASTER SERVICES AGREEMENT</span>
-              {[92, 80, 86].map((w, i) => <span key={i} className="h-1.5 rounded-full bg-foreground/10" style={{ width: `${w}%` }} />)}
-              <span className="relative overflow-hidden rounded-md bg-[color-mix(in_oklch,var(--lane)_22%,transparent)] px-2 py-1 text-[11px] text-foreground">
-                12.3 Indemnity. Each party shall indemnify…
-                <span aria-hidden className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent [animation:sweep-x_3.2s_ease-in-out_infinite]" />
-              </span>
-              {[74, 88].map((w, i) => <span key={i} className="h-1.5 rounded-full bg-foreground/10" style={{ width: `${w}%` }} />)}
+              <span className="label-mono text-[10px]">INVOICE · PAGE 1</span>
+              {fields.map(([label, value, conf], i) => (
+                <span key={label} className="relative flex items-center justify-between gap-2 overflow-hidden rounded-md bg-[color-mix(in_oklch,var(--lane)_16%,transparent)] px-2 py-1 text-[11px]">
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="truncate text-foreground">{value}</span>
+                  <span className="label-mono text-[9px]">{conf}</span>
+                  {i === 2 && <span aria-hidden className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent [animation:sweep-x_3.2s_ease-in-out_infinite]" />}
+                </span>
+              ))}
+              {[88, 72].map((w, i) => <span key={i} className="h-1.5 rounded-full bg-foreground/10" style={{ width: `${w}%` }} />)}
             </div>
-          )}
-          {k > 0 && <div className="h-36" />}
+          ) : <div className="h-40" />}
         </div>
       ))}
-      <div className="absolute right-4 bottom-9 left-4 flex items-center gap-2.5 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_12%,var(--background))] px-3.5 py-2.5 shadow-[0_16px_40px_-16px_var(--float-shadow)]">
-        <Search className="size-4 text-muted-foreground" />
-        <span className="text-[13px]">Find the indemnity clause<span className="ml-px inline-block h-3.5 w-px translate-y-0.5 bg-foreground [animation:caret-blink_1.1s_steps(1)_infinite]" /></span>
-        <span className="label-mono ml-auto text-[10px]">⌘K</span>
+      <div className="absolute right-4 bottom-9 left-4 flex items-center gap-2.5 rounded-xl border border-[color-mix(in_oklch,var(--lane)_40%,transparent)] bg-[color-mix(in_oklch,var(--lane)_12%,var(--background))] px-3.5 py-2.5 shadow-[0_16px_40px_-16px_var(--float-shadow)] [animation:float-y_5s_ease-in-out_infinite]">
+        <Check className="size-4 text-(--lane-text)" />
+        <span className="grid min-w-0">
+          <span className="truncate text-[13px]">Checks passed</span>
+          <span className="label-mono truncate text-[10px]">LINES = SUBTOTAL · + TAX = TOTAL</span>
+        </span>
       </div>
     </div>
   )
@@ -103,6 +109,41 @@ function FlowlaneVisual() {
 
 const VISUALS: Record<LaneId, () => React.ReactElement> = { syncc: SynccVisual, scriblane: ScriblaneVisual, flowlane: FlowlaneVisual }
 
+/** What the product does, how it compares, and what it doesn't do yet. */
+function Details({ id, name }: { id: LaneId; name: string }) {
+  const d = PRODUCT_DETAILS[id]
+  return (
+    <div className="grid gap-5 px-5 pb-6">
+      <ul className="grid gap-2.5">
+        {d.features.map((f) => (
+          <li key={f} className="flex gap-2.5 text-[13.5px] leading-snug text-foreground/85">
+            <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-(--lane-text)" />
+            {f}
+          </li>
+        ))}
+      </ul>
+      {d.compare && (
+        <div className="grid gap-2">
+          <table className="w-full text-left text-[12px]">
+            <caption className="label-mono mb-2 text-left text-[10px]">{name.toUpperCase()} VS {d.compare.against.toUpperCase()}</caption>
+            <tbody className="divide-y divide-border/70">
+              {d.compare.rows.map(([label, ours, theirs]) => (
+                <tr key={label}>
+                  <th scope="row" className="py-1.5 pr-2 font-normal text-muted-foreground">{label}</th>
+                  <td className="py-1.5 pr-2 text-foreground">{ours}</td>
+                  <td className="py-1.5 text-muted-foreground">{theirs}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="text-[10.5px] text-muted-foreground/80">{d.compare.source}</p>
+        </div>
+      )}
+      <p className="border-t border-border/70 pt-3 text-[12px] text-muted-foreground">{d.limit}</p>
+    </div>
+  )
+}
+
 function ProductCard({ lane }: { lane: Lane }) {
   const Icon = ICONS[lane.id]
   const Visual = VISUALS[lane.id]
@@ -122,9 +163,10 @@ function ProductCard({ lane }: { lane: Lane }) {
       </div>
       <p className="px-5 pt-5 text-[17px] leading-snug text-pretty text-foreground/90">{lane.tagline}</p>
       <div className="mx-5 mt-6 border-t border-[color-mix(in_oklch,var(--lane)_18%,var(--border))]" />
-      <div className="relative h-72" aria-hidden>
+      <div className="relative h-64" aria-hidden>
         <Visual />
       </div>
+      <Details id={lane.id} name={lane.name} />
     </article>
   )
 }
