@@ -5,6 +5,7 @@ import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
 import { BotlaneMark } from "./botlane-mark"
+import { HeaderBar } from "./header-bar"
 import { MobileMenu } from "./mobile-menu"
 import { SolutionsMenu, type FoundingCard } from "./solutions-menu"
 import { ThemeSwitch } from "./theme-switch"
@@ -29,11 +30,11 @@ async function foundingCard(): Promise<FoundingCard | null> {
   }
 }
 
-/** The bar across the top of every page: the mark, the sections, and the main action. */
+/** The bar across the top of every page: the mark, the sections, and the main action. Clear until the page scrolls. */
 export async function SiteHeader() {
   const card = await foundingCard()
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/75 backdrop-blur-md">
+    <HeaderBar>
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-5 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
           <BotlaneMark size={26} id="header-mark" />
@@ -53,7 +54,7 @@ export async function SiteHeader() {
           <MobileMenu groups={SOLUTIONS} links={[...SOLUTIONS_MORE, ...LINKS]} />
         </div>
       </div>
-    </header>
+    </HeaderBar>
   )
 }
 
