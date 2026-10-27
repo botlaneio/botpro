@@ -25,6 +25,7 @@ import { SolutionCards } from "@/components/home/solution-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
+import { HeroMark } from "@/components/site/hero-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
 import { SOLUTIONS } from "@/lib/nav"
 import { LANES, type Lane } from "@/lib/lanes"
@@ -173,6 +174,10 @@ export default async function Lab() {
           <BotlaneMark size={26} id="lab-mark-s" />
           <BotlaneMark size={64} id="lab-mark-m" />
           <BotlaneMark size={120} id="lab-mark-l" />
+        </div>
+        <div className="grid justify-items-start gap-2">
+          <HeroMark size={140} />
+          <p className="text-sm text-muted-foreground">The homepage mark: the light follows the pointer, the eyes look at it, and a line of light passes every few seconds.</p>
         </div>
       </Section>
 

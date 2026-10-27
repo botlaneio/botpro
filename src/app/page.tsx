@@ -6,7 +6,7 @@ import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
 import { SolutionCards } from "@/components/home/solution-cards"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
-import { BotlaneMark } from "@/components/site/botlane-mark"
+import { HeroMark } from "@/components/site/hero-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { SOLUTIONS } from "@/lib/nav"
@@ -36,7 +36,7 @@ export default function Home() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
         <header className="glow-brand grid justify-items-center gap-5 pt-14 pb-16 text-center sm:gap-6 sm:pt-28 sm:pb-24">
-          <BotlaneMark size={88} id="hero-mark" />
+          <HeroMark size={88} />
           <h1 className="text-[2.75rem] leading-[1.05] font-medium tracking-[-0.035em] text-balance sm:text-7xl">What are you building?</h1>
           <p className="max-w-xl text-lg text-pretty text-muted-foreground">
             We design and build websites and web apps to the standard of the best software companies, at a fixed price agreed before we start.
