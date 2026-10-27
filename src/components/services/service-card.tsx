@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Check } from "lucide-react"
 
+import { needForPlan } from "@/lib/contact"
 import { cn } from "@/lib/utils"
 import { plan, type Offer } from "@/lib/pricing"
 import { BigPrice } from "@/components/pricing/plan-card"
@@ -52,7 +53,7 @@ export function ServiceCard({ planId, offer, eyebrow, cta = "Start a project" }:
       )}
 
       <Link
-        href={`/contact?service=${p.id}`}
+        href={`/contact?need=${needForPlan(p.id)}`}
         className={cn(
           "mt-auto inline-flex h-9 items-center justify-center rounded-[var(--radius)] px-4 text-sm font-medium",
           featured ? "btn-light" : "border border-border hover:bg-muted",
