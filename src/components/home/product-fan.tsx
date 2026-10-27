@@ -47,7 +47,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
       role="region"
       aria-roledescription="carousel"
       aria-label="Our products"
-      className="grid gap-8 overflow-x-clip py-2 outline-none"
+      className="-mx-6 grid gap-8 overflow-x-clip py-2 outline-none sm:mx-0"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1) }
@@ -89,7 +89,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
         })}
       </div>
 
-      <div className="mx-auto flex w-full max-w-sm items-center justify-between gap-4">
+      <div className="mx-auto flex w-full max-w-sm items-center justify-between gap-4 px-6 sm:px-0">
         <button type="button" onClick={() => go(index - 1)} aria-label="Previous product" className="key-physical grid size-10 shrink-0 place-items-center rounded-full!">
           <ChevronLeft className="size-4" />
         </button>
