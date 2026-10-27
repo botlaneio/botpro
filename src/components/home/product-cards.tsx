@@ -16,7 +16,8 @@ const fadeOut = "[mask-image:linear-gradient(180deg,#000_62%,transparent)]"
 
 /** Syncc: a month tilted into the light, and a booking landing on top of it. */
 function SynccVisual() {
-  const days = Array.from({ length: 21 }, (_, i) => i + 12)
+  // Three weeks of October from Monday the 12th: it ends on the 31st, and November begins.
+  const days = Array.from({ length: 21 }, (_, i) => ((i + 11) % 31) + 1)
   return (
     <div className={cn("relative h-full", fadeOut)}>
       <div className="surface-hairline absolute top-4 left-6 w-[78%] -rotate-[5deg] p-4">
@@ -26,8 +27,8 @@ function SynccVisual() {
         </div>
         <div className="grid grid-cols-7 gap-y-2 text-center text-[11px] tabular-nums text-muted-foreground">
           {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => <span key={i} className="text-[9px] opacity-60">{d}</span>)}
-          {days.map((d) => (
-            <span key={d} className={cn("mx-auto grid size-6 place-items-center rounded-md", d === 28 && "bg-[color-mix(in_oklch,var(--lane)_30%,transparent)] text-foreground")}>{d}</span>
+          {days.map((d, i) => (
+            <span key={i} className={cn("mx-auto grid size-6 place-items-center rounded-md", i >= 20 && "opacity-40", d === 28 && "bg-[color-mix(in_oklch,var(--lane)_30%,transparent)] text-foreground")}>{d}</span>
           ))}
         </div>
       </div>
