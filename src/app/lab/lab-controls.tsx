@@ -1,26 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-
-import { Button } from "@/components/ui/button"
-
-const subscribeNever = () => () => {}
-
-export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme()
-  // false on the server, true once hydrated: the theme is only known in the browser
-  const mounted = React.useSyncExternalStore(subscribeNever, () => true, () => false)
-  const dark = !mounted || resolvedTheme === "dark"
-
-  return (
-    <Button variant="outline" size="sm" onClick={() => setTheme(dark ? "light" : "dark")}>
-      {dark ? <Sun /> : <Moon />}
-      {dark ? "Light" : "Dark"}
-    </Button>
-  )
-}
 
 const KEYS = [
   { code: "AltLeft", glyph: "⌥", label: "option", wide: true },

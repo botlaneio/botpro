@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { ThemeSwitch } from "./theme-switch"
+
 const NAV = [
   { href: "/services", label: "Services" },
   { href: "/services#products", label: "Our products" },
@@ -20,9 +22,12 @@ export function SiteHeader() {
             <Link key={n.href} href={n.href} className="transition-colors hover:text-foreground">{n.label}</Link>
           ))}
         </nav>
-        <Link href="/contact" className="btn-light ml-auto inline-flex h-8 items-center px-3 text-sm font-medium">
-          Start a project
-        </Link>
+        <div className="ml-auto flex items-center gap-3">
+          <ThemeSwitch />
+          <Link href="/contact" className="btn-light inline-flex h-8 items-center px-3 text-sm font-medium">
+            Start a project
+          </Link>
+        </div>
       </div>
     </header>
   )
