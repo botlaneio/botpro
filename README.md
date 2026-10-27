@@ -1,6 +1,6 @@
 # botpro
 
-The rebuild of botlane.io and the Lane products, in one Next.js app.
+The rebuild of botlane.io: Botlane's website and app studio, plus its own products (the Lanes), in one Next.js app.
 
 | | |
 |---|---|
@@ -28,16 +28,17 @@ Copy `.env.example` to `.env.local`. `STRIPE_SECRET_KEY` (a restricted key with 
 | `src/app/globals.css` | Layer 0 tokens: neutral scales, lane colours, status colours, shadcn semantic tokens, radius, motion |
 | `src/styles/materials.css` | The finishes as utilities: `surface-glass`, `surface-tinted`, `btn-light`, `btn-lane`, `tile-depth`, `key-physical`, `tip-frosted`, `fade-spotlight`, `fade-sides`, `label-mono` |
 | `src/lib/pricing/` | The price book (`plans.ts`), price formatting by region, and the Founding Ten status read from Stripe |
-| `src/lib/lanes.ts` | Buildlane, Syncc, Scriblane and Flowlane: host, status, colour scope, hairline figure |
+| `src/lib/lanes.ts` | Botlane's own products (Syncc, Scriblane, Flowlane): host, status, colour scope, hairline figure |
 | `src/lib/motion.ts` | The two motion clocks: a 700ms lift for discrete changes, a spring for pointer input |
 | `src/components/ui/` | shadcn/ui primitives (Layer 1–2) |
+| `src/app/services/` | The Services page: website tiers, app stages, Care and add-ons, process, products, FAQ |
 | `src/app/lab/` | The component lab: every primitive in the Botlane finishes |
 | `design/hairline/` | Sources of the four lane figures, written for the hairline-create skill |
 
 ## Rules
 
 - **botlane.io is neutral.** The primary button is near-white on dark (`btn-light`).
-- **Colour lives in a lane scope.** Wrap a product card, section or page in `lane-ember` (Buildlane), `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
+- **Colour lives in a lane scope, and lanes are products only.** Wrap a product card, section or page in `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). Botlane's services stay neutral; `lane-ember` is kept free for a future product. `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
 - **Status colours are for mock UI only,** never for lanes.
 
 ## Open decisions

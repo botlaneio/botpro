@@ -49,10 +49,10 @@ test("India is priced in rupees, everyone else in dollars", () => {
   assert.equal(regionFor(null), "US")
 })
 
-test("Founding Ten covers Buildlane builds only, at 20% off, until 31 March 2027", () => {
+test("Founding Ten covers website and app builds only, at 20% off, until 31 March 2027", () => {
   const ft = OFFERS.find((o) => o.id === "founding-ten")!
-  const buildlane = OFFERINGS.filter((o) => o.lane === "buildlane" && o.kind === "service").flatMap((o) => o.plans.map((p) => p.id))
-  assert.deepEqual([...ft.appliesTo].sort(), [...buildlane].sort())
+  const builds = OFFERINGS.filter((o) => o.lane === "botlane" && o.kind === "service").flatMap((o) => o.plans.map((p) => p.id))
+  assert.deepEqual([...ft.appliesTo].sort(), [...builds].sort())
   assert.equal(discounted(plan("website-business").charges[0].amounts.US, ft), 3920)
   assert.ok(offerOpen(ft, "2027-03-31"))
   assert.ok(!offerOpen(ft, "2027-04-01"))
@@ -88,4 +88,9 @@ test("Founding Ten places come from its Stripe coupon", async () => {
   // The end date is India's: 31 March 2027 ends at midnight IST, which is 18:30 UTC.
   assert.equal(todayInIndia(new Date("2027-03-31T18:29:00Z")), "2027-03-31")
   assert.equal(todayInIndia(new Date("2027-03-31T18:31:00Z")), "2027-04-01")
+})
+
+test("every service plan says who it's for, and the scoping sprint is credited", () => {
+  for (const o of OFFERINGS.filter((x) => x.lane === "botlane")) for (const p of o.plans) assert.ok(p.bestFor, p.id)
+  assert.match(plan("app-scoping").terms ?? "", /credited/i)
 })

@@ -30,8 +30,8 @@ export function PricingFaq() {
       <AccordionItem value="founding">
         <AccordionTrigger>What is the Founding Ten?</AccordionTrigger>
         <AccordionContent>
-          We&apos;re a new company, so our first {founding.places} clients get {Math.round(founding.discount * 100)}% off Buildlane
-          website and app builds. The offer ends on 31 March 2027, or sooner if all ten places are taken.
+          We&apos;re a new company, so our first {founding.places} clients get {Math.round(founding.discount * 100)}% off website and app
+          builds. The offer ends on 31 March 2027, or sooner if all ten places are taken.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="self-hosted">

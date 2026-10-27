@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { headers } from "next/headers"
-import { ArrowUpRight, CalendarDays, ChevronRight, FileText, Globe, Pause, RotateCcw, Search, Workflow } from "lucide-react"
+import { ArrowUpRight, CalendarDays, ChevronRight, FileText, Pause, RotateCcw, Search, Workflow } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
@@ -27,7 +27,6 @@ import { Keycaps, ThemeToggle } from "./lab-controls"
 export const metadata: Metadata = { title: "Component lab · Botlane" }
 
 const ICONS: Record<Lane["id"], React.ComponentType<{ className?: string }>> = {
-  buildlane: Globe,
   syncc: CalendarDays,
   scriblane: FileText,
   flowlane: Workflow,
@@ -107,7 +106,7 @@ export default async function Lab() {
       </Section>
 
       <Section id="cards" title="Lane cards" note="Product cards use the tinted surface in their lane colour. Neutral panels use glass.">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {LANES.map((l) => {
             const Icon = ICONS[l.id]
             return (
@@ -131,7 +130,7 @@ export default async function Lab() {
             <Kbd className="ml-auto">esc</Kbd>
           </div>
           <ul className="grid gap-0.5 p-2 text-sm">
-            {[["Discovery call", "Syncc · 30 min"], ["Lease_Agreement_Acme.pdf", "Scriblane · 24 pages"], ["Northwind redesign", "Buildlane · week 5 of 7"]].map(([t, s], i) => (
+            {[["Discovery call", "Syncc · 30 min"], ["Lease_Agreement_Acme.pdf", "Scriblane · 24 pages"], ["Northwind redesign", "Website · week 5 of 7"]].map(([t, s], i) => (
               <li key={t} className={`flex items-center gap-3 rounded-md px-2.5 py-2 ${i === 0 ? "bg-foreground/[0.06]" : ""}`}>
                 <span>{t}</span><span className="truncate text-muted-foreground">{s}</span>
                 {i === 0 && <Kbd className="ml-auto">↵</Kbd>}
@@ -154,10 +153,12 @@ export default async function Lab() {
             </Field>
             <Field>
               <FieldLabel htmlFor="lab-lane">Interested in</FieldLabel>
-              <Select defaultValue="buildlane">
+              <Select defaultValue="website">
                 <SelectTrigger id="lab-lane" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {LANES.map((l) => <SelectItem key={l.id} value={l.id}>{l.name}</SelectItem>)}
+                  <SelectItem value="website">A website</SelectItem>
+                  <SelectItem value="app">A web app</SelectItem>
+                  <SelectItem value="care">Care for an existing site</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
@@ -184,7 +185,7 @@ export default async function Lab() {
           <TabsContent value="yearly" className="text-sm text-muted-foreground">Billed once a year, two months free.</TabsContent>
         </Tabs>
         <Accordion type="single" collapsible className="max-w-xl">
-          <AccordionItem value="a"><AccordionTrigger>How long does a Buildlane project take?</AccordionTrigger><AccordionContent>Most sites ship in six to eight weeks.</AccordionContent></AccordionItem>
+          <AccordionItem value="a"><AccordionTrigger>How long does a website take?</AccordionTrigger><AccordionContent>Most sites ship in six to eight weeks.</AccordionContent></AccordionItem>
           <AccordionItem value="b"><AccordionTrigger>Can I use Syncc and Scriblane together?</AccordionTrigger><AccordionContent>Yes. One account covers every Lane product.</AccordionContent></AccordionItem>
         </Accordion>
         <div className="flex flex-wrap gap-3">
