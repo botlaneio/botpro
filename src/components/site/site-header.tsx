@@ -51,7 +51,7 @@ export async function SiteHeader() {
           <Link href="/contact" className="btn-light hidden h-8 items-center px-3 text-sm font-medium sm:inline-flex">
             Start a project
           </Link>
-          <MobileMenu groups={SOLUTIONS} links={[...SOLUTIONS_MORE, ...LINKS]} />
+          <MobileMenu solutions={SOLUTIONS.flatMap((g) => g.items)} studio={SOLUTIONS_MORE} />
         </div>
       </div>
     </HeaderBar>
