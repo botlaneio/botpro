@@ -52,8 +52,13 @@ const SUFFIX: Record<Interval, string> = { "one-time": " one-time", month: "/mon
 
 /** One charge as shown on a card: "$9/month", "From ₹4,00,000 one-time". */
 export function chargeLabel(charge: Charge, region: Region): string {
-  const text = money(charge.amounts[region], region) + SUFFIX[charge.interval]
-  return charge.from ? `From ${text}` : text
+  const { from, amount, suffix } = priceParts(charge, region)
+  return (from ? "From " : "") + amount + suffix
+}
+
+/** The pieces of a price, for setting the amount large and the rest small. */
+export function priceParts(charge: Charge, region: Region, amount = charge.amounts[region]) {
+  return { from: !!charge.from, amount: money(amount, region), suffix: SUFFIX[charge.interval] }
 }
 
 /** A yearly charge expressed per month, for "$7/month, billed yearly". Whole units only. */
