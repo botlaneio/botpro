@@ -18,6 +18,12 @@ export function ThemeSwitch({ className }: { className?: string }) {
   const mounted = React.useSyncExternalStore(subscribeNever, () => true, () => false)
   const dark = !mounted || resolvedTheme === "dark"
 
+  // The phone's browser bar follows the theme, not just the first paint.
+  React.useEffect(() => {
+    if (!mounted) return
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#0B0C0E" : "#FCFCFD")
+  }, [mounted, dark])
+
   return (
     <button
       type="button"

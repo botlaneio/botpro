@@ -46,6 +46,8 @@
   --tip-bg: rgb(255 255 255 / 0.86);
   --menu-top: #FFFFFF; --menu-bottom: var(--neutral-1);
   --menu-drop: 0 32px 64px -32px rgb(16 24 40 / 0.28);
+  --float-shadow: rgb(16 24 40 / 0.16);  /* small panels floating over a card: the product toasts, the phone menu, the scrolled header */
+  --fan-dim: 0.06;                       /* how much each place out from the centre dims a fanned card */
   --tint-base-top: #FFFFFF; --tint-base-bottom: var(--neutral-1);
   --tint-top: 9%; --tint-bottom: 2%;
   /* Spotlight and apex: neutral highlights for Botlane's own tiers */
@@ -74,6 +76,8 @@
   --tip-bg: color-mix(in oklch, var(--neutral-5) 72%, transparent);
   --menu-top: var(--neutral-3); --menu-bottom: var(--neutral-2);
   --menu-drop: 0 40px 80px -32px rgb(0 0 0 / 0.7);
+  --float-shadow: rgb(0 0 0 / 0.45);
+  --fan-dim: 0.28;
   --tint-base-top: var(--neutral-3); --tint-base-bottom: var(--neutral-1);
   --tint-top: 17%; --tint-bottom: 7%;
   --spot-glow: rgb(255 255 255 / 0.10);

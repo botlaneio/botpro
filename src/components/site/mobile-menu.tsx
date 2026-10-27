@@ -69,7 +69,7 @@ export function MobileMenu({ solutions, studio }: { solutions: NavItem[]; studio
       </button>
 
       {/* The panel is always there; a clip that starts as the button's own square grows it out from the corner. */}
-      <div className="absolute top-0 right-0 z-10 drop-shadow-[0_24px_40px_rgb(0_0_0/0.35)]">
+      <div className="absolute top-0 right-0 z-10 drop-shadow-[0_24px_40px_var(--float-shadow)]">
         <nav
           id={`${ids}-panel`}
           aria-label="Menu"

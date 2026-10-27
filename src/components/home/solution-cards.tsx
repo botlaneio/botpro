@@ -18,9 +18,9 @@ interface Tone {
 
 // Red and silver, alternating. The second of each comes from the other side, so neighbours never repeat.
 const TONES: Tone[] = [
-  { frame: "#050506", panel: "#0E0F12", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 0% 0%, #FF8A8A 0%, #C93636 32%, #2C0B0C 68%, #0E0F12 100%)" },
+  { frame: "#050506", panel: "#0E0F12", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 0% 0%, #F26A6A 0%, #B52628 32%, #2A0A0B 68%, #0E0F12 100%)" },
   { frame: "#050506", panel: "#121418", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(90% 130% at 60% 0%, #DCE6F5 0%, #7E8CA3 30%, #262B33 64%, #121418 100%)" },
-  { frame: "#050506", panel: "#101114", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 100% 0%, #FFA3A3 0%, #D94545 30%, #300C0E 66%, #101114 100%)" },
+  { frame: "#050506", panel: "#101114", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 100% 0%, #F58585 0%, #C33134 30%, #2E0B0D 66%, #101114 100%)" },
   { frame: "#050506", panel: "#111316", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(110% 140% at 10% 0%, #EEF2F8 0%, #9AA6B8 28%, #2A3038 62%, #111316 100%)" },
 ]
 
