@@ -8,15 +8,15 @@
  *   surface-tinted    glows in the lane colour                    (product cards)
  *   surface-spotlight glass with a soft white glow from the top    (neutral, featured)
  *   surface-apex      spotlight with a light-catching metal edge   (the single top tier)
- *                     and a slow ember beam travelling round it
- *   glow-brand        a faint ember light from above, behind a page's opening section
+ *                     and a slow beam of the accent travelling round it
+ *   glow-brand        a faint accent light from above, behind a page's opening section
  *   btn-light         near-white bevelled primary                 (botlane.io)
  *   btn-lane          lane-coloured primary                       (product pages only)
  *   tile-depth        raised icon squircle
  *   key-physical      keycap with a low edge
  *   tip-frosted       blurred tooltip and menu panel
  *   surface-menu      a solid panel that floats over content (the mega menu)
- *   surface-prompt    the homepage prompt bar: a solid field with ember-to-steel light running round its edge
+ *   surface-prompt    the homepage prompt bar: a solid field with accent-to-steel light running round its edge
  *   surface-product   a product card: dark glass lit from the top in its lane colour
  *   fade-spotlight    radial edge fade for grids and marquees
  *   fade-sides        left and right fade for marquees
@@ -160,7 +160,7 @@
     conic-gradient(from var(--beam-angle), transparent 0%, transparent 70%, color-mix(in oklch, var(--apex-beam) 60%, transparent) 80%, var(--apex-beam) 88%, transparent 95%) border-box,
     var(--apex-edge) border-box;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) + 0.1)), var(--shadow-lift), var(--apex-aura);
-  /* A short ember arc travels once round the edge every 7 seconds. It is a layer under the
+  /* A short arc of the accent travels once round the edge every 7 seconds. It is a layer under the
      card's inside (padding-box), so it can only show through the 1px border. */
   animation: apex-beam 7s linear infinite;
   @media (prefers-reduced-motion: reduce) {
@@ -168,7 +168,7 @@
   }
 }
 
-/* A faint ember light falling from above. Put it on a page's opening section; nothing else. */
+/* A faint accent light falling from above. Put it on a page's opening section; nothing else. */
 @utility glow-brand {
   position: relative;
   isolation: isolate;
@@ -249,7 +249,7 @@
   backdrop-filter: blur(14px) saturate(150%);
 }
 
-/* The homepage prompt bar. Light runs round the edge, ember into steel, on the same angle as the Apex beam
+/* The homepage prompt bar. Light runs round the edge, accent into steel, on the same angle as the Apex beam
    but slower and wider, with a soft aura in the same colours. The inside stays solid so text reads cleanly. */
 @utility surface-prompt {
   border: 1px solid transparent;

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 /**
  * A card's colours. Every panel is dark, whatever the page's theme; the light in the band above alternates
- * ember and silver, so the row has a rhythm and neither colour takes over.
+ * teal and silver, so the row has a rhythm and neither colour takes over.
  */
 interface Tone {
   frame: string
@@ -16,11 +16,11 @@ interface Tone {
   light: string
 }
 
-// Ember and silver, alternating. The second of each comes from the other side, so neighbours never repeat.
+// Teal and silver, alternating. The second of each comes from the other side, so neighbours never repeat.
 const TONES: Tone[] = [
-  { frame: "#050506", panel: "#0E0F12", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 0% 0%, #FF8A55 0%, #B8401A 32%, #2A0F07 68%, #0E0F12 100%)" },
+  { frame: "#050506", panel: "#0E0F12", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 0% 0%, #5EEAD4 0%, #0F8C7C 32%, #062824 68%, #0E0F12 100%)" },
   { frame: "#050506", panel: "#121418", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(90% 130% at 60% 0%, #DCE6F5 0%, #7E8CA3 30%, #262B33 64%, #121418 100%)" },
-  { frame: "#050506", panel: "#101114", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 100% 0%, #FFA071 0%, #C4491F 30%, #2E1008 66%, #101114 100%)" },
+  { frame: "#050506", panel: "#101114", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 100% 0%, #7DF0E0 0%, #14A391 30%, #072D28 66%, #101114 100%)" },
   { frame: "#050506", panel: "#111316", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(110% 140% at 10% 0%, #EEF2F8 0%, #9AA6B8 28%, #2A3038 62%, #111316 100%)" },
 ]
 

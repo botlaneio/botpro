@@ -26,7 +26,7 @@ export const LANES: readonly Lane[] = [
     id: "syncc",
     name: "Syncc",
     status: "live",
-    scope: "lane-teal",
+    scope: "lane-ember",
     host: "syncc.botlane.io",
     tagline: "Share one link. People pick a time, and it lands in your calendar.",
     figure: "pegboard",
