@@ -101,6 +101,10 @@
   0%, 45% { opacity: 1; }
   50%, 95% { opacity: 0; }
 }
+/* The product fan: a card trading places melts into a soft shape and sharpens again. */
+@keyframes fan-melt {
+  45% { border-radius: 42%; filter: blur(10px) saturate(1.15); }
+}
 @keyframes sweep-x {
   from { transform: translateX(-120%); }
   to { transform: translateX(220%); }
