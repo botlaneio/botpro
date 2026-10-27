@@ -22,6 +22,7 @@ import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
 import { SolutionCards } from "@/components/home/solution-cards"
+import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
@@ -187,6 +188,10 @@ export default async function Lab() {
 
       <Section id="folders" title="Folder cards" note="What we build: numbered folders with grainy light above a tabbed front. Every panel is dark, whatever the theme; the light above alternates red and silver.">
         <SolutionCards items={SOLUTIONS.flatMap((g) => g.items)} />
+      </Section>
+
+      <Section id="stats" title="Number cards" note="True numbers only. Each counts up once as it scrolls into view; a short arc of the accent runs round each edge, offset card to card.">
+        <StatCards stats={[{ value: 3, label: "products built and run in-house" }, { value: 700, suffix: "+", label: "app integrations in Flowlane" }, { value: 14, label: "file types Scriblane can read" }, { value: 20, suffix: "%", label: "off for our first 10 clients" }]} />
       </Section>
 
       <Section id="products" title="Product cards" note="The Lane products in a fan: one upright in the middle, the others fanned behind. Cards trading places melt as they pass. Buttons, arrow keys, swipe, or tap a side card.">
