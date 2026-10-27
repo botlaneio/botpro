@@ -29,6 +29,8 @@
      light-mode subtle and border shades are proposals (the sheet only gives text). */
   --ember-solid: #FF7A45;  --ember-hover: #FF9466;  --ember-text: #C24E1E;  --ember-subtle: #FFF1EA;  --ember-border: #FFC9B0;
   --teal-solid: #2DD4BF;   --teal-hover: #5EE0CF;   --teal-text: #0E8C7C;   --teal-subtle: #E8FAF7;   --teal-border: #A8EDE3;
+  /* Botlane's accent: Raycast's red */
+  --red-solid: #FF6363;    --red-hover: #FF8080;    --red-text: #D23B3B;    --red-subtle: #FFEFEF;    --red-border: #FFC4C4;
   --violet-solid: #8B7CFF; --violet-hover: #A397FF; --violet-text: #5B4BD6; --violet-subtle: #F1EFFF; --violet-border: #CEC8FF;
   /* Flowlane: proposed, not yet on the palette sheet */
   --orchid-solid: #E36BD3; --orchid-hover: #EB8BDF; --orchid-text: #A3248F; --orchid-subtle: #FCEEFA; --orchid-border: #F2C2EB;
@@ -45,6 +47,7 @@
 
   --ember-text: #FFB08F;  --ember-subtle: #35251E;  --ember-border: #633827;
   --teal-text: #99EDE1;   --teal-subtle: #1B302D;   --teal-border: #1F554E;
+  --red-text: #FF9B9B;    --red-subtle: #362224;    --red-border: #6B2E31;
   --violet-text: #C4BCFF; --violet-subtle: #292739; --violet-border: #3F3A67;
   --orchid-text: #F4B9EC; --orchid-subtle: #33232F; --orchid-border: #5E3655;
 }
@@ -88,10 +91,10 @@
   --sidebar-border: var(--neutral-6);
   --sidebar-ring: var(--neutral-9);
 
-  /* Botlane's accent: teal, used sparingly (the Apex beam, the hero glow, the Founding Ten).
+  /* Botlane's accent: Raycast's red, used sparingly (the Apex beam, the hero glow, the Founding Ten).
      Everything else stays neutral so the warmth reads as a signature. */
-  --brand: var(--teal-solid);
-  --brand-text: var(--teal-text);
+  --brand: var(--red-solid);
+  --brand-text: var(--red-text);
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;

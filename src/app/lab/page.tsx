@@ -180,7 +180,7 @@ export default async function Lab() {
         <HeroPrompt />
       </Section>
 
-      <Section id="folders" title="Folder cards" note="What we build: numbered folders with grainy light above a tabbed front. Every panel is dark, whatever the theme; the light above alternates teal and silver.">
+      <Section id="folders" title="Folder cards" note="What we build: numbered folders with grainy light above a tabbed front. Every panel is dark, whatever the theme; the light above alternates red and silver.">
         <SolutionCards items={SOLUTIONS.flatMap((g) => g.items)} />
       </Section>
 
