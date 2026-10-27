@@ -21,7 +21,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
-import { SolutionCards } from "@/components/home/solution-cards"
+import { SolutionFlow } from "@/components/home/solution-flow"
 import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
@@ -186,8 +186,8 @@ export default async function Lab() {
         <HeroPrompt />
       </Section>
 
-      <Section id="folders" title="Folder cards" note="What we build: numbered folders with grainy light above a tabbed front. Every panel is dark, whatever the theme; the light above alternates red and silver.">
-        <SolutionCards items={SOLUTIONS.flatMap((g) => g.items)} />
+      <Section id="flow" title="Solution flow" note="What we build, as a small automation on a dotted canvas: a brief branches into a website or a web app, and both run on into Care. Curves are measured from lg, with a dot of light running each; stacked on phones; still under reduced motion.">
+        <SolutionFlow items={SOLUTIONS.flatMap((g) => g.items)} />
       </Section>
 
       <Section id="stats" title="Number cards" note="True numbers only. Each counts up once as it scrolls into view; a short arc of the accent runs round each edge, offset card to card.">

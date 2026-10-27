@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
-import { SolutionCards } from "@/components/home/solution-cards"
+import { SolutionFlow } from "@/components/home/solution-flow"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { HeroMark } from "@/components/site/hero-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
@@ -58,7 +58,7 @@ export default function Home() {
         </header>
 
         <Section id="build" eyebrow="WHAT WE BUILD" title="Websites, web apps, and the care after launch.">
-          <SolutionCards items={solutions} />
+          <SolutionFlow items={solutions} />
         </Section>
 
         <Section
