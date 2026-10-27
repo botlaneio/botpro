@@ -53,7 +53,7 @@ function useStepProgress(section: React.RefObject<HTMLElement | null>, enabled: 
 
 /**
  * The dial: a bezel of ticks and an arc of numbered rings. The current step sits at the right-hand point,
- * under a small pointer, with a halo of the accent; the red line traces the steps done.
+ * under a small pointer, with a halo of the accent; the accent line traces the steps done.
  */
 function Wheel({ p }: { p: number }) {
   const angle = (i: number) => (p - i) * GAP

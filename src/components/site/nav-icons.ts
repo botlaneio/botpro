@@ -12,7 +12,7 @@ export const NAV_ICONS: Record<NavIcon, React.ComponentType<{ className?: string
 
 /** Each solution's colour, for its icon: the accent for websites, then one tone each from the palette. */
 export const NAV_ICON_TONES: Record<NavIcon, string> = {
-  websites: "text-(--red-text)",
+  websites: "text-(--blue-text)",
   apps: "text-(--ember-text)",
   care: "text-(--teal-text)",
   assistant: "text-(--violet-text)",

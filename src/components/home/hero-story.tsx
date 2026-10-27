@@ -137,7 +137,7 @@ export function HeroStory({ className }: { className?: string }) {
         </g>
       </g>
 
-      {/* Act 1 · Build, right: a red line arrives, and the work ticks off. */}
+      {/* Act 1 · Build, right: an accent line arrives, and the work ticks off. */}
       <path d="M1460 470 C 1400 470 1420 380 1385 330 S 1352 272 1340 266" pathLength={1} fill="none" strokeWidth={1.4} data-in="4.5 5.3" data-out="7.9 8.5" data-draw="" style={{ stroke: "var(--brand)" }} />
       <Task y={249} text="Scope agreed" at={5.0} done={6.0} out={8.0} />
       <Task y={295} text="Fixed price set" at={5.5} done={6.6} out={8.1} />

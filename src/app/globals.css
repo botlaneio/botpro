@@ -29,8 +29,8 @@
      light-mode subtle and border shades are proposals (the sheet only gives text). */
   --ember-solid: #FF7A45;  --ember-hover: #FF9466;  --ember-text: #C24E1E;  --ember-subtle: #FFF1EA;  --ember-border: #FFC9B0;
   --teal-solid: #2DD4BF;   --teal-hover: #5EE0CF;   --teal-text: #0E8C7C;   --teal-subtle: #E8FAF7;   --teal-border: #A8EDE3;
-  /* Botlane's accent: a deep red, after Raycast's */
-  --red-solid: #F04848;    --red-hover: #F46666;    --red-text: #C22B2F;    --red-subtle: #FDECEC;    --red-border: #F7BDBE;
+  /* Botlane's accent: an electric blue. Light-mode text is deeper so small words stay readable on white. */
+  --blue-solid: #2F55F0;   --blue-hover: #4A6CF5;   --blue-text: #1E3FC8;   --blue-subtle: #ECF0FE;   --blue-border: #BCC9FB;
   --violet-solid: #8B7CFF; --violet-hover: #A397FF; --violet-text: #5B4BD6; --violet-subtle: #F1EFFF; --violet-border: #CEC8FF;
   /* Flowlane: proposed, not yet on the palette sheet */
   --orchid-solid: #E36BD3; --orchid-hover: #EB8BDF; --orchid-text: #A3248F; --orchid-subtle: #FCEEFA; --orchid-border: #F2C2EB;
@@ -45,12 +45,12 @@
   --neutral-5: #23262C;  --neutral-6: #2B2F36;  --neutral-7: #363A43;  --neutral-8: #484D57;
   --neutral-9: #6C727E;  --neutral-10: #8B919C; --neutral-11: #B6BAC2; --neutral-12: #EDEEF0;
 
-  /* On dark the accent is Raycast's own red, used as light: the beams and small bright points. */
-  --red-solid: #FF6363;    --red-hover: #FF8282;
+  /* On dark the accent is brighter, used as light: the beams and small bright points. */
+  --blue-solid: #4F7BFF;   --blue-hover: #6A99F2;
 
   --ember-text: #FFB08F;  --ember-subtle: #35251E;  --ember-border: #633827;
   --teal-text: #99EDE1;   --teal-subtle: #1B302D;   --teal-border: #1F554E;
-  --red-text: #FF8A8A;    --red-subtle: #351F21;    --red-border: #692A2D;
+  --blue-text: #9DB5FF;   --blue-subtle: #1A2140;   --blue-border: #2C3D7A;
   --violet-text: #C4BCFF; --violet-subtle: #292739; --violet-border: #3F3A67;
   --orchid-text: #F4B9EC; --orchid-subtle: #33232F; --orchid-border: #5E3655;
 }
@@ -94,10 +94,10 @@
   --sidebar-border: var(--neutral-6);
   --sidebar-ring: var(--neutral-9);
 
-  /* Botlane's accent: Raycast's red, used sparingly (the Apex beam, the hero glow, the Founding Ten).
+  /* Botlane's accent: electric blue, used sparingly (the Apex beam, the hero glow, the Founding Ten).
      Everything else stays neutral so the warmth reads as a signature. */
-  --brand: var(--red-solid);
-  --brand-text: var(--red-text);
+  --brand: var(--blue-solid);
+  --brand-text: var(--blue-text);
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;
