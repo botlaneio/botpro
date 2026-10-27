@@ -111,6 +111,11 @@
 @keyframes fan-melt {
   45% { border-radius: 42%; filter: blur(10px) saturate(1.15); }
 }
+/* The product fan's count to its next move. */
+@keyframes fan-count {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
 @keyframes sweep-x {
   from { transform: translateX(-120%); }
   to { transform: translateX(220%); }
