@@ -28,14 +28,14 @@ export const SOLUTIONS: NavGroup[] = [
     label: "Build",
     items: [
       {
-        href: "/solutions#websites",
+        href: "/websites",
         title: "Websites",
         body: "Core, Ascend and Apex. Custom design, no templates.",
         price: `From ${money(lowest("websites"), REGION)}`,
         icon: "websites",
       },
       {
-        href: "/solutions#apps",
+        href: "/web-apps",
         title: "Web apps",
         body: "Plan it, prove it, then build it. Fixed price per stage.",
         price: `Scoping ${money(plan("app-scoping").charges[0].amounts[REGION], REGION)}`,
@@ -47,14 +47,14 @@ export const SOLUTIONS: NavGroup[] = [
     label: "After launch",
     items: [
       {
-        href: "/solutions#care",
+        href: "/care",
         title: "Care",
         body: "Hosting, security updates and small edits, handled.",
         price: `From ${chargeLabel(plan("care").charges[0], REGION)}`,
         icon: "care",
       },
       {
-        href: "/solutions#care",
+        href: "/ai-assistant",
         title: "AI Assistant",
         body: "Answers visitors' questions, trained on your business.",
         price: chargeLabel(plan("ai-assistant").charges[0], REGION),
