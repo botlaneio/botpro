@@ -64,8 +64,3 @@ export const SOLUTIONS: NavGroup[] = [
   },
 ]
 
-/** The quieter links along the bottom of the menu. */
-export const SOLUTIONS_MORE = [
-  { href: "/solutions#process", label: "How we work" },
-  { href: "/solutions#faq", label: "Questions" },
-]

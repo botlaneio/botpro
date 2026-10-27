@@ -136,7 +136,7 @@ export function ProcessWheel() {
 
   return (
     <div ref={section} className="relative" style={{ height: `calc(100svh + ${(STEPS.length - 1) * 75}svh)` }}>
-      <div className="sticky top-14 grid h-[calc(100svh-3.5rem)] grid-cols-[min(calc((100svh-6.5rem)/2),30vw)_minmax(0,1fr)_minmax(13rem,24rem)] items-center gap-8 overflow-hidden">
+      <div className="sticky top-(--header-h) grid h-[calc(100svh-var(--header-h))] grid-cols-[min(calc((100svh-var(--header-h)-3rem)/2),30vw)_minmax(0,1fr)_minmax(13rem,24rem)] items-center gap-8 overflow-hidden">
         {/* The dial is half as wide as it is tall, so its column is sized from the screen's height (capped at 30% of
             the width); the dial then fits it exactly and never runs under the words. */}
         <div className="h-full py-6"><Wheel p={p} /></div>
