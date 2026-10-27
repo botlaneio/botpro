@@ -53,7 +53,7 @@ test("Founding Ten covers website and app builds only, at 20% off, until 31 Marc
   const ft = OFFERS.find((o) => o.id === "founding-ten")!
   const builds = OFFERINGS.filter((o) => o.lane === "botlane" && o.kind === "service").flatMap((o) => o.plans.map((p) => p.id))
   assert.deepEqual([...ft.appliesTo].sort(), [...builds].sort())
-  assert.equal(discounted(plan("website-business").charges[0].amounts.US, ft), 3920)
+  assert.equal(discounted(plan("website-ascend").charges[0].amounts.US, ft), 3920)
   assert.ok(offerOpen(ft, "2027-03-31"))
   assert.ok(!offerOpen(ft, "2027-04-01"))
 })
@@ -66,7 +66,7 @@ test("Syncc prices are marked as placeholders and can't be bought", () => {
       assert.ok(!purchasable(p.id, "US") && !purchasable(p.id, "IN"), p.id)
     }
   }
-  assert.ok(!isPlaceholder("website-starter"))
+  assert.ok(!isPlaceholder("website-core"))
   assert.ok(!isPlaceholder("scriblane-growth"))
 })
 
@@ -93,4 +93,8 @@ test("Founding Ten places come from its Stripe coupon", async () => {
 test("every service plan says who it's for, and the scoping sprint is credited", () => {
   for (const o of OFFERINGS.filter((x) => x.lane === "botlane")) for (const p of o.plans) assert.ok(p.bestFor, p.id)
   assert.match(plan("app-scoping").terms ?? "", /credited/i)
+})
+
+test("the website tiers are Core, Ascend and Apex, in that order", () => {
+  assert.deepEqual(OFFERINGS.find((o) => o.id === "websites")!.plans.map((p) => p.name), ["Core", "Ascend", "Apex"])
 })

@@ -43,9 +43,9 @@ export async function PricingSection({ region }: { region: Region }) {
         <div className="grid gap-12">
           <Group title="Websites" note="one-time">
             <div className="grid gap-5 md:grid-cols-3">
-              <PlanCard planId="website-starter" offer={offerFor("website-starter")} cta="Start a project" />
-              <PlanCard planId="website-business" offer={offerFor("website-business")} featured cta="Start a project" />
-              <PlanCard planId="website-pro" offer={offerFor("website-pro")} cta="Start a project" />
+              <PlanCard planId="website-core" offer={offerFor("website-core")} cta="Start a project" />
+              <PlanCard planId="website-ascend" offer={offerFor("website-ascend")} featured cta="Start a project" />
+              <PlanCard planId="website-apex" offer={offerFor("website-apex")} cta="Start a project" />
             </div>
           </Group>
           <Group title="Web apps" note="plan, prove, build">
