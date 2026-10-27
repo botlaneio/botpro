@@ -1,7 +1,7 @@
 import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Workflow } from "lucide-react"
 
 import { LANES, type Lane, type LaneId } from "@/lib/lanes"
-import { PRODUCT_DETAILS } from "@/lib/products"
+import { PRODUCT_FEATURES } from "@/lib/products"
 import { cn } from "@/lib/utils"
 
 import { ProductFan } from "./product-fan"
@@ -109,38 +109,17 @@ function FlowlaneVisual() {
 
 const VISUALS: Record<LaneId, () => React.ReactElement> = { syncc: SynccVisual, scriblane: ScriblaneVisual, flowlane: FlowlaneVisual }
 
-/** What the product does, how it compares, and what it doesn't do yet. */
-function Details({ id, name }: { id: LaneId; name: string }) {
-  const d = PRODUCT_DETAILS[id]
+/** Three short reasons to choose it. */
+function Features({ id }: { id: LaneId }) {
   return (
-    <div className="grid gap-5 px-5 pb-6">
-      <ul className="grid gap-2.5">
-        {d.features.map((f) => (
-          <li key={f} className="flex gap-2.5 text-[13.5px] leading-snug text-foreground/85">
-            <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-(--lane-text)" />
-            {f}
-          </li>
-        ))}
-      </ul>
-      {d.compare && (
-        <div className="grid gap-2">
-          <table className="w-full text-left text-[12px]">
-            <caption className="label-mono mb-2 text-left text-[10px]">{name.toUpperCase()} VS {d.compare.against.toUpperCase()}</caption>
-            <tbody className="divide-y divide-border/70">
-              {d.compare.rows.map(([label, ours, theirs]) => (
-                <tr key={label}>
-                  <th scope="row" className="py-1.5 pr-2 font-normal text-muted-foreground">{label}</th>
-                  <td className="py-1.5 pr-2 text-foreground">{ours}</td>
-                  <td className="py-1.5 text-muted-foreground">{theirs}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="text-[10.5px] text-muted-foreground/80">{d.compare.source}</p>
-        </div>
-      )}
-      <p className="border-t border-border/70 pt-3 text-[12px] text-muted-foreground">{d.limit}</p>
-    </div>
+    <ul className="grid gap-2.5 px-5 pb-6">
+      {PRODUCT_FEATURES[id].map((f) => (
+        <li key={f} className="flex gap-2.5 text-[13.5px] leading-snug text-foreground/85">
+          <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-(--lane-text)" />
+          {f}
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -166,7 +145,7 @@ function ProductCard({ lane }: { lane: Lane }) {
       <div className="relative h-64" aria-hidden>
         <Visual />
       </div>
-      <Details id={lane.id} name={lane.name} />
+      <Features id={lane.id} />
     </article>
   )
 }
