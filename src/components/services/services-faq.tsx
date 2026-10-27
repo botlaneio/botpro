@@ -1,6 +1,6 @@
 "use client"
 
-import { useId, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { Bot, ChevronDown, Compass, LifeBuoy, Receipt, ShieldCheck } from "lucide-react"
 
 import { ChargeText } from "@/components/pricing/region"
@@ -59,9 +59,27 @@ export function ServicesFaq({ className }: { className?: string }) {
   const [open, setOpen] = useState<number | null>(0)
   const base = useId()
   const last = QUESTIONS.length - 1
+  const list = useRef<HTMLDivElement>(null)
+  const [reserve, setReserve] = useState<number>()
+
+  // Hold the list at its tallest: every question closed, plus the longest answer, the two splits either side
+  // of it and the padding those splits add. Opening a different question then never moves what follows.
+  useEffect(() => {
+    const el = list.current
+    if (!el) return
+    const measure = () => {
+      const heads = Array.from(el.querySelectorAll<HTMLElement>("[data-q]")).reduce((h, b) => h + b.offsetHeight, 0)
+      const longest = Math.max(...Array.from(el.querySelectorAll<HTMLElement>("[data-a]")).map((p) => p.offsetHeight))
+      setReserve(heads + 16 + longest + GAP * 2 + 8 * 4)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   return (
-    <div className={cn("grid", className)}>
+    <div ref={list} className={cn("grid content-start", className)} style={{ minHeight: reserve }}>
       {QUESTIONS.map(({ icon: Icon, q, a }, i) => {
         const on = open === i
         // A row starts or ends a card at the list's ends and on either side of the open question.
@@ -86,6 +104,7 @@ export function ServicesFaq({ className }: { className?: string }) {
             <h3>
               <button
                 type="button"
+                data-q=""
                 id={`${base}-q${i}`}
                 aria-expanded={on}
                 aria-controls={`${base}-a${i}`}
@@ -106,7 +125,7 @@ export function ServicesFaq({ className }: { className?: string }) {
               style={{ gridTemplateRows: on ? "1fr" : "0fr", opacity: on ? 1 : 0, transitionTimingFunction: SPRING }}
             >
               <div className="overflow-hidden">
-                <p className="px-5 pb-4 pl-[3.25rem] text-[14px] leading-relaxed text-neutral-400 sm:px-6 sm:pl-[3.5rem] dark:text-muted-foreground">{a}</p>
+                <p data-a="" className="px-5 pb-4 pl-[3.25rem] text-[14px] leading-relaxed text-neutral-400 sm:px-6 sm:pl-[3.5rem] dark:text-muted-foreground">{a}</p>
               </div>
             </div>
           </div>
