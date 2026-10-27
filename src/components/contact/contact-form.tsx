@@ -204,24 +204,16 @@ export function ContactForm({ needs, initial, surface = "surface-glass" }: { nee
 
       {state.status === "error" && <p role="alert" className="text-[13px] text-destructive">{state.message}</p>}
 
-      {/* The control: the step you're on, the action, and how many steps are done. */}
-      <div className="grid gap-3">
-        {step > 0 && (
-          <button type="button" onClick={() => go(step - 1)} className="inline-flex w-fit items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground">
+      {/* Back on the left once there is somewhere to go back to; the action on the right. */}
+      <div className="flex items-center justify-between gap-3">
+        {step > 0 ? (
+          <button type="button" onClick={() => go(step - 1)} className="inline-flex h-11 items-center gap-1.5 px-1 text-sm text-muted-foreground hover:text-foreground">
             <ArrowLeft className="size-3.5" /> Back
           </button>
-        )}
-        <div className="flex items-center gap-1.5">
-          <span className="key-physical grid size-12 shrink-0 place-items-center rounded-full! leading-none" aria-hidden>
-            <span className="grid justify-items-center gap-0.5"><span className="text-[15px] font-medium tabular-nums">{step + 1}</span><span className="text-[9px] text-muted-foreground">Step</span></span>
-          </span>
-          <button type="submit" disabled={pending} className="btn-light inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full! text-[15px] font-medium disabled:opacity-70">
-            {step < last ? <>Next <ArrowRight className="size-4" /></> : pending ? "Sending…" : <>Send brief <ArrowRight className="size-4" /></>}
-          </button>
-          <span className="key-physical grid size-12 shrink-0 place-items-center rounded-full! leading-none" aria-hidden>
-            <span className="grid justify-items-center gap-0.5"><span className="text-[15px] font-medium tabular-nums">{step}</span><span className="text-[9px] text-muted-foreground">Done</span></span>
-          </span>
-        </div>
+        ) : <span />}
+        <button type="submit" disabled={pending} className="btn-light inline-flex h-11 min-w-36 items-center justify-center gap-2 rounded-full! px-6 text-[15px] font-medium disabled:opacity-70">
+          {step < last ? <>Next <ArrowRight className="size-4" /></> : pending ? "Sending…" : <>Send brief <ArrowRight className="size-4" /></>}
+        </button>
       </div>
     </form>
   )
