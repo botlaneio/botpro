@@ -1,0 +1,71 @@
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
+
+import type { NavItem } from "@/lib/nav"
+import { cn } from "@/lib/utils"
+
+/**
+ * A card's colours. Panels alternate dark and light, as in the reference, whatever the page's theme; the
+ * light in the band above stays in Botlane's palette: ember, steel, and ember into steel.
+ */
+interface Tone {
+  frame: string
+  panel: string
+  ink: string
+  muted: string
+  light: string
+}
+
+const TONES: Tone[] = [
+  { frame: "#050506", panel: "#0E0F12", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(120% 140% at 0% 0%, #FF8A55 0%, #B8401A 32%, #2A0F07 68%, #0E0F12 100%)" },
+  { frame: "#C9CDD4", panel: "#ECEDEF", ink: "#111216", muted: "#5D626B", light: "linear-gradient(115deg, #2B2F38 0%, #FF7A45 38%, #3A4252 70%, #14161A 100%)" },
+  { frame: "#050506", panel: "#15181C", ink: "#EDEEF0", muted: "#8B919C", light: "radial-gradient(90% 130% at 60% 0%, #DCE6F5 0%, #7E8CA3 30%, #262B33 64%, #15181C 100%)" },
+  { frame: "#C9CDD4", panel: "#F6F6F4", ink: "#111216", muted: "#5D626B", light: "linear-gradient(100deg, #FF7A45 0%, #F2B79C 34%, #B9C2CF 70%, #6B7584 100%)" },
+]
+
+// Film grain over the light, so the gradients read as light rather than as flat fills.
+const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")`
+
+function FolderCard({ item, n, tone }: { item: NavItem; n: number; tone: Tone }) {
+  return (
+    <Link
+      href={item.href}
+      className="group/f block rounded-[1.6rem] p-2.5 shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)] transition-transform duration-500 ease-(--ease-lift) outline-none hover:-translate-y-1 focus-visible:ring-3 focus-visible:ring-ring/60"
+      style={{ background: tone.frame }}
+    >
+      <div className="relative h-[23rem] overflow-hidden rounded-[1.1rem]" style={{ background: tone.panel }}>
+        {/* The light above the folder, with grain. */}
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[42%]" style={{ background: tone.light }} />
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[42%] opacity-40 mix-blend-overlay" style={{ backgroundImage: GRAIN }} />
+
+        {/* The folder's front: a tab on the left, a curved shoulder, then the panel. It drops a little on hover, as if opening. */}
+        <div className="absolute inset-x-0 top-[30%] bottom-0 transition-transform duration-500 ease-(--ease-lift) group-hover/f:translate-y-2" style={{ color: tone.panel }}>
+          <div aria-hidden className="absolute -top-7 left-0 h-7 w-[42%] rounded-tl-[1.1rem]" style={{ background: tone.panel }} />
+          <svg aria-hidden viewBox="0 0 44 28" preserveAspectRatio="none" className="absolute -top-7 left-[calc(42%-1px)] h-7 w-11">
+            <path d="M0 0 C 18 0, 20 28, 44 28 L 0 28 Z" fill="currentColor" />
+          </svg>
+          <div className="absolute inset-0 flex flex-col rounded-tr-[1.1rem] p-6 pt-3" style={{ background: tone.panel, color: tone.ink }}>
+            <div className="flex items-start justify-between">
+              <span className="text-6xl font-medium tracking-[-0.04em] tabular-nums">{String(n).padStart(2, "0")}</span>
+              <ArrowUpRight aria-hidden className="mt-2 size-5 transition-transform duration-500 ease-(--ease-lift) group-hover/f:translate-x-0.5 group-hover/f:-translate-y-0.5" />
+            </div>
+            <div className="mt-auto grid gap-1.5">
+              <span className="text-lg font-medium">{item.title}</span>
+              <span className={cn("text-sm leading-snug text-pretty")} style={{ color: tone.muted }}>{item.body}</span>
+              <span className="label-mono mt-1 text-[11px]" style={{ color: tone.muted }}>{item.price}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+/** What we build, as four numbered folders, after the folder cards shared as a reference. */
+export function SolutionCards({ items }: { items: NavItem[] }) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((item, i) => <FolderCard key={item.title} item={item} n={i + 1} tone={TONES[i % TONES.length]} />)}
+    </div>
+  )
+}

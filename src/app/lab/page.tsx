@@ -21,10 +21,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
+import { SolutionCards } from "@/components/home/solution-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
+import { SOLUTIONS } from "@/lib/nav"
 import { LANES, type Lane } from "@/lib/lanes"
 import { ThemeSwitch } from "@/components/site/theme-switch"
 import { Keycaps } from "./lab-controls"
@@ -176,6 +178,10 @@ export default async function Lab() {
 
       <Section id="prompt" title="Prompt bar" note="The homepage hero. A plain GET form to /contact: the brief and chip fill the contact form's first two steps.">
         <HeroPrompt />
+      </Section>
+
+      <Section id="folders" title="Folder cards" note="What we build: numbered folders with grainy light above a tabbed front. Panels alternate dark and light whatever the theme.">
+        <SolutionCards items={SOLUTIONS.flatMap((g) => g.items)} />
       </Section>
 
       <Section id="products" title="Product cards" note="The Lane products, after the Botlane components lab feature cards: lit in the lane colour, each with a small live visual.">

@@ -4,10 +4,10 @@ import { ArrowRight } from "lucide-react"
 
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { ProductCards } from "@/components/home/product-cards"
+import { SolutionCards } from "@/components/home/solution-cards"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
-import { NAV_ICONS } from "@/components/site/nav-icons"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { SOLUTIONS } from "@/lib/nav"
 
@@ -45,22 +45,7 @@ export default function Home() {
         </header>
 
         <Section id="build" eyebrow="WHAT WE BUILD" title="Websites, web apps, and the care after launch.">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {solutions.map((s) => {
-              const Icon = NAV_ICONS[s.icon]
-              return (
-                <Link key={s.title} href={s.href} className="surface-glass group/s grid content-start gap-3 p-5 transition-transform duration-300 ease-(--ease-lift) hover:-translate-y-0.5">
-                  <span className="tile-depth size-10 text-foreground/85"><Icon className="size-[18px]" /></span>
-                  <span className="flex items-center gap-2 font-medium">
-                    {s.title}
-                    <ArrowRight aria-hidden className="size-3.5 -translate-x-1 text-muted-foreground opacity-0 transition-[opacity,translate] duration-300 group-hover/s:translate-x-0 group-hover/s:opacity-100" />
-                  </span>
-                  <span className="text-sm text-muted-foreground">{s.body}</span>
-                  <span className="label-mono text-[11px] text-foreground/60">{s.price}</span>
-                </Link>
-              )
-            })}
-          </div>
+          <SolutionCards items={solutions} />
         </Section>
 
         <Section

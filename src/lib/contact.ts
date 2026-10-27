@@ -17,6 +17,10 @@ export type NeedId = (typeof NEEDS)[number]["id"]
 
 export const needLabel = (id: NeedId) => NEEDS.find((n) => n.id === id)!.label
 
+/** The need a plan belongs to, for "Start a project" links on its card. */
+export const needForPlan = (planId: string): NeedId =>
+  planId.startsWith("website-") ? "website" : planId.startsWith("app-") ? "web-app" : planId === "ai-assistant" ? "assistant" : planId.startsWith("care") ? "care" : "not-sure"
+
 export const contactSchema = z.object({
   brief: z
     .string()

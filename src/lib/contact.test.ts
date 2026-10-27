@@ -1,7 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 
-import { HONEYPOT, MIN_FILL_MS, checkStep, screen } from "./contact.ts"
+import { HONEYPOT, MIN_FILL_MS, checkStep, needForPlan, screen } from "./contact.ts"
 
 const NOW = 1_800_000_000_000
 const good = {
@@ -39,4 +39,11 @@ test("each step checks only its own fields", () => {
   assert.ok(checkStep(0, { brief: "short" }).brief)
   assert.ok(checkStep(2, { name: "", email: "x" }).email)
   assert.deepEqual(checkStep(3, {}), {})
+})
+
+test("price cards send people to the right need", () => {
+  assert.equal(needForPlan("website-apex"), "website")
+  assert.equal(needForPlan("app-scoping"), "web-app")
+  assert.equal(needForPlan("care-plus"), "care")
+  assert.equal(needForPlan("ai-assistant"), "assistant")
 })
