@@ -43,7 +43,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
         </section>
 
         <section aria-label="Contact form" className="relative isolate lg:col-start-2 lg:row-span-2 lg:row-start-1">
-          {/* Light behind the glass, so it has something to frost: teal from above, a cool steel from below. */}
+          {/* Light behind the glass, so it has something to frost: the accent from above, a cool steel from below. */}
           <div aria-hidden className="pointer-events-none absolute -inset-8 -z-10">
             <div className="absolute top-0 left-[12%] size-72 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--brand)_42%,transparent),transparent_68%)] blur-2xl" />
             <div className="absolute right-[4%] bottom-[6%] size-80 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--neutral-9)_32%,transparent),transparent_68%)] blur-2xl" />
