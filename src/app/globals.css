@@ -219,6 +219,7 @@
     cursor: pointer;
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+    /* Finish every animation at once, and run loops only once, so nothing repeats at speed. */
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
   }
 }
