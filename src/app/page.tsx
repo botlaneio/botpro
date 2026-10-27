@@ -54,6 +54,8 @@ export default function Home() {
           {/* Build, Launch, Care, played in hairlines either side of the prompt. Wide screens only: narrower,
               the sides are too small to keep clear of it. */}
           <HeroStory className="absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 xl:block" />
+          {/* A little more dark in the top-right corner, fading out well before the prompt. Dark theme only. */}
+          <div aria-hidden className="pointer-events-none absolute top-[-3.5rem] left-1/2 -z-10 hidden h-[calc(100%+3.5rem)] w-screen -translate-x-1/2 bg-[radial-gradient(60%_70%_at_100%_0%,rgb(0_0_0/0.55),transparent_70%)] dark:block" />
           <HeroMark size={88} />
           <h1 className="sr-only">Botlane: websites and web apps, built properly</h1>
           <div className="mt-2 w-full"><HeroPrompt /></div>
