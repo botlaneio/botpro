@@ -17,6 +17,7 @@
  *   tip-frosted       blurred tooltip and menu panel
  *   surface-menu      a solid panel that floats over content (the mega menu)
  *   surface-stat      a number card: a hairline panel with a short arc of the accent running round its edge
+ *   surface-frosted   a heavily frosted panel in the page colour, for forms over a bright image
  *   surface-prompt    the homepage prompt bar: a solid field with accent-to-steel light running round its edge
  *   surface-product   a product card: dark glass lit from the top in its lane colour
  *   fade-spotlight    radial edge fade for grids and marquees
@@ -269,6 +270,16 @@
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
+}
+
+/* A form floating over a bright picture: mostly the page's own colour, blurred hard, so text stays readable. */
+@utility surface-frosted {
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--background) 76%, transparent);
+  border: 1px solid rgb(var(--ink) / calc(var(--edge-alpha) + 0.04));
+  border-radius: calc(var(--radius) * 1.4);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 30px 60px -30px var(--float-shadow);
+  backdrop-filter: blur(28px) saturate(150%);
 }
 
 /* The homepage prompt bar. Light runs round the edge, accent into steel, on the same angle as the Apex beam

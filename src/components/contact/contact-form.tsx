@@ -34,7 +34,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
  * The contact form: four short steps on one glass card. Every answer stays in the one form, so the last
  * step sends it all to the server action, which checks it again. Each step is checked before moving on.
  */
-export function ContactForm({ needs, initial }: { needs: NeedOption[]; initial: Partial<Values> }) {
+export function ContactForm({ needs, initial, surface = "surface-glass" }: { needs: NeedOption[]; initial: Partial<Values>; surface?: string }) {
   const [step, setStep] = useState(0)
   const [values, setValues] = useState<Values>({ brief: "", need: "", name: "", email: "", company: "", ...initial } as Values)
   const [errors, setErrors] = useState<FieldErrors>({})
@@ -77,7 +77,7 @@ export function ContactForm({ needs, initial }: { needs: NeedOption[]; initial: 
 
   if (state.status === "sent") {
     return (
-      <div className="surface-glass grid justify-items-start gap-5 p-7 sm:p-9" role="status">
+      <div className={cn(surface, "grid justify-items-start gap-5 p-7 sm:p-9")} role="status">
         <span className="tile-depth size-11 text-foreground"><Check className="size-5" /></span>
         <h2 className="text-2xl font-medium tracking-tight text-balance">{state.name ? `Thanks, ${state.name}. We've got your brief.` : "Thanks. We've got your brief."}</h2>
         <p className="max-w-md text-muted-foreground">
@@ -95,7 +95,7 @@ export function ContactForm({ needs, initial }: { needs: NeedOption[]; initial: 
   const described = (f: ContactField) => (err(f) ? `${f}-error` : undefined)
 
   return (
-    <form action={action} onSubmit={onSubmit} noValidate className="surface-glass relative grid gap-6 p-6 sm:p-8">
+    <form action={action} onSubmit={onSubmit} noValidate className={cn(surface, "relative grid gap-6 p-6 sm:p-8")}>
       <div className="grid gap-3">
         <div className="flex items-center justify-between">
           <span className="label-mono text-[11px]">SEND US A BRIEF</span>

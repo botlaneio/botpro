@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { ContactForm } from "@/components/contact/contact-form"
+import { FlutedGlass } from "@/components/contact/fluted-glass"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { NEEDS } from "@/lib/contact"
@@ -43,12 +44,9 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
         </section>
 
         <section aria-label="Contact form" className="relative isolate lg:col-start-2 lg:row-span-2 lg:row-start-1">
-          {/* Light behind the glass, so it has something to frost: the accent from above, a cool steel from below. */}
-          <div aria-hidden className="pointer-events-none absolute -inset-8 -z-10">
-            <div className="absolute top-0 left-[12%] size-72 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--brand)_42%,transparent),transparent_68%)] blur-2xl" />
-            <div className="absolute right-[4%] bottom-[6%] size-80 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--neutral-9)_32%,transparent),transparent_68%)] blur-2xl" />
-          </div>
-          <ContactForm needs={NEED_OPTIONS} initial={initial} />
+          {/* A window onto petals through fluted glass, a little larger than the form, which floats over it frosted. */}
+          <FlutedGlass src="/images/petals.webp" fallback="/images/petals.jpg" focus={[0.28, 0.5]} className="absolute -inset-4 -z-10 rounded-[2rem] sm:-inset-11 sm:rounded-[2.6rem]" />
+          <ContactForm needs={NEED_OPTIONS} initial={initial} surface="surface-frosted" />
         </section>
 
         <section aria-label="What happens next" className="lg:col-start-1 lg:row-start-2">
