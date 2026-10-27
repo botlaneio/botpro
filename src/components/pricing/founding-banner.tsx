@@ -7,7 +7,7 @@ const ENDS = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", y
   .format(new Date(`${founding.endsOn}T00:00:00Z`))
 
 /**
- * The Founding Ten announcement: a small glass pill, neutral apart from one ember dot and the
+ * The Founding Ten announcement: a small glass pill, neutral apart from one teal dot and the
  * offer's name. Reads the live count from Stripe; renders nothing once the offer has closed.
  */
 export async function FoundingBanner({ status }: { status?: OfferStatus }) {

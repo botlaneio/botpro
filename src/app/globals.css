@@ -88,10 +88,10 @@
   --sidebar-border: var(--neutral-6);
   --sidebar-ring: var(--neutral-9);
 
-  /* Botlane's accent: ember, used sparingly (the Apex beam, the hero glow, the Founding Ten).
+  /* Botlane's accent: teal, used sparingly (the Apex beam, the hero glow, the Founding Ten).
      Everything else stays neutral so the warmth reads as a signature. */
-  --brand: var(--ember-solid);
-  --brand-text: var(--ember-text);
+  --brand: var(--teal-solid);
+  --brand-text: var(--teal-text);
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;
