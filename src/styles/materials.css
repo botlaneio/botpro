@@ -116,6 +116,11 @@
   to { transform: translateX(220%); }
 }
 
+/* The dashed wire on the solution flow, creeping forward. */
+@keyframes wire-dash {
+  to { stroke-dashoffset: -9; }
+}
+
 @keyframes apex-beam {
   to { --beam-angle: 360deg; }
 }
