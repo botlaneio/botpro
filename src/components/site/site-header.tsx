@@ -1,18 +1,14 @@
-import Link from "next/link"
-
-import { SOLUTIONS, SOLUTIONS_MORE } from "@/lib/nav"
+import { LANES } from "@/lib/lanes"
+import { SOLUTIONS } from "@/lib/nav"
 import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
-import { BotlaneMark } from "./botlane-mark"
-import { HeaderBar } from "./header-bar"
-import { MobileMenu } from "./mobile-menu"
-import { SolutionsMenu, type FoundingCard } from "./solutions-menu"
-import { ThemeSwitch } from "./theme-switch"
+import { PillNav, type PillMenu } from "./pill-nav"
+import type { FoundingCard } from "./solutions-menu"
 
-// The plain links beside the Solutions menu, and in the footer with it.
+// The plain links beside the menus.
 const LINKS = [
-  { href: "/products", label: "Our products" },
+  { href: "/solutions#process", label: "How we work" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -30,32 +26,28 @@ async function foundingCard(): Promise<FoundingCard | null> {
   }
 }
 
-/** The bar across the top of every page: the mark, the sections, and the main action. Clear until the page scrolls. */
+/** The navigation on every page: a floating pill with the Solutions and Products menus and the main action. */
 export async function SiteHeader() {
   const card = await foundingCard()
-  return (
-    <HeaderBar>
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-5 px-6">
-        <Link href="/" className="flex items-center gap-2 font-medium tracking-tight">
-          <BotlaneMark size={26} id="header-mark" />
-          <span className="font-semibold tracking-[-0.035em]">botlane</span>
-        </Link>
-        <nav aria-label="Main" className="hidden items-center gap-1 text-sm sm:flex">
-          <SolutionsMenu groups={SOLUTIONS} more={SOLUTIONS_MORE} founding={card} />
-          {LINKS.map((n) => (
-            <Link key={n.href} href={n.href} className="px-2 text-muted-foreground transition-colors hover:text-foreground">{n.label}</Link>
-          ))}
-        </nav>
-        <div className="ml-auto flex items-center gap-3">
-          <ThemeSwitch />
-          <Link href="/contact" className="btn-light hidden h-8 items-center px-3 text-sm font-medium sm:inline-flex">
-            Start a project
-          </Link>
-          <MobileMenu solutions={SOLUTIONS.flatMap((g) => g.items)} studio={SOLUTIONS_MORE} />
-        </div>
-      </div>
-    </HeaderBar>
-  )
+  const menus: PillMenu[] = [
+    {
+      label: "Solutions",
+      eyebrow: "Solutions",
+      blurb: card
+        ? `Websites and web apps at a fixed price agreed before we start. Founding Ten: ${card.discount} off for our first ${card.places} clients.`
+        : "Websites and web apps at a fixed price agreed before we start, and the care after launch.",
+      all: { href: "/solutions", label: "All solutions" },
+      links: SOLUTIONS.flatMap((g) => g.items).map((i) => ({ href: i.href, title: i.title, body: i.body, meta: i.price, icon: i.icon })),
+    },
+    {
+      label: "Products",
+      eyebrow: "Our products",
+      blurb: "Software we build and run ourselves, to the same standard as client work.",
+      all: { href: "/products", label: "All products" },
+      links: LANES.map((l) => ({ href: `https://${l.host}`, title: l.name, body: l.tagline, icon: l.id, external: true, soon: l.status === "soon" })),
+    },
+  ]
+  return <PillNav menus={menus} links={LINKS} />
 }
 
 // The footer lives in its own file; pages import it from here alongside the header.
