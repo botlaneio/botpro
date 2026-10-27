@@ -69,7 +69,7 @@ export function SiteFooter() {
       </div>
 
       {/* The wordmark, huge and faint, sitting on the bottom edge so its feet are cut off. */}
-      <div aria-hidden className="pointer-events-none -mb-[0.24em] text-center text-[clamp(5rem,22vw,17rem)] leading-[0.8] font-semibold tracking-[-0.06em] text-transparent select-none [background:linear-gradient(180deg,color-mix(in_oklch,var(--foreground)_9%,transparent),transparent_85%)] [background-clip:text]">
+      <div aria-hidden className="pointer-events-none -mb-[0.24em] text-center text-[clamp(5rem,22vw,17rem)] leading-[0.8] font-semibold tracking-[-0.06em] text-transparent select-none bg-[linear-gradient(180deg,color-mix(in_oklch,var(--foreground)_12%,transparent),transparent_85%)] bg-clip-text [-webkit-background-clip:text]">
         botlane
       </div>
     </footer>
