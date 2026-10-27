@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 import { ArrowUpRight, CalendarDays, ChevronRight, FileText, Globe, Pause, RotateCcw, Search, Workflow } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -18,7 +19,9 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { PricingSection } from "@/components/pricing/pricing-section"
 import { LANES, type Lane } from "@/lib/lanes"
+import { regionFor } from "@/lib/pricing"
 import { Keycaps, ThemeToggle } from "./lab-controls"
 
 export const metadata: Metadata = { title: "Component lab · Botlane" }
@@ -42,7 +45,11 @@ function Section({ id, title, note, children }: { id: string; title: string; not
   )
 }
 
-export default function Lab() {
+export default async function Lab() {
+  // Vercel and Cloudflare report the visitor's country; India sees rupees first.
+  const h = await headers()
+  const region = regionFor(h.get("x-vercel-ip-country") ?? h.get("cf-ipcountry"))
+
   return (
     <main className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
       <header className="flex flex-wrap items-end justify-between gap-6 py-14">
@@ -132,6 +139,10 @@ export default function Lab() {
             ))}
           </ul>
         </div>
+      </Section>
+
+      <Section id="pricing" title="Pricing" note="Every price below is read from src/lib/pricing/plans.ts. Switch currency to see rupee prices.">
+        <PricingSection region={region} />
       </Section>
 
       <Section id="forms" title="Forms" note="The contact and signup forms are built from these.">
