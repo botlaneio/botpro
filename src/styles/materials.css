@@ -16,9 +16,48 @@
  *   label-mono        metadata in the mono face
  */
 
-/* "Ink" is what edges and highlights are drawn in: black on light, white on dark. */
-:root { --ink: 0 0 0; --shade: 0 0 0; }
-.dark { --ink: 255 255 255; --shade: 0 0 0; }
+/*
+ * Each finish reads the values below, so light and dark are tuned separately
+ * instead of one recipe with the colours swapped. Light surfaces are lit from
+ * above (white top, grey bottom) and cast small, soft shadows; dark surfaces
+ * get a lit top edge and deep shadows.
+ */
+:root {
+  --ink: 0 0 0;                                   /* edges: black on light */
+  --primary-top: #30333A; --primary-bottom: #16181C;
+  --primary-ring: rgb(0 0 0 / 0.9);
+  --primary-lit: rgb(255 255 255 / 0.14);
+  --raised-top: #FFFFFF;  --raised-bottom: var(--neutral-3);
+  --tile-top: #FFFFFF;    --tile-bottom: var(--neutral-3);
+  --raised-edge: rgb(0 0 0 / 0.10);
+  --raised-lip: rgb(0 0 0 / 0.12);                /* the darker line under a key or tile */
+  --raised-lit: rgb(255 255 255 / 1);
+  --raised-ring: rgb(0 0 0 / 0.025);
+  --shadow-soft: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 10px -4px rgb(16 24 40 / 0.10);
+  --shadow-lift: 0 1px 2px rgb(16 24 40 / 0.04), 0 18px 36px -22px rgb(16 24 40 / 0.22);
+  --glass-top: rgb(255 255 255 / 0.92); --glass-bottom: rgb(255 255 255 / 0.72);
+  --tip-bg: rgb(255 255 255 / 0.86);
+  --tint-base-top: #FFFFFF; --tint-base-bottom: var(--neutral-1);
+  --tint-top: 9%; --tint-bottom: 2%;
+}
+.dark {
+  --ink: 255 255 255;                             /* edges: white on dark */
+  --primary-top: #FFFFFF; --primary-bottom: #E3E4E8;
+  --primary-ring: rgb(255 255 255 / 0.22);
+  --primary-lit: rgb(255 255 255 / 1);
+  --raised-top: var(--neutral-4); --raised-bottom: var(--neutral-2);
+  --tile-top: var(--neutral-5);   --tile-bottom: var(--neutral-3);
+  --raised-edge: rgb(255 255 255 / 0.08);
+  --raised-lip: rgb(0 0 0 / 0.55);
+  --raised-lit: rgb(255 255 255 / calc(var(--highlight-alpha) + 0.04));
+  --raised-ring: rgb(0 0 0 / 0.12);
+  --shadow-soft: 0 6px 14px -4px rgb(0 0 0 / 0.5);
+  --shadow-lift: 0 1px 1px rgb(0 0 0 / 0.12), 0 24px 48px -24px rgb(0 0 0 / 0.45);
+  --glass-top: rgb(255 255 255 / 0.05); --glass-bottom: rgb(255 255 255 / 0.015);
+  --tip-bg: color-mix(in oklch, var(--neutral-5) 72%, transparent);
+  --tint-base-top: var(--neutral-3); --tint-base-bottom: var(--neutral-1);
+  --tint-top: 17%; --tint-bottom: 7%;
+}
 
 @utility surface-hairline {
   background: var(--card);
@@ -27,13 +66,10 @@
 }
 
 @utility surface-glass {
-  background: linear-gradient(180deg, rgb(var(--ink) / 0.05), rgb(var(--ink) / 0.015));
+  background: linear-gradient(180deg, var(--glass-top), var(--glass-bottom));
   border: 1px solid rgb(var(--ink) / var(--edge-alpha));
   border-radius: calc(var(--radius) * 1.4);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)),
-    0 1px 1px rgb(var(--shade) / 0.12),
-    0 24px 48px -24px rgb(var(--shade) / 0.45);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-lift);
   backdrop-filter: blur(12px);
 }
 
@@ -42,22 +78,25 @@
   border-radius: calc(var(--radius) * 1.4);
   background:
     radial-gradient(85% 50% at 50% 24%, color-mix(in oklch, var(--lane) calc(var(--glow) * 42%), transparent), transparent 78%),
-    linear-gradient(180deg, color-mix(in oklch, var(--lane) 17%, var(--neutral-3)), color-mix(in oklch, var(--lane) 7%, var(--neutral-1)));
+    linear-gradient(180deg, color-mix(in oklch, var(--lane) var(--tint-top), var(--tint-base-top)), color-mix(in oklch, var(--lane) var(--tint-bottom), var(--tint-base-bottom)));
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)),
+    var(--shadow-lift),
     0 30px 60px -30px color-mix(in oklch, var(--lane) calc(var(--glow) * 60%), transparent);
 }
 
+/* The site's main button: near-black on light, crisp white on dark. */
 @utility btn-light {
-  color: var(--neutral-1);
-  background: linear-gradient(180deg, var(--neutral-12), color-mix(in oklch, var(--neutral-12), var(--neutral-1) 10%));
+  color: var(--primary-foreground);
+  background: linear-gradient(180deg, var(--primary-top), var(--primary-bottom));
   border-radius: var(--radius);
   box-shadow:
-    inset 0 -1px 0 rgb(0 0 0 / 0.15),
-    0 0 0 1px rgb(var(--ink) / 0.12),
-    0 1px 2px rgb(var(--shade) / 0.4);
+    inset 0 1px 0 var(--primary-lit),
+    inset 0 -1px 0 rgb(0 0 0 / 0.12),
+    0 0 0 1px var(--primary-ring),
+    var(--shadow-soft);
   transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
-  &:hover { filter: brightness(1.08); }
+  &:hover { filter: brightness(1.06); }
   &:active { transform: translateY(1px); }
 }
 
@@ -67,6 +106,7 @@
   border-radius: var(--radius);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.3),
+    0 0 0 1px color-mix(in oklch, var(--lane), black 12%),
     0 8px 22px -10px color-mix(in oklch, var(--lane) calc(var(--glow) * 100%), transparent);
   transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
   &:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--lane-hover), white 12%), var(--lane-hover)); }
@@ -78,35 +118,36 @@
   place-items: center;
   border-radius: var(--radius);
   color: var(--lane-text);
-  background: linear-gradient(180deg, var(--neutral-5), var(--neutral-3));
-  border: 1px solid rgb(var(--ink) / 0.1);
+  background: linear-gradient(180deg, var(--tile-top), var(--tile-bottom));
+  border: 1px solid var(--raised-edge);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) + 0.06)),
-    inset 0 0 0 3px rgb(0 0 0 / 0.12),
-    0 8px 20px -8px rgb(var(--shade) / 0.6);
+    inset 0 1px 0 var(--raised-lit),
+    inset 0 0 0 3px var(--raised-ring),
+    0 1px 0 var(--raised-lip),
+    var(--shadow-soft);
 }
 
+/* A keycap: lit top, a lip along the bottom edge, a soft shadow. Pressing drops it by the lip. */
 @utility key-physical {
-  display: grid;
-  place-items: center;
+  position: relative;
   border-radius: var(--radius);
   color: var(--neutral-11);
-  background: linear-gradient(180deg, var(--neutral-4), var(--neutral-2));
-  border: 1px solid rgb(var(--ink) / 0.07);
+  background: linear-gradient(180deg, var(--raised-top), var(--raised-bottom));
+  border: 1px solid var(--raised-edge);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) * 0.7)),
-    0 1px 0 rgb(var(--shade) / 0.5),
-    0 6px 14px -4px rgb(var(--shade) / 0.5);
+    inset 0 1px 0 var(--raised-lit),
+    0 2px 0 var(--raised-lip),
+    var(--shadow-soft);
   transition: transform 80ms var(--ease-soft), box-shadow 80ms var(--ease-soft), color var(--duration-base) var(--ease-soft);
-  &[data-pressed="true"] { transform: translateY(1px); color: var(--foreground); box-shadow: 0 2px 6px -2px rgb(var(--shade) / 0.5); }
+  &[data-pressed="true"] { transform: translateY(2px); color: var(--foreground); box-shadow: inset 0 1px 0 var(--raised-lit), 0 0 0 var(--raised-lip); }
 }
 
 @utility tip-frosted {
   color: var(--foreground);
-  background: color-mix(in oklch, var(--neutral-5) 72%, transparent);
-  border: 1px solid rgb(var(--ink) / 0.1);
+  background: var(--tip-bg);
+  border: 1px solid var(--raised-edge);
   border-radius: calc(var(--radius) * 0.8);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 10px 28px -8px rgb(var(--shade) / 0.5);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft);
   backdrop-filter: blur(14px) saturate(150%);
 }
 
