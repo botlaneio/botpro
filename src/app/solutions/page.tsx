@@ -10,6 +10,7 @@ import { SpecsTable } from "@/components/services/specs-table"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { LANES, type LaneId } from "@/lib/lanes"
 import { OFFERS } from "@/lib/pricing"
+import { STEPS } from "@/lib/process"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
 export const metadata: Metadata = {
@@ -25,14 +26,6 @@ const PRODUCT_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>>
   flowlane: Workflow,
 }
 
-// What happens from first call to launch. Order matters, so the steps are numbered.
-const STEPS = [
-  { title: "Intro call", body: "You tell us what you need. We tell you honestly whether we're the right fit." },
-  { title: "Scope and fixed quote", body: "A written scope, a timeline and one price, agreed before any work starts." },
-  { title: "Design", body: "A custom design you review in rounds, on real content, not lorem ipsum." },
-  { title: "Build", body: "We build it, share progress as we go, and test it on every screen size." },
-  { title: "Launch", body: "We put it live, hand over everything, and stay on with Care if you want us to." },
-]
 
 function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
   return (

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { AppWindow, ArrowRight, MessageSquareText, PanelsTopLeft, ShieldCheck } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -11,14 +11,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import type { NavGroup, NavIcon, NavItem } from "@/lib/nav"
+import type { NavGroup, NavItem } from "@/lib/nav"
 
-export const NAV_ICONS: Record<NavIcon, React.ComponentType<{ className?: string }>> = {
-  websites: PanelsTopLeft,
-  apps: AppWindow,
-  care: ShieldCheck,
-  assistant: MessageSquareText,
-}
+import { NAV_ICONS } from "./nav-icons"
 
 /** The Founding Ten card in the menu, or null once the offer has closed. */
 export interface FoundingCard {

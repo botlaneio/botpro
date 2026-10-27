@@ -16,6 +16,8 @@
  *   key-physical      keycap with a low edge
  *   tip-frosted       blurred tooltip and menu panel
  *   surface-menu      a solid panel that floats over content (the mega menu)
+ *   surface-prompt    the homepage prompt bar: a solid field with ember-to-steel light running round its edge
+ *   surface-product   a product card: dark glass lit from the top in its lane colour
  *   fade-spotlight    radial edge fade for grids and marquees
  *   fade-sides        left and right fade for marquees
  *   label-mono        metadata in the mono face
@@ -88,6 +90,20 @@
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
+}
+
+/* Small loops for the product visuals. Reduced motion stops them (see globals.css). */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+}
+@keyframes sweep-x {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(220%); }
 }
 
 @keyframes apex-beam {
@@ -227,6 +243,37 @@
   border-radius: calc(var(--radius) * 0.8);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft);
   backdrop-filter: blur(14px) saturate(150%);
+}
+
+/* The homepage prompt bar. Light runs round the edge, ember into steel, on the same angle as the Apex beam
+   but slower and wider, with a soft aura in the same colours. The inside stays solid so text reads cleanly. */
+@utility surface-prompt {
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) * 1.8);
+  background:
+    linear-gradient(180deg, var(--menu-top), var(--menu-bottom)) padding-box,
+    conic-gradient(from var(--beam-angle), color-mix(in oklch, var(--brand) 85%, transparent), color-mix(in oklch, var(--neutral-9) 70%, transparent) 30%, transparent 50%, color-mix(in oklch, var(--neutral-9) 55%, transparent) 70%, color-mix(in oklch, var(--brand) 85%, transparent)) border-box;
+  box-shadow:
+    0 0 0 1px rgb(var(--ink) / 0.04),
+    0 24px 64px -28px color-mix(in oklch, var(--brand) calc(var(--glow) * 55%), transparent),
+    0 12px 48px -24px color-mix(in oklch, var(--neutral-9) calc(var(--glow) * 45%), transparent),
+    var(--shadow-lift);
+  animation: apex-beam 12s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* A product card, after the feature cards in the Botlane components lab: lit from the top in the lane colour,
+   fading to the page, with a lit top edge. Wrap it in a .lane-* scope. */
+@utility surface-product {
+  border: 1px solid rgb(var(--ink) / calc(var(--edge-alpha) + 0.02));
+  border-radius: calc(var(--radius) * 1.8);
+  background:
+    radial-gradient(120% 70% at 50% -10%, color-mix(in oklch, var(--lane) calc(var(--glow) * 34%), transparent), transparent 70%),
+    linear-gradient(180deg, var(--glass-top), var(--glass-bottom)),
+    var(--background);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / calc(var(--highlight-alpha) + 0.04)), var(--shadow-lift);
 }
 
 /* A large panel floating over the page. Solid, not frosted: content behind never shows through, and WebKit
