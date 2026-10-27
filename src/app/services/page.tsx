@@ -75,11 +75,11 @@ export default async function Services() {
 
         <Section id="websites" eyebrow="WEBSITES · ONE-TIME" title="Three kinds of website, by what your business needs.">
           <div className="grid gap-5 lg:grid-cols-3">
-            <ServiceCard planId="website-starter" offer={offerFor("website-starter")} />
-            <ServiceCard planId="website-business" offer={offerFor("website-business")} featured />
-            <ServiceCard planId="website-pro" offer={offerFor("website-pro")} />
+            <ServiceCard planId="website-core" offer={offerFor("website-core")} />
+            <ServiceCard planId="website-ascend" offer={offerFor("website-ascend")} featured />
+            <ServiceCard planId="website-apex" offer={offerFor("website-apex")} />
           </div>
-          <SpecsTable planIds={["website-starter", "website-business", "website-pro"]} caption="Website tiers compared" />
+          <SpecsTable planIds={["website-core", "website-ascend", "website-apex"]} caption="Website tiers compared" />
         </Section>
 
         <Section
