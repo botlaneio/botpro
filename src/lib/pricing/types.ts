@@ -18,7 +18,7 @@ export type Interval = "one-time" | "month" | "year" | "hour"
 export type Amounts = Record<Region, number>
 
 export interface Charge {
-  /** What this charge is, when a plan has more than one ("Managed setup"). */
+  /** What this charge is, when a plan has more than one ("Updates after year one"). */
   label?: string
   amounts: Amounts
   interval: Interval

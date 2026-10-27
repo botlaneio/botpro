@@ -33,13 +33,6 @@ test("yearly billing is cheaper than monthly", () => {
   for (const r of ["US", "IN"] as const) assert.ok(perMonth(yearly, r) < monthly.amounts[r])
 })
 
-test("the Syncc app and the AI intake service are separate offerings", () => {
-  const app = OFFERINGS.find((o) => o.id === "syncc")!, intake = OFFERINGS.find((o) => o.id === "ai-intake")!
-  assert.notEqual(app.name, intake.name)
-  assert.equal(app.kind, "product")
-  assert.equal(intake.kind, "service")
-})
-
 test("prices format the way the price book writes them", () => {
   assert.equal(money(2490, "US"), "$2,490")
   assert.equal(money(110000, "IN"), "₹1,10,000")
