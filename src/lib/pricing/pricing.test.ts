@@ -5,7 +5,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 
-import { chargeLabel, discounted, money, OFFERINGS, OFFERS, offerOpen, perMonth, plan, regionFor } from "./index.ts"
+import { chargeLabel, discounted, isPlaceholder, money, OFFERINGS, OFFERS, offerOpen, perMonth, plan, purchasable, regionFor } from "./index.ts"
 
 test("every plan id is unique", () => {
   const ids = OFFERINGS.flatMap((o) => o.plans.map((p) => p.id))
@@ -63,4 +63,20 @@ test("Founding Ten covers Buildlane builds only, at 20% off, until 31 March 2027
   assert.equal(discounted(plan("website-business").charges[0].amounts.US, ft), 3920)
   assert.ok(offerOpen(ft, "2027-03-31"))
   assert.ok(!offerOpen(ft, "2027-04-01"))
+})
+
+test("Syncc prices are marked as placeholders and can't be bought", () => {
+  for (const o of OFFERINGS.filter((x) => x.lane === "syncc")) {
+    assert.equal(o.placeholder, true, o.id)
+    for (const p of o.plans) {
+      assert.ok(isPlaceholder(p.id), p.id)
+      assert.ok(!purchasable(p.id, "US") && !purchasable(p.id, "IN"), p.id)
+    }
+  }
+  assert.ok(!isPlaceholder("website-starter"))
+  assert.ok(!isPlaceholder("scriblane-growth"))
+})
+
+test("final prices can't be bought until Stripe knows them", () => {
+  assert.ok(!purchasable("scriblane-starter", "US"))
 })

@@ -49,6 +49,11 @@ export interface Offering {
   lane: "buildlane" | "syncc" | "scriblane" | "flowlane"
   name: string
   kind: "service" | "product" | "add-on"
+  /**
+   * Set while the prices are stand-ins. Pages show PLACEHOLDER_LABEL beside
+   * every price in the offering, and checkout refuses to sell it.
+   */
+  placeholder?: boolean
   plans: Plan[]
   notes?: string[]
 }
@@ -64,3 +69,6 @@ export interface Offer {
   /** Plan ids it applies to. */
   appliesTo: string[]
 }
+
+/** What a page shows beside a price that isn't final. */
+export const PLACEHOLDER_LABEL = "Placeholder price"

@@ -6,6 +6,10 @@
  * Sources, October 2026:
  *   - neural_substrate/plans.ts (central price book): Buildlane, AI Intake & Booking, Scriblane, add-ons
  *   - syncc/pricing.js: the standalone Syncc scheduling app
+ *
+ * Offerings marked `placeholder: true` hold stand-in prices: shown with a
+ * "Placeholder price" label, never sold. Syncc is one of them until its
+ * prices are confirmed.
  */
 import type { Offer, Offering } from "./types.ts"
 
@@ -48,10 +52,12 @@ export const OFFERINGS: readonly Offering[] = [
   },
   {
     // The standalone scheduling app at syncc.botlane.io.
+    // PLACEHOLDER: these figures come from syncc/pricing.js and are not final.
     id: "syncc",
     lane: "syncc",
     name: "Syncc",
     kind: "product",
+    placeholder: true,
     plans: [
       {
         id: "syncc-cloud-annual",
@@ -80,10 +86,12 @@ export const OFFERINGS: readonly Offering[] = [
     // The managed AI intake, qualification, follow-up and booking system.
     // The central price book files it under Syncc; it is a different offering
     // from the Syncc app above and must never share a pricing table with it.
+    // PLACEHOLDER: filed under Syncc in the central price book; not final.
     id: "ai-intake",
     lane: "syncc",
     name: "AI Intake & Booking",
     kind: "service",
+    placeholder: true,
     plans: [
       {
         id: "intake-own",

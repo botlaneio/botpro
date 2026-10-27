@@ -15,11 +15,24 @@ export function offering(id: string): Offering {
 }
 
 export function plan(id: string): Plan {
+  return planWithOffering(id).plan
+}
+
+function planWithOffering(id: string): { plan: Plan; offering: Offering } {
   for (const o of OFFERINGS) {
     const p = o.plans.find((x) => x.id === id)
-    if (p) return p
+    if (p) return { plan: p, offering: o }
   }
   throw new Error(`Unknown plan: ${id}`)
+}
+
+/** Whether a plan's prices are stand-ins. Pages show PLACEHOLDER_LABEL next to them. */
+export const isPlaceholder = (id: string): boolean => !!planWithOffering(id).offering.placeholder
+
+/** Whether checkout may sell a plan: its prices are final and Stripe knows it in this region. */
+export function purchasable(id: string, region: Region): boolean {
+  const { plan: p, offering: o } = planWithOffering(id)
+  return !o.placeholder && p.charges.every((c) => c.optional || !!c.stripePriceId?.[region])
 }
 
 /**
