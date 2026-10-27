@@ -76,7 +76,7 @@ export default async function Services() {
         <Section id="websites" eyebrow="WEBSITES · ONE-TIME" title="Three kinds of website, by what your business needs.">
           <div className="grid gap-5 lg:grid-cols-3">
             <ServiceCard planId="website-core" offer={offerFor("website-core")} />
-            <ServiceCard planId="website-ascend" offer={offerFor("website-ascend")} featured />
+            <ServiceCard planId="website-ascend" offer={offerFor("website-ascend")} />
             <ServiceCard planId="website-apex" offer={offerFor("website-apex")} />
           </div>
           <SpecsTable planIds={["website-core", "website-ascend", "website-apex"]} caption="Website tiers compared" />
@@ -90,7 +90,7 @@ export default async function Services() {
         >
           <div className="grid gap-5 lg:grid-cols-3">
             <ServiceCard planId="app-scoping" eyebrow="01 · PLAN" offer={offerFor("app-scoping")} cta="Book a sprint" />
-            <ServiceCard planId="app-prototype" eyebrow="02 · PROVE" offer={offerFor("app-prototype")} featured cta="Talk to us" />
+            <ServiceCard planId="app-prototype" eyebrow="02 · PROVE" offer={offerFor("app-prototype")} cta="Talk to us" />
             <ServiceCard planId="app-full" eyebrow="03 · BUILD" offer={offerFor("app-full")} cta="Talk to us" />
           </div>
         </Section>
@@ -98,7 +98,7 @@ export default async function Services() {
         <Section id="care" eyebrow="AFTER LAUNCH" title="Care, and an assistant that knows your business.">
           <div className="grid gap-5 lg:grid-cols-3">
             <ServiceCard planId="care" cta="Add Care" />
-            <ServiceCard planId="care-plus" featured cta="Add Care Plus" />
+            <ServiceCard planId="care-plus" cta="Add Care Plus" />
             <ServiceCard planId="ai-assistant" cta="Add the assistant" />
           </div>
           <PriceList offeringId="care" only={["extra-work"]} />

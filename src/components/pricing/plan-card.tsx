@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { discounted, isPlaceholder, plan, priceParts, PLACEHOLDER_LABEL, type Charge, type Offer } from "@/lib/pricing"
+import { FINISH_CLASS } from "./finish"
 import { ChargeText, useRegion } from "./region"
 
 /** The badge every stand-in price carries, so nobody mistakes it for a final one. */
@@ -60,7 +61,7 @@ export function PlanCard({ planId, featured, offer, perMonth, cta, note }: PlanC
   const placeholder = isPlaceholder(planId)
 
   return (
-    <article className={cn("flex flex-col gap-5 p-6", featured ? "surface-tinted" : "surface-glass")}>
+    <article className={cn("flex flex-col gap-5 p-6", p.finish ? FINISH_CLASS[p.finish] : featured ? "surface-tinted" : "surface-glass")}>
       <header className="flex flex-wrap items-center gap-2">
         <span className="size-1.5 rounded-full bg-lane" aria-hidden />
         <h3 className="font-medium">{p.name}</h3>
@@ -90,7 +91,7 @@ export function PlanCard({ planId, featured, offer, perMonth, cta, note }: PlanC
       )}
 
       <Button
-        className={cn("mt-auto h-9 w-full", featured ? "btn-lane text-lane-ink" : "")}
+        className={cn("mt-auto h-9 w-full", featured ? (p.finish ? "btn-light" : "btn-lane text-lane-ink") : "")}
         variant={featured ? "default" : "outline"}
         disabled={placeholder}
       >
