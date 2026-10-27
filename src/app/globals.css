@@ -1,0 +1,219 @@
+/*
+ * Botlane · Layer 0 tokens
+ *
+ *   :root     light theme
+ *   .dark     dark theme (the default; next-themes sets the class)
+ *   .lane-*   product colour scope. botlane.io itself stays neutral:
+ *             colour only appears inside a lane scope.
+ *
+ * Every shadcn/ui component reads the semantic names below, so changing a
+ * value here changes it everywhere. The finishes live in ../styles/materials.css.
+ */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "../styles/materials.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/* Raw palette (from the Botlane palette sheet)                        */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Neutral · light 1–12 */
+  --neutral-1: #FCFCFD;  --neutral-2: #F7F8F9;  --neutral-3: #F0F1F3;  --neutral-4: #E8E9EC;
+  --neutral-5: #E0E2E6;  --neutral-6: #D6D9DE;  --neutral-7: #C7CBD1;  --neutral-8: #AEB3BB;
+  --neutral-9: #868C97;  --neutral-10: #6B717C; --neutral-11: #4B505A; --neutral-12: #16181C;
+
+  /* Lanes: solid / hover / text / subtle bg / border. Light-mode text is darker for contrast;
+     light-mode subtle and border shades are proposals (the sheet only gives text). */
+  --ember-solid: #FF7A45;  --ember-hover: #FF9466;  --ember-text: #C24E1E;  --ember-subtle: #FFF1EA;  --ember-border: #FFC9B0;
+  --teal-solid: #2DD4BF;   --teal-hover: #5EE0CF;   --teal-text: #0E8C7C;   --teal-subtle: #E8FAF7;   --teal-border: #A8EDE3;
+  --violet-solid: #8B7CFF; --violet-hover: #A397FF; --violet-text: #5B4BD6; --violet-subtle: #F1EFFF; --violet-border: #CEC8FF;
+  /* Flowlane: proposed, not yet on the palette sheet */
+  --orchid-solid: #E36BD3; --orchid-hover: #EB8BDF; --orchid-text: #A3248F; --orchid-subtle: #FCEEFA; --orchid-border: #F2C2EB;
+
+  /* Status: mock UI only, never for lanes */
+  --success: #3FB950; --warning: #F2C14E; --danger: #F2555A; --info: #6C9EFF;
+}
+
+.dark {
+  /* Neutral · dark 1–12 */
+  --neutral-1: #0B0C0E;  --neutral-2: #101114;  --neutral-3: #16181C;  --neutral-4: #1C1F24;
+  --neutral-5: #23262C;  --neutral-6: #2B2F36;  --neutral-7: #363A43;  --neutral-8: #484D57;
+  --neutral-9: #6C727E;  --neutral-10: #8B919C; --neutral-11: #B6BAC2; --neutral-12: #EDEEF0;
+
+  --ember-text: #FFB08F;  --ember-subtle: #35251E;  --ember-border: #633827;
+  --teal-text: #99EDE1;   --teal-subtle: #1B302D;   --teal-border: #1F554E;
+  --violet-text: #C4BCFF; --violet-subtle: #292739; --violet-border: #3F3A67;
+  --orchid-text: #F4B9EC; --orchid-subtle: #33232F; --orchid-border: #5E3655;
+}
+
+/* ------------------------------------------------------------------ */
+/* Semantic tokens (shadcn/ui names), all drawn from the neutral scale */
+/* ------------------------------------------------------------------ */
+:root {
+  --background: var(--neutral-1);
+  --foreground: var(--neutral-12);
+  --card: var(--neutral-2);
+  --card-foreground: var(--neutral-12);
+  --popover: var(--neutral-2);
+  --popover-foreground: var(--neutral-12);
+  /* Primary is neutral: near-black on light, near-white on dark. */
+  --primary: var(--neutral-12);
+  --primary-foreground: var(--neutral-1);
+  --secondary: var(--neutral-3);
+  --secondary-foreground: var(--neutral-12);
+  --muted: var(--neutral-3);
+  --muted-foreground: var(--neutral-10);
+  --accent: var(--neutral-4);
+  --accent-foreground: var(--neutral-12);
+  --destructive: var(--danger);
+  --border: var(--neutral-6);
+  --input: var(--neutral-6);
+  --ring: var(--neutral-9);
+
+  --chart-1: var(--teal-solid);
+  --chart-2: var(--violet-solid);
+  --chart-3: var(--ember-solid);
+  --chart-4: var(--orchid-solid);
+  --chart-5: var(--neutral-9);
+
+  --sidebar: var(--neutral-2);
+  --sidebar-foreground: var(--neutral-12);
+  --sidebar-primary: var(--neutral-12);
+  --sidebar-primary-foreground: var(--neutral-1);
+  --sidebar-accent: var(--neutral-4);
+  --sidebar-accent-foreground: var(--neutral-12);
+  --sidebar-border: var(--neutral-6);
+  --sidebar-ring: var(--neutral-9);
+
+  /* The lane in scope. Neutral unless a .lane-* class sets it. */
+  --lane: var(--neutral-12);
+  --lane-hover: var(--neutral-11);
+  --lane-text: var(--neutral-12);
+  --lane-subtle: var(--neutral-3);
+  --lane-border: var(--neutral-6);
+
+  /* Radius: buttons and inputs use --radius, cards 1.4×, so 0.7rem gives 16px cards. */
+  --radius: 0.7rem;
+
+  /* Materials (Component Lab picks) */
+  --edge-alpha: 0.08;       /* hairline border strength */
+  --highlight-alpha: 0.10;  /* lit top edge */
+  --glow: 0.70;             /* tinted card and lane button glow */
+
+  /* Hairline figures take their one bright stroke from the lane in scope */
+  --hairline-hi: var(--lane-text);
+
+  /* Motion: the same two clocks as the hairline figures */
+  --ease-lift: cubic-bezier(0.32, 0.72, 0, 1);   /* discrete changes: which item */
+  --ease-soft: cubic-bezier(0.5, 0, 0.1, 1);      /* colour and opacity */
+  --duration-fast: 150ms;
+  --duration-base: 260ms;
+  --duration-lift: 700ms;
+  --stagger: 45ms;
+}
+
+.dark {
+  --border: var(--neutral-5);
+  --input: var(--neutral-6);
+  --ring: var(--neutral-8);
+  --sidebar-border: var(--neutral-5);
+  --lane-subtle: var(--neutral-4);
+  --lane-border: var(--neutral-7);
+}
+
+/* Lane scopes: wrap a product card, section or page in one of these. */
+.lane-ember  { --lane: var(--ember-solid);  --lane-hover: var(--ember-hover);  --lane-text: var(--ember-text);  --lane-subtle: var(--ember-subtle);  --lane-border: var(--ember-border); }
+.lane-teal   { --lane: var(--teal-solid);   --lane-hover: var(--teal-hover);   --lane-text: var(--teal-text);   --lane-subtle: var(--teal-subtle);   --lane-border: var(--teal-border); }
+.lane-violet { --lane: var(--violet-solid); --lane-hover: var(--violet-hover); --lane-text: var(--violet-text); --lane-subtle: var(--violet-subtle); --lane-border: var(--violet-border); }
+.lane-orchid { --lane: var(--orchid-solid); --lane-hover: var(--orchid-hover); --lane-text: var(--orchid-text); --lane-subtle: var(--orchid-subtle); --lane-border: var(--orchid-border); }
+
+/* ------------------------------------------------------------------ */
+/* Tailwind theme: exposes the tokens as utilities (bg-card, text-lane…) */
+/* ------------------------------------------------------------------ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-lane: var(--lane);
+  --color-lane-hover: var(--lane-hover);
+  --color-lane-text: var(--lane-text);
+  --color-lane-subtle: var(--lane-subtle);
+  --color-lane-border: var(--lane-border);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  --color-neutral-1: var(--neutral-1);   --color-neutral-2: var(--neutral-2);   --color-neutral-3: var(--neutral-3);
+  --color-neutral-4: var(--neutral-4);   --color-neutral-5: var(--neutral-5);   --color-neutral-6: var(--neutral-6);
+  --color-neutral-7: var(--neutral-7);   --color-neutral-8: var(--neutral-8);   --color-neutral-9: var(--neutral-9);
+  --color-neutral-10: var(--neutral-10); --color-neutral-11: var(--neutral-11); --color-neutral-12: var(--neutral-12);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* next/font sets --font-inter and --font-jetbrains on <html> */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-heading: var(--font-sans);
+
+  --ease-lift: var(--ease-lift);
+  --ease-soft: var(--ease-soft);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+  }
+}
