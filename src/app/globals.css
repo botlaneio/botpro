@@ -116,6 +116,9 @@
   /* Text on a lane-coloured fill. Fixed: lane solids are bright in both themes. */
   --lane-ink: #0B0C0E;
 
+  /* The site navigation's height. The hero and anything pinned below the bar measure from it. */
+  --header-h: 4rem;
+
   /* Radius: buttons and inputs use --radius, cards 1.4×, so 0.7rem gives 16px cards. */
   --radius: 0.7rem;
 

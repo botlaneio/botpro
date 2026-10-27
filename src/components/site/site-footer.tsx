@@ -10,6 +10,7 @@ import { BotlaneMark } from "./botlane-mark"
 const STUDIO = [
   { href: "/solutions#process", label: "How we work" },
   { href: "/solutions#faq", label: "Questions" },
+  { href: "/blog", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ]
 

@@ -3,51 +3,52 @@ import { SOLUTIONS } from "@/lib/nav"
 import { OFFERS } from "@/lib/pricing"
 import { offerStatus } from "@/lib/pricing/offer-status"
 
-import { PillNav, type PillMenu } from "./pill-nav"
-import type { FoundingCard } from "./solutions-menu"
+import { SiteNav, type NavEntry, type NavMenu } from "./site-nav"
 
-// The plain links beside the menus.
-const LINKS = [
-  { href: "/solutions#process", label: "How we work" },
-  { href: "/contact", label: "Contact" },
-]
+// The plain links beside the menus: pages only, never sections of one. Contact sits with the actions on the right.
+const LINKS = [{ href: "/blog", label: "Insights" }]
 
 const founding = OFFERS.find((o) => o.id === "founding-ten")!
 
-/** The Founding Ten as the menu shows it, from the live count, or null once it has closed. */
-async function foundingCard(): Promise<FoundingCard | null> {
+/** The Founding Ten as the menu mentions it, or null once it has closed. */
+async function foundingCard(): Promise<{ discount: string; places: number } | null> {
   const s = await offerStatus(founding)
   if (!s.open) return null
-  return {
-    discount: `${Math.round(founding.discount * 100)}%`,
-    places: founding.places,
-    placesLeft: s.placesLeft,
-    endsOn: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${founding.endsOn}T00:00:00Z`)),
-  }
+  return { discount: `${Math.round(founding.discount * 100)}%`, places: founding.places }
 }
 
-/** The navigation on every page: a floating pill with the Solutions and Products menus and the main action. */
+/** The navigation on every page: the Solutions and Products menus, Insights, and the main action. */
 export async function SiteHeader() {
   const card = await foundingCard()
-  const menus: PillMenu[] = [
+  const solutions = SOLUTIONS.flatMap((g) => g.items)
+  const entry = (i: (typeof solutions)[number]): NavEntry => ({ href: i.href, title: i.title, body: `${i.body} ${i.price}.`, icon: i.icon })
+  const lane = (l: (typeof LANES)[number]): NavEntry => ({ href: `https://${l.host}`, title: l.name, body: l.tagline, icon: l.id, external: true, soon: l.status === "soon" })
+  const menus: NavMenu[] = [
     {
       label: "Solutions",
-      eyebrow: "Solutions",
-      blurb: card
-        ? `Websites and web apps at a fixed price agreed before we start. Founding Ten: ${card.discount} off for our first ${card.places} clients.`
-        : "Websites and web apps at a fixed price agreed before we start, and the care after launch.",
-      all: { href: "/solutions", label: "All solutions" },
-      links: SOLUTIONS.flatMap((g) => g.items).map((i) => ({ href: i.href, title: i.title, body: i.body, meta: i.price, icon: i.icon })),
+      groups: [
+        { heading: "Build", entries: solutions.filter((i) => i.icon === "websites" || i.icon === "apps").map(entry) },
+        { heading: "After launch", entries: solutions.filter((i) => i.icon === "care" || i.icon === "assistant").map(entry) },
+        {
+          heading: "Start here",
+          entries: [
+            { href: "/solutions", title: "All solutions", body: card ? `Every price, fixed. ${card.discount} off for our first ${card.places} clients.` : "Every solution and price on one page.", icon: "all" },
+            { href: "/solutions#process", title: "How we work", body: "From first call to launch, at one fixed price.", icon: "process" },
+            { href: "/solutions#faq", title: "Questions", body: "What people ask before they hire us.", icon: "faq" },
+          ],
+        },
+      ],
     },
     {
       label: "Products",
-      eyebrow: "Our products",
-      blurb: "Software we build and run ourselves, to the same standard as client work.",
-      all: { href: "/products", label: "All products" },
-      links: LANES.map((l) => ({ href: `https://${l.host}`, title: l.name, body: l.tagline, icon: l.id, external: true, soon: l.status === "soon" })),
+      groups: [
+        { heading: "Live", entries: LANES.filter((l) => l.status === "live").map(lane) },
+        { heading: "Opening soon", entries: LANES.filter((l) => l.status === "soon").map(lane) },
+        { heading: "More", entries: [{ href: "/products", title: "All products", body: "What we build and run ourselves, to the same standard.", icon: "all" }] },
+      ],
     },
   ]
-  return <PillNav menus={menus} links={LINKS} />
+  return <SiteNav menus={menus} links={LINKS} />
 }
 
 // The footer lives in its own file; pages import it from here alongside the header.
