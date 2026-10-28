@@ -7,7 +7,7 @@ import { HeroStory } from "@/components/home/hero-story"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
-import { SolutionFlow } from "@/components/home/solution-flow"
+import { ServiceBlocks } from "@/components/home/service-blocks"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { HeroMark } from "@/components/site/hero-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
@@ -61,9 +61,16 @@ export default function Home() {
           <div className="mt-2 w-full"><HeroPrompt /></div>
         </header>
 
-        <Section id="build" eyebrow="WHAT WE BUILD" title="Websites, web apps, and the care after launch.">
-          <SolutionFlow items={solutions} />
-        </Section>
+        {/* What we do: the words and the main action on the left, four service blocks on the right. */}
+        <section id="build" aria-labelledby="build-title" className="grid scroll-mt-20 items-center gap-10 border-t border-border/60 py-14 sm:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
+          <div className="grid max-w-md content-start gap-4">
+            <span className="label-mono">WHAT WE BUILD</span>
+            <h2 id="build-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Websites, web apps, and the care after launch.</h2>
+            <p className="text-lg text-muted-foreground">Designed and built by us to the standard of the best software companies, at a fixed price agreed before we start.</p>
+            <Link href="/contact" className="btn-light mt-2 inline-flex h-10 w-fit items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
+          </div>
+          <ServiceBlocks items={solutions} />
+        </section>
 
         <Section
           id="products"
