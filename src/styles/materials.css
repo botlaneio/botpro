@@ -462,7 +462,9 @@
 .scene-doneflag { opacity: var(--done, 0); color: var(--brand-text); background: color-mix(in oklch, var(--brand) 18%, transparent); }
 .scene-live { padding: 6px 14px 6px 11px; border-radius: 999px; font-size: 14px; font-weight: 500; }
 .scene-live-dot { animation: scene-pulse 2s ease-in-out infinite; }
-.scene-hub { border-radius: 999px; font-size: 36px; font-weight: 600; letter-spacing: -0.04em; }
+.scene-hub { border-radius: 999px; }
+/* While the mark works, the hub takes a faint ring of the accent. */
+.scene-hub:has(.agent[data-state="working"]), .scene-hub:has(.agent[data-state="done"]) { box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft), 0 0 0 6px color-mix(in oklch, var(--brand) 10%, transparent), 0 0 48px -8px color-mix(in oklch, var(--brand) 45%, transparent); transition: box-shadow 0.4s var(--ease-soft); }
 .scene-caption {
   padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500;
   color: var(--background); background: var(--foreground);
@@ -489,3 +491,35 @@
 .scene[data-phone="1"] .scene-dial-g { transform: translate(270px, -240px); }
 .scene[data-phone="1"] .scene-wide { display: none; }
 .scene-caption { line-height: 1.35; }
+
+/* The agent mark (agent-mark.tsx): the logo with a state. Where it looks comes from --rim-a, --look-x and --look-y;
+   what it is doing comes from data-state. */
+.agent .agent-rim { transform-box: view-box; transform-origin: 12px 11.8px; rotate: var(--rim-a, 0deg); }
+.agent .agent-eyes { translate: var(--look-x, 0px) var(--look-y, 0px); transform-box: view-box; transform-origin: 12px 10.8px; }
+/* The glimpse: a slanted band crosses the helmet left to right in about two seconds, every seven, and the outline
+   shows faintly only where the band is. Under reduced motion it never passes, so the helmet stays as the logo. */
+.agent .agent-glimpse { opacity: 0.38; }
+.agent .agent-pass { transform-box: view-box; transform-origin: 0 0; transform: translateX(-6px) skewX(-16deg); animation: agent-pass 7s cubic-bezier(0.45, 0, 0.25, 1) 1.2s infinite; }
+@keyframes agent-pass { 0% { transform: translateX(-6px) skewX(-16deg); } 28%, 100% { transform: translateX(30px) skewX(-16deg); } }
+.agent .agent-eye-glow { fill: var(--mark-eye-edge); opacity: var(--mark-glow); }
+.agent .agent-eye-flash { fill: var(--brand); opacity: 0; }
+.agent .agent-ring-track { stroke: color-mix(in oklch, var(--brand) 22%, transparent); stroke-width: 0.5; opacity: 0; transition: opacity 0.4s var(--ease-soft); }
+.agent .agent-ring {
+  stroke: var(--brand); stroke-width: 0.7; stroke-linecap: round; stroke-dasharray: 18 82; opacity: 0;
+  transform-box: view-box; transform-origin: 12px 11.8px; transition: opacity 0.4s var(--ease-soft);
+}
+/* Idle: the eyes breathe. */
+.agent[data-state="idle"] .agent-eyes { animation: agent-breathe 3.6s ease-in-out infinite; }
+/* Working: the ring turns and the eyes narrow a little, then open, as it concentrates. */
+.agent[data-state="working"] .agent-ring-track { opacity: 1; }
+.agent[data-state="working"] .agent-ring { opacity: 1; animation: agent-turn 1.3s linear infinite; }
+.agent[data-state="working"] .agent-eyes { animation: agent-focus 1.3s ease-in-out infinite; }
+/* Done: the ring closes and the eyes flash in the accent, once. */
+.agent[data-state="done"] .agent-ring-track { opacity: 1; }
+.agent[data-state="done"] .agent-ring { opacity: 1; animation: agent-close 0.7s cubic-bezier(0.17, 0.17, 0.21, 1) forwards; }
+.agent[data-state="done"] .agent-eye-flash { animation: agent-flash 0.8s ease-out forwards; }
+@keyframes agent-breathe { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+@keyframes agent-turn { to { rotate: 360deg; } }
+@keyframes agent-focus { 0%, 100% { scale: 1 1; } 45% { scale: 1 0.55; } }
+@keyframes agent-close { from { stroke-dasharray: 18 82; } to { stroke-dasharray: 100 0; } }
+@keyframes agent-flash { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0.25; } }

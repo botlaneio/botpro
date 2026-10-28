@@ -32,6 +32,7 @@ import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { HeroMark } from "@/components/site/hero-mark"
+import { AgentMark } from "@/components/site/agent-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
 import { SOLUTIONS } from "@/lib/nav"
 import { LANES, type Lane } from "@/lib/lanes"
@@ -190,6 +191,17 @@ export default async function Lab() {
 
       <Section id="prompt" title="Prompt bar" note="The homepage hero. A plain GET form to /contact: the brief and chip fill the contact form's first two steps.">
         <HeroPrompt />
+      </Section>
+
+      <Section id="agent" title="Agent mark" note="The logo with a state. Idle: the light rests on the right and the eyes breathe. Working: an accent ring turns and the eyes narrow. Done: the ring closes and the eyes flash once. The hero's Care scene points it at each site as that site's check runs.">
+        <div className="grid grid-cols-3 gap-4">
+          {(["idle", "working", "done"] as const).map((s) => (
+            <div key={s} className="surface-hairline grid justify-items-center gap-4 p-8">
+              <AgentMark size={112} state={s} />
+              <span className="label-mono">{s.toUpperCase()}</span>
+            </div>
+          ))}
+        </div>
       </Section>
 
       <Section id="scene" title="Hero scene" note="The homepage hero: Build, Launch and Care as one illustrated scene round the client's site, with captions, tabs that fill as each act plays, and a call to action at the end. Pauses off screen; one finished frame per tab under reduced motion.">
