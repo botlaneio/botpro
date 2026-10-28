@@ -122,12 +122,15 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
     return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerdown", onDown) }
   }, [])
 
-  // The sheet covers the page, so the page underneath must not scroll.
+  // The sheet covers the page, so the page underneath must not scroll. The lock goes on the root, not the
+  // body: the body clips sideways overflow (decorative glows wider than a phone), and overflow:hidden there
+  // would replace that clip, letting a phone widen the page and slide the view sideways under the menu.
   useEffect(() => {
     if (!sheet) return
-    const { overflow } = document.body.style
-    document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = overflow }
+    const root = document.documentElement
+    const { overflow } = root.style
+    root.style.overflow = "hidden"
+    return () => { root.style.overflow = overflow }
   }, [sheet])
 
   const show = (i: number) => { setOpen(i); if (i > -1) setShown(i) }
