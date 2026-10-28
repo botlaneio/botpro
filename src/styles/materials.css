@@ -247,7 +247,7 @@
     var(--shadow-soft);
   transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
   &:hover { filter: brightness(1.06); }
-  &:active { transform: translateY(1px); }
+  &:active { transform: translateY(1px) scale(0.97); filter: brightness(0.96); }
 }
 
 @utility btn-lane {
@@ -260,7 +260,7 @@
     0 8px 22px -10px color-mix(in oklch, var(--lane) calc(var(--glow) * 100%), transparent);
   transition: filter var(--duration-fast) var(--ease-soft), transform 100ms var(--ease-soft);
   &:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--lane-hover), white 12%), var(--lane-hover)); }
-  &:active { transform: translateY(1px); }
+  &:active { transform: translateY(1px) scale(0.97); }
 }
 
 @utility tile-depth {

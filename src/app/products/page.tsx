@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
-import { ProductCards } from "@/components/home/product-cards"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
+import { ProductStack } from "@/components/products/product-stack"
 import { PageSection, PageShell } from "@/components/site/page-shell"
 import { LANES } from "@/lib/lanes"
 import { OFFERS } from "@/lib/pricing"
@@ -29,7 +29,7 @@ export default function Products() {
       intro="We're a new studio, so there's no client work to show yet. Instead, here is what we've built and run ourselves, to the same standard."
     >
       <PageSection id="lanes" eyebrow="THE LANES" title="Three products, each on its own site.">
-        <ProductCards />
+        <ProductStack />
         <StatCards stats={STATS} />
       </PageSection>
     </PageShell>

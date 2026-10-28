@@ -144,6 +144,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
     <>
       <header
         ref={root}
+        style={{ viewTransitionName: "site-header" }}
         className={cn(
           "sticky top-0 z-40 h-(--header-h) border-b transition-[background-color,border-color,box-shadow] duration-300 ease-(--ease-soft)",
           solid ? "border-border/60 bg-background/85 shadow-[0_8px_24px_-16px_var(--float-shadow)] backdrop-blur-md" : "border-transparent bg-transparent",
