@@ -18,8 +18,8 @@ import { OFFERS } from "@/lib/pricing"
 import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
-  title: "Botlane · Websites and web apps, built properly",
-  description: "We design and build websites and web apps to the standard of the best software companies, at a fixed price agreed before we start.",
+  title: "Botlane · Websites and software, made with uncommon care",
+  description: "An independent studio designing and engineering websites and software for companies that care how they show up.",
 }
 
 // Only true numbers: what we have built. The product count and the discount come from the data they describe.
@@ -57,7 +57,7 @@ export default function Home() {
 
         {/* The brief: the prompt bar, under the scene that shows what happens next. */}
         <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-6 border-t border-border/60 py-14 text-center sm:py-20">
-          <h2 id="brief-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
+          <h2 id="brief-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">What are you building next?</h2>
           <div className="w-full"><HeroPrompt /></div>
         </section>
 
@@ -65,8 +65,8 @@ export default function Home() {
         <section id="build" aria-labelledby="build-title" className="grid scroll-mt-20 items-center gap-10 border-t border-border/60 py-14 sm:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
           <div className="grid max-w-md content-start gap-4">
             <span className="label-mono">WHAT WE BUILD</span>
-            <h2 id="build-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Websites, web apps, and the care after launch.</h2>
-            <p className="text-lg text-muted-foreground">Designed and built by us to the standard of the best software companies, at a fixed price agreed before we start.</p>
+            <h2 id="build-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Websites, software, and the care that follows.</h2>
+            <p className="text-lg text-muted-foreground">Designed and engineered in-house, with the finish you would expect from the best software companies.</p>
             <Link href="/contact" className="btn-light mt-2 inline-flex h-10 w-fit items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
           </div>
           <ServiceBlocks items={solutions} />
@@ -92,14 +92,14 @@ export default function Home() {
         <Section
           id="products"
           eyebrow="OUR OWN PRODUCTS"
-          title="We build software for ourselves, too."
-          intro="We're a new studio, so there's no client work to show yet. Instead, here is what we've built and run ourselves, to the same standard."
+          title="Our own products, held to the same standard."
+          intro="Before we built for clients, we built for ourselves. Three products of our own, made with the care we bring to your work."
         >
           <ProductCards />
           <StatCards stats={STATS} />
         </Section>
 
-        <Section id="process" eyebrow="HOW WE WORK" title="From first call to launch, at one fixed price.">
+        <Section id="process" eyebrow="HOW WE WORK" title="From first conversation to launch.">
           <ProcessWheel />
         </Section>
 
@@ -108,8 +108,8 @@ export default function Home() {
           <PetalReveal className="grid min-h-[34rem] place-items-center rounded-[1.6rem] p-4 sm:aspect-[16/9] sm:min-h-0 sm:p-10">
             <div className="surface-frosted grid max-w-xl justify-items-center gap-5 p-6 text-center sm:p-10">
               <FoundingBanner />
-              <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
-              <p className="max-w-md text-muted-foreground">We read every brief ourselves, and we&apos;ll tell you honestly whether we&apos;re the right fit.</p>
+              <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Let&apos;s make something worth returning to.</h2>
+              <p className="max-w-md text-muted-foreground">Every brief is read by the people who will build it, and answered with candour.</p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Link href="/contact" className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
                 <Link href="/solutions" className="inline-flex h-10 items-center px-3 text-sm text-muted-foreground hover:text-foreground">See solutions and prices</Link>

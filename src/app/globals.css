@@ -94,10 +94,14 @@
   --sidebar-border: var(--neutral-6);
   --sidebar-ring: var(--neutral-9);
 
-  /* Botlane's accent: electric blue, used sparingly (the Apex beam, the hero glow, the Founding Ten).
-     Everything else stays neutral so the warmth reads as a signature. */
+  /* Botlane's accent: electric blue, used sparingly (the Apex beam, progress rings, the Founding Ten).
+     Everything else stays neutral so it reads as a signature. */
   --brand: var(--blue-solid);
   --brand-text: var(--blue-text);
+
+  /* The ambient light behind the dark page (ambient-light.tsx, glow-brand): Raycast's crimson. Light only, never
+     on controls or text: buttons, rings and links keep the blue accent. */
+  --ambient: #C0282A;
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;

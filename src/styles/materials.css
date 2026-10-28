@@ -9,7 +9,7 @@
  *   surface-spotlight glass with a soft white glow from the top    (neutral, featured)
  *   surface-apex      spotlight with a light-catching metal edge   (the single top tier)
  *                     and a slow beam of the accent travelling round it
- *   glow-brand        a faint accent light from above, behind a page's opening section
+ *   glow-brand        a faint red light from above, behind a page's opening section (the ambient light)
  *   btn-light         near-white bevelled primary                 (botlane.io)
  *   btn-lane          lane-coloured primary                       (product pages only)
  *   tile-depth        raised icon squircle
@@ -59,7 +59,7 @@
   --apex-edge: linear-gradient(140deg, #9EA4AE 0%, #E9EBEE 22%, #FFFFFF 42%, #C3C8D0 62%, #F4F5F7 80%, #A7ADB6 100%);
   --apex-beam: var(--brand);
   --apex-aura: 0 30px 70px -36px color-mix(in oklch, var(--brand) 45%, transparent);
-  --brand-glow: color-mix(in oklch, var(--brand) 14%, transparent);
+  --brand-glow: color-mix(in oklch, var(--ambient) 11%, transparent);
 }
 .dark {
   --ink: 255 255 255;                             /* edges: white on dark */
@@ -88,7 +88,7 @@
   --apex-edge: linear-gradient(140deg, rgb(255 255 255 / 0.55) 0%, rgb(255 255 255 / 0.10) 24%, rgb(255 255 255 / 0.30) 44%, rgb(255 255 255 / 0.06) 66%, rgb(255 255 255 / 0.40) 100%);
   --apex-beam: var(--brand);
   --apex-aura: 0 30px 80px -36px color-mix(in oklch, var(--brand) 38%, transparent);
-  --brand-glow: color-mix(in oklch, var(--brand) 9%, transparent);
+  --brand-glow: color-mix(in oklch, var(--ambient) 8%, transparent);
 }
 
 /* The beam's position round the card. Registered so it can animate smoothly. */
@@ -226,7 +226,7 @@
   }
 }
 
-/* A faint accent light falling from above. Put it on a page's opening section; nothing else. */
+/* A faint red light falling from above, the same red as the ambient light. Put it on a page's opening section; nothing else. */
 @utility glow-brand {
   position: relative;
   isolation: isolate;
