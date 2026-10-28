@@ -115,8 +115,8 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
         <PageSection id="pricing" eyebrow="PRICING" title="Priced by the pages you process.">
           <div className={cn(lane.scope, "grid gap-5")}>
             <div className="grid gap-5 md:grid-cols-2">
-              <PlanCard planId="scriblane-starter" cta="Start with Starter" />
-              <PlanCard planId="scriblane-growth" featured cta="Start with Growth" />
+              <PlanCard planId="scriblane-starter" cta="Start with Starter" href="/contact?need=custom" />
+              <PlanCard planId="scriblane-growth" featured cta="Start with Growth" href="/contact?need=custom" />
             </div>
             <Comparison planIds={["scriblane-starter", "scriblane-growth"]} caption="Scriblane plans compared" />
           </div>

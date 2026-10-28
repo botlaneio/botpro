@@ -58,16 +58,14 @@ test("Founding Ten covers website and app builds only, at 20% off, until 31 Marc
   assert.ok(!offerOpen(ft, "2027-04-01"))
 })
 
-test("Syncc prices are marked as placeholders and can't be bought", () => {
-  for (const o of OFFERINGS.filter((x) => x.lane === "syncc")) {
-    assert.equal(o.placeholder, true, o.id)
-    for (const p of o.plans) {
-      assert.ok(isPlaceholder(p.id), p.id)
-      assert.ok(!purchasable(p.id, "US") && !purchasable(p.id, "IN"), p.id)
-    }
-  }
-  assert.ok(!isPlaceholder("website-core"))
-  assert.ok(!isPlaceholder("scriblane-growth"))
+test("no prices on the site are placeholders", () => {
+  for (const o of OFFERINGS) for (const p of o.plans) assert.ok(!isPlaceholder(p.id), p.id)
+})
+
+test("Syncc Cloud stays under Calendly Standard: $10 a seat a month yearly, $12 monthly", () => {
+  assert.equal(plan("syncc-cloud-annual").charges[0].amounts.US, 84)
+  assert.ok(plan("syncc-cloud-annual").charges[0].amounts.US / 12 < 10)
+  assert.ok(plan("syncc-cloud-monthly").charges[0].amounts.US < 12)
 })
 
 test("final prices can't be bought until Stripe knows them", () => {

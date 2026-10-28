@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
       { source: "/services", destination: "/solutions", permanent: true },
       // The AI Assistant moved under Custom solutions.
       { source: "/ai-assistant", destination: "/custom-solutions/ai-assistant", permanent: true },
+      // scriblane.botlane.io still forwards here, from the old site's layout.
+      { source: "/document-processing", destination: "/products/scriblane", permanent: true },
+      { source: "/pricing", destination: "/solutions", permanent: true },
+      // The partner programme is a footer dialog now: #partners opens it on any page.
+      { source: "/partners", destination: "/#partners", permanent: true },
     ];
   },
 };

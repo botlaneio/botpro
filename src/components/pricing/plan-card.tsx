@@ -52,10 +52,12 @@ export interface PlanCardProps {
   /** Show a yearly plan's price per month. */
   perMonth?: boolean
   cta: string
+  /** Where the button goes: a product's own sign-up, or the contact form. */
+  href?: string
   note?: React.ReactNode
 }
 
-export function PlanCard({ planId, featured, offer, perMonth, cta, note }: PlanCardProps) {
+export function PlanCard({ planId, featured, offer, perMonth, cta, href, note }: PlanCardProps) {
   const p = plan(planId)
   const [main, ...extras] = p.charges
   const placeholder = isPlaceholder(planId)
@@ -93,9 +95,10 @@ export function PlanCard({ planId, featured, offer, perMonth, cta, note }: PlanC
       <Button
         className={cn("mt-auto h-9 w-full", featured ? (p.finish ? "btn-light" : "btn-lane text-lane-ink") : "")}
         variant={featured ? "default" : "outline"}
-        disabled={placeholder}
+        disabled={placeholder || !href}
+        asChild={!placeholder && !!href}
       >
-        {placeholder ? "Not on sale yet" : cta}
+        {placeholder ? "Not on sale yet" : href ? <a href={href}>{cta}</a> : cta}
       </Button>
     </article>
   )

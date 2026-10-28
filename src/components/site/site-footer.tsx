@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
+import { PartnerDialog } from "@/components/partners/partner-dialog"
 import { LANES } from "@/lib/lanes"
 import { CATEGORIES } from "@/lib/catalog"
 
@@ -59,6 +60,7 @@ export function SiteFooter() {
         <nav aria-labelledby="footer-studio" className="grid content-start gap-3">
           <span id="footer-studio" className={heading}>STUDIO</span>
           {STUDIO.map((s) => <Link key={s.href} href={s.href} className={link}>{s.label}</Link>)}
+          <PartnerDialog className={link} />
         </nav>
       </div>
 
