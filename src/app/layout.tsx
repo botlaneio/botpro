@@ -1,13 +1,24 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import localFont from "next/font/local"
 
 import { AmbientLight } from "@/components/site/ambient-light"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import "./globals.css"
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] })
-const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] })
+// Self-hosted from npm (@fontsource-variable) so builds never depend on reaching Google Fonts.
+const inter = localFont({
+  variable: "--font-inter",
+  src: [
+    { path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2", weight: "100 900", style: "normal" },
+    { path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-italic.woff2", weight: "100 900", style: "italic" },
+  ],
+})
+const jetbrains = localFont({
+  variable: "--font-jetbrains",
+  src: "../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2",
+  weight: "100 800",
+})
 
 // The colour phones paint their browser bar: the site opens in the dark theme.
 export const viewport: Viewport = {
