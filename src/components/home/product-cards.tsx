@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Workflow } from "lucide-react"
 
 import { LANES, type Lane, type LaneId } from "@/lib/lanes"
@@ -109,6 +110,12 @@ function FlowlaneVisual() {
 
 const VISUALS: Record<LaneId, () => React.ReactElement> = { syncc: SynccVisual, scriblane: ScriblaneVisual, flowlane: FlowlaneVisual }
 
+/** A product's visual on its own, for its page. */
+export function ProductVisual({ id }: { id: LaneId }) {
+  const Visual = VISUALS[id]
+  return <Visual />
+}
+
 /** Three short reasons to choose it. */
 function Features({ id }: { id: LaneId }) {
   return (
@@ -132,13 +139,10 @@ function ProductCard({ lane }: { lane: Lane }) {
       <div className="flex items-center gap-3 p-5 pb-0">
         <span className="tile-depth size-11 shrink-0"><Icon className="size-5" /></span>
         <h3 className="text-lg font-medium">{lane.name}</h3>
-        {live ? (
-          <a href={`https://${lane.host}`} aria-label={`Visit ${lane.name}`} className="key-physical ml-auto grid size-10 place-items-center transition-transform duration-300 ease-(--ease-lift) group-hover/card:-translate-y-0.5">
-            <ChevronRight className="size-4" />
-          </a>
-        ) : (
-          <span className="label-mono ml-auto rounded-full border border-border px-2 py-0.5 text-[10px]">SOON</span>
-        )}
+        {!live && <span className="label-mono ml-auto rounded-full border border-border px-2 py-0.5 text-[10px]">SOON</span>}
+        <Link href={`/products/${lane.id}`} aria-label={`About ${lane.name}`} className={cn("key-physical grid size-10 place-items-center transition-transform duration-300 ease-(--ease-lift) group-hover/card:-translate-y-0.5", live && "ml-auto")}>
+          <ChevronRight className="size-4" />
+        </Link>
       </div>
       <p className="px-5 pt-5 text-[17px] leading-snug text-pretty text-foreground/90">{lane.tagline}</p>
       <div className="mx-5 mt-6 border-t border-[color-mix(in_oklch,var(--lane)_18%,var(--border))]" />

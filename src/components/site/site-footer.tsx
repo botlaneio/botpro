@@ -1,11 +1,14 @@
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { LANES } from "@/lib/lanes"
-import { SOLUTIONS } from "@/lib/nav"
+import { CATEGORIES } from "@/lib/catalog"
 
 import { AmbientLight } from "./ambient-light"
 import { BotlaneMark } from "./botlane-mark"
+
+// The three categories, and Care after launch.
+const SOLUTION_LINKS = [...CATEGORIES.map((c) => ({ href: c.href, label: c.label })), { href: "/care", label: "Care" }]
 
 const STUDIO = [
   { href: "/solutions#process", label: "How we work" },
@@ -22,7 +25,6 @@ const link = "text-sm text-muted-foreground transition-colors hover:text-foregro
  * very large and very faint along the bottom edge, cut off by it.
  */
 export function SiteFooter() {
-  const solutions = SOLUTIONS.flatMap((g) => g.items)
   return (
     <footer className="relative overflow-hidden border-t border-border/60">
       <AmbientLight className="bottom-0 h-[34rem] [mask-image:linear-gradient(0deg,#000_25%,transparent)]" />
@@ -41,23 +43,17 @@ export function SiteFooter() {
 
         <nav aria-labelledby="footer-solutions" className="grid content-start gap-3">
           <span id="footer-solutions" className={heading}>SOLUTIONS</span>
-          {solutions.map((s) => <Link key={s.title} href={s.href} className={link}>{s.title}</Link>)}
+          {SOLUTION_LINKS.map((s) => <Link key={s.href} href={s.href} className={link}>{s.label}</Link>)}
         </nav>
 
         <nav aria-labelledby="footer-products" className="grid content-start gap-3">
           <span id="footer-products" className={heading}>PRODUCTS</span>
-          {LANES.map((l) =>
-            l.status === "live" ? (
-              <a key={l.id} href={`https://${l.host}`} className={`${link} group/p inline-flex items-center gap-1`}>
-                {l.name}
-                <ArrowUpRight aria-hidden className="size-3 opacity-0 transition-opacity group-hover/p:opacity-100" />
-              </a>
-            ) : (
-              <span key={l.id} className="inline-flex items-center gap-2 text-sm text-muted-foreground/70">
-                {l.name} <span className="label-mono rounded-full border border-border px-1.5 text-[9px]">SOON</span>
-              </span>
-            ),
-          )}
+          {LANES.map((l) => (
+            <Link key={l.id} href={`/products/${l.id}`} className={`${link} inline-flex items-center gap-2`}>
+              {l.name}
+              {l.status === "soon" && <span className="label-mono rounded-full border border-border px-1.5 text-[9px]">SOON</span>}
+            </Link>
+          ))}
         </nav>
 
         <nav aria-labelledby="footer-studio" className="grid content-start gap-3">

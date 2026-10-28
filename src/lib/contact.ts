@@ -10,6 +10,7 @@ export const NEEDS = [
   { id: "web-app", label: "A web app" },
   { id: "care", label: "Care for a site I already have" },
   { id: "assistant", label: "An AI assistant for my site" },
+  { id: "custom", label: "A custom AI or automation solution" },
   { id: "not-sure", label: "Not sure yet" },
 ] as const
 

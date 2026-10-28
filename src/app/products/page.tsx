@@ -23,6 +23,7 @@ const STATS: Stat[] = [
 export default function Products() {
   return (
     <PageShell
+      current="/products"
       eyebrow="OUR OWN PRODUCTS"
       title="We build software for ourselves, too."
       intro="We're a new studio, so there's no client work to show yet. Instead, here is what we've built and run ourselves, to the same standard."
