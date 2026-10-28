@@ -28,7 +28,7 @@ export function ServiceBlocks({ items }: { items: NavItem[] }) {
             onMouseEnter={() => setLit(i)}
             onFocus={() => setLit(i)}
             className={cn(
-              "group/b relative grid min-h-52 content-between gap-8 rounded-2xl border p-5 outline-none transition-[background-color,border-color,color,box-shadow] duration-300 ease-(--ease-soft) focus-visible:ring-3 focus-visible:ring-ring/60 sm:p-6",
+              "group/b relative grid content-between gap-5 rounded-2xl sm:min-h-52 sm:gap-8 border p-5 outline-none transition-[background-color,border-color,color,box-shadow] duration-300 ease-(--ease-soft) focus-visible:ring-3 focus-visible:ring-ring/60 sm:p-6",
               on
                 ? "border-transparent bg-[linear-gradient(180deg,var(--primary-top),var(--primary-bottom))] text-primary-foreground shadow-[inset_0_1px_0_var(--primary-lit),0_0_0_1px_var(--primary-ring),0_24px_50px_-28px_var(--float-shadow)]"
                 : "border-[rgb(var(--ink)/var(--edge-alpha))] bg-[color-mix(in_oklch,var(--card)_70%,transparent)] text-foreground",

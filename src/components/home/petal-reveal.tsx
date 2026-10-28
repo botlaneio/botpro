@@ -81,7 +81,7 @@ export function PetalReveal({ className, children }: { className?: string; child
               <Photo src={VIVID} style={{ clipPath: inset }} />
               <div className="absolute" style={{ left: pct(x, W), top: pct(y, H), width: pct(w, W), height: pct(h, H) }}>
                 <Brackets />
-                <span className="label-mono absolute top-1.5 left-1.5 rounded-[3px] bg-white/90 px-1 py-px text-[9px] leading-tight whitespace-nowrap text-neutral-900!">
+                <span className="label-mono absolute top-1.5 left-1.5 rounded-[3px] max-sm:hidden bg-white/90 px-1 py-px text-[9px] leading-tight whitespace-nowrap text-neutral-900!">
                   OBJ {String(i + 1).padStart(2, "0")} · X{Math.round(x + w / 2)} Y{Math.round(y + h / 2)}
                 </span>
               </div>
@@ -94,7 +94,7 @@ export function PetalReveal({ className, children }: { className?: string; child
           <Photo src={VIVID} style={{ clipPath: "inset(calc(var(--cy) - 55px) calc(100% - var(--cx) - 75px) calc(100% - var(--cy) - 55px) calc(var(--cx) - 75px))" }} />
           <div className="absolute h-[110px] w-[150px] -translate-x-1/2 -translate-y-1/2" style={{ left: "var(--cx)", top: "var(--cy)" }}>
             <Brackets />
-            <span className="label-mono absolute top-1.5 left-1.5 rounded-[3px] bg-white/90 px-1 py-px text-[9px] leading-tight text-neutral-900!">CURSOR</span>
+            <span className="label-mono absolute top-1.5 left-1.5 rounded-[3px] max-sm:hidden bg-white/90 px-1 py-px text-[9px] leading-tight text-neutral-900!">CURSOR</span>
           </div>
         </div>
       </div>

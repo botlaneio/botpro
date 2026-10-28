@@ -51,7 +51,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
-        <header className="glow-brand relative isolate grid min-h-[calc(100svh-var(--header-h))] content-center justify-items-center gap-5 py-10 text-center sm:gap-6">
+        <header className="glow-brand relative isolate grid min-h-[72svh] content-center sm:min-h-[calc(100svh-var(--header-h))] justify-items-center gap-5 py-10 text-center sm:gap-6">
           {/* Build, Launch, Care, played in hairlines either side of the prompt. Wide screens only: narrower,
               the sides are too small to keep clear of it. */}
           <HeroStory className="absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 xl:block" />

@@ -96,7 +96,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
         if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1))
       }}
     >
-      <div className="grid place-items-center [perspective:1600px]">
+      <div className="grid place-items-center [--fan-blur:2.5px] [perspective:1600px] sm:[--fan-blur:0px]">
         {cards.map((card, i) => {
           const d = offset(i)
           const far = Math.abs(d)
@@ -114,7 +114,8 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
                 transform: `translateX(${d * SPREAD}%) translateY(${far * 3}%) rotate(${d * TILT}deg) scale(${1 - far * SHRINK})`,
                 zIndex: 10 - far,
                 opacity: far > 2 ? 0 : 1,
-                filter: d === 0 ? "none" : `brightness(calc(1 - ${far} * var(--fan-dim)))`,
+                // Behind cards dim; on a phone, where they run off the screen, they blur too so cut-off text reads as shape.
+                filter: d === 0 ? "none" : `brightness(calc(1 - ${far} * var(--fan-dim))) blur(var(--fan-blur))`,
               }}
             >
               {/* The contents are inert while off-centre, so Tab skips them; the tap still lands on this layer. */}
