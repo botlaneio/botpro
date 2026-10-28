@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
@@ -22,92 +22,159 @@ export interface PostSummary {
 
 const href = (slug: string) => `/blog/${slug}`
 
-/**
- * The notes, newest first: the latest as a feature with its cover, then the rest as editorial rows, each
- * a date, a title with its line, and the topic with minutes to read. Topics filter both; a filter that
- * leaves nothing says so. With only one topic the filters don't show.
- */
-export function InsightsIndex({ posts }: { posts: PostSummary[] }) {
-  const topics = Array.from(new Set(posts.map((p) => p.topic)))
-  const [topic, setTopic] = useState<string | null>(null)
-  const shown = topic ? posts.filter((p) => p.topic === topic) : posts
-  const [lead, ...rest] = shown
+/** A topic, a date and a reading time, in the mono face. */
+function Meta({ post, className }: { post: PostSummary; className?: string }) {
+  return (
+    <span className={cn("label-mono flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]", className)}>
+      <span className="text-foreground">{post.topic.toUpperCase()}</span>
+      <span aria-hidden className="opacity-50">/</span>
+      <span>{post.date.toUpperCase()}</span>
+      <span aria-hidden className="opacity-50">/</span>
+      <span>{post.minutes} MIN</span>
+    </span>
+  )
+}
+
+/** The topics, as a row of tabs in a glass track, with a highlight that glides to the one chosen. */
+function Topics({ topics, counts, value, onChange }: { topics: (string | null)[]; counts: Record<string, number>; value: string | null; onChange: (t: string | null) => void }) {
+  const track = useRef<HTMLDivElement>(null)
+  const [spot, setSpot] = useState<{ x: number; w: number } | null>(null)
+  useLayoutEffect(() => {
+    const el = track.current?.querySelector<HTMLElement>("[aria-pressed=true]")
+    if (el) setSpot({ x: el.offsetLeft, w: el.offsetWidth })
+  }, [value])
 
   return (
-    <div className="grid gap-10">
-      {topics.length > 1 && (
-        <div role="group" aria-label="Filter by topic" className="-mx-6 flex gap-1.5 overflow-x-auto px-6 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
-          {[null, ...topics].map((t) => (
+    <div className="-mx-6 overflow-x-auto px-6 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
+      <div ref={track} role="group" aria-label="Filter by topic" className="relative inline-flex gap-0.5 rounded-full border border-border/70 bg-foreground/[0.025] p-1 backdrop-blur">
+        <span aria-hidden className="absolute top-1 left-0 h-9 rounded-full bg-foreground shadow-[0_6px_18px_-8px_var(--float-shadow)] transition-[translate,width] duration-500 ease-(--ease-lift)" style={spot ? { width: spot.w, translate: `${spot.x}px 0` } : { opacity: 0 }} />
+        {topics.map((t) => {
+          const on = value === t
+          return (
             <button
               key={t ?? "all"}
               type="button"
-              aria-pressed={topic === t}
-              onClick={() => setTopic(t)}
-              className={cn(
-                "h-9 shrink-0 rounded-full border px-3.5 text-sm whitespace-nowrap transition-colors duration-200",
-                topic === t ? "border-transparent bg-foreground text-background" : "border-border text-foreground/70 hover:text-foreground",
-              )}
+              aria-pressed={on}
+              onClick={() => onChange(t)}
+              className={cn("relative z-10 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm whitespace-nowrap transition-colors duration-300", on ? "text-background" : "text-foreground/65 hover:text-foreground")}
             >
-              {t ?? "All notes"}
+              {t ?? "All"}
+              <sup className={cn("label-mono text-[9.5px] tabular-nums", on ? "text-background/60" : "opacity-60")}>{counts[t ?? "all"]}</sup>
             </button>
-          ))}
-        </div>
-      )}
-
-      {lead && (
-        <Link href={href(lead.slug)} className="group/f grid items-center gap-7 outline-none focus-visible:[&_h2]:underline md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-12">
-          <InsightCover variant={lead.cover} topic={lead.topic} className="aspect-[16/10] transition-[transform,box-shadow] duration-500 ease-(--ease-lift) group-hover/f:-translate-y-1 group-hover/f:shadow-[0_30px_60px_-34px_var(--float-shadow)]" />
-          <div className="grid justify-items-start gap-4">
-            <Meta post={lead} />
-            <h2 className="text-3xl font-medium tracking-tight text-balance lg:text-[2.6rem] lg:leading-[1.1]">{lead.title}</h2>
-            <p className="max-w-lg text-base leading-relaxed text-muted-foreground text-pretty lg:text-lg">{lead.dek}</p>
-            <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium">
-              Read the note <ArrowRight className="size-4 transition-transform duration-300 group-hover/f:translate-x-0.5" />
-            </span>
-          </div>
-        </Link>
-      )}
-
-      {rest.length > 0 && (
-        <div className="grid">
-          <span className="label-mono border-b border-border/70 pb-3">MORE NOTES</span>
-          <ul>
-            {rest.map((p) => (
-              <li key={p.slug} className="border-b border-border/70">
-                <Link href={href(p.slug)} className="group/r -mx-4 grid gap-2.5 rounded-xl px-4 py-6 transition-colors duration-200 hover:bg-foreground/[0.03] lg:grid-cols-[11rem_minmax(0,1fr)_1.25rem] lg:gap-10">
-                  {/* One line above the title on phones and tablets; a small column of its own on wide screens. */}
-                  <span className="label-mono flex flex-wrap gap-x-2 gap-y-1 text-[11px] lg:flex-col lg:pt-1.5">
-                    <span>{p.date.toUpperCase()}</span>
-                    <span aria-hidden className="lg:hidden">·</span>
-                    <span className="text-foreground/80">{p.topic.toUpperCase()}</span>
-                    <span aria-hidden className="lg:hidden">·</span>
-                    <span>{p.minutes} MIN</span>
-                  </span>
-                  <span className="grid gap-1.5">
-                    <span className="text-xl font-medium tracking-tight text-balance">{p.title}</span>
-                    <span className="max-w-[62ch] text-muted-foreground text-pretty">{p.dek}</span>
-                  </span>
-                  <ArrowUpRight aria-hidden className="mt-1.5 hidden size-4 opacity-0 transition-[opacity,translate] duration-300 group-hover/r:translate-x-0.5 group-hover/r:-translate-y-0.5 group-hover/r:opacity-80 lg:block" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {shown.length === 0 && <p className="text-muted-foreground">Nothing under that topic yet.</p>}
+          )
+        })}
+      </div>
     </div>
   )
 }
 
-function Meta({ post }: { post: PostSummary }) {
+/** The newest note, across the page: its cover as the backdrop, the title set large over it. */
+function Feature({ post }: { post: PostSummary }) {
   return (
-    <span className="label-mono flex flex-wrap items-center gap-x-2 text-[11.5px]">
-      <span className="text-foreground">{post.topic.toUpperCase()}</span>
-      <span aria-hidden>·</span>
-      <span>{post.date.toUpperCase()}</span>
-      <span aria-hidden>·</span>
-      <span>{post.minutes} MIN READ</span>
-    </span>
+    <Link href={href(post.slug)} className="group/cover relative grid overflow-hidden rounded-[1.75rem] outline-none focus-visible:ring-2 focus-visible:ring-foreground">
+      <InsightCover variant={post.cover} topic={post.topic} label={false} side className="absolute inset-0 rounded-[1.75rem]" />
+      {/* Darkness rising from the foot, so the words read over the light. */}
+      <div aria-hidden className="absolute inset-0 rounded-[1.75rem] bg-[linear-gradient(180deg,transparent_20%,rgb(5_5_6/0.55)_55%,rgb(5_5_6/0.92))] md:bg-[linear-gradient(90deg,rgb(5_5_6/0.85),rgb(5_5_6/0.35)_45%,transparent_65%)]" />
+      <div className="dark relative grid min-h-[30rem] content-end gap-5 p-6 text-foreground sm:min-h-[34rem] sm:p-10 lg:min-h-[36rem] lg:p-14">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 backdrop-blur-md">
+          <span className="size-1.5 rounded-full bg-[#FF7A70] shadow-[0_0_10px_#FF7A70]" />
+          <span className="label-mono text-[10.5px] text-white/85">LATEST NOTE</span>
+        </span>
+        <h2 className="max-w-3xl text-[2.2rem] leading-[1.04] font-medium tracking-[-0.03em] text-balance text-white sm:text-5xl lg:text-[4.25rem]">{post.title}</h2>
+        <p className="max-w-xl text-base leading-relaxed text-pretty text-white/70 sm:text-lg">{post.dek}</p>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-5">
+          <Meta post={post} className="text-white/55 [&>span:first-child]:text-white" />
+          <span className="inline-flex h-12 items-center gap-2 rounded-full bg-white pr-2 pl-5 text-[15px] font-medium text-black transition-[gap] duration-300 group-hover/cover:gap-3">
+            Read the note
+            <span className="grid size-8 place-items-center rounded-full bg-black text-white"><ArrowRight className="size-4" /></span>
+          </span>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+/** A note with its cover above: the second rank, two side by side. */
+function Card({ post }: { post: PostSummary }) {
+  return (
+    <Link href={href(post.slug)} className="group/cover grid content-start gap-5 outline-none focus-visible:[&_h3]:underline">
+      <InsightCover variant={post.cover} topic={post.topic} className="aspect-[16/10] rounded-[1.4rem] transition-[translate,box-shadow] duration-500 ease-(--ease-lift) group-hover/cover:-translate-y-1 group-hover/cover:shadow-[0_34px_60px_-30px_rgb(120_14_18/0.7)]" />
+      <div className="grid gap-3 px-1">
+        <Meta post={post} />
+        <h3 className="text-2xl leading-tight font-medium tracking-[-0.02em] text-balance sm:text-[1.75rem]">{post.title}</h3>
+        <p className="line-clamp-2 max-w-[52ch] text-muted-foreground text-pretty">{post.dek}</p>
+      </div>
+    </Link>
+  )
+}
+
+/**
+ * The notes as a journal: the newest across the page over its cover, the next two side by side, and the rest
+ * as a numbered archive. A row of topic tabs filters all of it; a filter that leaves nothing says so.
+ */
+export function InsightsIndex({ posts }: { posts: PostSummary[] }) {
+  const topics = Array.from(new Set(posts.map((p) => p.topic)))
+  const counts: Record<string, number> = { all: posts.length }
+  for (const p of posts) counts[p.topic] = (counts[p.topic] ?? 0) + 1
+  const [topic, setTopic] = useState<string | null>(null)
+  const shown = topic ? posts.filter((p) => p.topic === topic) : posts
+  const [lead, ...others] = shown
+  const pair = others.slice(0, 2)
+  const rest = others.slice(2)
+
+  return (
+    <div className="grid gap-12 sm:gap-16">
+      {topics.length > 1 && <Topics topics={[null, ...topics]} counts={counts} value={topic} onChange={setTopic} />}
+
+      {/* Re-keyed by topic, so a new filter fades its notes in. */}
+      <div key={topic ?? "all"} className="grid gap-14 [animation:set-in_500ms_var(--ease-lift)_both] sm:gap-20">
+        {lead && <Feature post={lead} />}
+
+        {pair.length > 0 && (
+          <div className="grid gap-12 md:grid-cols-2 md:gap-8 lg:gap-10">
+            {pair.map((p) => <Card key={p.slug} post={p} />)}
+          </div>
+        )}
+
+        {rest.length > 0 && (
+          <section aria-labelledby="archive-title" className="grid">
+            <div className="flex items-baseline justify-between border-b border-border pb-4">
+              <h2 id="archive-title" className="text-2xl font-medium tracking-tight sm:text-3xl">The archive</h2>
+              <span className="label-mono text-[11px]">{rest.length} MORE</span>
+            </div>
+            <ol>
+              {rest.map((p, i) => (
+                <li key={p.slug}>
+                  <Link
+                    href={href(p.slug)}
+                    className="group/r relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-b border-border/70 py-7 outline-none sm:grid-cols-[4.5rem_minmax(0,1fr)_2.5rem] lg:grid-cols-[5.5rem_minmax(0,1fr)_14rem_2.5rem] lg:gap-x-8"
+                  >
+                    {/* A red hairline that draws itself across the row on hover. */}
+                    <span aria-hidden className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#C0282A,#FF7A70_60%,transparent)] transition-transform duration-700 ease-(--ease-lift) group-hover/r:scale-x-100 group-focus-visible/r:scale-x-100" />
+                    <span className="pt-1 font-serif text-[1.6rem] leading-none font-light text-foreground/30 tabular-nums transition-colors duration-300 group-hover/r:text-foreground sm:text-[2.1rem]">
+                      {String(i + 4).padStart(2, "0")}
+                    </span>
+                    <span className="grid gap-2">
+                      <span className="text-xl leading-snug font-medium tracking-[-0.015em] text-balance transition-transform duration-500 ease-(--ease-lift) group-hover/r:translate-x-1 sm:text-[1.45rem]">{p.title}</span>
+                      <span className="line-clamp-2 max-w-[60ch] text-[15px] text-muted-foreground text-pretty">{p.dek}</span>
+                      <Meta post={p} className="mt-1 lg:hidden" />
+                    </span>
+                    <span className="label-mono hidden content-start gap-1.5 pt-1.5 text-[11px] lg:grid">
+                      <span className="text-foreground">{p.topic.toUpperCase()}</span>
+                      <span>{p.date.toUpperCase()} · {p.minutes} MIN</span>
+                    </span>
+                    <span aria-hidden className="hidden size-10 place-items-center self-start rounded-full border border-border transition-[background-color,border-color,color] duration-300 group-hover/r:border-transparent group-hover/r:bg-foreground group-hover/r:text-background sm:grid">
+                      <ArrowUpRight className="size-4 transition-transform duration-300 group-hover/r:rotate-45" />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        {shown.length === 0 && <p className="text-muted-foreground">Nothing under that topic yet.</p>}
+      </div>
+    </div>
   )
 }
