@@ -145,6 +145,12 @@
 @keyframes apex-beam {
   to { --beam-angle: 360deg; }
 }
+/* The offer page's example site: rest at the top, glide to the bottom (--travel), rest, glide back. */
+@keyframes showcase-scroll {
+  0%, 14% { translate: 0 0; }
+  46%, 60% { translate: 0 var(--travel); }
+  92%, 100% { translate: 0 0; }
+}
 /* The stack orbit's capsule edge, lighting up as an app lands in its slot. */
 @keyframes orbit-land {
   0% { opacity: 0; }

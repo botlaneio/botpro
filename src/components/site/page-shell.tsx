@@ -34,11 +34,15 @@ export function PageSection({ id, eyebrow, title, intro, children }: { id: strin
  * The frame every solution page shares: the header, a title block, the page's own content, links to the
  * other solutions, and the call to action. `current` is the page's own link, left out of the others.
  */
-export function PageShell({ eyebrow, title, intro, banner, current, cta, children }: {
+export function PageShell({ eyebrow, title, intro, banner, actions, aside, current, cta, children }: {
   eyebrow: string
   title: string
   intro: string
   banner?: React.ReactNode
+  /** Buttons under the intro. */
+  actions?: React.ReactNode
+  /** A visual beside the title block from lg, below it on smaller screens. Without one the title block runs alone. */
+  aside?: React.ReactNode
   /** The page's own section, by its href: "/websites", "/web-apps", "/custom-solutions" or "/products". */
   current?: string
   /** The closing call to action, when the page has a more specific one than starting a project. */
@@ -51,12 +55,26 @@ export function PageShell({ eyebrow, title, intro, banner, current, cta, childre
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
-        <header className="glow-brand grid max-w-3xl justify-items-start gap-5 py-12 sm:py-20">
-          {banner}
-          <span className="label-mono">{eyebrow}</span>
-          <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">{title}</h1>
-          <p className="max-w-2xl text-lg text-muted-foreground">{intro}</p>
-        </header>
+        {aside ? (
+          <header className="glow-brand grid items-center gap-12 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10">
+            <div className="grid justify-items-start gap-5">
+              {banner}
+              <span className="label-mono">{eyebrow}</span>
+              <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-[3.4rem] sm:leading-[1.05]">{title}</h1>
+              <p className="max-w-xl text-lg text-muted-foreground">{intro}</p>
+              {actions && <div className="mt-2 flex flex-wrap items-center gap-3">{actions}</div>}
+            </div>
+            {aside}
+          </header>
+        ) : (
+          <header className="glow-brand grid max-w-3xl justify-items-start gap-5 py-12 sm:py-20">
+            {banner}
+            <span className="label-mono">{eyebrow}</span>
+            <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-6xl">{title}</h1>
+            <p className="max-w-2xl text-lg text-muted-foreground">{intro}</p>
+            {actions && <div className="mt-2 flex flex-wrap items-center gap-3">{actions}</div>}
+          </header>
+        )}
 
         {children}
 
