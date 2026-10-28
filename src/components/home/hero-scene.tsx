@@ -123,11 +123,20 @@ function Site({ x, y, w, at, out }: { x: number; y: number; w: number; at: numbe
       <rect x={x} y={y} width={w} height={h} rx={12 * s} className="scene-window" />
       <path d={`M${x} ${y + 26 * s} H${x + w}`} className="scene-line" />
       {[0, 1, 2].map((i) => <circle key={i} cx={x + (16 + i * 11) * s} cy={y + 13 * s} r={3 * s} className="scene-dot" />)}
-      <rect x={x + 24 * s} y={y + 50 * s} width={150 * s} height={12 * s} rx={3 * s} className="scene-fill-strong" />
-      <rect x={x + 24 * s} y={y + 70 * s} width={110 * s} height={12 * s} rx={3 * s} className="scene-fill-strong" />
-      <rect x={x + 24 * s} y={y + 94 * s} width={190 * s} height={6 * s} rx={3 * s} className="scene-fill" />
-      <rect x={x + 24 * s} y={y + 114 * s} width={74 * s} height={22 * s} rx={7 * s} className="scene-brand" />
-      {[0, 1, 2].map((i) => <rect key={i} x={x + (24 + i * 106) * s} y={y + 160 * s} width={96 * s} height={58 * s} rx={8 * s} className="scene-card-fill" />)}
+      <g transform={`translate(${x} ${y}) scale(${s})`}>
+        <text x="24" y="49" fill="var(--foreground)" fontSize="9" fontWeight="600" letterSpacing="1.5">NORTHSIDE / PHYSIO</text>
+        <text x="24" y="80" fill="var(--foreground)" fontSize="23" fontWeight="500" letterSpacing="-0.7">Move freely.</text>
+        <text x="24" y="107" fill="var(--foreground)" fontSize="23" fontWeight="500" letterSpacing="-0.7">Feel yourself again.</text>
+        <text x="24" y="127" fill="var(--muted-foreground)" fontSize="8">Personal care. A plan that moves with you.</text>
+        <rect x="24" y="140" width="105" height="24" rx="6" className="scene-brand" />
+        <text x="35" y="155" fill="var(--brand-foreground, white)" fontSize="8" fontWeight="500">Book a consultation ↗</text>
+        {["Recover", "Strengthen", "Keep moving"].map((label, i) => (
+          <g key={label}>
+            <rect x={24 + i * 106} y="183" width="96" height="35" rx="6" className="scene-card-fill" />
+            <text x={34 + i * 106} y="204" fill="var(--foreground)" fontSize="8.5">{label}</text>
+          </g>
+        ))}
+      </g>
     </g>
   )
 }
@@ -371,7 +380,7 @@ export function HeroScene({ className }: { className?: string }) {
       {/* The headline and the one line under it. */}
       <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-4 pt-10 sm:pt-14">
         <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
-        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
+        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-foreground/80">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
       </div>
 
       {/* The scene's captions, the tabs, and the track they sit on. */}
