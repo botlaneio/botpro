@@ -145,6 +145,14 @@
 @keyframes apex-beam {
   to { --beam-angle: 360deg; }
 }
+/* The launch example's lamp: its ring turns, and its glow breathes. */
+@keyframes showcase-spin {
+  to { rotate: 360deg; }
+}
+@keyframes showcase-breathe {
+  0%, 100% { opacity: 0.55; scale: 0.94; }
+  50% { opacity: 1; scale: 1.04; }
+}
 /* The offer page's example site: rest at the top, glide to the bottom (--travel), rest, glide back. */
 @keyframes showcase-scroll {
   0%, 14% { translate: 0 0; }

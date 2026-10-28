@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils"
 
-export type ShowcaseExample = "clinic" | "firm"
+export type ShowcaseExample = "clinic" | "firm" | "launch"
 
 /**
  * An example of the kind of site we build, for an offer page's hero: a browser window scrolling slowly
  * through a made-up business's site, with a second piece in front that shows what the package is about.
  * "clinic" is a small physio practice with a phone in front (a Business site: right on every phone);
  * "firm" is an accounting firm with more pages and a blog, with a content editor in front (a Company site:
- * your team edits it). Each business is made up and labelled as an example (its address is example.com,
+ * your team edits it); "launch" is a product's launch site, dark and in motion, in several languages, with a
+ * journal and a changelog, and its performance budget in front (a Brand and launch site). Each business is made up and labelled as an example (its address is example.com,
  * reserved for exactly this), with no quotes or reviews, so nothing can pass for client work. Their colours
  * are their own, not ours: the point is a site that looks like its business. Hovering pauses it; it holds
  * still under reduced motion. Decorative, so hidden from screen readers. Sized in container units.
@@ -32,12 +33,12 @@ export function SiteShowcase({ example = "clinic", className }: { example?: Show
         <div className="relative aspect-[16/10.5] overflow-hidden [container-type:inline-size]">
           {/* It scrolls by its own height less the window's (65.6cqw at 16:10.5), so it stops at the footer. */}
           <div className="text-[1.6cqw] [--travel:calc(-100%_+_65.6cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
-            {example === "firm" ? <FirmSite /> : <ClinicSite wide />}
+            {example === "firm" ? <FirmSite /> : example === "launch" ? <LaunchSite /> : <ClinicSite wide />}
           </div>
         </div>
       </div>
 
-      {example === "firm" ? <EditorPanel /> : <Phone />}
+      {example === "firm" ? <EditorPanel /> : example === "launch" ? <BudgetPanel /> : <Phone />}
     </div>
   )
 }
@@ -251,6 +252,117 @@ function EditorPanel() {
         <span className="text-[10.5px] text-muted-foreground">3 changes</span>
         <span className="btn-light rounded-md! px-2.5 py-1 text-[10.5px] font-medium">Publish</span>
       </span>
+    </div>
+  )
+}
+
+// The launch site's own palette: near-black, warm white, the amber of the lamp it sells.
+const L = { night: "#0D0C0B", panel: "#171513", ink: "#F3EEE6", soft: "#A39C91", line: "#2B2825", amber: "#F4A259", ember: "#C2632A" }
+
+/**
+ * A product's launch site: dark, cinematic, in motion. The lamp in the hero is a ring of light that turns
+ * slowly and breathes, the kind of signature motion an Apex site is built around. It has a language switch,
+ * and structured content: journal entries and a changelog.
+ */
+function LaunchSite() {
+  const pad = "3.2em"
+  const features = [["01", "Warm at dawn", "It wakes with you, in the softest light it has."], ["02", "Clear all day", "Bright, even light while you work."], ["03", "Amber at dusk", "It warms as the evening comes in."]]
+  const changes = [["1.2", "Sunset mode, which follows your local sunset"], ["1.1", "Quieter dimming at the lowest settings"], ["1.0", "Solenne One, first release"]]
+  return (
+    <div style={{ background: L.night, color: L.ink }} className="font-sans">
+      {/* Nav, with the language switch. */}
+      <div className="flex items-center justify-between" style={{ padding: `1.4em ${pad}` }}>
+        <span className="text-[1.05em] font-semibold tracking-[0.18em]">SOLENNE</span>
+        <span className="flex items-center gap-[1.4em] text-[0.8em]" style={{ color: L.soft }}>
+          <span>Product</span><span>Design</span><span>Journal</span><span>Changelog</span>
+          <span className="flex overflow-hidden rounded-full border text-[0.85em]" style={{ borderColor: L.line }}>
+            {["EN", "FR", "DE"].map((l, i) => <span key={l} className="px-[0.6em] py-[0.2em]" style={i === 0 ? { background: L.ink, color: L.night } : undefined}>{l}</span>)}
+          </span>
+          <span className="rounded-full px-[1em] py-[0.45em] font-medium" style={{ background: L.amber, color: L.night }}>Pre-order</span>
+        </span>
+      </div>
+
+      {/* Hero: the lamp as a ring of light, turning and breathing. */}
+      <div className="relative grid justify-items-center gap-[1.4em] overflow-hidden text-center" style={{ padding: `2.6em ${pad} 3.4em` }}>
+        <span className="text-[0.72em] tracking-[0.22em]" style={{ color: L.amber }}>SOLENNE ONE · PRE-ORDERS OPEN</span>
+        <span className="max-w-[14em] text-[3.1em] leading-[0.98] font-semibold tracking-[-0.04em]">Light that follows the day.</span>
+        <span className="relative my-[0.6em] grid aspect-square w-[16em] place-items-center">
+          <span className="absolute inset-[-18%] rounded-full blur-[2.2em] [animation:showcase-breathe_6s_ease-in-out_infinite] motion-reduce:[animation:none]" style={{ background: `radial-gradient(closest-side, ${L.amber}66, transparent)` }} />
+          <span className="absolute inset-0 rounded-full [animation:showcase-spin_14s_linear_infinite] motion-reduce:[animation:none]" style={{ background: `conic-gradient(from 0deg, ${L.amber}, ${L.ember} 30%, transparent 55%, ${L.amber}55 75%, ${L.amber})`, mask: "radial-gradient(closest-side, transparent 80%, #000 82%)", WebkitMask: "radial-gradient(closest-side, transparent 80%, #000 82%)" }} />
+          <span className="absolute inset-[24%] rounded-full" style={{ background: `radial-gradient(circle at 40% 35%, ${L.ink}, ${L.amber} 45%, ${L.ember} 100%)`, boxShadow: `0 0 4em ${L.amber}88` }} />
+        </span>
+        <span className="flex gap-[0.6em] text-[0.85em] font-medium">
+          <span className="rounded-full px-[1.2em] py-[0.6em]" style={{ background: L.amber, color: L.night }}>Pre-order</span>
+          <span className="rounded-full border px-[1.2em] py-[0.6em]" style={{ borderColor: L.line }}>Watch the film</span>
+        </span>
+      </div>
+
+      {/* Features, as a sequence through the day. */}
+      <div className="grid grid-cols-3 border-y" style={{ borderColor: L.line }}>
+        {features.map(([n, t, b], i) => (
+          <div key={n} className="grid gap-[0.6em] p-[1.8em]" style={i ? { borderLeft: `1px solid ${L.line}` } : undefined}>
+            <span className="text-[0.75em] tracking-[0.1em]" style={{ color: L.amber }}>{n}</span>
+            <span className="text-[1.15em] font-semibold">{t}</span>
+            <span className="text-[0.8em] leading-[1.45]" style={{ color: L.soft }}>{b}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Structured content: journal entries and a changelog. */}
+      <div className="grid grid-cols-[1.4fr_1fr] gap-[2em]" style={{ padding: `3em ${pad}` }}>
+        <div className="grid content-start gap-[1em]">
+          <span className="text-[0.72em] tracking-[0.16em]" style={{ color: L.soft }}>JOURNAL</span>
+          {["Designing a light around the sun", "Why the ring is the lamp"].map((t, i) => (
+            <div key={t} className="grid grid-cols-[6em_1fr] items-center gap-[1em]">
+              <span className="aspect-[4/3] rounded-[0.6em]" style={{ background: i ? `linear-gradient(135deg, ${L.ember}, ${L.panel})` : `linear-gradient(135deg, ${L.amber}, ${L.ember})` }} />
+              <span className="font-semibold leading-[1.25]">{t}</span>
+            </div>
+          ))}
+        </div>
+        <div className="grid content-start gap-[0.8em]">
+          <span className="text-[0.72em] tracking-[0.16em]" style={{ color: L.soft }}>CHANGELOG</span>
+          {changes.map(([v, t]) => (
+            <div key={v} className="grid grid-cols-[2.6em_1fr] gap-[0.8em] border-t pt-[0.7em] text-[0.8em]" style={{ borderColor: L.line }}>
+              <span style={{ color: L.amber }}>{v}</span>
+              <span style={{ color: L.soft }}>{t}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer, with every language. */}
+      <div className="flex items-center justify-between text-[0.75em]" style={{ padding: `1.8em ${pad}`, background: L.panel, color: L.soft }}>
+        <span className="tracking-[0.18em]" style={{ color: L.ink }}>SOLENNE</span>
+        <span>English · Français · Deutsch · 日本語</span>
+        <span>example.com</span>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * The launch site's performance budget, in front of the window's lower right: each measure against its
+ * limit, all under. What an Apex site is held to. The figures belong to the example.
+ */
+function BudgetPanel() {
+  const rows = [["Page weight", "640 KB", "1 MB", 0.64], ["Largest paint", "1.4 s", "2.0 s", 0.7], ["JavaScript", "110 KB", "150 KB", 0.73], ["Layout shift", "0.01", "0.10", 0.1]] as const
+  return (
+    <div className="absolute right-0 bottom-0 hidden w-[44%] gap-2.5 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
+      <span className="flex items-center justify-between">
+        <span className="label-mono text-[10px] text-foreground">PERFORMANCE BUDGET</span>
+        <span className="label-mono flex items-center gap-1.5 text-[9.5px]"><span className="size-1.5 rounded-full bg-[#3BB273]" />ALL UNDER</span>
+      </span>
+      {rows.map(([k, v, max, f]) => (
+        <span key={k} className="grid gap-1">
+          <span className="flex justify-between text-[10.5px]">
+            <span className="text-muted-foreground">{k}</span>
+            <span className="label-mono text-[10px] text-foreground">{v} <span className="text-muted-foreground">/ {max}</span></span>
+          </span>
+          <span className="h-1 overflow-hidden rounded-full bg-foreground/[0.08]">
+            <span className="block h-full rounded-full bg-[#3BB273]" style={{ width: `${f * 100}%` }} />
+          </span>
+        </span>
+      ))}
     </div>
   )
 }

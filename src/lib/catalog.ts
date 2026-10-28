@@ -40,7 +40,7 @@ export interface Offer {
   deliverables?: string[]
   timeline?: string
   /** What we typically build it with. */
-  stack?: string[]
+  stack?: Tool[]
   /** Our own work that shows we can do it. */
   proof: { text: string; href: string; label: string }
   /**
@@ -50,10 +50,18 @@ export interface Offer {
    */
   outcomes?: { icon: OutcomeIcon; title: string; body: string }[]
   /** Which example site the fuller page shows: a small clinic (with a phone) or a firm (with an editor). */
-  showcase?: "clinic" | "firm"
+  showcase?: "clinic" | "firm" | "launch"
 }
 
-export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations"
+/** A tool we build with, shown by its logo. */
+export type ToolId = "nextjs" | "react" | "typescript" | "tailwind" | "vercel" | "postgresql" | "stripe"
+export interface Tool {
+  id: ToolId
+  /** When it applies, if not always. */
+  note?: string
+}
+
+export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations" | "motion" | "structure" | "languages" | "performance"
 
 export const CATEGORIES: Category[] = [
   {
@@ -88,8 +96,8 @@ export const CATEGORIES: Category[] = [
   },
 ]
 
-const SITE_STACK = ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"]
-const APP_STACK = ["Next.js", "TypeScript", "PostgreSQL", "Stripe, if you take payments", "Vercel"]
+const SITE_STACK: Tool[] = [{ id: "nextjs" }, { id: "react" }, { id: "typescript" }, { id: "tailwind" }, { id: "vercel" }]
+const APP_STACK: Tool[] = [{ id: "nextjs" }, { id: "typescript" }, { id: "postgresql" }, { id: "stripe", note: "If you take payments" }, { id: "vercel" }]
 const OUR_APPS = { text: "We build and run our own apps to the same standard: Syncc for scheduling and Scriblane for documents.", href: "/products", label: "See our products" }
 const OUR_SITE = { text: "This website is our own work, designed and built in-house to the standard we build for clients.", href: "/products", label: "See what else we've built" }
 
@@ -144,6 +152,15 @@ export const OFFERS: Offer[] = [
     pain: "For a launch or a premium brand, the site is the first thing people experience. It has to feel as good as what you sell.",
     stack: SITE_STACK,
     proof: OUR_SITE,
+    outcomes: [
+      { icon: "foundation", title: "Everything a Company site does", body: "One design system across every page, a content editor your team uses, and your booking, CRM and newsletter tools connected." },
+      { icon: "motion", title: "Motion that's yours", body: "Signature motion and interactions, designed around your brand, so the site feels like the thing you sell." },
+      { icon: "structure", title: "Content with a shape", body: "Structured content for case studies, docs and a changelog, so each kind of page stays consistent as it grows." },
+      { icon: "search", title: "Found, beyond the basics", body: "Advanced SEO, going further than the basics in our other packages." },
+      { icon: "languages", title: "In the languages you need", body: "Multiple languages, if your audience needs them." },
+      { icon: "performance", title: "Fast, and held to it", body: "A performance budget: set limits on page weight and load time that the site is built to stay within." },
+    ],
+    showcase: "launch",
   },
   {
     slug: "scoping-sprint",
