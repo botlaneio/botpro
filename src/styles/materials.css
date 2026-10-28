@@ -542,34 +542,12 @@
   &:hover path, &[data-lit] path { fill: var(--c-ink, var(--foreground)); }
 }
 
-/* The contact page's backdrop (glass-cubes.tsx): frosted glass cubes on a tilted plane, lit red from within.
-   Each tile's --l (0–1) is how much light falls on it. */
-.cubes { position: absolute; background: #050506; perspective: 1500px; }
-.cubes-plane {
-  position: absolute; left: -30%; top: -38%; width: 160%; height: 170%;
-  display: grid; grid-template-columns: repeat(11, 1fr); gap: 1.6%;
-  transform: rotateX(56deg) rotateZ(-22deg); transform-origin: 50% 40%;
-  filter: blur(0.5px);
-}
-.cubes-tile {
-  aspect-ratio: 1; border-radius: 22%;
-  background:
-    radial-gradient(130% 120% at 28% 18%, rgb(255 236 234 / calc(0.08 + var(--l) * 0.55)), transparent 55%),
-    linear-gradient(160deg, rgb(214 64 62 / calc(0.10 + var(--l) * 0.55)), rgb(70 10 12 / calc(0.35 + var(--l) * 0.35)) 70%);
-  box-shadow:
-    inset 0 2px 1px rgb(255 255 255 / calc(0.10 + var(--l) * 0.5)),
-    inset 0 -18px 30px rgb(20 0 0 / 0.45),
-    0 16px 0 -2px rgb(calc(22 + var(--l) * 60) 8 10),
-    0 16px 2px -1px rgb(255 110 100 / calc(var(--l) * 0.35)),
-    0 46px 50px -12px rgb(0 0 0 / 0.85);
-}
-.cubes-glow { position: absolute; border-radius: 50%; mix-blend-mode: screen; filter: blur(60px); }
-.cubes-glow-a { width: 55%; height: 60%; left: 42%; top: 8%; background: radial-gradient(closest-side, rgb(192 40 42 / 0.55), transparent); animation: cubes-drift 18s ease-in-out infinite alternate; }
-.cubes-glow-b { width: 40%; height: 45%; left: 2%; top: 48%; background: radial-gradient(closest-side, rgb(192 40 42 / 0.35), transparent); animation: cubes-drift 23s ease-in-out infinite alternate-reverse; }
-.cubes-vignette { position: absolute; inset: 0; background: linear-gradient(180deg, #050506 0%, transparent 16%, transparent 80%, rgb(5 5 6 / 0.85) 100%), radial-gradient(120% 90% at 55% 45%, transparent 55%, rgb(5 5 6 / 0.7)); }
-@keyframes cubes-drift { to { translate: -6% 5%; scale: 1.08; } }
+/* The contact page's backdrop (contact-light.tsx): a slow-drifting pool of red, and a fine grain over it. */
+.contact-pool { animation: contact-drift 20s ease-in-out infinite alternate; }
+@keyframes contact-drift { to { translate: 8% 6%; scale: 1.1; } }
+.contact-grain { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-/* The contact cards. The lead card is red glass over the cubes; the others are near-black. */
+/* The contact cards. The lead card is red glass over the red light; the others are near-black. */
 @utility set-glass {
   color: #fff;
   background:
@@ -592,5 +570,5 @@
   to { opacity: 1; translate: 0 0; filter: blur(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cubes-glow { animation: none; }
+  .contact-pool { animation: none; }
 }
