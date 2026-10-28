@@ -349,7 +349,7 @@ export function HeroScene({ className }: { className?: string }) {
             <Wire d="M420 400 L 370 400" at={13.4} out={18.4} />
           </svg>
           <Chip x={210} y={298} m={[300, 560]} at={2.2} done={3.3} out={5.0}>Scope agreed</Chip>
-          <Chip x={196} y={398} m={[300, 630]} at={2.6} done={3.9} out={5.0}>Fixed price, $4,900</Chip>
+          <Chip x={196} y={398} m={[300, 630]} at={2.6} done={3.9} out={5.0}>Proposal signed</Chip>
           <Chip x={834} y={360} m={[620, 560]} at={3.0} done={4.4} out={5.0}>Design approved</Chip>
 
           {/* Build, scene two: the work, each task moving from to do to done. */}
@@ -379,14 +379,14 @@ export function HeroScene({ className }: { className?: string }) {
 
       {/* The headline and the one line under it. */}
       <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-4 pt-10 sm:pt-14">
-        <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Websites and web apps, built properly.</h1>
-        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">We design, build and look after your site, at a fixed price agreed before we start.</p>
+        <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Websites and software, made with uncommon care.</h1>
+        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">An independent studio for companies whose website should feel as considered as the work they do.</p>
       </div>
 
       {/* The scene's captions, the tabs, and the track they sit on. */}
       <div data-hero-bottom className="absolute inset-x-0 bottom-0 z-10 grid justify-items-center gap-5 pb-6">
         <div aria-live="polite" className="relative h-9 w-full">
-          {[["New brief: a booking site for a physio clinic", 0.2, 5.2], ["Designed and built in rounds", 5.8, 11.5], ["Going live", 12.4, 18.6], ["Looked after, month after month", 19.4, 28.6]].map(([text, a, b]) => (
+          {[["It begins with a brief", 0.2, 5.2], ["Designed, refined, built", 5.8, 11.5], ["Live, and handed over", 12.4, 18.6], ["Cared for, long after launch", 19.4, 28.6]].map(([text, a, b]) => (
             <div key={text as string} className="absolute inset-x-0 top-0 flex justify-center px-4">
               <span data-in={span(a as number, 0.4)} data-out={span(b as number, 0.3)} data-rise="" className="scene-caption text-center">{text}</span>
             </div>
@@ -420,8 +420,8 @@ export function HeroScene({ className }: { className?: string }) {
           <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
           <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
           <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
-            <p className="text-3xl font-medium tracking-tight text-balance">That&apos;s every project, at one fixed price.</p>
-            <p className="text-muted-foreground">Tell us what you&apos;re building and we&apos;ll come back with a scope and a price.</p>
+            <p className="text-3xl font-medium tracking-tight text-balance">Every project, held to the same standard.</p>
+            <p className="text-muted-foreground">Tell us what you have in mind. We&apos;ll take it from there.</p>
             <div className="mt-2 flex flex-wrap justify-center gap-3">
               <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
               <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>

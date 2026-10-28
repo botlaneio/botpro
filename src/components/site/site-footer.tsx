@@ -35,7 +35,7 @@ export function SiteFooter() {
             <BotlaneMark size={30} id="footer-mark" />
             <span className="text-lg font-semibold tracking-[-0.035em]">botlane</span>
           </Link>
-          <p className="max-w-xs text-sm text-muted-foreground">Websites and web apps, built properly, at a fixed price agreed before we start.</p>
+          <p className="max-w-xs text-sm text-muted-foreground">An independent studio for websites and software, made with uncommon care.</p>
           <Link href="/contact" className="group/cta inline-flex items-center gap-1.5 text-sm font-medium">
             Start a project
             <ArrowRight aria-hidden className="size-3.5 transition-transform duration-300 ease-(--ease-lift) group-hover/cta:translate-x-0.5" />
@@ -66,7 +66,7 @@ export function SiteFooter() {
 
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-6 py-6 text-[13px] text-muted-foreground sm:px-6">
         <span>© {new Date().getFullYear()} Botlane</span>
-        <span className="label-mono text-[11px]">FIXED PRICES · US DOLLARS</span>
+        <span className="label-mono text-[11px]">DESIGN AND ENGINEERING STUDIO</span>
       </div>
 
       {/* The wordmark, huge and faint, sitting on the bottom edge so its feet are cut off. */}
