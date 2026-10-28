@@ -597,3 +597,17 @@
 @media (prefers-reduced-motion: reduce) {
   .contact-pool { animation: none; }
 }
+
+/* Insights covers (insight-cover.tsx): a glint along the gathered line, a body turning on the orbit, the lit
+   square breathing. Hovering a card (group/cover) brightens the light. */
+.cover-glint { stroke-dasharray: 0.08 1.5; stroke-dashoffset: 0.08; animation: cover-glint 4.2s cubic-bezier(.45,.05,.35,1) infinite; }
+@keyframes cover-glint { 0% { stroke-dashoffset: 0.08; } 65%, 100% { stroke-dashoffset: -1; } }
+.cover-turn { animation: cover-turn 28s linear infinite; }
+@keyframes cover-turn { to { rotate: 360deg; } }
+.cover-pulse { animation: cover-pulse 3.6s ease-in-out infinite; }
+@keyframes cover-pulse { 50% { opacity: 0.7; } }
+.group\/cover:hover .cover-light { filter: brightness(1.45) blur(40px); }
+@media (prefers-reduced-motion: reduce) {
+  .cover-glint { display: none; }
+  .cover-turn, .cover-pulse { animation: none; }
+}
