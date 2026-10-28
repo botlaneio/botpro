@@ -43,7 +43,15 @@ export interface Offer {
   stack?: string[]
   /** Our own work that shows we can do it. */
   proof: { text: string; href: string; label: string }
+  /**
+   * What each included item does for the client, in their terms. When set, the option's page uses the
+   * fuller layout: an example of the work beside the headline, these as cards, then the plan as a timeline.
+   * One per included item, in the same order, and no claims the plan doesn't make.
+   */
+  outcomes?: { icon: OutcomeIcon; title: string; body: string }[]
 }
+
+export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics"
 
 export const CATEGORIES: Category[] = [
   {
@@ -95,6 +103,13 @@ export const OFFERS: Offer[] = [
     pain: "You need to look established from day one, on a site that's yours, not a template that looks like everyone else's.",
     stack: SITE_STACK,
     proof: OUR_SITE,
+    outcomes: [
+      { icon: "design", title: "Designed around your business", body: "Drawn from a blank page around what you do, so it looks like you and no one else." },
+      { icon: "mobile", title: "Right on every phone", body: "Laid out for small screens as carefully as large ones, and built to load fast." },
+      { icon: "search", title: "Ready to be found", body: "The search basics set up from day one, so search engines can read and list every page." },
+      { icon: "enquiries", title: "Enquiries straight to you", body: "A contact form that sends every enquiry to your inbox." },
+      { icon: "analytics", title: "See who visits", body: "Analytics set up, so you can see how many people come and what they read." },
+    ],
   },
   {
     slug: "company-sites",

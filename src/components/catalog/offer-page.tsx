@@ -1,13 +1,23 @@
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react"
+import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesColumn, Check, Mail, Palette, Search, Smartphone } from "lucide-react"
 
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { PageSection, PageShell } from "@/components/site/page-shell"
-import { categoryById, findOffer, offerHref, offerPrice, offersIn, type Offer } from "@/lib/catalog"
+import { categoryById, findOffer, offerHref, offerPrice, offersIn, type Offer, type OutcomeIcon } from "@/lib/catalog"
 import { plan } from "@/lib/pricing"
+import { STEPS } from "@/lib/process"
 import { cn } from "@/lib/utils"
 
 import { OFFER_ICONS } from "./offer-icons"
+import { SiteShowcase } from "./site-showcase"
+
+const OUTCOME_ICONS: Record<OutcomeIcon, React.ComponentType<{ className?: string }>> = {
+  design: Palette,
+  mobile: Smartphone,
+  search: Search,
+  enquiries: Mail,
+  analytics: ChartNoAxesColumn,
+}
 
 // The closing line for each category, matched to how it's sold.
 const CLOSE: Record<Offer["category"], string> = {
@@ -22,6 +32,7 @@ const CLOSE: Record<Offer["category"], string> = {
  * proof, and a call to action named for the option. Web-app stages after scoping point back to the sprint.
  */
 export function OfferPage({ offer }: { offer: Offer }) {
+  if (offer.outcomes) return <ShowcaseOfferPage offer={offer} />
   const cat = categoryById(offer.category)
   const p = offer.planId ? plan(offer.planId) : null
   const Icon = OFFER_ICONS[offer.icon]
@@ -29,7 +40,6 @@ export function OfferPage({ offer }: { offer: Offer }) {
   const specs = Object.entries(p?.specs ?? (offer.timeline ? { Timeline: offer.timeline } : {}))
   const contact = `/contact?need=${cat.cta.need}`
   const sprint = offer.category === "web-apps" && offer.slug !== "scoping-sprint" ? findOffer("web-apps", "scoping-sprint") : undefined
-  const siblings = offersIn(offer.category).filter((o) => o.slug !== offer.slug)
 
   return (
     <PageShell
@@ -103,32 +113,163 @@ export function OfferPage({ offer }: { offer: Offer }) {
         </PageSection>
       )}
 
-      <PageSection id="proof" eyebrow="PROOF" title="Our own work, not promises.">
-        <div className="surface-hairline flex flex-wrap items-center gap-4 p-5">
-          <p className="max-w-xl flex-1 text-muted-foreground">{offer.proof.text}</p>
-          <Link href={offer.proof.href} className="inline-flex items-center gap-1.5 text-sm font-medium">{offer.proof.label} <ArrowRight className="size-3.5" /></Link>
-        </div>
-      </PageSection>
+      <Proof offer={offer} />
+      <Others offer={offer} />
+    </PageShell>
+  )
+}
 
-      <PageSection id="other" eyebrow={`OTHER ${cat.label.toUpperCase()}`} title={`Not quite right? Compare the other ${cat.label.toLowerCase()}.`}>
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {siblings.map((o) => {
-            const SiblingIcon = OFFER_ICONS[o.icon]
+/** Our own work as proof, and the tools we usually build with on one quiet line. */
+function Proof({ offer, stack = false }: { offer: Offer; stack?: boolean }) {
+  return (
+    <PageSection id="proof" eyebrow="PROOF" title="Our own work, not promises.">
+      <div className="surface-hairline flex flex-wrap items-center gap-4 p-5">
+        <p className="max-w-xl flex-1 text-muted-foreground">{offer.proof.text}</p>
+        <Link href={offer.proof.href} className="inline-flex items-center gap-1.5 text-sm font-medium">{offer.proof.label} <ArrowRight className="size-3.5" /></Link>
+      </div>
+      {stack && offer.stack && (
+        <p className="label-mono text-[11px]">BUILT WITH · {offer.stack.join(" · ").toUpperCase()}</p>
+      )}
+    </PageSection>
+  )
+}
+
+/** The other options in the same category. */
+function Others({ offer }: { offer: Offer }) {
+  const cat = categoryById(offer.category)
+  const siblings = offersIn(offer.category).filter((o) => o.slug !== offer.slug)
+  return (
+    <PageSection id="other" eyebrow={`OTHER ${cat.label.toUpperCase()}`} title={`Not quite right? Compare the other ${cat.label.toLowerCase()}.`}>
+      <ul className="grid gap-3 sm:grid-cols-2">
+        {siblings.map((o) => {
+          const SiblingIcon = OFFER_ICONS[o.icon]
+          return (
+            <li key={o.slug}>
+              <Link href={offerHref(o)} className="surface-hairline group/o flex h-full items-start gap-3 p-4 transition-colors hover:bg-foreground/[0.03]">
+                <span className={cn("tile-depth size-9 shrink-0", cat.tone)}><SiblingIcon className="size-4" /></span>
+                <span className="grid gap-0.5">
+                  <span className="font-medium">{o.name}</span>
+                  <span className="label-mono text-[11px]">{offerPrice(o)}</span>
+                </span>
+                <ArrowUpRight aria-hidden className="ml-auto size-4 shrink-0 opacity-50 transition-[opacity,transform] group-hover/o:translate-x-0.5 group-hover/o:-translate-y-0.5 group-hover/o:opacity-100" />
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </PageSection>
+  )
+}
+
+/**
+ * The fuller page, for options with outcomes written for them. An example of the work beside the
+ * headline; what each included item does for the client as cards, with the price as the last card, so
+ * the value comes before the number; then how the project runs, as a timeline built from the shared
+ * process steps and the plan's own timeline and revisions. Proof, the tools on one line, and the other
+ * options close it, as on every offer page.
+ */
+function ShowcaseOfferPage({ offer }: { offer: Offer }) {
+  const cat = categoryById(offer.category)
+  const p = offer.planId ? plan(offer.planId) : null
+  const Icon = OFFER_ICONS[offer.icon]
+  const contact = `/contact?need=${cat.cta.need}`
+  const specs = p?.specs ?? {}
+  const timeline = specs.Timeline ?? offer.timeline
+  // What the timeline adds to a step: the plan's revision rounds on Design.
+  const notes: Record<string, string | undefined> = { Design: specs.Revisions ? `${specs.Revisions} of revisions` : undefined }
+
+  return (
+    <PageShell
+      current={cat.href}
+      banner={p?.founding ? <FoundingBanner /> : undefined}
+      eyebrow={`${cat.label} · ${offer.name}`.toUpperCase()}
+      title={offer.headline}
+      intro={offer.pain}
+      actions={
+        <>
+          <Link href={contact} className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">{cat.cta.label} <ArrowRight className="size-4" /></Link>
+          <Link href="#included" className="group/a inline-flex h-10 items-center gap-1.5 px-3 text-sm text-muted-foreground transition-colors hover:text-foreground">
+            What&apos;s included <ArrowDown className="size-3.5 transition-transform group-hover/a:translate-y-0.5" />
+          </Link>
+        </>
+      }
+      aside={<SiteShowcase />}
+      cta={{ title: `Let's talk about your ${offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
+    >
+      <PageSection id="included" eyebrow="WHAT YOU GET" title="What your site will do for you.">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {offer.outcomes!.map((o) => {
+            const OutcomeIcon = OUTCOME_ICONS[o.icon]
             return (
-              <li key={o.slug}>
-                <Link href={offerHref(o)} className="surface-hairline group/o flex h-full items-start gap-3 p-4 transition-colors hover:bg-foreground/[0.03]">
-                  <span className={cn("tile-depth size-9 shrink-0", cat.tone)}><SiblingIcon className="size-4" /></span>
-                  <span className="grid gap-0.5">
-                    <span className="font-medium">{o.name}</span>
-                    <span className="label-mono text-[11px]">{offerPrice(o)}</span>
-                  </span>
-                  <ArrowUpRight aria-hidden className="ml-auto size-4 shrink-0 opacity-50 transition-[opacity,transform] group-hover/o:translate-x-0.5 group-hover/o:-translate-y-0.5 group-hover/o:opacity-100" />
-                </Link>
+              <li key={o.title} className="surface-hairline grid content-start gap-4 p-6">
+                <span className={cn("tile-depth size-10", cat.tone)}><OutcomeIcon className="size-[18px]" /></span>
+                <span className="grid gap-1.5">
+                  <span className="text-[17px] font-medium tracking-tight">{o.title}</span>
+                  <span className="text-sm leading-relaxed text-muted-foreground text-pretty">{o.body}</span>
+                </span>
               </li>
             )
           })}
+          {/* The price, last: by now the reader knows what it buys. */}
+          <li className="surface-glass grid content-between gap-6 p-6 sm:col-span-2 lg:col-span-1">
+            <div className="grid gap-4">
+              <div className="flex items-center gap-3">
+                <span className={cn("tile-depth size-10", cat.tone)}><Icon className="size-[18px]" /></span>
+                <span className="label-mono">{p ? p.name.toUpperCase() : offer.name.toUpperCase()}</span>
+              </div>
+              <div className="grid gap-1">
+                <span className="text-3xl font-medium tracking-tight">{offerPrice(offer)}</span>
+                {p?.terms && <span className="text-sm text-foreground/85">{p.terms}</span>}
+              </div>
+              {Object.keys(specs).length > 0 && (
+                <dl className="grid gap-1.5 text-sm">
+                  {Object.entries(specs).filter(([k]) => k !== "Timeline" && k !== "Revisions").map(([k, v]) => (
+                    <div key={k} className="flex justify-between gap-4">
+                      <dt className="text-muted-foreground">{k}</dt>
+                      <dd className="text-right">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href={contact} className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">{cat.cta.label} <ArrowRight className="size-4" /></Link>
+              <Link href={cat.href} className="inline-flex h-10 items-center text-sm text-muted-foreground hover:text-foreground">Compare all {cat.label.toLowerCase()}</Link>
+            </div>
+          </li>
         </ul>
       </PageSection>
+
+      <PageSection
+        id="plan"
+        eyebrow="HOW IT RUNS"
+        title={timeline ? `Built in ${timeline}, at one fixed price.` : "One fixed price, agreed before we start."}
+        intro="The scope, timeline and price are agreed in writing before any work starts."
+      >
+        <ol className="relative grid gap-6 lg:grid-cols-5 lg:gap-4">
+          {/* The track: a hairline through the step markers, from lg. */}
+          <span aria-hidden className="absolute top-4 right-[10%] left-[10%] hidden h-px bg-[linear-gradient(90deg,transparent,rgb(var(--ink)/0.18)_12%,rgb(var(--ink)/0.18)_88%,transparent)] lg:block" />
+          {STEPS.map((step, i) => (
+            <li key={step.title} className="relative grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 lg:grid-cols-1 lg:justify-items-center lg:text-center">
+              <span className="label-mono row-span-2 grid size-8 place-items-center rounded-full border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] text-[11px] text-foreground lg:row-span-1 lg:mb-2">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="font-medium">{step.title}</span>
+              <span className="text-sm leading-relaxed text-muted-foreground text-pretty">{step.body}</span>
+              {notes[step.title] && <span className="label-mono col-start-2 mt-1 w-fit rounded-full border border-border px-2 text-[10px] leading-5 lg:col-start-1">{notes[step.title]!.toUpperCase()}</span>}
+            </li>
+          ))}
+        </ol>
+        {p?.examples && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="label-mono mr-1 text-[11px]">GOOD FOR</span>
+            {p.examples.map((e) => <span key={e} className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">{e}</span>)}
+          </div>
+        )}
+      </PageSection>
+
+      <Proof offer={offer} stack />
+      <Others offer={offer} />
     </PageShell>
   )
 }

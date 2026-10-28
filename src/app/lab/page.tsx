@@ -23,6 +23,7 @@ import { HeroPrompt } from "@/components/home/hero-prompt"
 import { HeroStory } from "@/components/home/hero-story"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
+import { SiteShowcase } from "@/components/catalog/site-showcase"
 import { SolutionFlow } from "@/components/home/solution-flow"
 import { StackOrbit } from "@/components/home/stack-orbit"
 import { ServicesFaq } from "@/components/services/services-faq"
@@ -202,6 +203,10 @@ export default async function Lab() {
 
       <Section id="stack" title="Stack orbit" note="The apps our work connects to, real ones only. A glass capsule holds the mark above a slot; the apps travel an arc of hairlines and one at a time land in the slot, lighting the capsule's edge. A step every 1.8 seconds; pauses off screen; still under reduced motion.">
         <StackOrbit />
+      </Section>
+
+      <Section id="showcase" title="Site showcase" note="An offer page's hero: an example site in a browser window, with a phone in front, both gliding to the foot of the page and back. The business is made up, sits at example.com and has no quotes, so it can't pass for client work. Hover pauses it; still under reduced motion.">
+        <SiteShowcase />
       </Section>
 
       <Section id="reveal" title="Petal reveal" note="The homepage's closing panel. Washed-out petals with boxes opening onto full colour in turn; now and then the whole picture floods. A CURSOR box follows a mouse. Three boxes stay open, still, under reduced motion.">
