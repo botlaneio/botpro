@@ -159,12 +159,6 @@
   46%, 60% { translate: 0 var(--travel); }
   92%, 100% { translate: 0 0; }
 }
-/* The stack orbit's apps: each one's angle on its arc, registered so it can be animated smoothly. */
-@property --orbit-a {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
 /* The stack orbit's capsule edge, lighting up as an app lands in its slot. */
 @keyframes orbit-land {
   0% { opacity: 0; }
@@ -479,17 +473,18 @@
 @keyframes scene-line-l { from { opacity: 0; translate: -120px 0; } }
 @keyframes scene-line-r { from { opacity: 0; translate: 120px 0; } }
 
-/* Phones: each piece moves to its phone place (see pos() in hero-scene.tsx), text sizes up to stay readable at
-   the smaller scale, the dial moves above the site, and the dotted wires (drawn for wide screens) are left out. */
+/* Phones and tablets (compact): each piece moves to its compact place (see pos() in hero-scene.tsx), text sizes up
+   to stay readable at the smaller scale, the dial moves under the site beside two tasks, and everything drawn only
+   for wide screens (the winding lines, the dotted wires, a third task, two of the Care sites) is left out. */
 .scene [data-pos] { left: var(--dx); top: var(--dy); }
-.scene[data-phone="1"] [data-pos] { left: var(--mx); top: var(--my); }
-.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) { font-size: 19px; padding: 11px 20px 11px 15px; gap: 12px; }
-.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) > span:first-child { width: 20px; height: 20px; }
-.scene[data-phone="1"] .scene-card { width: 300px; }
-.scene[data-phone="1"] .scene-card > span:first-child { font-size: 18px; }
-.scene[data-phone="1"] .scene-person, .scene[data-phone="1"] .scene-live { font-size: 18px; }
-.scene[data-phone="1"] .scene-dial-g { transform: translate(270px, -240px); }
-.scene[data-phone="1"] .scene-wide { display: none; }
+.scene[data-compact="1"] [data-pos] { left: var(--mx); top: var(--my); }
+.scene[data-compact="1"] .scene-chip:not(.scene-chip-lg) { font-size: 19px; padding: 11px 20px 11px 15px; gap: 12px; }
+.scene[data-compact="1"] .scene-chip:not(.scene-chip-lg) > span:first-child { width: 20px; height: 20px; }
+.scene[data-compact="1"] .scene-card { width: 300px; }
+.scene[data-compact="1"] .scene-card > span:first-child { font-size: 18px; }
+.scene[data-compact="1"] .scene-person, .scene[data-compact="1"] .scene-live { font-size: 18px; }
+.scene[data-compact="1"] .scene-dial-g { transform: translate(64px, 182px); }
+.scene[data-compact="1"] .scene-wide { display: none; }
 .scene-caption { line-height: 1.35; }
 
 /* The agent mark (agent-mark.tsx): the logo with a state. Where it looks comes from --rim-a, --look-x and --look-y;

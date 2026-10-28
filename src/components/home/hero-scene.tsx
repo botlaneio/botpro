@@ -50,12 +50,17 @@ const brake = bezier(0.82, 0, 0.22, 1)
 
 // The camera: [second, zoom, x, y] — the point at (x, y) sits at the centre of the action at that zoom.
 type Key = [number, number, number, number]
-const camera = (phone: boolean): Key[] => [
-  [0, 1, CX, CY], [5.6, 1, CX, CY], [6.9, 1.14, CX, 410], [11.5, 1.14, CX, 410], [12.6, 1, CX, CY],
-  [19, 1, CX, CY], [20.6, phone ? 0.62 : 0.56, CX, CY],
+const camera = (compact: boolean): Key[] => [
+  [0, 1, CX, CY], [5.6, 1, CX, CY], [6.9, compact ? 1 : 1.14, CX, compact ? CY : 410], [11.5, compact ? 1 : 1.14, CX, compact ? CY : 410], [12.6, 1, CX, CY],
+  [19, 1, CX, CY], [20.6, compact ? 0.6 : 0.56, CX, CY],
 ]
 
 const span = (s: number, len = 0.5) => `${s} ${s + len}`
+
+// In the compact layout, the band of the stage that holds every scene, top to bottom, in stage units.
+const COMPACT = { top: 110, bottom: 750 }
+// Care sites left out of the compact layout, so three sites sit in a triangle round the hub.
+const COMPACT_SKIP = new Set([1, 4])
 
 type At = [number, number]
 // Where a piece sits: on wide screens at (x, y), and on phones at m, stacked round the site where it stays readable.
@@ -93,9 +98,9 @@ function Chip({ x, y, m, at, done, out, children, size = "sm", place = "absolute
 }
 
 /** A task card with its status: "To do" until it's done. */
-function Task({ x, y, m, at, done, out, children }: { x: number; y: number; m?: At; at: number; done: number; out: number; children: React.ReactNode }) {
+function Task({ x, y, m, at, done, out, wide, children }: { x: number; y: number; m?: At; at: number; done: number; out: number; wide?: boolean; children: React.ReactNode }) {
   return (
-    <div data-in={span(at)} data-out={span(out, 0.4)} data-done={done} data-rise="" data-pos="" className="scene-card absolute flex items-center gap-4" style={pos(x, y, m)}>
+    <div data-in={span(at)} data-out={span(out, 0.4)} data-done={done} data-rise="" data-pos="" className={cn("scene-card absolute flex items-center gap-4", wide && "scene-wide")} style={pos(x, y, m)}>
       <span className="text-[15px]">{children}</span>
       <span className="relative ml-auto h-6 w-[74px]">
         <span className="scene-todo absolute inset-0 grid place-items-center rounded-full text-[12px] font-medium">To do</span>
@@ -149,20 +154,28 @@ export function HeroScene({ className }: { className?: string }) {
   const [act, setAct] = useState(0)
   const [ended, setEnded] = useState(false)
 
-  // Fit the stage to the hero: whole on wide screens, its middle on phones.
+  // Fit the stage to the hero. Wide screens: the whole stage, behind the headline. Phones and tablets (compact): only
+  // the middle 600 units across, fitted into the space left between the headline and the tabs, so nothing overlaps.
   useEffect(() => {
     const el = hero.current, st = stage.current
     if (!el || !st) return
     const fit = () => {
       const { width, height } = el.getBoundingClientRect()
-      const phone = width < 768
-      el.dataset.phone = phone ? "1" : ""
+      const compact = width < 1024
+      el.dataset.compact = compact ? "1" : ""
       const top = (el.querySelector("[data-hero-top]") as HTMLElement | null)?.offsetHeight ?? 0
       const bottom = (el.querySelector("[data-hero-bottom]") as HTMLElement | null)?.offsetHeight ?? 0
-      const k = phone ? width / 600 : Math.min(width / W, height / H)
+      const free = Math.max(0, height - top - bottom - 24)
+      // Narrower wide screens (a tablet held sideways) keep the scene clear of the headline and the captions.
+      const narrow = !compact && width < 1280
+      const lift = narrow ? top * 0.4 : 0
+      const room = height - lift - (narrow ? bottom * 0.7 : 0)
+      const k = compact ? Math.min(width / 600, free / (COMPACT.bottom - COMPACT.top)) : Math.min(width / W, room / H)
       const tx = width / 2 - CX * k
-      const centre = phone ? top + (height - top - bottom) * 0.42 : (height - H * k) / 2 + CY * k
-      const ty = centre - CY * k
+      const ty = compact
+        ? top + 12 + free / 2 - ((COMPACT.top + COMPACT.bottom) / 2) * k
+        : lift + (room - H * k) / 2
+      
       st.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${k.toFixed(4)})`
     }
     fit()
@@ -188,8 +201,8 @@ export function HeroScene({ className }: { className?: string }) {
     }))
     const rings = Array.from(root.querySelectorAll<SVGElement>("[data-ring]"))
     const prog = ([s, e]: number[], t: number) => Math.min(1, Math.max(0, (t - s) / (e - s)))
-    let phone = root.dataset.phone === "1"
-    let keys = camera(phone)
+    let compact = root.dataset.compact === "1"
+    let keys = camera(compact)
     let shownAct = -1, shownEnd = false
     // The hub's mark: what it is doing and where it is looking, eased toward the site it is working on.
     const agent = root.querySelector<SVGSVGElement>("[data-agent]")
@@ -198,8 +211,9 @@ export function HeroScene({ className }: { className?: string }) {
     const watch = (t: number) => {
       if (!agent) return
       let state = "idle", target = -1
-      for (let i = 0; i < CARE.length; i++) if (t >= careAt(i) && t < careDone(i)) { state = "working"; target = i }
-      for (let i = 0; i < CARE.length; i++) if (t >= careDone(i) && t < careDone(i) + 0.7) { state = "done"; target = i }
+      const shown = (i: number) => !(compact && COMPACT_SKIP.has(i))
+      for (let i = 0; i < CARE.length; i++) if (shown(i) && t >= careAt(i) && t < careDone(i)) { state = "working"; target = i }
+      for (let i = 0; i < CARE.length; i++) if (shown(i) && t >= careDone(i) && t < careDone(i) + 0.7) { state = "done"; target = i }
       if (t < 21 || t > 28.4) { state = "idle"; target = -1 }
       if (state !== agentState) { agentState = state; agent.dataset.state = state }
       // The light turns the short way round to face the site; the eyes move a little toward it.
@@ -225,7 +239,7 @@ export function HeroScene({ className }: { className?: string }) {
         if (p.type) el.textContent = p.full.slice(0, Math.round(prog(p.type, t) * p.full.length))
       }
       // The camera, between the two keys either side of now.
-      if (root.dataset.phone === "1" !== phone) { phone = !phone; keys = camera(phone) }
+      if (root.dataset.compact === "1" !== compact) { compact = !compact; keys = camera(compact) }
       let i = keys.length - 1
       while (i > 0 && keys[i][0] > t) i--
       const a = keys[i], b = keys[Math.min(i + 1, keys.length - 1)]
@@ -283,7 +297,7 @@ export function HeroScene({ className }: { className?: string }) {
       {/* The stage: drawn at 1200 × 760 and scaled to the hero. */}
       <div ref={stage} aria-hidden className="pointer-events-none absolute top-0 left-0 origin-top-left" style={{ width: W, height: H }}>
         {/* Build, scene one: a line from the headline winds to the site; another arrives from the right. */}
-        <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full overflow-visible max-md:hidden">
+        <svg viewBox={`0 0 ${W} ${H}`} className="scene-wide absolute inset-0 size-full overflow-visible">
           <path d="M372 150 C 430 150 440 214 380 214 L 150 214 C 70 214 70 330 150 330 L 190 330 C 260 330 250 478 330 478 L 420 478" pathLength={1} fill="none" data-in={span(0.2, 1.6)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path" />
           <circle cx={420} cy={478} r={4} data-in={span(1.7, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
           <path d="M1260 300 C 1130 300 1090 478 990 478 L 780 478" pathLength={1} fill="none" data-in={span(0.6, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
@@ -322,11 +336,11 @@ export function HeroScene({ className }: { className?: string }) {
             {/* Care: the hub, and the client sites round it, joined by dotted lines. */}
             <g data-in={span(20.6, 0.6)} data-out={span(28.4, 0.6)}>
               {CARE.map((c, i) => (
-                <path key={i} d={`M${CX} ${CY} L${CX + (c.x - CX) * 0.62} ${CY + (c.y - CY) * 0.62}`} data-in={span(21 + i * 0.12, 0.7)} className="scene-wire" />
+                <path key={i} d={`M${CX} ${CY} L${CX + (c.x - CX) * 0.62} ${CY + (c.y - CY) * 0.62}`} data-in={span(21 + i * 0.12, 0.7)} className={cn("scene-wire", COMPACT_SKIP.has(i) && "scene-wide")} />
               ))}
             </g>
             {CARE.map((c, i) => (
-              <g key={c.label}>
+              <g key={c.label} className={COMPACT_SKIP.has(i) ? "scene-wide" : undefined}>
                 <circle cx={c.x} cy={c.y} r={200} data-in={span(19.8 + i * 0.15, 1)} data-out={span(28.4, 0.6)} className="scene-orbit" />
                 <Site x={c.x - 130} y={c.y - 112} w={260} at={20 + i * 0.15} out={28.4} />
               </g>
@@ -353,9 +367,9 @@ export function HeroScene({ className }: { className?: string }) {
           <Chip x={834} y={360} m={[620, 560]} at={3.0} done={4.4} out={5.0}>Design approved</Chip>
 
           {/* Build, scene two: the work, each task moving from to do to done. */}
-          <Task x={800} y={296} m={[460, 540]} at={7.2} done={8.4} out={11.4}>Booking flow</Task>
-          <Task x={812} y={356} m={[460, 596]} at={7.8} done={9.4} out={11.4}>Payments tested</Task>
-          <Task x={420} y={556} m={[460, 652]} at={8.4} done={10.2} out={11.4}>Every screen size</Task>
+          <Task x={800} y={296} m={[476, 548]} at={7.2} done={8.4} out={11.4}>Booking flow</Task>
+          <Task x={812} y={356} m={[476, 612]} at={7.8} done={9.4} out={11.4}>Payments tested</Task>
+          <Task x={420} y={556} at={8.4} done={10.2} out={11.4} wide>Every screen size</Task>
 
           {/* Launch: live, then the handover. */}
           <div data-in={span(14.4)} data-out={span(18.4, 0.4)} data-pop="" data-pos="" className="scene-live absolute flex items-center gap-2" style={pos(700, 252, [660, 222])}>
@@ -369,7 +383,7 @@ export function HeroScene({ className }: { className?: string }) {
           {/* Care: the hub at the centre, and each site's monthly check. */}
           <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><AgentMark size={136} label="Botlane" /></div>
           {CARE.map((c, i) => (
-            <div key={c.label} className="absolute grid justify-items-center gap-3" style={{ left: c.x - 200, top: c.y + 84, width: 400 }}>
+            <div key={c.label} className={cn("absolute grid justify-items-center gap-3", COMPACT_SKIP.has(i) && "scene-wide")} style={{ left: c.x - 200, top: c.y + 84, width: 400 }}>
               <span data-in={span(20.4 + i * 0.15, 0.6)} data-out={span(28.4, 0.5)} className="text-[22px] text-muted-foreground">{c.label}</span>
               <Chip x={0} y={0} at={careAt(i)} done={careDone(i)} out={28.4} size="lg" place="static">{c.task}</Chip>
             </div>
