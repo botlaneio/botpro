@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
-import { ContactForm } from "@/components/contact/contact-form"
-import { FlutedGlass } from "@/components/contact/fluted-glass"
+import { ContactSet } from "@/components/contact/contact-set"
+import { GlassCubes } from "@/components/contact/glass-cubes"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { NEEDS } from "@/lib/contact"
 import { NEED_OPTIONS } from "@/lib/contact-options"
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 // What happens after the brief is sent. The first is what the visitor is doing now.
 const AFTER = [
-  { n: "01", title: "Send your brief", body: "A few lines about what you're building. Two minutes." },
-  { n: "02", title: "A call and a fixed quote", body: "We talk it through, then send a written scope and one price." },
+  { n: "01", title: "Send your brief", body: "Four quick steps. Two minutes." },
+  { n: "02", title: "A call and a written scope", body: "We talk it through, then send the scope, the timeline and the price." },
   { n: "03", title: "We build it", body: "Design, build and launch, with progress shared as we go." },
 ]
 
@@ -32,26 +32,20 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
   return (
     <>
       <SiteHeader />
-      {/* On a phone: the pitch, then the form, then what happens next. From lg: pitch and steps left, form right. */}
-      <main className="mx-auto grid max-w-6xl gap-12 px-6 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:grid-rows-[auto_1fr] lg:gap-x-24 lg:gap-y-12 lg:py-24">
-        <section className="glow-brand grid content-start justify-items-start gap-5">
-          <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">Tell us what you&apos;re building.</h1>
-          <p className="max-w-md text-lg text-muted-foreground">
-            We read every brief ourselves, and we&apos;ll reply with honest advice on whether we&apos;re the right fit. No sales call unless you want one.
-          </p>
+      <main>
+        {/* The form sits on a field of red-lit glass cubes, dark in either theme. */}
+        <section aria-label="Start a project" className="relative isolate overflow-hidden bg-[#050506] py-10 sm:py-16">
+          <GlassCubes className="inset-0 -z-10" />
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <ContactSet needs={NEED_OPTIONS} initial={initial} />
+          </div>
         </section>
 
-        <section aria-label="Contact form" className="relative isolate lg:col-start-2 lg:row-span-2 lg:row-start-1">
-          {/* A window onto petals through fluted glass, a little larger than the form, which floats over it frosted. */}
-          <FlutedGlass src="/images/petals.webp" fallback="/images/petals.jpg" focus={[0.28, 0.5]} className="absolute -inset-3 -z-10 rounded-[1.9rem] sm:-inset-7 sm:rounded-[2.3rem]" />
-          <ContactForm needs={NEED_OPTIONS} initial={initial} surface="surface-frosted" />
-        </section>
-
-        <section aria-labelledby="next-title" className="grid content-start gap-4 lg:col-start-1 lg:row-start-2">
+        <section aria-labelledby="next-title" className="mx-auto grid max-w-6xl gap-6 px-6 py-16 sm:py-20">
           <h2 id="next-title" className="label-mono text-[11px]">WHAT HAPPENS NEXT</h2>
-          <ol className="grid max-w-md">
+          <ol className="grid gap-x-10 sm:grid-cols-3">
             {AFTER.map((s) => (
-              <li key={s.n} className="grid grid-cols-[2rem_1fr] gap-x-2 border-t border-border/60 py-3.5">
+              <li key={s.n} className="grid grid-cols-[2rem_1fr] gap-x-2 border-t border-border/60 py-4">
                 <span className="label-mono pt-px text-[11px]">{s.n}</span>
                 <span className="grid gap-0.5">
                   <span className="text-[15px] font-medium">{s.title}</span>

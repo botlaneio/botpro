@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { siGmail, siGooglecalendar, siGooglemeet, siHubspot, siNotion, siStripe, siZoom, type SimpleIcon } from "simple-icons"
 
 import { BotlaneMark } from "@/components/site/botlane-mark"
+import { appTile } from "@/lib/app-tile"
 import { cn } from "@/lib/utils"
 
 // Only apps our work really connects to: the automation service names Gmail, Stripe, HubSpot and Notion,
@@ -13,12 +14,6 @@ const APPS: SimpleIcon[] = [siGmail, siStripe, siHubspot, siGooglecalendar, siNo
 
 // How long each app stays connected before the next one moves in.
 const STEP_MS = 1800
-
-// Near-black marks would vanish on a dark tile, so they take the text colour instead of their own.
-function inkFor(hex: string) {
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.18 ? "currentColor" : `#${hex}`
-}
 
 // The track is one arc of a circle whose centre sits above the stage, in units of --u from the stage's
 // centre: it passes through the capsule's lower slot at its lowest point. Each place is an angle on it,
@@ -127,10 +122,10 @@ export function StackOrbit({ className }: { className?: string }) {
     >
       {/* One stage, 72 by 26 units, centred: the hairlines and the apps share its coordinates at every size. */}
       <div className="absolute inset-y-0 left-1/2 w-[calc(var(--u)*72)] -translate-x-1/2">
-      {/* Light behind: two soft diagonal streaks of the accent, fading out at the edges, as in the tool cluster. */}
+      {/* Light behind: two soft diagonal streaks of the page's red light, fading out at the edges, as in the tool cluster. */}
       <div className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(closest-side,#000,transparent)]">
-        <div className="absolute top-[26%] left-[18%] h-[22%] w-[70%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*55%),transparent)] blur-3xl" />
-        <div className="absolute top-[52%] left-[30%] h-[12%] w-[55%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*35%),transparent)] blur-2xl" />
+        <div className="absolute top-[26%] left-[18%] h-[22%] w-[70%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*55%),transparent)] blur-3xl" />
+        <div className="absolute top-[52%] left-[30%] h-[12%] w-[55%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*35%),transparent)] blur-2xl" />
       </div>
 
       {/* The hairline the apps travel along: one arc through every place, passing behind the capsule. */}
@@ -167,16 +162,9 @@ export function StackOrbit({ className }: { className?: string }) {
               transitionDuration: p === 3 ? "0ms" : undefined,
             }}
           >
-            {/* The well: a glass ring round the tile, which the capsule's own slot replaces once docked. */}
-            <span
-              className={cn(
-                "absolute inset-0 rounded-full border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.03))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha))] transition-opacity duration-500",
-                docked && "opacity-0",
-              )}
-            />
-            <span className="tile-depth relative size-[calc(var(--u)*3.4)] rounded-full!">
-              <svg viewBox="0 0 24 24" className="size-[48%]">
-                <path d={app.path} fill={inkFor(app.hex)} />
+            <span data-lit={docked ? "" : undefined} className="tile-app size-[calc(var(--u)*3.6)] rounded-full [--tile-base:var(--background)]" style={appTile(app.hex)}>
+              <svg viewBox="0 0 24 24" className="size-[42%]">
+                <path d={app.path} />
               </svg>
             </span>
           </div>
