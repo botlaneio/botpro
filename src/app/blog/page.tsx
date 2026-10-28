@@ -36,8 +36,8 @@ export default function Blog() {
               <span className="bg-[linear-gradient(100deg,var(--foreground)_10%,rgb(var(--ink)/0.35)_75%)] bg-clip-text text-transparent">the studio.</span>
             </h1>
             <div className="grid gap-4 border-l border-border pl-5 lg:mb-3">
-              <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Practical notes on websites, booking, automation, and the work behind them. Written by the people who build them.
+              <p className="text-[15px] leading-relaxed text-foreground/80">
+                Clear answers for your next build. Explore website planning, booking, automation, and the decisions behind our work.
               </p>
               {updated && <span className="label-mono text-[11px]">UPDATED {updated.toUpperCase()}</span>}
             </div>

@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Search, X } from "lucide-react"
 
 import type { Post } from "@/lib/insights"
 import { cn } from "@/lib/utils"
@@ -117,17 +117,30 @@ export function InsightsIndex({ posts }: { posts: PostSummary[] }) {
   const counts: Record<string, number> = { all: posts.length }
   for (const p of posts) counts[p.topic] = (counts[p.topic] ?? 0) + 1
   const [topic, setTopic] = useState<string | null>(null)
-  const shown = topic ? posts.filter((p) => p.topic === topic) : posts
+  const [query, setQuery] = useState("")
+  const search = query.trim().toLowerCase()
+  const shown = posts.filter((p) => (!topic || p.topic === topic) && (!search || `${p.title} ${p.dek} ${p.topic}`.toLowerCase().includes(search)))
   const [lead, ...others] = shown
   const pair = others.slice(0, 2)
   const rest = others.slice(2)
 
   return (
     <div className="grid gap-12 sm:gap-16">
-      {topics.length > 1 && <Topics topics={[null, ...topics]} counts={counts} value={topic} onChange={setTopic} />}
+      <div className="grid gap-5 border-y border-border/70 py-5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="label-mono text-[11px]">EXPLORE THE JOURNAL</h2>
+          <div className="relative flex w-full items-center sm:w-80">
+            <Search aria-hidden className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" />
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Search articles" placeholder="Find a topic or question…" className="min-h-11 w-full rounded-full border border-border bg-foreground/[0.025] pr-11 pl-10 text-sm outline-none focus-visible:ring-2 focus-visible:ring-foreground" />
+            {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="absolute right-0 grid size-11 place-items-center rounded-full text-muted-foreground hover:text-foreground"><X aria-hidden className="size-4" /></button>}
+          </div>
+        </div>
+        {topics.length > 1 && <Topics topics={[null, ...topics]} counts={counts} value={topic} onChange={setTopic} />}
+        <p role="status" aria-live="polite" className="text-xs text-muted-foreground">{shown.length} {shown.length === 1 ? "note" : "notes"}{topic ? ` in ${topic}` : " from the studio"}{search ? ` matching “${query.trim()}”` : ""}</p>
+      </div>
 
       {/* Re-keyed by topic, so a new filter fades its notes in. */}
-      <div key={topic ?? "all"} className="grid gap-14 [animation:set-in_500ms_var(--ease-lift)_both] sm:gap-20">
+      <div key={`${topic ?? "all"}:${search}`} className="grid gap-14 [animation:set-in_500ms_var(--ease-lift)_both] sm:gap-20">
         {lead && <Feature post={lead} />}
 
         {pair.length > 0 && (
@@ -173,7 +186,7 @@ export function InsightsIndex({ posts }: { posts: PostSummary[] }) {
           </section>
         )}
 
-        {shown.length === 0 && <p className="text-muted-foreground">Nothing under that topic yet.</p>}
+        {shown.length === 0 && <div className="grid justify-items-start gap-4 rounded-2xl border border-border p-8 sm:p-12"><h2 className="text-2xl font-medium tracking-tight">No notes found.</h2><p className="text-muted-foreground">Try a different phrase or explore all topics.</p><button type="button" onClick={() => { setQuery(""); setTopic(null) }} className="btn-light min-h-11 rounded-full px-5 text-sm font-medium">Show all notes</button></div>}
       </div>
     </div>
   )
