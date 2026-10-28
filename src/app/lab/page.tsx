@@ -218,7 +218,7 @@ export default async function Lab() {
         <StackOrbit />
       </Section>
 
-      <Section id="showcase" title="Site showcase" note="An offer page's hero: an example site in a browser window gliding to the foot of the page and back, with a phone in front (clinic, for Business sites), a content editor (firm, for Company sites) or a performance budget (launch, for Brand and launch sites). The businesses are made up, sit at example.com and have no quotes, so they can't pass for client work. Hover pauses it; still under reduced motion.">
+      <Section id="showcase" title="Site showcase" note="An offer page's hero: an example site in a browser window gliding to the foot of the page and back, with a phone in front (clinic, for Core), a content editor (firm, for Ascend) or a performance budget (launch, for Apex). The businesses are made up, sit at example.com and have no quotes, so they can't pass for client work. Hover pauses it; still under reduced motion.">
         <div className="grid gap-12 lg:grid-cols-2">
           <SiteShowcase example="clinic" />
           <SiteShowcase example="firm" />

@@ -5,10 +5,10 @@ export type ShowcaseExample = "clinic" | "firm" | "launch"
 /**
  * An example of the kind of site we build, for an offer page's hero: a browser window scrolling slowly
  * through a made-up business's site, with a second piece in front that shows what the package is about.
- * "clinic" is a small physio practice with a phone in front (a Business site: right on every phone);
- * "firm" is an accounting firm with more pages and a blog, with a content editor in front (a Company site:
+ * "clinic" is a small physio practice with a phone in front (Core: right on every phone);
+ * "firm" is an accounting firm with more pages and a blog, with a content editor in front (Ascend:
  * your team edits it); "launch" is a product's launch site, dark and in motion, in several languages, with a
- * journal and a changelog, and its performance budget in front (a Brand and launch site). Each business is made up and labelled as an example (its address is example.com,
+ * journal and a changelog, and its performance budget in front (Apex). Each business is made up and labelled as an example (its address is example.com,
  * reserved for exactly this), with no quotes or reviews, so nothing can pass for client work. Their colours
  * are their own, not ours: the point is a site that looks like its business. Hovering pauses it; it holds
  * still under reduced motion. Decorative, so hidden from screen readers. Sized in container units.
@@ -229,7 +229,7 @@ function FirmSite() {
 
 /**
  * The content editor, in front of the window's lower right: the home page's headline being edited, with a
- * caret, saved, ready to publish. What a Company site adds: the team changes the words themselves.
+ * caret, saved, ready to publish. What Ascend adds: the team changes the words themselves.
  */
 function EditorPanel() {
   return (

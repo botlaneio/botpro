@@ -10,7 +10,7 @@ import { categoryById, offersIn } from "@/lib/catalog"
 
 export const metadata: Metadata = {
   title: "Websites · Botlane",
-  description: "Business sites, company sites, and brand and launch sites: custom-designed, at a fixed price agreed before we start.",
+  description: "Core, Ascend and Apex websites: custom-designed, at a fixed price agreed before we start.",
 }
 
 const cat = categoryById("websites")

@@ -61,7 +61,7 @@ export function OfferPage({ offer }: { offer: Offer }) {
       eyebrow={`${cat.label} · ${offer.name}`.toUpperCase()}
       title={offer.headline}
       intro={offer.pain}
-      cta={{ title: `Let's talk about your ${offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
+      cta={{ title: `Let's talk about your ${offer.category === "websites" ? `${offer.name} site` : offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
     >
       <section aria-label="Price and next step" className="surface-glass mb-12 flex flex-wrap items-center gap-x-8 gap-y-5 p-6 sm:p-8">
         <span className={cn("tile-depth size-12 shrink-0", cat.tone)}><Icon className="size-5" /></span>
@@ -210,7 +210,7 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
         </>
       }
       aside={<SiteShowcase example={offer.showcase} />}
-      cta={{ title: `Let's talk about your ${offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
+      cta={{ title: `Let's talk about your ${offer.category === "websites" ? `${offer.name} site` : offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
     >
       <PageSection id="included" eyebrow="WHAT YOU GET" title="What your site will do for you.">
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
