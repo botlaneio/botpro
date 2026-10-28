@@ -26,12 +26,18 @@ export interface NavCard {
   soon?: boolean
 }
 
-/** One menu in the bar: a section of items, and a link to the section's own page. */
+/** A group of items within a menu, with a link to the group's own page. */
 export interface NavSection {
   label: string
   href: string
   all: string
   cards: NavCard[]
+}
+
+/** One menu in the bar: its sections, shown side by side in the panel when it opens. */
+export interface NavMenu {
+  label: string
+  sections: NavSection[]
 }
 
 const LANE_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = { syncc: CalendarDays, scriblane: FileText, flowlane: Workflow }
@@ -68,17 +74,39 @@ function Burger({ open }: { open: boolean }) {
   )
 }
 
+/** A menu's panel content: its sections side by side, or a lone section's items across the panel. */
+function MenuBody({ menu, onNavigate }: { menu: NavMenu; onNavigate: () => void }) {
+  const lone = menu.sections.length === 1
+  return (
+    <div className={cn("grid", lone ? "grid-cols-1" : "grid-cols-3")}>
+      {menu.sections.map((s) => (
+        <div key={s.label} className="grid content-start gap-1 border-l border-border/60 p-3 pt-4 first:border-l-0">
+          <span className="px-3 pb-1 text-[12.5px] text-muted-foreground">{s.label}</span>
+          <div className={cn("grid gap-1", lone && "grid-cols-3")}>
+            {s.cards.map((c) => <Item key={c.title} card={c} onNavigate={onNavigate} />)}
+          </div>
+          <Link href={s.href} onClick={onNavigate} className="group/a mt-1 inline-flex w-fit items-center gap-1.5 px-3 py-2 text-[13px] text-muted-foreground transition-colors hover:text-foreground">
+            {s.all}
+            <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover/a:translate-x-0.5" />
+          </Link>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /**
- * The site's navigation, after Cloudflare's: each section's name sits in the bar, and opening any of them
- * drops one wide panel below the header with every section side by side, one column each, a name and a line
- * per item. The column of the section you opened is lit, so the panel answers the question you asked and
- * shows the rest of what we do beside it. On a phone the menu button opens a full-height sheet of the same
- * sections. The bar is clear at the top of the page and takes a background once the page scrolls beneath it
- * or a menu opens. Its height is --header-h.
+ * The site's navigation: three items in the bar. Solutions and Products open one wide panel below the header,
+ * after Cloudflare's: Solutions with Websites, Web apps and Custom solutions side by side, Products with
+ * each product across it, a name and a line per item. Insights is a plain link. On a phone the menu button
+ * opens a full-height sheet of the same menus. The bar is clear at the top of the page and takes a background
+ * once the page scrolls beneath it or a menu opens. Its height is --header-h.
  */
-export function SiteNav({ sections, links }: { sections: NavSection[]; links: { href: string; label: string }[] }) {
+export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: string; label: string }[] }) {
   const root = useRef<HTMLElement>(null)
   const [open, setOpen] = useState(-1)
+  // The menu the panel shows: the open one, or the last one while the panel fades out.
+  const [shown, setShown] = useState(0)
   const [sheet, setSheet] = useState(false)
   const [row, setRow] = useState(-1)
   const isScrolled = useSyncExternalStore(subscribe, scrolled, () => false)
@@ -102,8 +130,9 @@ export function SiteNav({ sections, links }: { sections: NavSection[]; links: { 
     return () => { document.body.style.overflow = overflow }
   }, [sheet])
 
+  const show = (i: number) => { setOpen(i); if (i > -1) setShown(i) }
   const close = () => { setOpen(-1); setSheet(false) }
-  const hover = (i: number) => { if (!hoverable.current) return; window.clearTimeout(leave.current); setOpen(i) }
+  const hover = (i: number) => { if (!hoverable.current) return; window.clearTimeout(leave.current); show(i) }
   const stay = () => window.clearTimeout(leave.current)
   const unhover = () => { if (!hoverable.current) return; window.clearTimeout(leave.current); leave.current = window.setTimeout(() => setOpen(-1), GRACE_MS) }
   const solid = isScrolled || open > -1 || sheet
@@ -126,20 +155,20 @@ export function SiteNav({ sections, links }: { sections: NavSection[]; links: { 
           {/* The triggers, then the panel they share, then the plain links: that's also the order Tab follows. */}
           <div className="mx-auto hidden items-center gap-1 lg:flex" onMouseLeave={unhover}>
             <nav aria-label="Main" className="contents">
-              {sections.map((s, i) => (
+              {menus.map((m, i) => (
                 <button
-                  key={s.label}
+                  key={m.label}
                   type="button"
                   aria-expanded={open === i}
                   aria-controls="nav-panel"
                   onMouseEnter={() => hover(i)}
-                  onClick={() => setOpen(open === i ? -1 : i)}
+                  onClick={() => show(open === i ? -1 : i)}
                   className={cn(
                     "inline-flex h-8 items-center gap-1 rounded-lg border px-3 text-sm whitespace-nowrap transition-colors duration-200",
                     open === i ? "border-border bg-foreground/[0.06] text-foreground" : "border-transparent text-foreground/70 hover:text-foreground",
                   )}
                 >
-                  {s.label}
+                  {m.label}
                   <ChevronDown aria-hidden className={cn("size-3.5 opacity-60 transition-transform duration-300 ease-(--ease-lift)", open === i && "rotate-180")} />
                 </button>
               ))}
@@ -156,24 +185,8 @@ export function SiteNav({ sections, links }: { sections: NavSection[]; links: { 
                   open > -1 ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0",
                 )}
               >
-                <div className="grid grid-cols-4 overflow-hidden rounded-2xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.04))] bg-[color-mix(in_oklch,var(--popover)_96%,transparent)] shadow-[0_30px_70px_-30px_var(--float-shadow),inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha))] backdrop-blur-xl">
-                  {sections.map((s, i) => (
-                    <div
-                      key={s.label}
-                      onMouseEnter={() => hover(i)}
-                      className={cn(
-                        "grid content-start gap-1 border-l border-border/60 p-3 pt-4 transition-colors duration-200 first:border-l-0",
-                        open === i && "bg-foreground/[0.035]",
-                      )}
-                    >
-                      <span className={cn("px-3 pb-1 text-[12.5px] transition-colors duration-200", open === i ? "text-foreground" : "text-muted-foreground")}>{s.label}</span>
-                      {s.cards.map((c) => <Item key={c.title} card={c} onNavigate={close} />)}
-                      <Link href={s.href} onClick={close} className="group/a mt-1 inline-flex items-center gap-1.5 px-3 py-2 text-[13px] text-muted-foreground transition-colors hover:text-foreground">
-                        {s.all}
-                        <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover/a:translate-x-0.5" />
-                      </Link>
-                    </div>
-                  ))}
+                <div className="overflow-hidden rounded-2xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.04))] bg-[color-mix(in_oklch,var(--popover)_96%,transparent)] shadow-[0_30px_70px_-30px_var(--float-shadow),inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha))] backdrop-blur-xl">
+                  {menus[shown] && <MenuBody key={shown} menu={menus[shown]} onNavigate={close} />}
                 </div>
               </div>
 
@@ -187,7 +200,6 @@ export function SiteNav({ sections, links }: { sections: NavSection[]; links: { 
 
           <div className="ml-auto flex items-center gap-2 lg:ml-0" onMouseEnter={unhover}>
             <ThemeSwitch />
-            <Link href="/contact" onClick={close} className="hidden h-9 items-center rounded-lg px-3 text-sm text-foreground/70 transition-colors hover:text-foreground xl:inline-flex">Contact</Link>
             <Link href="/contact" onClick={close} className="btn-light hidden h-9 items-center px-4 text-sm font-medium sm:inline-flex">Start a project</Link>
             <button
               type="button"
@@ -206,37 +218,42 @@ export function SiteNav({ sections, links }: { sections: NavSection[]; links: { 
       {/* Outside the header: its blur would otherwise make it the frame this fixed sheet is placed in. */}
       {sheet && (
         <div id="nav-sheet" className="fixed inset-x-0 top-(--header-h) bottom-0 z-40 overflow-y-auto border-t border-border/60 bg-background px-6 pt-2 pb-8 [animation:nav-in_260ms_var(--ease-lift)_both] lg:hidden">
-          {sections.map((s, i) => (
-            <div key={s.label} className="border-b border-border/70">
+          {menus.map((m, i) => (
+            <div key={m.label} className="border-b border-border/70">
               <button type="button" aria-expanded={row === i} onClick={() => setRow(row === i ? -1 : i)} className="flex w-full items-center justify-between py-4 text-left text-lg font-medium">
-                {s.label}
+                {m.label}
                 <ChevronDown aria-hidden className={cn("size-4 transition-transform duration-300 ease-(--ease-lift)", row === i && "rotate-180")} />
               </button>
               <div className={cn("grid transition-[grid-template-rows] duration-300 ease-(--ease-lift)", row === i ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
                 <div inert={row !== i} className="overflow-hidden">
-                  <div className="grid gap-1 pb-4">
-                    {s.cards.map((c) => {
-                      const Icon = isOffer(c.icon) ? OFFER_ICONS[c.icon] : LANE_ICONS[c.icon]
-                      return (
-                        <Link key={c.title} href={c.href} onClick={close} className="flex items-center gap-3 rounded-xl px-1 py-2.5">
-                          <span className={cn("tile-depth size-9 shrink-0 rounded-[0.6rem]!", c.tone)}><Icon className="size-4" /></span>
-                          <span className="grid min-w-0">
-                            <span className="flex items-center gap-2 font-medium">
-                              {c.title}
-                              {c.soon && <span className="label-mono rounded-full border border-border px-1.5 text-[9px] leading-4">SOON</span>}
-                            </span>
-                            <span className="label-mono text-[11px]">{c.meta}</span>
-                          </span>
-                        </Link>
-                      )
-                    })}
-                    <Link href={s.href} onClick={close} className="inline-flex items-center gap-1.5 px-1 py-2 text-sm text-muted-foreground">{s.all} <ArrowRight className="size-3.5" /></Link>
+                  <div className="grid gap-5 pb-5">
+                    {m.sections.map((s) => (
+                      <div key={s.label} className="grid gap-1">
+                        {m.sections.length > 1 && <span className="label-mono px-1 pb-1 text-[11px]">{s.label.toUpperCase()}</span>}
+                        {s.cards.map((c) => {
+                          const Icon = isOffer(c.icon) ? OFFER_ICONS[c.icon] : LANE_ICONS[c.icon]
+                          return (
+                            <Link key={c.title} href={c.href} onClick={close} className="flex items-center gap-3 rounded-xl px-1 py-2.5">
+                              <span className={cn("tile-depth size-9 shrink-0 rounded-[0.6rem]!", c.tone)}><Icon className="size-4" /></span>
+                              <span className="grid min-w-0">
+                                <span className="flex items-center gap-2 font-medium">
+                                  {c.title}
+                                  {c.soon && <span className="label-mono rounded-full border border-border px-1.5 text-[9px] leading-4">SOON</span>}
+                                </span>
+                                <span className="label-mono text-[11px]">{c.meta}</span>
+                              </span>
+                            </Link>
+                          )
+                        })}
+                        <Link href={s.href} onClick={close} className="inline-flex items-center gap-1.5 px-1 py-2 text-sm text-muted-foreground">{s.all} <ArrowRight className="size-3.5" /></Link>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           ))}
-          {[...links, { href: "/contact", label: "Contact" }].map((l) => (
+          {links.map((l) => (
             <Link key={l.label} href={l.href} onClick={close} className="flex items-center justify-between border-b border-border/70 py-4 text-lg font-medium">
               {l.label} <ArrowRight className="size-4 opacity-60" />
             </Link>

@@ -1,7 +1,7 @@
 import { categoryById, offerHref, offerPrice, offersIn, type CategoryId } from "@/lib/catalog"
 import { LANES, type LaneId } from "@/lib/lanes"
 
-import { SiteNav, type NavSection } from "./site-nav"
+import { SiteNav, type NavMenu, type NavSection } from "./site-nav"
 
 // The plain links beside the menus: pages only, never sections of one. Contact sits with the actions on the right.
 const LINKS = [{ href: "/blog", label: "Insights" }]
@@ -18,7 +18,7 @@ const LANE_LINE: Record<LaneId, string> = {
   flowlane: "Automation across 700+ apps.",
 }
 
-/** The navigation on every page: the section menus, which share one wide panel, Insights, and the main action. */
+/** The navigation on every page: Solutions and Products, which open one wide panel, Insights, and the main action. */
 export function SiteHeader() {
   const section = (id: CategoryId): NavSection => {
     const cat = categoryById(id)
@@ -29,18 +29,19 @@ export function SiteHeader() {
       cards: offersIn(id).map((o) => ({ href: offerHref(o), title: o.name, body: o.menu, meta: offerPrice(o), icon: o.icon, glow: GLOW[id], tone: cat.tone })),
     }
   }
-  const sections: NavSection[] = [
-    section("websites"),
-    section("web-apps"),
-    section("custom-solutions"),
+  const menus: NavMenu[] = [
+    { label: "Solutions", sections: [section("websites"), section("web-apps"), section("custom-solutions")] },
     {
       label: "Products",
-      href: "/products",
-      all: "All products",
-      cards: LANES.map((l) => ({ href: `/products/${l.id}`, title: l.name, body: LANE_LINE[l.id], meta: l.status === "live" ? `LIVE · ${l.host.toUpperCase()}` : "OPENING SOON", icon: l.id, glow: LANE_GLOW[l.id], tone: LANE_TONE[l.id], soon: l.status === "soon" })),
+      sections: [{
+        label: "Built and run by us",
+        href: "/products",
+        all: "All products",
+        cards: LANES.map((l) => ({ href: `/products/${l.id}`, title: l.name, body: LANE_LINE[l.id], meta: l.status === "live" ? `LIVE · ${l.host.toUpperCase()}` : "OPENING SOON", icon: l.id, glow: LANE_GLOW[l.id], tone: LANE_TONE[l.id], soon: l.status === "soon" })),
+      }],
     },
   ]
-  return <SiteNav sections={sections} links={LINKS} />
+  return <SiteNav menus={menus} links={LINKS} />
 }
 
 // The footer lives in its own file; pages import it from here alongside the header.
