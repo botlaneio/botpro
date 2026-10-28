@@ -50,10 +50,10 @@ export interface Offer {
    */
   outcomes?: { icon: OutcomeIcon; title: string; body: string }[]
   /** Which example site the fuller page shows: a small clinic (with a phone) or a firm (with an editor). */
-  showcase?: "clinic" | "firm"
+  showcase?: "clinic" | "firm" | "launch"
 }
 
-export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations"
+export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations" | "motion" | "structure" | "languages" | "performance"
 
 export const CATEGORIES: Category[] = [
   {
@@ -144,6 +144,15 @@ export const OFFERS: Offer[] = [
     pain: "For a launch or a premium brand, the site is the first thing people experience. It has to feel as good as what you sell.",
     stack: SITE_STACK,
     proof: OUR_SITE,
+    outcomes: [
+      { icon: "foundation", title: "Everything a Company site does", body: "One design system across every page, a content editor your team uses, and your booking, CRM and newsletter tools connected." },
+      { icon: "motion", title: "Motion that's yours", body: "Signature motion and interactions, designed around your brand, so the site feels like the thing you sell." },
+      { icon: "structure", title: "Content with a shape", body: "Structured content for case studies, docs and a changelog, so each kind of page stays consistent as it grows." },
+      { icon: "search", title: "Found, beyond the basics", body: "Advanced SEO, going further than the basics in our other packages." },
+      { icon: "languages", title: "In the languages you need", body: "Multiple languages, if your audience needs them." },
+      { icon: "performance", title: "Fast, and held to it", body: "A performance budget: set limits on page weight and load time that the site is built to stay within." },
+    ],
+    showcase: "launch",
   },
   {
     slug: "scoping-sprint",

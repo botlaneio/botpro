@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesColumn, Check, Component, Layers, Mail, Palette, PenLine, Plug, Search, Smartphone } from "lucide-react"
+import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesColumn, Check, Component, Gauge, Languages, Layers, Library, Mail, Palette, PenLine, Plug, Search, Smartphone, Sparkles } from "lucide-react"
 
+import { FINISH_CLASS } from "@/components/pricing/finish"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { PageSection, PageShell } from "@/components/site/page-shell"
 import { categoryById, findOffer, offerHref, offerPrice, offersIn, type Offer, type OutcomeIcon } from "@/lib/catalog"
@@ -24,6 +25,10 @@ const OUTCOME_ICONS: Record<OutcomeIcon, React.ComponentType<{ className?: strin
   system: Component,
   editor: PenLine,
   integrations: Plug,
+  motion: Sparkles,
+  structure: Library,
+  languages: Languages,
+  performance: Gauge,
 }
 
 // The closing line for each category, matched to how it's sold.
@@ -182,6 +187,8 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
   const contact = `/contact?need=${cat.cta.need}`
   const specs = p?.specs ?? {}
   const timeline = specs.Timeline ?? offer.timeline
+  // Whether the outcomes fill whole rows, so the price card has a row of its own.
+  const full = offer.outcomes!.length % 3 === 0
   // What the timeline adds to a step: the plan's revision rounds on Design.
   const notes: Record<string, string | undefined> = { Design: specs.Revisions ? `${specs.Revisions} of revisions` : undefined }
 
@@ -218,7 +225,16 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
             )
           })}
           {/* The price, last: by now the reader knows what it buys. It fills the rest of the last row. */}
-          <li className={cn("surface-glass grid content-between gap-6 p-6", offer.outcomes!.length % 2 ? "sm:col-span-1" : "sm:col-span-2", PRICE_SPAN[offer.outcomes!.length % 3])}>
+          <li
+            className={cn(
+              "grid content-between gap-6 p-6",
+              FINISH_CLASS[p?.finish ?? "glass"],
+              offer.outcomes!.length % 2 ? "sm:col-span-1" : "sm:col-span-2",
+              PRICE_SPAN[offer.outcomes!.length % 3],
+              // Across a whole row, the price and its details sit left and the actions right.
+              full && "lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10 lg:p-8",
+            )}
+          >
             <div className="grid gap-4">
               <div className="flex items-center gap-3">
                 <span className={cn("tile-depth size-10", cat.tone)}><Icon className="size-[18px]" /></span>
@@ -229,11 +245,11 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
                 {p?.terms && <span className="text-sm text-foreground/85">{p.terms}</span>}
               </div>
               {Object.keys(specs).length > 0 && (
-                <dl className="grid gap-1.5 text-sm">
+                <dl className={cn("grid gap-1.5 text-sm", full && "lg:mt-2 lg:flex lg:flex-wrap lg:gap-x-10 lg:gap-y-3")}>
                   {Object.entries(specs).filter(([k]) => k !== "Timeline" && k !== "Revisions").map(([k, v]) => (
-                    <div key={k} className="flex justify-between gap-4">
+                    <div key={k} className={cn("flex justify-between gap-4", full && "lg:grid lg:justify-start lg:gap-0.5")}>
                       <dt className="text-muted-foreground">{k}</dt>
-                      <dd className="text-right">{v}</dd>
+                      <dd className={cn("text-right", full && "lg:text-left")}>{v}</dd>
                     </div>
                   ))}
                 </dl>
