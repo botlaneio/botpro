@@ -21,8 +21,8 @@ const ACTS = [
   { name: "Launch", start: 12, end: 19, still: 17.6 },
   { name: "Care", start: 19, end: 29, still: 27.4 },
 ] as const
-// After the last act: the scene clears and the call to action arrives; the clock stops here.
-const END = 30.2
+// Hold the completed Care scene before its exit fades, rather than leaving an empty hero.
+const END = ACTS[ACTS.length - 1].still
 
 // Cubic-bezier easing, the way CSS and After Effects define it.
 function bezier(x1: number, y1: number, x2: number, y2: number) {
@@ -238,7 +238,8 @@ export function HeroScene({ className }: { className?: string }) {
       const now = ACTS.findIndex((a) => t < a.end)
       rings.forEach((r, j) => {
         const a = ACTS[j]
-        r.style.setProperty("--p", (t >= a.end ? 1 : prog([a.start, a.end], t)).toFixed(3))
+        const end = Math.min(a.end, END)
+        r.style.setProperty("--p", (t >= end ? 1 : prog([a.start, end], t)).toFixed(3))
       })
       const ending = t >= ACTS[ACTS.length - 1].end
       const actNow = now === -1 ? ACTS.length - 1 : now
