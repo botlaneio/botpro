@@ -6,6 +6,7 @@ import {
   type SimpleIcon,
 } from "simple-icons"
 
+import { appTile } from "@/lib/app-tile"
 import { cn } from "@/lib/utils"
 
 // The tools each step runs on, as nine tiles: five across the top with the step's main tool in the middle,
@@ -17,12 +18,6 @@ const SETS: SimpleIcon[][] = [
   [siTypescript, siReact, siNextdotjs, siGithub, siPostgresql, siNodedotjs, siTailwindcss, siSupabase, siVitest],
   [siCloudflare, siGoogleanalytics, siVercel, siSentry, siLetsencrypt, siResend, siGooglesearchconsole, siStripe, siUptimekuma],
 ]
-
-// Near-black marks would vanish on a dark tile, so they take the text colour instead of their own.
-function inkFor(hex: string) {
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.18 ? "currentColor" : `#${hex}`
-}
 
 // Where each tile sits, and how far it is from the middle: 0 is the centre, 2 is an edge, faded and blurred.
 const SLOTS: { row: 0 | 1; col: number; far: 0 | 1 | 2 }[] = [
@@ -38,16 +33,16 @@ const REST = [
 
 /**
  * A step's tools as a cluster of app tiles, by their real logos, after the icon dock shared as a reference: the middle ones lit
- * and sharp, the edges fading into blur, with streaks of the accent behind. Every step's cluster is drawn,
+ * and sharp, the edges fading into blur, with streaks of the page's red light behind. Every step's cluster is drawn,
  * stacked; changing `step` swaps them tile by tile, rippling out from the centre. Sized by --tile.
  */
 export function ToolCluster({ step, className }: { step: number; className?: string }) {
   return (
     <div aria-hidden className={cn("relative isolate [--gap:calc(var(--tile)*0.2)] [--tile:4.5rem]", className)} style={{ height: "calc(var(--tile) * 2 + var(--gap))", width: "calc(var(--tile) * 5 + var(--gap) * 4)" }}>
-      {/* Light behind the tiles: two soft diagonal streaks of the accent, fading out at the edges. */}
+      {/* Light behind the tiles: two soft diagonal streaks of the page's red light, fading out at the edges. */}
       <div className="pointer-events-none absolute -inset-[30%] -z-10 [mask-image:radial-gradient(closest-side,#000,transparent)]">
-        <div className="absolute top-[18%] left-[30%] h-[22%] w-[90%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*60%),transparent)] blur-2xl" />
-        <div className="absolute top-[46%] left-[8%] h-[12%] w-[80%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*40%),transparent)] blur-xl" />
+        <div className="absolute top-[18%] left-[30%] h-[22%] w-[90%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*60%),transparent)] blur-2xl" />
+        <div className="absolute top-[46%] left-[8%] h-[12%] w-[80%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*40%),transparent)] blur-xl" />
       </div>
 
       {SETS.map((set, s) =>
@@ -58,24 +53,21 @@ export function ToolCluster({ step, className }: { step: number; className?: str
           return (
             <div
               key={`${s}-${k}`}
-              className="absolute grid size-(--tile) place-items-center rounded-[28%] border transition-[opacity,transform,filter] duration-500 ease-(--ease-lift)"
+              data-lit={on && centre ? "" : undefined}
+              className="tile-app absolute size-(--tile) rounded-[28%] [transition-property:opacity,transform,filter,border-color,box-shadow] duration-500 ease-(--ease-lift)"
               style={{
+                ...appTile(logo.hex),
                 left: `calc(${col} * (var(--tile) + var(--gap)))`,
                 top: `calc(${row} * (var(--tile) + var(--gap)))`,
                 transitionDelay: on ? `${120 + far * 70}ms` : `${far * 40}ms`,
                 transform: on ? "scale(1)" : "scale(0.86)",
                 ...(on ? REST[far] : { opacity: 0, filter: "blur(6px)" }),
-                borderColor: centre ? "rgb(var(--ink) / calc(var(--edge-alpha) + 0.1))" : "rgb(var(--ink) / calc(var(--edge-alpha) + 0.03))",
-                background: "linear-gradient(180deg, var(--glass-top), var(--glass-bottom)), var(--background)",
-                boxShadow: centre ? "inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-lift)" : "inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha))",
                 zIndex: 3 - far,
               }}
             >
-              <span className="tile-depth grid size-[66%] place-items-center rounded-[24%]! text-foreground">
-                <svg viewBox="0 0 24 24" className={centre ? "size-[52%]" : "size-[46%]"}>
-                  <path d={logo.path} fill={inkFor(logo.hex)} />
-                </svg>
-              </span>
+              <svg viewBox="0 0 24 24" className={centre ? "size-[40%]" : "size-[36%]"}>
+                <path d={logo.path} />
+              </svg>
             </div>
           )
         }),
