@@ -518,3 +518,26 @@
 @keyframes agent-focus { 0%, 100% { scale: 1 1; } 45% { scale: 1 0.55; } }
 @keyframes agent-close { from { stroke-dasharray: 18 82; } to { stroke-dasharray: 100 0; } }
 @keyframes agent-flash { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0.25; } }
+
+/* An app logo's tile: a hairline rounded square (or circle), the logo in the page's text colour, and a very faint
+   wash and glow of the logo's own colour. Hovered, or marked data-lit (the tool in focus), the logo takes its
+   colour and the glow strengthens. Set --c and --c-ink with appTile() (src/lib/app-tile.ts); --tile-base puts an
+   opaque face under it where a line would otherwise show through. */
+@utility tile-app {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(var(--ink) / 0.16);
+  background:
+    radial-gradient(110% 85% at 50% 0%, color-mix(in oklch, var(--c, transparent) 11%, transparent), transparent 72%),
+    linear-gradient(rgb(var(--ink) / 0.015), rgb(var(--ink) / 0.015)),
+    var(--tile-base, transparent);
+  box-shadow: 0 12px 28px -18px color-mix(in oklch, var(--c, transparent) 40%, transparent);
+  transition: border-color 0.3s var(--ease-soft), box-shadow 0.4s var(--ease-soft);
+  & path { fill: color-mix(in oklch, var(--foreground) 86%, transparent); transition: fill 0.3s var(--ease-soft); }
+  &:hover, &[data-lit] {
+    border-color: rgb(var(--ink) / 0.3);
+    box-shadow: 0 14px 32px -16px color-mix(in oklch, var(--c, transparent) 58%, transparent);
+  }
+  &:hover path, &[data-lit] path { fill: var(--c-ink, var(--foreground)); }
+}
