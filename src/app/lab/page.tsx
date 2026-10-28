@@ -24,6 +24,7 @@ import { HeroStory } from "@/components/home/hero-story"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { SolutionFlow } from "@/components/home/solution-flow"
+import { StackOrbit } from "@/components/home/stack-orbit"
 import { ServicesFaq } from "@/components/services/services-faq"
 import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
@@ -197,6 +198,10 @@ export default async function Lab() {
 
       <Section id="flow" title="Solution flow" note="What we build, as a small automation on a dotted canvas: a brief branches into a website or a web app, and both run on into Care. Curves are measured from lg, with a dot of light running each; stacked on phones; still under reduced motion.">
         <SolutionFlow items={SOLUTIONS.flatMap((g) => g.items)} />
+      </Section>
+
+      <Section id="stack" title="Stack orbit" note="The apps our work connects to, real ones only. A glass capsule holds the mark above a slot; the apps travel an arc of hairlines and one at a time land in the slot, lighting the capsule's edge. A step every 1.8 seconds; pauses off screen; still under reduced motion.">
+        <StackOrbit />
       </Section>
 
       <Section id="reveal" title="Petal reveal" note="The homepage's closing panel. Washed-out petals with boxes opening onto full colour in turn; now and then the whole picture floods. A CURSOR box follows a mouse. Three boxes stay open, still, under reduced motion.">

@@ -6,6 +6,7 @@ import { HeroPrompt } from "@/components/home/hero-prompt"
 import { HeroStory } from "@/components/home/hero-story"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
+import { StackOrbit } from "@/components/home/stack-orbit"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
 import { ServiceBlocks } from "@/components/home/service-blocks"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
@@ -70,6 +71,23 @@ export default function Home() {
             <Link href="/contact" className="btn-light mt-2 inline-flex h-10 w-fit items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
           </div>
           <ServiceBlocks items={solutions} />
+        </section>
+
+        {/* Works with your stack: the words in a row above, the orbit full width below. */}
+        <section id="stack" aria-labelledby="stack-title" className="grid scroll-mt-20 gap-8 border-t border-border/60 py-14 sm:gap-10 sm:py-20">
+          <div className="grid items-end gap-4 lg:grid-cols-2">
+            <div className="grid gap-3">
+              <span className="label-mono">WORKS WITH YOUR STACK</span>
+              <h2 id="stack-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Connected to the tools you already run.</h2>
+            </div>
+            <div className="grid gap-3 lg:justify-items-end lg:text-right">
+              <p className="max-w-md text-muted-foreground text-pretty">We connect your site and systems to the apps your team already uses: Gmail, Stripe, HubSpot, Notion, Google Calendar, Meet and Zoom, and 700+ more through Flowlane, our own automation platform.</p>
+              <Link href="/custom-solutions/workflow-automation" className="group/a inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
+                About workflow automation <ArrowRight className="size-3.5 transition-transform group-hover/a:translate-x-0.5" />
+              </Link>
+            </div>
+          </div>
+          <StackOrbit />
         </section>
 
         <Section
