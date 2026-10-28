@@ -6,6 +6,7 @@ import { SiteHeader, SiteFooter } from "@/components/site/site-header"
 import { offerPrice, type Offer } from "@/lib/catalog"
 import { plan } from "@/lib/pricing"
 import { STEPS } from "@/lib/process"
+import { CoreHeroPreview } from "./core-hero-preview"
 import { SiteShowcase } from "./site-showcase"
 
 const PAGES = [
@@ -37,7 +38,7 @@ export function CorePage({ offer }: { offer: Offer }) {
             <p className="text-sm text-muted-foreground">{offerPrice(offer)} <span className="mx-2" aria-hidden>·</span> {p.specs?.Timeline} <span className="mx-2" aria-hidden>·</span> Custom design</p>
           </div>
           <figure className="min-w-0">
-            <SiteShowcase example="clinic" />
+            <CoreHeroPreview><SiteShowcase example="clinic" still /></CoreHeroPreview>
             <figcaption className="mt-4 flex flex-wrap justify-between gap-2 text-xs text-muted-foreground"><span>One business. Every screen.</span><span>Illustrative design · not client work</span></figcaption>
           </figure>
         </div>
