@@ -274,6 +274,8 @@ export function HeroScene({ className }: { className?: string }) {
         {/* Build, scene one: a line from the headline winds to the site; another arrives from the right. */}
         <svg viewBox={`0 0 ${W} ${H}`} className="scene-wide absolute inset-0 size-full overflow-visible">
           <path d="M372 150 C 430 150 440 214 380 214 L 150 214 C 70 214 70 330 150 330 L 190 330 C 260 330 250 478 330 478 L 420 478" pathLength={1} fill="none" data-in={span(0.2, 1.6)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path" />
+          {/* A glint of light that runs along the line into the site, once the line is drawn. */}
+          <path d="M372 150 C 430 150 440 214 380 214 L 150 214 C 70 214 70 330 150 330 L 190 330 C 260 330 250 478 330 478 L 420 478" pathLength={1} fill="none" data-in={span(1.8, 0.5)} data-out={span(5.0, 0.5)} className="scene-sheen" />
           <circle cx={420} cy={478} r={4} data-in={span(1.7, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
           <path d="M1260 300 C 1130 300 1090 478 990 478 L 780 478" pathLength={1} fill="none" data-in={span(0.6, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
           <circle cx={780} cy={478} r={4.5} data-in={span(1.9, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
