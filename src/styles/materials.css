@@ -457,8 +457,16 @@
 .scene-live { padding: 6px 14px 6px 11px; border-radius: 999px; font-size: 14px; font-weight: 500; }
 .scene-live-dot { animation: scene-pulse 2s ease-in-out infinite; }
 .scene-hub { border-radius: 999px; }
-/* While the mark works, the hub takes a faint ring of the accent. */
-.scene-hub:has(.agent[data-state="working"]), .scene-hub:has(.agent[data-state="done"]) { box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft), 0 0 0 6px color-mix(in oklch, var(--brand) 10%, transparent), 0 0 48px -8px color-mix(in oklch, var(--brand) 45%, transparent); transition: box-shadow 0.4s var(--ease-soft); }
+/* The hub's outer edge carries the ambient red (Raycast's crimson): a lit hairline and a soft halo. Light only. */
+.scene-hub {
+  border-color: color-mix(in oklch, var(--ambient) 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)),
+    0 0 0 1px color-mix(in oklch, var(--ambient) 35%, transparent),
+    0 0 18px 0 color-mix(in oklch, var(--ambient) calc(var(--glow) * 70%), transparent),
+    0 0 56px 6px color-mix(in oklch, var(--ambient) calc(var(--glow) * 38%), transparent),
+    var(--shadow-soft);
+}
 .scene-caption {
   padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500;
   color: var(--background); background: var(--foreground);
