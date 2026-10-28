@@ -5,6 +5,10 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // The site lives on botlane.io and www.botlane.io (custom domains, set in the dashboard). No second public
+  // copy on workers.dev: without this, every deploy would switch it back on. Branch previews stay on.
+  "workers_dev": false,
+  "preview_urls": true,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
