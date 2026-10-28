@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { CorePage } from "@/components/catalog/core-page"
 import { OfferPage } from "@/components/catalog/offer-page"
 import { findOffer, offersIn } from "@/lib/catalog"
 
@@ -12,11 +13,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const offer = findOffer("websites", (await params).slug)
-  return offer ? { title: `${offer.name} · Botlane`, description: `${offer.headline} ${offer.pain}` } : {}
+  return offer ? { title: `${offer.slug === "business-sites" ? "Core" : offer.name} · Botlane`, description: `${offer.headline} ${offer.pain}` } : {}
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const offer = findOffer("websites", (await params).slug)
   if (!offer) notFound()
-  return <OfferPage offer={offer} />
+  return offer.slug === "business-sites" ? <CorePage offer={offer} /> : <OfferPage offer={offer} />
 }
