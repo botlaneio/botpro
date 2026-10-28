@@ -81,7 +81,7 @@ export function PageShell({ eyebrow, title, intro, banner, actions, aside, curre
         {current && (
           <nav aria-labelledby="more-title" className="grid gap-5 border-t border-border/60 py-12 sm:py-16">
             <h2 id="more-title" className="label-mono">MORE FROM BOTLANE</h2>
-            <ul className="grid gap-3 sm:grid-cols-3">
+            <ul data-stagger className="grid gap-3 sm:grid-cols-3">
               {others.map((i) => (
                 <li key={i.href}>
                   <Link href={i.href} className="surface-hairline group/o flex h-full items-start gap-3 p-4 transition-colors hover:bg-foreground/[0.03]">

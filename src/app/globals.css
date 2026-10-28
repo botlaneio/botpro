@@ -255,3 +255,23 @@
     *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
   }
 }
+
+/* Reveal on scroll (src/components/site/scroll-motion.tsx). Nothing is hidden until that script has run
+   and added .reveal-on, so the page reads in full without JavaScript and under reduced motion. The rise
+   uses `translate` and leaves `transform` alone, and fills only backwards, so an element's own
+   rotation, offset and hover transitions are untouched once it has arrived. */
+@keyframes reveal-rise {
+  from { opacity: 0; translate: 0 22px; }
+}
+.reveal-on [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+}
+.reveal-on [data-reveal][data-revealed=""] {
+  animation: reveal-rise var(--duration-lift) var(--ease-lift) var(--reveal-delay, 0ms) backwards;
+}
+
+/* Lenis smooth scrolling: the recommended base styles. */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }

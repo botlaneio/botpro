@@ -52,7 +52,7 @@ function CountUp({ value }: { value: number }) {
  */
 export function StatCards({ stats }: { stats: Stat[] }) {
   return (
-    <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <dl data-stagger className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {stats.map((s, i) => (
         <div key={s.label} className={cn("surface-stat grid content-start gap-2 p-5 sm:p-6")} style={{ animationDelay: `${-i * 2.4}s` }}>
           <dt className="text-sm text-pretty text-muted-foreground">{s.label}</dt>
