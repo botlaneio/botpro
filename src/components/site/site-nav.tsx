@@ -4,9 +4,12 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
 import { ArrowRight, CalendarDays, ChevronDown, CircleHelp, FileText, LayoutGrid, Route, Workflow } from "lucide-react"
 
+import type { OfferIcon } from "@/lib/catalog"
 import type { LaneId } from "@/lib/lanes"
 import type { NavIcon } from "@/lib/nav"
 import { cn } from "@/lib/utils"
+
+import { OFFER_ICONS } from "@/components/catalog/offer-icons"
 
 import { BotlaneMark } from "./botlane-mark"
 import { NAV_ICON_TONES, NAV_ICONS } from "./nav-icons"
@@ -19,15 +22,17 @@ export interface NavEntry {
   href: string
   title: string
   body: string
-  icon: NavIcon | LaneId | ExtraIcon
+  icon: NavIcon | LaneId | ExtraIcon | OfferIcon
+  /** The icon's colour class, when it isn't the icon's own. */
+  tone?: string
   external?: boolean
   soon?: boolean
 }
 
-/** A menu in the bar. Its panel shows each group as a column under a small heading. */
+/** A menu in the bar. Its panel shows each group as a column under a small heading, which can link to the group's own page. */
 export interface NavMenu {
   label: string
-  groups: { heading: string; entries: NavEntry[] }[]
+  groups: { heading: string; href?: string; entries: NavEntry[] }[]
 }
 
 const LANE_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = { syncc: CalendarDays, scriblane: FileText, flowlane: Workflow }
@@ -36,6 +41,7 @@ const EXTRA_ICONS: Record<ExtraIcon, React.ComponentType<{ className?: string }>
 
 const isSolution = (k: NavEntry["icon"]): k is NavIcon => k in NAV_ICONS
 const isLane = (k: NavEntry["icon"]): k is LaneId => k in LANE_ICONS
+const isOffer = (k: NavEntry["icon"]): k is OfferIcon => k in OFFER_ICONS
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener("scroll", onChange, { passive: true })
@@ -45,8 +51,8 @@ const scrolled = () => window.scrollY > 4
 
 function Entry({ entry, onNavigate }: { entry: NavEntry; onNavigate: () => void }) {
   const k = entry.icon
-  const Icon = isSolution(k) ? NAV_ICONS[k] : isLane(k) ? LANE_ICONS[k] : EXTRA_ICONS[k]
-  const tone = isSolution(k) ? NAV_ICON_TONES[k] : isLane(k) ? LANE_TONES[k] : "text-foreground/70"
+  const Icon = isSolution(k) ? NAV_ICONS[k] : isLane(k) ? LANE_ICONS[k] : isOffer(k) ? OFFER_ICONS[k] : EXTRA_ICONS[k]
+  const tone = entry.tone ?? (isSolution(k) ? NAV_ICON_TONES[k] : isLane(k) ? LANE_TONES[k] : "text-foreground/70")
   const inner = (
     <>
       <span className={cn("tile-depth size-8 shrink-0 rounded-[0.6rem]!", tone)}><Icon className="size-[15px]" /></span>
@@ -60,10 +66,19 @@ function Entry({ entry, onNavigate }: { entry: NavEntry; onNavigate: () => void 
     </>
   )
   const className = "-m-2.5 flex items-start gap-3 rounded-xl p-2.5 transition-colors duration-200 hover:bg-foreground/[0.05]"
-  if (entry.soon) return <span className={cn(className, "cursor-default opacity-70 hover:bg-transparent")}>{inner}</span>
   return entry.external
     ? <a href={entry.href} onClick={onNavigate} className={className}>{inner}</a>
     : <Link href={entry.href} onClick={onNavigate} className={className}>{inner}</Link>
+}
+
+function GroupHeading({ group, onNavigate }: { group: NavMenu["groups"][number]; onNavigate: () => void }) {
+  const label = "label-mono text-[11px] tracking-[0.06em] uppercase"
+  if (!group.href) return <span className={label}>{group.heading}</span>
+  return (
+    <Link href={group.href} onClick={onNavigate} className={cn(label, "group/h inline-flex w-fit items-center gap-1 transition-colors hover:text-foreground")}>
+      {group.heading} <ArrowRight aria-hidden className="size-3 transition-transform group-hover/h:translate-x-0.5" />
+    </Link>
+  )
 }
 
 function Burger({ open }: { open: boolean }) {
@@ -178,14 +193,14 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
               role="region"
               aria-label={`${active.label} menu`}
               onMouseEnter={() => hover(open)}
-              className="surface-menu absolute top-[calc(100%+0.5rem)] left-1/2 hidden w-[min(54rem,calc(100vw-3rem))] -translate-x-1/2 rounded-2xl! p-6 [animation:nav-in_260ms_var(--ease-lift)_both] md:block"
+              className="surface-menu absolute top-[calc(100%+0.5rem)] left-1/2 hidden w-[min(68rem,calc(100vw-3rem))] -translate-x-1/2 rounded-2xl! p-6 [animation:nav-in_260ms_var(--ease-lift)_both] md:block"
             >
               {/* An invisible bridge over the gap, so the pointer can reach the panel from the bar. */}
               <span aria-hidden className="absolute inset-x-0 -top-3 h-3" />
               <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${active.groups.length}, minmax(0, 1fr))` }}>
                 {active.groups.map((g) => (
                   <div key={g.heading} className="grid content-start gap-4">
-                    <span className="label-mono text-[11px] tracking-[0.06em] uppercase">{g.heading}</span>
+                    <GroupHeading group={g} onNavigate={close} />
                     <div className="grid gap-4">
                       {g.entries.map((e) => <Entry key={e.title} entry={e} onNavigate={close} />)}
                     </div>
@@ -211,7 +226,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
                   <div className="grid gap-6 pt-1 pb-5 pl-2.5">
                     {m.groups.map((g) => (
                       <div key={g.heading} className="grid gap-4">
-                        <span className="label-mono text-[11px] tracking-[0.06em] uppercase">{g.heading}</span>
+                        <GroupHeading group={g} onNavigate={close} />
                         {g.entries.map((e) => <Entry key={e.title} entry={e} onNavigate={close} />)}
                       </div>
                     ))}

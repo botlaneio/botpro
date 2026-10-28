@@ -54,7 +54,7 @@ export const SOLUTIONS: NavGroup[] = [
         icon: "care",
       },
       {
-        href: "/ai-assistant",
+        href: "/custom-solutions/ai-assistant",
         title: "AI Assistant",
         body: "Answers visitors' questions, trained on your business.",
         price: chargeLabel(plan("ai-assistant").charges[0], REGION),
