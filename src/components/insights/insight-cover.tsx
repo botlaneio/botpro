@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils"
 const ink = (a: number) => ({ stroke: `rgb(var(--ink) / ${a})` })
 
 /**
- * A post's cover: no photograph, a small hairline composition in the site's finishes, with the accent's light
- * falling across it. "grid" is a scope laid out in squares with one lit, "lines" is many paths gathering
+ * A post's cover: no photograph, a small hairline composition in the site's finishes, with the page's red
+ * ambient light falling across it. "grid" is a scope laid out in squares with one lit, "lines" is many paths gathering
  * into one, "orbit" is rings round a point. Decorative; the post's title says what it is.
  */
 export function InsightCover({ variant, topic, className }: { variant: Post["cover"]; topic: string; className?: string }) {
@@ -13,8 +13,8 @@ export function InsightCover({ variant, topic, className }: { variant: Post["cov
     <div aria-hidden className={cn("relative isolate overflow-hidden rounded-2xl border border-[rgb(var(--ink)/var(--edge-alpha))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)]", className)}>
       {/* A dot grid, faded towards the edges. */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgb(var(--ink)/0.13)_1px,transparent_1.2px)] [background-size:14px_14px] [mask-image:radial-gradient(75%_75%_at_50%_45%,#000,transparent)]" />
-      {/* The accent's light, falling from the upper right. */}
-      <div className="absolute -top-1/3 -right-1/4 -z-10 h-[90%] w-[80%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--brand)_calc(var(--glow)*34%),transparent),transparent)] blur-2xl" />
+      {/* The page's red light, falling from the upper right. */}
+      <div className="absolute -top-1/3 -right-1/4 -z-10 h-[90%] w-[80%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--ambient)_calc(var(--glow)*30%),transparent),transparent)] blur-2xl" />
 
       <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 size-full" fill="none">
         {variant === "grid" && <Grid />}
