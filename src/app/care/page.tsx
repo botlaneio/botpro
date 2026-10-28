@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 import { PriceList } from "@/components/pricing/price-list"
-import { ServiceCard } from "@/components/services/service-card"
+import { CareSet } from "@/components/pricing/care-set"
 import { PageSection, PageShell } from "@/components/site/page-shell"
 
 export const metadata: Metadata = {
@@ -18,10 +18,7 @@ export default function Care() {
       intro="Hosting, security updates, backups and small edits, handled every month, so the site stays fast, safe and current."
     >
       <PageSection id="plans" eyebrow="THE PLANS" title="Care and Care Plus.">
-        <div className="grid gap-5 md:grid-cols-2">
-          <ServiceCard planId="care" cta="Add Care" />
-          <ServiceCard planId="care-plus" cta="Add Care Plus" />
-        </div>
+        <CareSet />
       </PageSection>
       <PageSection id="extra" eyebrow="BEYOND THE PLAN" title="Work outside your monthly hours.">
         <PriceList offeringId="care" only={["extra-work"]} />

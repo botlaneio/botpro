@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 import { ProductFan } from "./product-fan"
 
-const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
+export const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
   syncc: CalendarDays,
   scriblane: FileText,
   flowlane: Workflow,
