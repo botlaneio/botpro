@@ -13,7 +13,7 @@ export interface FanItem {
 // Where a card sits, by its distance from the centre: upright in the middle, the rest fanned out behind.
 const SPREAD = 58, TILT = 7, SHRINK = 0.12, MOVE_MS = 650
 // On its own, the fan moves one place every few seconds; a person moving it starts the count again.
-const AUTO_MS = 5000
+const AUTO_MS = 3000
 
 /**
  * A fan of cards, after the carousel shared as a reference: one upright in the middle, the others fanned

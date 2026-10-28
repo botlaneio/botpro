@@ -8,6 +8,12 @@ import { cn } from "@/lib/utils"
 const T = 20
 // The still frame shown under reduced motion: the site built, the checks done.
 const STILL_AT = 7.6
+// The drawing is 1440×900, pinned to the bottom and scaled to the hero's width, so on screens wider than
+// 16:10 its top is cropped. The cards start at y≈244; once the crop reaches them, they move down with it,
+// keeping this much clear below the hero's top edge, up to MAX_DROP (beyond that they'd meet the terrain).
+const CONTENT_TOP = 244
+const TOP_CLEARANCE = 28
+const MAX_DROP = 150
 
 const ink = (a: number) => ({ stroke: `rgb(var(--ink) / ${a})` })
 const label = "font-mono text-[11px] tracking-[0.04em]"
@@ -46,6 +52,24 @@ function Check({ x, y, text, at }: { x: number; y: number; text: string; at: num
  */
 export function HeroStory({ className }: { className?: string }) {
   const svg = useRef<SVGSVGElement>(null)
+  const acts = useRef<SVGGElement>(null)
+
+  // Keep the cards inside the visible part of the drawing on wide screens.
+  useEffect(() => {
+    const root = svg.current, g = acts.current
+    if (!root || !g) return
+    const fit = () => {
+      const { width, height } = root.getBoundingClientRect()
+      if (!width || !height) return
+      const cropped = Math.max(0, 900 - (1440 * height) / width)
+      const drop = Math.min(MAX_DROP, Math.max(0, cropped + TOP_CLEARANCE - CONTENT_TOP))
+      g.setAttribute("transform", `translate(0 ${drop.toFixed(1)})`)
+    }
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(root)
+    return () => ro.disconnect()
+  }, [])
 
   useEffect(() => {
     const root = svg.current
@@ -113,6 +137,8 @@ export function HeroStory({ className }: { className?: string }) {
         </g>
       ))}
 
+      {/* The acts, which move down together when a wide screen crops the drawing's top. */}
+      <g ref={acts}>
       {/* Act 1 · Build: the brief, a winding line to a browser window, and the window assembling. */}
       <g data-out={`${T - 1} ${T - 0.3}`}>
         <path d="M-10 720 C 90 720 30 620 70 590 S 150 540 110 505 S 80 482 100 470" pathLength={1} fill="none" strokeWidth={1.2} data-in="0.3 2.2" data-draw="" style={ink(0.4)} />
@@ -161,6 +187,7 @@ export function HeroStory({ className }: { className?: string }) {
       <Check x={1292} y={448} text="Uptime" at={13.6} />
       <Check x={1298} y={596} text="Backup" at={14.6} />
       <Check x={1128} y={622} text="Security update" at={15.6} />
+      </g>
     </svg>
   )
 }
