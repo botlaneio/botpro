@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
-import { HeroStory } from "@/components/home/hero-story"
+import { HeroScene } from "@/components/home/hero-scene"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { SiteShowcase } from "@/components/catalog/site-showcase"
@@ -192,9 +192,9 @@ export default async function Lab() {
         <HeroPrompt />
       </Section>
 
-      <Section id="story" title="Hero story" note="Build, Launch, Care as a silent film in hairlines either side of the homepage prompt, on a 20-second loop. Wide screens only on the homepage; pauses off screen; one still frame under reduced motion.">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-[1.6rem] border border-border/60">
-          <HeroStory className="absolute inset-0 size-full" />
+      <Section id="scene" title="Hero scene" note="The homepage hero: Build, Launch and Care as one illustrated scene round the client's site, with captions, tabs that fill as each act plays, and a call to action at the end. Pauses off screen; one finished frame per tab under reduced motion.">
+        <div className="relative overflow-hidden rounded-[1.6rem] border border-border/60 px-6">
+          <HeroScene className="h-[760px]" />
         </div>
       </Section>
 

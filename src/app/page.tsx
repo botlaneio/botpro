@@ -3,14 +3,13 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { HeroPrompt } from "@/components/home/hero-prompt"
-import { HeroStory } from "@/components/home/hero-story"
+import { HeroScene } from "@/components/home/hero-scene"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
 import { StackOrbit } from "@/components/home/stack-orbit"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
 import { ServiceBlocks } from "@/components/home/service-blocks"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
-import { HeroMark } from "@/components/site/hero-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { SOLUTIONS } from "@/lib/nav"
@@ -51,16 +50,16 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6">
-        <header className="glow-brand relative isolate grid min-h-[72svh] content-center sm:min-h-[calc(100svh-var(--header-h))] justify-items-center gap-5 py-10 text-center sm:gap-6">
-          {/* Build, Launch, Care, played in hairlines either side of the prompt. Wide screens only: narrower,
-              the sides are too small to keep clear of it. */}
-          <HeroStory className="absolute bottom-0 left-1/2 -z-10 hidden h-full w-screen -translate-x-1/2 xl:block" />
-          {/* A little more dark in the top-right corner, fading out well before the prompt. Dark theme only. */}
-          <div aria-hidden className="pointer-events-none absolute top-[calc(-1*var(--header-h))] left-1/2 -z-10 hidden h-[calc(100%+var(--header-h))] w-screen -translate-x-1/2 bg-[radial-gradient(60%_70%_at_100%_0%,rgb(0_0_0/0.55),transparent_70%)] dark:block" />
-          <HeroMark size={88} />
-          <h1 className="sr-only">Botlane: websites and web apps, built properly</h1>
-          <div className="mt-2 w-full"><HeroPrompt /></div>
+        {/* The hero: one scene, Build, Launch and Care, played round the client's site. */}
+        <header className="glow-brand relative">
+          <HeroScene className="h-[calc(100svh-var(--header-h))] min-h-[640px] max-h-[920px]" />
         </header>
+
+        {/* The brief: the prompt bar, under the scene that shows what happens next. */}
+        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-6 border-t border-border/60 py-14 text-center sm:py-20">
+          <h2 id="brief-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Tell us what you&apos;re building.</h2>
+          <div className="w-full"><HeroPrompt /></div>
+        </section>
 
         {/* What we do: the words and the main action on the left, four service blocks on the right. */}
         <section id="build" aria-labelledby="build-title" className="grid scroll-mt-20 items-center gap-10 border-t border-border/60 py-14 sm:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
