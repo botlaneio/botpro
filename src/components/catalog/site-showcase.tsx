@@ -13,7 +13,7 @@ export type ShowcaseExample = "clinic" | "firm" | "launch"
  * are their own, not ours: the point is a site that looks like its business. Hovering pauses it; it holds
  * still under reduced motion. Decorative, so hidden from screen readers. Sized in container units.
  */
-export function SiteShowcase({ example = "clinic", className }: { example?: ShowcaseExample; className?: string }) {
+export function SiteShowcase({ example = "clinic", className, still = false }: { example?: ShowcaseExample; className?: string; still?: boolean }) {
   return (
     <div aria-hidden className={cn("group/s relative mx-auto w-full max-w-[38rem] pb-8 sm:pr-10", className)}>
       {/* Light behind the window, as in the lab's other hero pieces. */}
@@ -32,23 +32,23 @@ export function SiteShowcase({ example = "clinic", className }: { example?: Show
         </div>
         <div className="relative aspect-[16/10.5] overflow-hidden [container-type:inline-size]">
           {/* It scrolls by its own height less the window's (65.6cqw at 16:10.5), so it stops at the footer. */}
-          <div className="text-[1.6cqw] [--travel:calc(-100%_+_65.6cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
+          <div style={still ? { animation: "none" } : undefined} className="text-[1.6cqw] [--travel:calc(-100%_+_65.6cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
             {example === "firm" ? <FirmSite /> : example === "launch" ? <LaunchSite /> : <ClinicSite wide />}
           </div>
         </div>
       </div>
 
-      {example === "firm" ? <EditorPanel /> : example === "launch" ? <BudgetPanel /> : <Phone />}
+      {example === "firm" ? <EditorPanel /> : example === "launch" ? <BudgetPanel /> : <Phone still={still} />}
     </div>
   )
 }
 
 /** The phone, in front of the window's lower right: the clinic's site, laid out for a small screen. */
-function Phone() {
+function Phone({ still = false }: { still?: boolean }) {
   return (
       <div className="absolute right-0 bottom-0 hidden w-[27%] rounded-[1.4rem] border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.08))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-[0.35rem] shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:block">
         <div className="relative aspect-[9/18.5] overflow-hidden rounded-[1.1rem] [container-type:inline-size]">
-          <div className="text-[4.6cqw] [--travel:calc(-100%_+_205.5cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_-4s_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
+          <div style={still ? { animation: "none" } : undefined} className="text-[4.6cqw] [--travel:calc(-100%_+_205.5cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_-4s_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
             <ClinicSite />
           </div>
         </div>
