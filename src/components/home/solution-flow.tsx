@@ -71,7 +71,7 @@ function Node({ node, className }: { node: FlowNode; className?: string }) {
         className,
       )}
     >
-      <span className={cn("grid size-9 shrink-0 place-items-center rounded-full", end ? "bg-white/20" : "bg-[color-mix(in_oklch,var(--brand)_16%,transparent)] text-(--red-text)")}>
+      <span className={cn("grid size-9 shrink-0 place-items-center rounded-full", end ? "bg-white/20" : "bg-[color-mix(in_oklch,var(--brand)_16%,transparent)] text-(--blue-text)")}>
         <node.Icon className="size-4" />
       </span>
       <span className="grid min-w-0 gap-0.5">
