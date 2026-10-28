@@ -78,7 +78,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
       role="region"
       aria-roledescription="carousel"
       aria-label="Our products"
-      className="-mx-6 grid gap-8 overflow-x-clip py-2 outline-none sm:mx-0"
+      className="-mx-4 grid min-w-0 touch-pan-y touch-pinch-zoom gap-8 overflow-x-clip py-2 outline-none sm:mx-0"
       tabIndex={0}
       onPointerEnter={(e) => { if (e.pointerType === "mouse") setHeld((h) => ({ ...h, hover: true })) }}
       onPointerLeave={() => setHeld((h) => ({ ...h, hover: false }))}
@@ -89,6 +89,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
         if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1) }
       }}
       onPointerDown={(e) => { start.current = e.clientX }}
+      onPointerCancel={() => { start.current = null }}
       onPointerUp={(e) => {
         if (start.current === null) return
         const dx = e.clientX - start.current
@@ -105,7 +106,7 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
               key={i}
               onClick={d !== 0 ? () => go(i) : undefined}
               className={cn(
-                "w-[min(22rem,78vw)] transition-[transform,opacity,filter] ease-(--ease-lift) [grid-area:1/1]",
+                "w-[min(22rem,calc(100vw-3rem))] transition-[transform,opacity,filter] ease-(--ease-lift) [grid-area:1/1]",
                 d !== 0 && "cursor-pointer",
                 melting.includes(i) && "[&>*>*]:[animation:fan-melt_650ms_var(--ease-lift)]",
               )}
@@ -126,18 +127,18 @@ export function ProductFan({ items, children }: { items: FanItem[]; children: Re
       </div>
 
       <div className="mx-auto flex w-full max-w-sm items-center justify-between gap-4 px-6 sm:px-0">
-        <button type="button" onClick={() => go(index - 1)} aria-label="Previous product" className="key-physical grid size-10 shrink-0 place-items-center rounded-full!">
+        <button type="button" onClick={() => go(index - 1)} aria-label="Previous product" className="key-physical grid size-11 shrink-0 place-items-center rounded-full!">
           <ChevronLeft className="size-4" />
         </button>
-        <div className="grid min-w-0 justify-items-center text-center" aria-live="polite">
+        <div className="grid min-w-0 flex-1 justify-items-center overflow-hidden text-center" aria-live="polite">
           <span className="font-medium">{items[index]?.title}</span>
-          <span className="label-mono truncate text-[11px]">{items[index]?.note}</span>
+          <span className="label-mono w-full truncate text-center text-[11px]">{items[index]?.note}</span>
           {/* The count to the next move, as a hairline filling under the name. Keyed so it restarts each move. */}
           <span aria-hidden className="mt-2 block h-px w-16 overflow-hidden rounded-full bg-foreground/10">
             {playing && <span key={index} className="block h-full origin-left bg-foreground/40" style={{ animation: `fan-count ${AUTO_MS}ms linear both` }} />}
           </span>
         </div>
-        <button type="button" onClick={() => go(index + 1)} aria-label="Next product" className="key-physical grid size-10 shrink-0 place-items-center rounded-full!">
+        <button type="button" onClick={() => go(index + 1)} aria-label="Next product" className="key-physical grid size-11 shrink-0 place-items-center rounded-full!">
           <ChevronRight className="size-4" />
         </button>
       </div>

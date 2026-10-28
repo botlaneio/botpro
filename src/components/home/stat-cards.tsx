@@ -54,10 +54,10 @@ export function StatCards({ stats }: { stats: Stat[] }) {
   return (
     <dl data-stagger className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {stats.map((s, i) => (
-        <div key={s.label} className={cn("surface-stat grid content-start gap-2 p-5 sm:p-6")} style={{ animationDelay: `${-i * 2.4}s` }}>
+        <div key={s.label} className={cn("surface-stat grid content-start min-w-0 gap-2 p-3 sm:p-6")} style={{ animationDelay: `${-i * 2.4}s` }}>
           <dt className="text-sm text-pretty text-muted-foreground">{s.label}</dt>
           {/* The number comes after its label in the markup, as a description list needs, and first on screen. */}
-          <dd className="order-first text-4xl font-medium tracking-[-0.04em] tabular-nums sm:text-5xl">
+          <dd className="order-first text-[clamp(1.75rem,8vw,2.25rem)] font-medium tracking-[-0.04em] tabular-nums sm:text-5xl">
             <CountUp value={s.value} />
             {s.suffix && <span className="text-brand-text">{s.suffix}</span>}
           </dd>

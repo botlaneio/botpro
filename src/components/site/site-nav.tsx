@@ -150,7 +150,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
           solid ? "border-border/60 bg-background/85 shadow-[0_8px_24px_-16px_var(--float-shadow)] backdrop-blur-md" : "border-transparent bg-transparent",
         )}
       >
-        <div className="relative mx-auto flex h-full max-w-6xl items-center gap-6 px-6">
+        <div className="relative mx-auto flex h-full max-w-6xl items-center gap-3 px-4 sm:gap-6 sm:px-6">
           <Link href="/" onClick={close} onMouseEnter={unhover} className="flex items-center gap-2">
             <BotlaneMark size={26} id="nav-mark" />
             <span className="font-semibold tracking-[-0.035em]">botlane</span>
@@ -211,7 +211,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
               aria-expanded={sheet}
               aria-controls="nav-sheet"
               onClick={() => setSheet(!sheet)}
-              className="relative grid size-9 place-items-center rounded-lg transition-colors hover:bg-foreground/[0.07] lg:hidden"
+              className="relative grid size-11 shrink-0 place-items-center rounded-lg transition-colors hover:bg-foreground/[0.07] lg:hidden"
             >
               <Burger open={sheet} />
             </button>
@@ -221,7 +221,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
 
       {/* Outside the header: its blur would otherwise make it the frame this fixed sheet is placed in. */}
       {sheet && (
-        <div id="nav-sheet" className="fixed inset-x-0 top-(--header-h) bottom-0 z-40 overflow-y-auto border-t border-border/60 bg-background px-6 pt-2 pb-8 [animation:nav-in_260ms_var(--ease-lift)_both] lg:hidden">
+        <div id="nav-sheet" className="fixed inset-x-0 top-(--header-h) bottom-0 z-40 overflow-y-auto overscroll-contain border-t border-border/60 bg-background px-4 pt-2 sm:px-6 pb-8 [animation:nav-in_260ms_var(--ease-lift)_both] lg:hidden">
           {menus.map((m, i) => (
             <div key={m.label} className="border-b border-border/70">
               <button type="button" aria-expanded={row === i} onClick={() => setRow(row === i ? -1 : i)} className="flex w-full items-center justify-between py-4 text-left text-lg font-medium">
