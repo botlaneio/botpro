@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils"
 export function ServiceBlocks({ items }: { items: NavItem[] }) {
   const [lit, setLit] = useState(0)
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div data-stagger className="grid gap-3 sm:grid-cols-2">
       {items.map((item, i) => {
         const Icon = NAV_ICONS[item.icon]
         const on = lit === i

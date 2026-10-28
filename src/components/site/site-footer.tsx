@@ -27,9 +27,9 @@ const link = "text-sm text-muted-foreground transition-colors hover:text-foregro
  */
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-border/60">
+    <footer data-site-footer className="relative overflow-hidden border-t border-border/60">
       <AmbientLight className="bottom-0 h-[34rem] [mask-image:linear-gradient(0deg,#000_25%,transparent)]" />
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
+      <div data-stagger className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
             <BotlaneMark size={30} id="footer-mark" />
