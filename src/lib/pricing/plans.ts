@@ -12,8 +12,7 @@
  * invoicing Indian clients; nothing on the site displays them.
  *
  * Offerings marked `placeholder: true` hold stand-in prices: shown with a
- * "Placeholder price" label, never sold. Syncc is one of them until its
- * prices are confirmed.
+ * "Placeholder price" label, never sold. None are, today.
  */
 import type { Offer, Offering } from "./types.ts"
 
@@ -135,13 +134,13 @@ export const OFFERINGS: readonly Offering[] = [
     ],
   },
   {
-    // The standalone scheduling app at syncc.botlane.io.
-    // PLACEHOLDER: these figures come from syncc/pricing.js and are not final.
+    // The standalone scheduling app at syncc.botlane.io. These match syncc/pricing.js: keep the two in step.
+    // Set under Calendly Standard ($10 a seat a month yearly, $12 monthly) and Cal.com Teams ($12 yearly),
+    // checked 28 October 2026.
     id: "syncc",
     lane: "syncc",
     name: "Syncc",
     kind: "product",
-    placeholder: true,
     plans: [
       {
         id: "syncc-cloud-annual",

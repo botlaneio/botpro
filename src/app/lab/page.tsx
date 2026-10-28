@@ -38,7 +38,8 @@ import { LANES, type Lane } from "@/lib/lanes"
 import { ThemeSwitch } from "@/components/site/theme-switch"
 import { Keycaps } from "./lab-controls"
 
-export const metadata: Metadata = { title: "Component lab · Botlane" }
+// The lab is a working page for us, not for visitors: kept out of search results and the sitemap.
+export const metadata: Metadata = { title: "Component lab · Botlane", robots: { index: false, follow: false } }
 
 const ICONS: Record<Lane["id"], React.ComponentType<{ className?: string }>> = {
   syncc: CalendarDays,

@@ -4,6 +4,7 @@ import localFont from "next/font/local"
 import { AmbientLight } from "@/components/site/ambient-light"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { SITE_URL } from "@/lib/site"
 import "./globals.css"
 
 // Self-hosted from npm (@fontsource-variable) so builds never depend on reaching Google Fonts.
@@ -27,6 +28,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  // Resolves canonical links and social preview images to botlane.io, never www or a preview URL.
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "./" },
   title: "Botlane",
   description: "Ultra-premium websites and web apps, and the Lane products: Syncc, Scriblane and Flowlane.",
 }

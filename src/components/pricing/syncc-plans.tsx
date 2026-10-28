@@ -8,6 +8,9 @@ import { ChargeText, useRegion } from "./region"
 import { PlanCard } from "./plan-card"
 
 /** Syncc's two ways to buy: Cloud, billed monthly or yearly, and a self-hosted licence. */
+// Syncc takes sign-ups and payment on its own site.
+const SIGN_UP = "https://syncc.botlane.io/#pricing"
+
 export function SynccPlans() {
   const { region } = useRegion()
   const [billing, setBilling] = React.useState<"year" | "month">("year")
@@ -25,11 +28,11 @@ export function SynccPlans() {
       </Tabs>
       <div className="grid gap-5 md:grid-cols-2">
         {billing === "year" ? (
-          <PlanCard planId="syncc-cloud-annual" perMonth featured cta="Start with Cloud" note={<>Billed yearly at <ChargeText charge={yearly} /></>} />
+          <PlanCard planId="syncc-cloud-annual" perMonth featured cta="Start with Cloud" href={SIGN_UP} note={<>Billed yearly at <ChargeText charge={yearly} /></>} />
         ) : (
-          <PlanCard planId="syncc-cloud-monthly" featured cta="Start with Cloud" note="Billed monthly." />
+          <PlanCard planId="syncc-cloud-monthly" featured cta="Start with Cloud" href={SIGN_UP} note="Billed monthly." />
         )}
-        <PlanCard planId="syncc-self-hosted" cta="Buy a licence" note="Run it on your own server." />
+        <PlanCard planId="syncc-self-hosted" cta="Buy a licence" href={SIGN_UP} note="Run it on your own server." />
       </div>
     </div>
   )
