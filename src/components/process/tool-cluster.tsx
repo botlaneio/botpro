@@ -33,16 +33,16 @@ const REST = [
 
 /**
  * A step's tools as a cluster of app tiles, by their real logos, after the icon dock shared as a reference: the middle ones lit
- * and sharp, the edges fading into blur, with streaks of the accent behind. Every step's cluster is drawn,
+ * and sharp, the edges fading into blur, with streaks of the page's red light behind. Every step's cluster is drawn,
  * stacked; changing `step` swaps them tile by tile, rippling out from the centre. Sized by --tile.
  */
 export function ToolCluster({ step, className }: { step: number; className?: string }) {
   return (
     <div aria-hidden className={cn("relative isolate [--gap:calc(var(--tile)*0.2)] [--tile:4.5rem]", className)} style={{ height: "calc(var(--tile) * 2 + var(--gap))", width: "calc(var(--tile) * 5 + var(--gap) * 4)" }}>
-      {/* Light behind the tiles: two soft diagonal streaks of the accent, fading out at the edges. */}
+      {/* Light behind the tiles: two soft diagonal streaks of the page's red light, fading out at the edges. */}
       <div className="pointer-events-none absolute -inset-[30%] -z-10 [mask-image:radial-gradient(closest-side,#000,transparent)]">
-        <div className="absolute top-[18%] left-[30%] h-[22%] w-[90%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*60%),transparent)] blur-2xl" />
-        <div className="absolute top-[46%] left-[8%] h-[12%] w-[80%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*40%),transparent)] blur-xl" />
+        <div className="absolute top-[18%] left-[30%] h-[22%] w-[90%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*60%),transparent)] blur-2xl" />
+        <div className="absolute top-[46%] left-[8%] h-[12%] w-[80%] -rotate-[35deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*40%),transparent)] blur-xl" />
       </div>
 
       {SETS.map((set, s) =>

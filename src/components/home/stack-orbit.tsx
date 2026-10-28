@@ -122,10 +122,10 @@ export function StackOrbit({ className }: { className?: string }) {
     >
       {/* One stage, 72 by 26 units, centred: the hairlines and the apps share its coordinates at every size. */}
       <div className="absolute inset-y-0 left-1/2 w-[calc(var(--u)*72)] -translate-x-1/2">
-      {/* Light behind: two soft diagonal streaks of the accent, fading out at the edges, as in the tool cluster. */}
+      {/* Light behind: two soft diagonal streaks of the page's red light, fading out at the edges, as in the tool cluster. */}
       <div className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(closest-side,#000,transparent)]">
-        <div className="absolute top-[26%] left-[18%] h-[22%] w-[70%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*55%),transparent)] blur-3xl" />
-        <div className="absolute top-[52%] left-[30%] h-[12%] w-[55%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*35%),transparent)] blur-2xl" />
+        <div className="absolute top-[26%] left-[18%] h-[22%] w-[70%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*55%),transparent)] blur-3xl" />
+        <div className="absolute top-[52%] left-[30%] h-[12%] w-[55%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--ambient)_calc(var(--glow)*35%),transparent)] blur-2xl" />
       </div>
 
       {/* The hairline the apps travel along: one arc through every place, passing behind the capsule. */}
