@@ -379,14 +379,14 @@ export function HeroScene({ className }: { className?: string }) {
 
       {/* The headline and the one line under it. */}
       <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-4 pt-10 sm:pt-14">
-        <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Websites and software, made with uncommon care.</h1>
-        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">An independent studio for companies whose website should feel as considered as the work they do.</p>
+        <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
+        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
       </div>
 
       {/* The scene's captions, the tabs, and the track they sit on. */}
       <div data-hero-bottom className="absolute inset-x-0 bottom-0 z-10 grid justify-items-center gap-5 pb-6">
         <div aria-live="polite" className="relative h-9 w-full">
-          {[["It begins with a brief", 0.2, 5.2], ["Designed, refined, built", 5.8, 11.5], ["Live, and handed over", 12.4, 18.6], ["Cared for, long after launch", 19.4, 28.6]].map(([text, a, b]) => (
+          {[["It starts with your idea.", 0.2, 5.2], ["Takes shape, detail by detail.", 5.8, 11.5], ["Launches into the world.", 12.4, 18.6], ["Keeps moving with you.", 19.4, 28.6]].map(([text, a, b]) => (
             <div key={text as string} className="absolute inset-x-0 top-0 flex justify-center px-4">
               <span data-in={span(a as number, 0.4)} data-out={span(b as number, 0.3)} data-rise="" className="scene-caption text-center">{text}</span>
             </div>
@@ -420,8 +420,8 @@ export function HeroScene({ className }: { className?: string }) {
           <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
           <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
           <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
-            <p className="text-3xl font-medium tracking-tight text-balance">Every project, held to the same standard.</p>
-            <p className="text-muted-foreground">Tell us what you have in mind. We&apos;ll take it from there.</p>
+            <p className="text-3xl font-medium tracking-tight text-balance">What do you have in mind?</p>
+            <p className="text-muted-foreground">Tell us a little about what you need. We&apos;ll help you work out the next step.</p>
             <div className="mt-2 flex flex-wrap justify-center gap-3">
               <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
               <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>

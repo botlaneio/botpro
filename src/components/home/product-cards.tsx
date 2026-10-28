@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Workflow } from "lucide-react"
 
+import type { HomeProductCopy } from "@/lib/home-copy"
 import { LANES, type Lane, type LaneId } from "@/lib/lanes"
 import { PRODUCT_FEATURES } from "@/lib/products"
 import { cn } from "@/lib/utils"
@@ -117,10 +118,10 @@ export function ProductVisual({ id }: { id: LaneId }) {
 }
 
 /** Three short reasons to choose it. */
-function Features({ id }: { id: LaneId }) {
+function Features({ id, features }: { id: LaneId; features?: string[] }) {
   return (
     <ul className="grid gap-2.5 px-5 pb-6">
-      {PRODUCT_FEATURES[id].map((f) => (
+      {(features ?? PRODUCT_FEATURES[id]).map((f) => (
         <li key={f} className="flex gap-2.5 text-[13.5px] leading-snug text-foreground/85">
           <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-(--lane-text)" />
           {f}
@@ -130,7 +131,7 @@ function Features({ id }: { id: LaneId }) {
   )
 }
 
-function ProductCard({ lane }: { lane: Lane }) {
+function ProductCard({ lane, copy }: { lane: Lane; copy?: HomeProductCopy }) {
   const Icon = ICONS[lane.id]
   const Visual = VISUALS[lane.id]
   const live = lane.status === "live"
@@ -144,22 +145,23 @@ function ProductCard({ lane }: { lane: Lane }) {
           <ChevronRight className="size-4" />
         </Link>
       </div>
-      <p className="px-5 pt-5 text-[17px] leading-snug text-pretty text-foreground/90">{lane.tagline}</p>
+      <p className="px-5 pt-5 text-[17px] leading-snug text-pretty text-foreground/90">{copy?.headline ?? lane.tagline}</p>
+      {copy && <p className="px-5 pt-2 text-sm leading-snug text-pretty text-muted-foreground">{copy.description}</p>}
       <div className="mx-5 mt-6 border-t border-[color-mix(in_oklch,var(--lane)_18%,var(--border))]" />
       <div className="relative h-64" aria-hidden>
         <Visual />
       </div>
-      <Features id={lane.id} />
+      <Features id={lane.id} features={copy?.features} />
     </article>
   )
 }
 
 /** The three Lane products, as proof of what we build: a fan of cards, each a small window onto the product. */
-export function ProductCards() {
+export function ProductCards({ copy }: { copy?: Record<LaneId, HomeProductCopy> }) {
   const items = LANES.map((l) => ({ title: l.name, note: l.status === "live" ? `LIVE · ${l.host.toUpperCase()}` : "OPENING SOON" }))
   return (
     <ProductFan items={items}>
-      {LANES.map((l) => <ProductCard key={l.id} lane={l} />)}
+      {LANES.map((l) => <ProductCard key={l.id} lane={l} copy={copy?.[l.id]} />)}
     </ProductFan>
   )
 }

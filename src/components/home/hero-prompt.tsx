@@ -7,17 +7,16 @@ import { cn } from "@/lib/utils"
 
 // Briefs the placeholder types out, one after another. Real kinds of project, in a visitor's words.
 const EXAMPLES = [
-  "A booking site for my physio clinic, with online payments",
-  "A client portal where customers can track their orders",
-  "A website for my law firm that people actually find",
-  "An internal dashboard for my sales team",
+  "A website that reflects where our business is today.",
+  "A booking system for our clinic.",
+  "A client portal that keeps everything in one place.",
 ]
 
 const CHIPS = [
   { id: "website", label: "Website" },
   { id: "web-app", label: "Web app" },
   { id: "care", label: "Care" },
-  { id: "not-sure", label: "Not sure yet", short: "Not sure" },
+  { id: "not-sure", label: "Help me decide", short: "Help me decide" },
 ] as const
 
 const TYPE_MS = 38, HOLD_MS = 1800, ERASE_MS = 16
@@ -60,7 +59,7 @@ export function HeroPrompt() {
   return (
     <form ref={form} action="/contact" method="get" className="surface-prompt relative mx-auto grid w-full max-w-2xl gap-3 p-3 text-left sm:p-4">
       <label className="relative grid">
-        <span className="sr-only">What are you building?</span>
+        <span className="sr-only">What do you have in mind?</span>
         <textarea
           name="brief"
           rows={2}
@@ -76,7 +75,7 @@ export function HeroPrompt() {
               form.current?.requestSubmit()
             }
           }}
-          placeholder={focused ? "What it is, who it's for, and what a good result looks like." : ""}
+          placeholder={focused ? "Tell us a little about what you need." : ""}
           className="min-h-16 w-full resize-none bg-transparent px-2 pt-1.5 max-sm:pr-11 text-[17px] leading-relaxed text-foreground outline-none placeholder:text-muted-foreground/70"
         />
         {!brief && !focused && (
