@@ -226,8 +226,8 @@ export default async function Lab() {
         </div>
       </Section>
 
-      <Section id="reveal" title="Petal reveal" note="The homepage's closing panel. Washed-out petals with boxes opening onto full colour in turn; now and then the whole picture floods. A CURSOR box follows a mouse. Three boxes stay open, still, under reduced motion.">
-        <PetalReveal className="grid aspect-[16/9] place-items-center rounded-[1.6rem] p-6">
+      <Section id="reveal" title="Flower reveal" note="The homepage's closing panel. A flower in X-ray with its tracked boxes opening onto full colour in turn; now and then the whole flower floods. A CURSOR box follows a mouse. Two boxes stay open, still, under reduced motion.">
+        <PetalReveal className="grid aspect-[16/9] items-center justify-items-start rounded-[1.6rem] p-6">
           <span className="surface-frosted px-4 py-2 text-sm">Content floats here</span>
         </PetalReveal>
       </Section>
