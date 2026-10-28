@@ -50,7 +50,7 @@ export default function Blog() {
 
         {/* The close: a question we haven't answered yet. */}
         <section aria-labelledby="ask-title" className="group/cover relative mb-20 overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#08080a] sm:mb-28">
-          <div aria-hidden className="absolute -top-1/2 right-[-10%] h-[160%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(170_30_34/0.5),transparent)] blur-2xl" />
+          <div aria-hidden className="absolute -top-1/2 right-[-10%] h-[160%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(48_96_176/0.5),transparent)] blur-2xl" />
           <div aria-hidden className="absolute inset-0 bg-[radial-gradient(rgb(255_255_255/0.07)_1px,transparent_1.2px)] [background-size:16px_16px] [mask-image:radial-gradient(60%_80%_at_80%_50%,#000,transparent)]" />
           <div className="dark relative grid gap-8 p-8 text-white sm:p-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:p-16">
             <div className="grid gap-4">
