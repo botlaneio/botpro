@@ -18,7 +18,7 @@ const LANE_LINE: Record<LaneId, string> = {
   flowlane: "Automation across 700+ apps.",
 }
 
-/** The navigation on every page: a pill of sections that grows into each one's cards, Insights, and the main action. */
+/** The navigation on every page: the section menus, which share one wide panel, Insights, and the main action. */
 export function SiteHeader() {
   const section = (id: CategoryId): NavSection => {
     const cat = categoryById(id)
