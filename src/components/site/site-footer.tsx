@@ -25,7 +25,7 @@ const link = "text-sm text-muted-foreground transition-colors hover:text-foregro
  * The foot of every page: the mark and one line, the whole site in three columns, and the wordmark set
  * very large and very faint along the bottom edge, cut off by it.
  */
-export function SiteFooter() {
+export function SiteFooter({ description = "An independent studio for websites and software, made with uncommon care." }: { description?: string }) {
   return (
     <footer data-site-footer className="relative overflow-hidden border-t border-border/60">
       <AmbientLight className="bottom-0 h-[34rem] [mask-image:linear-gradient(0deg,#000_25%,transparent)]" />
@@ -35,7 +35,7 @@ export function SiteFooter() {
             <BotlaneMark size={30} id="footer-mark" />
             <span className="text-lg font-semibold tracking-[-0.035em]">botlane</span>
           </Link>
-          <p className="max-w-xs text-sm text-muted-foreground">An independent studio for websites and software, made with uncommon care.</p>
+          <p className="max-w-xs text-sm text-muted-foreground">{description}</p>
           <Link href="/contact" className="group/cta inline-flex items-center gap-1.5 text-sm font-medium">
             Start a project
             <ArrowRight aria-hidden className="size-3.5 transition-transform duration-300 ease-(--ease-lift) group-hover/cta:translate-x-0.5" />

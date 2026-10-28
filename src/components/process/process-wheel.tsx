@@ -96,8 +96,8 @@ function Wheel({ p }: { p: number }) {
 }
 
 /** One step's words: the number, the title, one sentence, and its tags. */
-function Words({ i, className, style }: { i: number; className?: string; style?: React.CSSProperties }) {
-  const s = STEPS[i]
+function Words({ i, steps = STEPS, className, style }: { i: number; steps?: typeof STEPS; className?: string; style?: React.CSSProperties }) {
+  const s = steps[i]
   return (
     <div className={cn("grid content-start gap-4", className)} style={style}>
       <span className="label-mono">STEP {pad(i)}</span>
@@ -115,7 +115,7 @@ function Words({ i, className, style }: { i: number; className?: string; style?:
  * screen, the words cross-fade, and the cluster of tools beside them swaps to the step's own. It is ordinary scrolling,
  * never hijacked. Under reduced motion or on a phone it is a plain list.
  */
-export function ProcessWheel() {
+export function ProcessWheel({ steps = STEPS }: { steps?: typeof STEPS }) {
   const section = useRef<HTMLDivElement>(null)
   const list = useList()
   const p = useStepProgress(section, !list)
@@ -124,9 +124,9 @@ export function ProcessWheel() {
   if (list) {
     return (
       <ol className="grid gap-12">
-        {STEPS.map((s, i) => (
+        {steps.map((s, i) => (
           <li key={s.title} className="grid items-center gap-8 sm:grid-cols-[1fr_auto]">
-            <Words i={i} />
+            <Words i={i} steps={steps} />
             <ToolCluster step={i} className="[--tile:2.75rem] sm:[--tile:3rem]" />
           </li>
         ))}
@@ -143,12 +143,13 @@ export function ProcessWheel() {
 
         {/* The words for every step share one place; each fades and slides by how far the page is from it. */}
         <div className="relative h-80" aria-live="polite">
-          {STEPS.map((s, i) => {
+          {steps.map((s, i) => {
             const d = p - i
             return (
               <Words
                 key={s.title}
                 i={i}
+                steps={steps}
                 className="absolute inset-x-0 top-0"
                 style={{ opacity: Math.max(0, 1 - Math.abs(d) * 1.8), transform: `translateY(${-d * 28}px)`, visibility: Math.abs(d) > 0.6 ? "hidden" : "visible" }}
               />
