@@ -104,9 +104,10 @@ export default function Home() {
         </Section>
 
         <section aria-labelledby="cta-title" className="my-14 sm:my-20">
-          {/* The petals, washed out, with boxes opening onto them in colour; the panel floats in the clear middle. */}
-          <PetalReveal className="grid min-h-[34rem] place-items-center rounded-[1.6rem] p-4 sm:aspect-[16/9] sm:min-h-0 sm:p-10">
-            <div className="surface-frosted grid max-w-xl justify-items-center gap-5 p-6 text-center sm:p-10">
+          {/* The flower in X-ray, with boxes opening onto it in colour. The panel sits under it on phones and
+              in the clear black to its left from lg, so the flower is never behind glass. */}
+          <PetalReveal className="grid min-h-[48rem] items-end justify-items-center rounded-[1.6rem] p-4 sm:p-10 lg:aspect-[16/9] lg:min-h-0 lg:items-center lg:justify-items-start">
+            <div className="surface-frosted grid max-w-xl justify-items-center gap-5 p-6 text-center sm:p-10 lg:max-w-sm lg:p-8">
               <FoundingBanner />
               <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Let&apos;s make something worth returning to.</h2>
               <p className="max-w-md text-muted-foreground">Every brief is read by the people who will build it, and answered with candour.</p>
