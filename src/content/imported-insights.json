@@ -1,0 +1,476 @@
+[
+  {
+    "slug": "after-hours-enquiries",
+    "title": "What happens to an enquiry that arrives after you close",
+    "dek": "Three ways to handle the messages that come in at night, what each one takes, and an instant reply you can copy.",
+    "topic": "Enquiries",
+    "date": "2026-10-23",
+    "cover": "lines",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "Most small businesses close in the evening. Their customers don't. People look for a dentist, a caterer or a machining supplier when they finally have a quiet moment, which is often after dinner. So some of your enquiries will always arrive when nobody is there to answer.\n\nWhat happens next is up to you. There are three ways to handle it."
+      },
+      {
+        "type": "h2",
+        "text": "1. Reply the next morning"
+      },
+      {
+        "type": "markdown",
+        "text": "This is what most businesses do, and it can work. It costs nothing to set up.\n\nThe risk is the gap. Someone with a question at 10pm often asks more than one business. By the time you reply at 10am, they may already have an answer from someone else.\n\nIf you go this way, make the next-morning reply a habit, not a hope: check enquiries first thing, before anything else, and answer every one the same day."
+      },
+      {
+        "type": "h2",
+        "text": "2. Send an instant reply"
+      },
+      {
+        "type": "markdown",
+        "text": "An instant reply goes out the moment an enquiry arrives, in your name. It doesn't answer the question, but it tells the person three things: you've received their message, a real person will reply, and when.\n\nThat's often enough to stop them looking elsewhere. Here's a simple one you can adapt:\n\n> Thanks for getting in touch with [Business]. We've received your message and we'll reply by [time] tomorrow. If it's urgent, call or WhatsApp us on [number] during opening hours, [days and times].\n\nA few rules make it work:\n\n- **Promise a time you'll keep.** \"By 11am tomorrow\" beats \"as soon as possible\".\n- **Keep it short.** It's a receipt, not a brochure.\n- **Send it in your name**, from an address people can reply to.\n\nPair it with a single place where every enquiry lands, such as a shared sheet, so nothing gets lost between your email, phone and WhatsApp."
+      },
+      {
+        "type": "h2",
+        "text": "3. Let a chatbot answer the common questions"
+      },
+      {
+        "type": "markdown",
+        "text": "Many night-time questions are the same few: Are you open on Sunday? Do you deliver to my area? Roughly how much does it cost? What do I need to bring?\n\nA chatbot trained on your own services, prices and hours can answer those at any time, and pass anything else to you. Two things matter:\n\n- **It only knows what you give it.** Write down your real answers first; that list is most of the work.\n- **It should hand over, not guess.** When it isn't sure, it should take the person's details and tell them you'll be in touch."
+      },
+      {
+        "type": "h2",
+        "text": "Which one is right for you?"
+      },
+      {
+        "type": "markdown",
+        "text": "Start with the cheapest thing that closes the gap. If most of your enquiries are simple questions, a chatbot saves you the most time. If they need a conversation, an instant reply and a reliable next-morning routine are usually enough.\n\nWhatever you choose, test it: send yourself an enquiry at night and see what happens."
+      }
+    ]
+  },
+  {
+    "slug": "ai-appointment-booking-implementation",
+    "title": "How to implement AI appointment booking for a service business",
+    "dek": "Plan one booking workflow from qualifying questions to calendar confirmation, with a handover checklist and failure tests to run before launch.",
+    "topic": "Automation and AI",
+    "date": "2026-10-28",
+    "cover": "orbit",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "Implement AI appointment booking by defining one bookable service, connecting the real calendar, and specifying what happens when a request cannot be completed. The chat interface is only one part of that work.\n\nThis guide is for a service business that has already decided to add a booking workflow. If you are still choosing the interface, start with [AI chatbot vs. booking form](/blog/ai-chatbot-vs-booking-form/)."
+      },
+      {
+        "type": "h2",
+        "text": "Start with one appointment type"
+      },
+      {
+        "type": "markdown",
+        "text": "Choose a service that staff can describe consistently. A consultation with a fixed duration is easier to define than a job whose price, crew, and duration depend on an inspection.\n\nWrite down the service name, duration, location, eligible customers, assigned staff, and what the appointment promises. Be precise about whether it is a consultation, an estimate, or the service itself.\n\nFor example, a hypothetical cleaning company might allow a consultation for a standard recurring service but send specialist work to the owner. Booking the consultation does not confirm the cleaning job or its price."
+      },
+      {
+        "type": "h2",
+        "text": "Make the calendar the authority"
+      },
+      {
+        "type": "markdown",
+        "text": "Decide which calendar receives bookings and which calendars must be checked for conflicts. Include staff leave and other commitments in the availability rules, rather than leaving them in someone's memory.\n\nAs one product example, [Calendly's calendar connection guide](https://calendly.com/help/connect-your-calendar-to-calendly) explains that connected calendars are used to check busy times and that a primary calendar receives new meetings. Its [availability overview](https://calendly.com/help/availability-overview) distinguishes calendar conflicts from the hours you make available. Verify the equivalent settings in your own scheduling product and plan.\n\nAsk the implementer to document:\n\n- Working hours and date-specific exceptions.\n- Appointment duration, preparation time, and travel gaps.\n- How soon a customer can book and how far ahead.\n- The time zone displayed to the customer.\n- Which staff member or resource owns the appointment.\n- The rules for rescheduling and cancellation.\n\nKeep AI-generated wording separate from availability decisions. A conversational response should not invent a slot."
+      },
+      {
+        "type": "h2",
+        "text": "Agree on the booking sequence"
+      },
+      {
+        "type": "markdown",
+        "text": "Use a written sequence that your builder can demonstrate:\n\n1. Collect the service choice and the minimum qualifying details.\n2. Route requests outside the agreed rules to a person.\n3. Retrieve available times from the scheduling system.\n4. Let the customer choose a time and verify their contact details.\n5. Submit the booking and check the scheduling system's response.\n6. Show confirmation only after creation succeeds.\n7. Save the booking reference with the lead record and notify the responsible person.\n\nA displayed time is not a reservation. If another customer takes it before submission, offer a fresh choice. Ask the builder how repeat clicks and retries avoid creating duplicate appointments.\n\nSome integrations may only support sending a customer to an external booking page. That can be a valid implementation, but the scope should call it a link or handoff rather than an in-chat booking."
+      },
+      {
+        "type": "h2",
+        "text": "Write the exceptions before the friendly greeting"
+      },
+      {
+        "type": "markdown",
+        "text": "Give every exception an owner and a customer-facing message.\n\n| Situation | Proposed behavior |\n|---|---|\n| No suitable times | Offer another date or a request for staff follow-up |\n| Service outside the approved scope | Collect a short request for review; do not promise a price |\n| Calendar unavailable | Explain that booking could not be confirmed and provide a contact path |\n| Booking succeeds but notification fails | Preserve the confirmed booking reference; alert staff without creating another appointment |\n| Customer asks for a person | Provide a direct contact option and send the context to the agreed destination |\n\nThese are design requirements to discuss, not claims that a particular tool already implements them. Keep an email or direct contact path available if chat fails."
+      },
+      {
+        "type": "h2",
+        "text": "Prepare a small acceptance record"
+      },
+      {
+        "type": "markdown",
+        "text": "Before launch, ask for evidence against specific scenarios. Record the scenario, expected result, observed result, booking reference where relevant, and unresolved issue. The following are proposed tests; they have not been performed on your system.\n\n- Book an eligible appointment and check the calendar, lead destination, and confirmation.\n- Try an already occupied time and verify that it cannot be promised.\n- Test two visitors selecting the same remaining slot.\n- Use a customer time zone different from the business time zone.\n- Repeat the submission after a slow response and look for duplicates.\n- Disconnect the calendar in a controlled test environment and check the fallback.\n- Cancel or reschedule and check that the saved record and calendar agree.\n- Complete the flow on a phone and with a keyboard.\n\nUse test details and isolated calendars where possible. Tell staff which notifications are tests before sending them."
+      },
+      {
+        "type": "h2",
+        "text": "Make handover part of the implementation"
+      },
+      {
+        "type": "markdown",
+        "text": "The owner needs more than login credentials. Ask for a short operating note showing how to change hours, pause booking, update approved answers, inspect failures, and contact the maintainer.\n\nChoose one person to review exceptions and unanswered questions. Track confirmed bookings, failed attempts, manual corrections, and qualified requests. Chat volume alone does not show whether the workflow helps.\n\nFor a booking page, explore [Syncc](/products/syncc). If the project also needs qualification, lead logging, or follow-up across tools, start with [workflow automation](/custom-solutions/workflow-automation). Website compatibility, scheduling support, and the exact connections need confirmation in the proposal; these examples are not a promise that every integration is available.\n\nBring your existing booking tool, one appointment type, staff availability rules, and exception owner to the project enquiry. For the information to prepare beforehand, use the [intake requirements checklist](/blog/service-business-intake-requirements/)."
+      }
+    ]
+  },
+  {
+    "slug": "ai-chatbot-vs-booking-form",
+    "title": "AI chatbot vs. booking form: which does your small business need?",
+    "dek": "Compare a booking form, a website chatbot, and an AI intake workflow using a practical decision guide and a launch checklist.",
+    "topic": "Automation and AI",
+    "date": "2026-10-24",
+    "cover": "orbit",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "A booking form is a good starting point when customers already know what they want and can choose an appointment themselves. A chatbot is useful when they need answers before taking that step. An intake workflow connects the conversation to the next action: collecting the right details, routing a request, or arranging an appointment.\n\nBefore choosing software, write down the step where customers get stuck. Buying a chat interface will not fix a calendar that nobody maintains."
+      },
+      {
+        "type": "h2",
+        "text": "Start with the customer’s next action"
+      },
+      {
+        "type": "markdown",
+        "text": "Imagine a small cleaning business. This is a hypothetical example, not a customer case study.\n\nOne visitor wants to book a standard cleaning. Another wants to know whether the business serves their ZIP code. A third needs a quote for a large property with unusual requirements.\n\nThose visitors need different paths:\n\n- **Standard cleaning:** a booking form can work if the duration, service area, and price rules are already defined.\n- **Service-area question:** an approved answer and a link to the right booking page may be enough.\n- **Unusual job:** collect the details and send them to a person before promising a price or time.\n\nThe useful question is: what can the system safely finish, and what should it hand over?"
+      },
+      {
+        "type": "h2",
+        "text": "Compare the three options"
+      },
+      {
+        "type": "markdown",
+        "text": "| Option | Best fit | What you must supply | What to verify |\n|---|---|---|---|\n| Booking form | Customers can select a defined service and time | Service options, availability, required fields | Time zones, unavailable dates, confirmation delivery |\n| Website chatbot | Customers ask questions before contacting you | Current answers, service boundaries, a contact path | Unsupported questions, outdated answers, human handoff |\n| Connected intake workflow | A request needs qualification, routing, or scheduling | Intake rules, integrations, an owner for exceptions | Record creation, duplicate handling, booking failures |\n\nProduct names do not guarantee these capabilities. A chatbot may only collect a message. A scheduling tool may already include the questions you need. For example, [Calendly Routing Forms](https://help.calendly.com/hc/en-us/articles/4418606043927-Getting-started-with-Routing-Forms) can use answers to direct a visitor to an event type, a custom message, or another URL. Routing does not inherently require an AI conversation. Evaluate the actual workflow before adding another subscription."
+      },
+      {
+        "type": "h2",
+        "text": "When a booking form is enough"
+      },
+      {
+        "type": "markdown",
+        "text": "Start with a form if the appointment is straightforward and visitors do not need much help choosing it.\n\nKeep the required questions limited to what you need for the next step. For a first consultation, that might be a name, email address, service choice, and short description. More detailed questions can come later if they are necessary.\n\nMake the outcome explicit. “Request an appointment” and “Book a confirmed appointment” mean different things. If staff must approve the request, say so before submission and in the confirmation.\n\nA form also needs an owner. Decide who receives the request, where it is saved, and what happens when that person is away."
+      },
+      {
+        "type": "h2",
+        "text": "When a chatbot adds something useful"
+      },
+      {
+        "type": "markdown",
+        "text": "A chatbot may help when visitors repeatedly need the same answers before they can decide. A scripted chatbot follows defined paths; an AI chatbot can interpret free-form questions, but still needs clear boundaries and a way to hand off.\n\nChat and scheduling can also work together. [Landbot’s appointment template](https://landbot.io/chatbot-templates/appointment), for example, connects a conversational interface to Calendly. That illustrates the distinction: the chat interface and the system that books the appointment can be separate tools.\n\nGive it a small, maintained source of approved information: services, areas served, opening hours, preparation instructions, and how to reach a person. Avoid treating a large collection of old documents as a substitute for clear answers.\n\nIt should be able to say that it cannot confirm something. For example:\n\n> I can help with our standard services, but this request needs a custom quote. Leave your email and a short description, and our team will follow up during business hours.\n\nUse a response-time promise only if your team can meet it. For messages arriving overnight, see our [guide to after-hours inquiries](/blog/after-hours-enquiries/)."
+      },
+      {
+        "type": "h2",
+        "text": "When you need a connected intake workflow"
+      },
+      {
+        "type": "markdown",
+        "text": "A connected workflow is useful when answering the question is only one part of the job.\n\nFor example, the system might ask which service a visitor needs, check whether their location is covered, save the request, and send it to the right team member. Booking may be one step in that process.\n\nWrite the rules before choosing the implementation:\n\n1. Which requests can proceed automatically?\n2. Which details are necessary to route them?\n3. What makes a request an exception?\n4. Who owns each exception?\n5. What does the visitor see if an integration fails?\n\nFor scheduling, a conversational suggestion is not a confirmed booking. The system should check actual availability and only say the appointment is confirmed after the booking succeeds. If it cannot verify success, it should explain that the request needs follow-up."
+      },
+      {
+        "type": "h2",
+        "text": "Test failures as carefully as the happy path"
+      },
+      {
+        "type": "markdown",
+        "text": "Use this checklist with your builder before launch. These are proposed acceptance tests, not claims about a particular product.\n\n- **Outside the service area:** submit an unsupported ZIP code and check that the system does not promise service.\n- **No availability:** request a fully booked day and check the next step is clear.\n- **Different time zone:** verify the time zone shown before and after booking.\n- **Custom pricing:** ask for a discount or an unusual job and check that the system does not invent a quote.\n- **Repeated submission:** submit the same request twice and check how duplicates are handled.\n- **Connection failure:** test an unavailable calendar or lead destination in a test environment.\n- **Human help:** ask for a person and confirm that the request reaches an accountable owner.\n- **Mobile use:** complete the flow on a phone, including validation errors and the confirmation screen.\n\nUse test contact details and a test calendar where possible. Do not trigger real customer notifications while checking failure cases."
+      },
+      {
+        "type": "h2",
+        "text": "What to put in the project scope"
+      },
+      {
+        "type": "markdown",
+        "text": "Ask for the workflow to be described in writing: the questions, approved answer sources, connected tools, exception rules, and acceptance tests.\n\nAlso specify who updates the information and what ongoing services cost. Separate the implementation fee from hosting, model usage, scheduling software, and maintenance. Do not assume that owning the website means every connected service is included.\n\nOur [fixed-scope website guide](/blog/fixed-scope-explained/) explains how to document inclusions, revisions, and ownership."
+      },
+      {
+        "type": "h2",
+        "text": "Make the smallest useful choice"
+      },
+      {
+        "type": "markdown",
+        "text": "If visitors are ready to book, improve the booking form first. If they hesitate because they need answers, address those questions on the page and consider chat where it helps. If requests fall between the conversation, calendar, and inbox, define the connected workflow.\n\nBotLane’s [workflow automation service](/custom-solutions/workflow-automation) is the relevant starting point for discussing that workflow. Describe where requests get stuck so the scope can address the actual problem."
+      },
+      {
+        "type": "h2",
+        "text": "Questions to ask before choosing"
+      },
+      {
+        "type": "markdown",
+        "text": "### Will a chatbot automatically increase bookings?\n\nDo not assume it will. Check completed bookings and qualified inquiries against visitor numbers before and after the change, over comparable periods. Also check whether people abandon the conversation or ask for help. A busier chat window alone does not establish a better result.\n\n### Can I keep my existing booking software?\n\nPossibly. Ask the builder to verify the integration with your specific tool and plan, including availability checks, confirmations, cancellations, and failure handling. A link to a booking page is different from creating an appointment inside the conversation.\n\n### Should visitors have to use chat?\n\nKeep a direct booking or contact option available. Someone who already knows what they need should be able to reach the next step without answering the same questions in a conversation."
+      }
+    ]
+  },
+  {
+    "slug": "fixed-scope-explained",
+    "title": "Fixed scope, explained: how to buy a website without surprises",
+    "dek": "What a good scope lists, how revision rounds and changes should work, and why paying in stages protects both sides.",
+    "topic": "Buying a website",
+    "date": "2026-10-21",
+    "cover": "grid",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "Most website projects that go wrong don't fail on design or code. They fail on a misunderstanding: you thought something was included, the person building it didn't. A fixed scope is how you avoid that."
+      },
+      {
+        "type": "h2",
+        "text": "What a scope should say"
+      },
+      {
+        "type": "markdown",
+        "text": "A scope is a short written list of what you're getting. Before you agree to anything, check that it covers:\n\n- **What's being built.** The pages, and anything that works behind them, like an enquiry form or an automatic reply.\n- **What isn't included.** Copywriting, photography and logo design are common gaps.\n- **How many revision rounds** you get, and what counts as a round.\n- **The timeline**, and what it depends on (usually your content and feedback arriving on time).\n- **The price and the payment stages.**\n- **Who owns what** at the end: the domain, the code and the accounts.\n\nIf any of these are missing, ask. A good builder will be glad you did."
+      },
+      {
+        "type": "h2",
+        "text": "Revision rounds"
+      },
+      {
+        "type": "markdown",
+        "text": "A round is one set of changes, sent together, to one version of the design. \"Two rounds\" means you can review, ask for changes, review again and ask for changes once more.\n\nThe trick is to collect all your feedback before you send it. Ten changes in one message are one round; ten changes in ten messages can quietly turn into ten."
+      },
+      {
+        "type": "h2",
+        "text": "When you want something new"
+      },
+      {
+        "type": "markdown",
+        "text": "Halfway through, you'll think of something else. That's normal. The fair way to handle it is a **change**: it's described, priced and agreed in writing before anyone starts on it. That way the original price stays the original price, and the new piece has its own.\n\nBe wary of \"we'll sort it out at the end\". That's how a fixed price stops being fixed."
+      },
+      {
+        "type": "h2",
+        "text": "Why pay in stages"
+      },
+      {
+        "type": "markdown",
+        "text": "Paying everything up front leaves you with all the risk. Paying everything at the end leaves the builder with all of it. Stages split it fairly: you pay for one part, it's done and approved, then the next part starts.\n\nA common pattern is a payment to start, one when the design is approved, and the last before launch. Each stage starting only once its payment clears keeps everyone honest, and keeps the work moving."
+      },
+      {
+        "type": "h2",
+        "text": "Make sure you own it"
+      },
+      {
+        "type": "markdown",
+        "text": "When the last payment is made, the domain, the code and every account should be in your name. If you ever want to move to someone else, you should be able to, without asking permission."
+      },
+      {
+        "type": "h2",
+        "text": "A one-line test"
+      },
+      {
+        "type": "markdown",
+        "text": "Before you sign, ask yourself: *if the person building this disappeared tomorrow, would I know exactly what I'd paid for, and could I take it elsewhere?* If the answer is yes, your scope is doing its job."
+      }
+    ]
+  },
+  {
+    "slug": "google-business-profile-checklist",
+    "title": "Your Google Business Profile: a 20-minute checklist",
+    "dek": "The settings that help people find you, trust you and get in touch, in the order worth doing them.",
+    "topic": "Getting found",
+    "date": "2026-10-18",
+    "cover": "orbit",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "When someone searches for a business like yours nearby, your Google Business Profile is often the first thing they see, before your website. It's free, and most of what matters takes minutes. Here's a checklist, in the order worth doing it."
+      },
+      {
+        "type": "h2",
+        "text": "1. Get the basics exactly right"
+      },
+      {
+        "type": "markdown",
+        "text": "- **Name:** your real business name, as it appears on your signboard. Don't add keywords to it.\n- **Address or service area:** use an address if customers visit you; a service area if you go to them.\n- **Phone number and website:** a number that's answered, and your website's main address.\n\nThese details should match everywhere: your website, your invoices, your social profiles."
+      },
+      {
+        "type": "h2",
+        "text": "2. Choose your categories carefully"
+      },
+      {
+        "type": "markdown",
+        "text": "Your **primary category** says what you are, as precisely as possible. \"Dental clinic\" is better than \"Health\". Add a few secondary categories only if they're genuinely true."
+      },
+      {
+        "type": "h2",
+        "text": "3. Set your hours, including the awkward ones"
+      },
+      {
+        "type": "markdown",
+        "text": "Add your regular hours, and update them for holidays and closures. Few things lose a customer faster than turning up to a shut door that Google said was open."
+      },
+      {
+        "type": "h2",
+        "text": "4. Write a plain description"
+      },
+      {
+        "type": "markdown",
+        "text": "In a few sentences, say what you do, who for, and where. Write it for a person, not for search engines. Skip prices that change often."
+      },
+      {
+        "type": "h2",
+        "text": "5. Add real photos"
+      },
+      {
+        "type": "markdown",
+        "text": "The outside (so people recognise you), the inside, your team and your work. Real, recent photos beat polished stock images every time."
+      },
+      {
+        "type": "h2",
+        "text": "6. Make it easy to get in touch"
+      },
+      {
+        "type": "markdown",
+        "text": "Check that the call button works and the number is answered. Make sure the link to your website goes to a page with a clear way to enquire, and if customers reach you on WhatsApp, put that number where they'll see it."
+      },
+      {
+        "type": "h2",
+        "text": "7. Ask for reviews, and reply to them"
+      },
+      {
+        "type": "markdown",
+        "text": "The best time to ask is right after a job well done. Make it easy: send a direct link. Reply to every review, good or bad, briefly and politely. People read the replies as much as the reviews.\n\nNever write reviews yourself or pay for them; it breaks Google's rules and can get your profile removed."
+      },
+      {
+        "type": "h2",
+        "text": "8. Keep it alive"
+      },
+      {
+        "type": "markdown",
+        "text": "Once a month, check your hours, add a new photo or two, and reply to any reviews or questions. Ten minutes is enough."
+      },
+      {
+        "type": "h2",
+        "text": "The next step"
+      },
+      {
+        "type": "markdown",
+        "text": "Your profile gets people to your door. Your website and how quickly you answer decide what happens next. If both are in place, a search can become a customer the same day."
+      }
+    ]
+  },
+  {
+    "slug": "service-business-intake-requirements",
+    "title": "Client intake requirements: what to prepare before adding AI",
+    "dek": "Define the questions, routing rules, approved answers, and staff handoff your service-business intake workflow needs before implementation.",
+    "topic": "Enquiries",
+    "date": "2026-10-28",
+    "cover": "lines",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "Before adding AI to client intake, write down which information changes the next action. If an answer does not affect qualification, routing, booking, or follow-up, it may not belong in the first conversation.\n\nThis checklist is for ordinary service inquiries, such as cleaning, maintenance, design, or consulting. It is not a specification for medical, legal, or financial intake."
+      },
+      {
+        "type": "h2",
+        "text": "Define the outcome of the first conversation"
+      },
+      {
+        "type": "markdown",
+        "text": "Pick one primary outcome: a confirmed appointment, a request for a quote, or a callback. Do not present all three as the same thing.\n\nA quote request needs enough information for someone to assess the job. A bookable consultation needs a defined appointment and availability. A callback needs a reachable contact and a responsible person.\n\nWrite the completion message at the same time as the questions. For a request that requires review, a useful example is:\n\n> Thanks. Your request has been sent to our team for review. This is not a confirmed appointment. We will contact you using the details you provided.\n\nAdd a reply deadline only when your team can consistently meet it. See [handling after-hours inquiries](/blog/after-hours-enquiries/) for how to set an acknowledgment."
+      },
+      {
+        "type": "h2",
+        "text": "Create a question-to-action table"
+      },
+      {
+        "type": "markdown",
+        "text": "Use a table like this hypothetical cleaning-business example. It is a suggested design, not an implemented customer workflow.\n\n| Question | Why it is needed | What the answer changes |\n|---|---|---|\n| Which service do you need? | Select the appropriate path | Standard service continues; specialist work goes to review |\n| Where is the property? | Check the service area | A postal code may be enough initially; full address can wait |\n| One-time or recurring work? | Identify the right request type | Route to the relevant service owner |\n| What email should we use? | Reply about this request | Save a contact method and show it for correction |\n| Anything unusual about the job? | Identify exceptions | Keep optional; ask the visitor to avoid sensitive details |\n\nDo not require both phone and email simply because the form supports them. Require the contact method your process actually uses. If a field is optional, label it that way.\n\nFor each question, also specify the accepted format, whether it is required, where it is stored, and who can see it. Ask for more detail later when it becomes necessary for the next step."
+      },
+      {
+        "type": "h2",
+        "text": "Turn business knowledge into approved answers"
+      },
+      {
+        "type": "markdown",
+        "text": "Prepare a short source sheet covering services, areas served, hours, how pricing works, preparation instructions, and the handoff path. Assign an owner to each section so changes have somewhere to go.\n\nSeparate fixed facts from things that require judgment. “We serve these postal codes” can be an approved rule. “We can definitely finish this unusual job by Friday” may require a person.\n\nFor every uncertain case, supply a boundary and a next action:\n\n- Unknown service: ask a clarifying question or send the request for review.\n- Unlisted location: do not assume it is covered.\n- Custom price: collect the brief without inventing a quote.\n- Conflicting information: flag the source for correction and hand over.\n- Request to speak to someone: make that route available without forcing more chat.\n\nAI can still make mistakes. An approved source sheet supports review and correction; it is not a guarantee of perfect answers."
+      },
+      {
+        "type": "h2",
+        "text": "Describe the staff handoff as carefully as the form"
+      },
+      {
+        "type": "markdown",
+        "text": "Choose one place where requests are recorded. Identify the person responsible for new requests and a backup when that person is away.\n\nA useful handoff contains the customer's own request, contact details, service choice, unresolved question, and the next action. Distinguish facts supplied by the customer from a generated summary. Staff should be able to inspect the original message if the summary is unclear.\n\nDecide how the workflow handles duplicates and incomplete requests. For example, a repeat message from the same person may update an existing request rather than create a second task. That behavior needs explicit agreement with the implementer.\n\nDo not call a request “handled” merely because the form submitted. Check that the record exists and the responsible person can find it."
+      },
+      {
+        "type": "h2",
+        "text": "Specify usable questions and errors"
+      },
+      {
+        "type": "markdown",
+        "text": "W3C's [form labeling guidance](https://www.w3.org/WAI/tutorials/forms/labels/) explains how labels identify controls, including for people using assistive technology. Ask your builder for clear labels rather than relying only on disappearing placeholder text.\n\nIts [input validation guidance](https://www.w3.org/WAI/tutorials/forms/validation/) recommends identifying required inputs and helping people correct mistakes. Specify understandable error messages and keep valid information when someone corrects a field. Test keyboard use, mobile entry, missing required answers, and the confirmation screen.\n\nA chat interface needs similar clarity: ask one understandable question at a time, allow corrections, and explain what will happen after submission. Keep a direct contact route for people who cannot or do not want to use chat."
+      },
+      {
+        "type": "h2",
+        "text": "Prepare the brief you can hand to a builder"
+      },
+      {
+        "type": "markdown",
+        "text": "Collect these items in one document:\n\n1. The primary outcome and the exact completion message.\n2. Questions, accepted answers, and required or optional status.\n3. Approved business facts and their update owner.\n4. Qualification and exception rules.\n5. Calendar or lead destination and necessary account access.\n6. Staff owner, backup, and expected follow-up process.\n7. Data access, retention, and deletion expectations to resolve before launch.\n8. Acceptance scenarios with an observed-result column.\n\nThe next step is implementation, not adding more questions. Botlane offers an [AI website assistant](/custom-solutions/ai-assistant) for business questions and human handoff, and [workflow automation](/custom-solutions/workflow-automation) for connections between tools. Qualifying questions, existing-site compatibility, and the exact integrations should be confirmed in your proposal.\n\nSend that brief with your project enquiry. If the desired outcome is a confirmed appointment, the [booking implementation guide](/blog/ai-appointment-booking-implementation/) explains the calendar and confirmation work that follows."
+      }
+    ]
+  },
+  {
+    "slug": "small-business-website-cost",
+    "title": "Small-business website cost: how to build a complete budget",
+    "dek": "Compare website quotes by build scope, recurring costs, and ownership, with a practical first-year budget checklist for service businesses.",
+    "topic": "Buying a website",
+    "date": "2026-10-28",
+    "cover": "grid",
+    "body": [
+      {
+        "type": "markdown",
+        "text": "A website budget needs two totals: what it takes to launch, and what it takes to keep the site useful afterward. A low build fee can leave out content, inquiry handling, and maintenance. A larger quote may include work you do not need yet.\n\nFor BotLane's actual build prices, start with the [current website plans](/websites/) and [services and pricing page](/solutions). The current site lists prices in US dollars. This guide explains how to compare the whole commitment without treating one provider's prices as a market average."
+      },
+      {
+        "type": "h2",
+        "text": "Choose the job before comparing the price"
+      },
+      {
+        "type": "markdown",
+        "text": "Write one sentence describing what the website must help a customer do. For example: “Understand our cleaning services, check our service area, and send a quote request.” This is a hypothetical brief, not a customer result.\n\nThen separate three possible projects:\n\n| Project | Customer action | Work to specify |\n|---|---|---|\n| Informational website | Read about services and contact you | Pages, supplied content, mobile layout, inquiry form |\n| Website with inquiry handling | Send a request and receive an acknowledgment | Everything above, plus saved records, alerts, reply copy |\n| Website with booking and intake | Answer qualifying questions and arrange an appointment | Booking rules, calendar connection, exception handling, ongoing ownership |\n\nDo not compare these as if they are identical products. An automatic acknowledgment is different from an answer to a question; a booking link is different from a workflow that creates appointments.\n\nBotlane’s current packages are Core, Ascend, and Apex. Core covers a business website; Ascend adds a company-wide design system, a content editor, and integrations; Apex adds signature motion and structured content. Check the [current package comparison](/websites#compare) for page limits, revision rounds, timelines, and full inclusions before choosing."
+      },
+      {
+        "type": "h2",
+        "text": "Put every cost in one place"
+      },
+      {
+        "type": "markdown",
+        "text": "Use the same checklist for each proposal. Enter “included” only when the supplier has confirmed it; an empty cell means unresolved, not free.\n\n| Budget line | What to ask |\n|---|---|\n| Build and setup | Which pages, forms, integrations, and launch checks are included? |\n| Content preparation | Who writes the text, selects photos, and supplies legal pages? |\n| Domain | Who owns the account, and what is the renewal cost? |\n| Hosting or site platform | Who pays it, and what happens if you leave the builder? |\n| Email and notifications | Are mailbox, sending, and messaging costs separate? |\n| Booking software | Which plan and number of staff accounts are required? |\n| AI usage | What usage assumption supports the estimate, and how is excess handled? |\n| Maintenance | What changes, fixes, and backups does the fee cover? |\n| Migration | Are existing pages, redirects, and historical content included? |\n\nFor a first-year comparison, add the one-time build and setup charges, annual renewals due during that period, and the recurring fees for the months you will use them. Add usage charges separately using the same conversation or message assumptions for every quote. Do not add a bundled fee twice.\n\nAlso compare the second year. Promotional subscriptions, included first months, and introductory domain offers can make the first year a poor guide to the ongoing commitment. Domain registration and renewal are distinct transactions; [Cloudflare Registrar's documentation](https://developers.cloudflare.com/registrar/) describes its own at-cost registration and renewal model. Check your chosen registrar's renewal quote."
+      },
+      {
+        "type": "h2",
+        "text": "Compare the cash needed to launch with the first-year total"
+      },
+      {
+        "type": "markdown",
+        "text": "A milestone schedule changes when you pay, not the total build price. Keep the amount due today separate from the total commitment. For a subscription, check whether the quoted monthly rate requires annual payment and what happens at renewal.\n\nUse this calculation with the figures in your written proposal:\n\n> First-year cash budget = build and setup payments due in year one + annual charges due in year one + paid months of recurring service + estimated usage + separately purchased content or migration work.\n\nCount each charge once. If a package includes the first month of maintenance, count only the remaining paid months in that first year. Keep any applicable tax as a separate line based on the invoice. For year two, remove completed one-time work and use renewal prices, while allowing for any planned new work.\n\nHere is a hypothetical comparison you can fill in without guessing a market average:\n\n| Question | Proposal A | Proposal B |\n|---|---|---|\n| Does the price cover the same pages and customer action? | Confirm in writing | Confirm in writing |\n| How much is due before work begins? | Enter the first milestone | Enter the first milestone |\n| What is the total launch commitment? | Include separately priced essentials | Include separately priced essentials |\n| What is paid monthly, annually, or by usage? | List each fee and billing date | List each fee and billing date |\n| What changes if we leave after a year? | Check access, export, and handover terms | Check access, export, and handover terms |\n\nIf one proposal leaves a required integration unpriced, request that price before comparing totals. Do not treat the cheaper incomplete quote as the cheaper completed project."
+      },
+      {
+        "type": "h2",
+        "text": "Know what BotLane's proposal needs to resolve"
+      },
+      {
+        "type": "markdown",
+        "text": "Ask your proposal to state who supplies copy, photography, branding, and any specialist content. Do not assume that a website build includes paid advertising or an online store. If you need work outside the agreed package, include it in the total project budget.\n\n[Care](/care) is optional and separate from the website build. Ask the proposal to separate website maintenance, intake upkeep where applicable, and AI or messaging usage. Do not assume that a website package includes every connected service’s running costs.\n\nSyncc is now a standalone scheduling product, with cloud subscriptions and a self-hosted licence. Use the [current Syncc plans](/products/syncc) to compare them. A self-hosted licence still needs hosting and ongoing operation; it does not eliminate running costs."
+      },
+      {
+        "type": "h2",
+        "text": "Compare two proposals without guessing"
+      },
+      {
+        "type": "markdown",
+        "text": "Suppose your hypothetical cleaning business has text and photographs ready and needs a five-page site. One supplier includes a contact form; another also includes an instant acknowledgment, a saved lead record, and an alert.\n\nAsk both suppliers to quote the same required outcome. If you already reply reliably from your inbox, the additional workflow may be optional. If inquiries regularly disappear between inboxes, specify the saved record and its owner as part of the job.\n\nUse three columns in your comparison: required at launch, useful later, and excluded. This lets you reduce the initial scope without accidentally deleting an essential step."
+      },
+      {
+        "type": "h2",
+        "text": "Check the handover before paying the final stage"
+      },
+      {
+        "type": "markdown",
+        "text": "Your budget should buy a usable handover, not just a public URL. Confirm access to the domain, code or platform, connected accounts, and content. Ask who receives renewal notices and how a new provider would take over.\n\nAsk your written scope to confirm ownership of the domain, code, and accounts, together with the payment stages and handover requirements. For revision rounds and change requests, read [fixed scope, explained](/blog/fixed-scope-explained/)."
+      },
+      {
+        "type": "h2",
+        "text": "The next step"
+      },
+      {
+        "type": "markdown",
+        "text": "Send the builder your page list, existing website address, available content, and the action a customer should complete. Ask for the launch total, recurring commitments, exclusions, and payment stages in writing.\n\nIf you want BotLane to price that work, review [Websites](/websites/) and use the project inquiry on that page. If scheduling is part of the brief, first decide [whether you need a booking form or an intake workflow](/blog/ai-chatbot-vs-booking-form/)."
+      }
+    ]
+  }
+]

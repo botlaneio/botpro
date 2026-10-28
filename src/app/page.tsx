@@ -108,13 +108,13 @@ export default function Home() {
           {/* The flower in X-ray, with boxes opening onto it in colour. The panel sits under it on phones and
               in the clear black to its left from lg, so the flower is never behind glass. */}
           <PetalReveal className="grid min-h-[48rem] items-end justify-items-center rounded-[1.6rem] p-4 sm:p-10 lg:aspect-[16/9] lg:min-h-0 lg:items-center lg:justify-items-start">
-            <div className="surface-frosted grid max-w-xl justify-items-center gap-5 p-6 text-center sm:p-10 lg:max-w-sm lg:p-8">
+            <div className="surface-frosted grid w-full max-w-md justify-items-start gap-5 p-7 text-left sm:p-9 lg:max-w-[22rem] lg:p-8">
               <FoundingBanner />
-              <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Let&apos;s make your next move a good one.</h2>
-              <p className="max-w-md text-muted-foreground">Tell us what you have in mind. The people building your project will read your brief and help you work out the next step.</p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
+              <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Let&apos;s make it happen.</h2>
+              <p className="max-w-md text-muted-foreground">Tell us what you have in mind. We’ll help you find the right place to start.</p>
+              <div className="grid justify-items-start gap-2">
                 <Link href="/contact" className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
-                <Link href="/solutions" className="inline-flex h-10 items-center px-3 text-sm text-muted-foreground hover:text-foreground">Explore services &amp; pricing</Link>
+                <Link href="/solutions" className="inline-flex h-10 items-center text-sm text-muted-foreground hover:text-foreground">Explore services &amp; pricing</Link>
               </div>
             </div>
           </PetalReveal>

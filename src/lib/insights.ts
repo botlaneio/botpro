@@ -5,14 +5,17 @@
  *
  * Every claim in a post must be true and on record. Merging a post publishes it.
  */
+import importedPosts from "../content/imported-insights.json"
+
 import { chargeLabel, money, offering, plan, OFFERS } from "./pricing/index.ts"
 
 const REGION = "US" as const
 
-export type Topic = "Engineering" | "Working with us"
+export type Topic = "Engineering" | "Working with us" | "Getting found" | "Enquiries" | "Buying a website" | "Automation and AI"
 
 /** One block of a post's body. */
 export type Block =
+  | { type: "markdown"; text: string }
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
   | { type: "list"; items: string[] }
@@ -106,6 +109,7 @@ export const POSTS: Post[] = [
       ] },
     ],
   },
+  ...(importedPosts as Post[]),
 ]
 
 /** Posts, newest first; the same date keeps the order written above. */

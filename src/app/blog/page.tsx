@@ -8,7 +8,7 @@ import { formatDate, postsByDate, readingMinutes } from "@/lib/insights"
 
 export const metadata: Metadata = {
   title: "Insights · Botlane",
-  description: "Notes from the studio on designing, building and looking after websites and web apps.",
+  description: "Practical notes on websites, booking, automation, and the work behind them.",
 }
 
 /** The notes, newest first, and an invitation to ask about anything they don't cover. */
@@ -18,7 +18,7 @@ export default function Blog() {
     <PageShell
       eyebrow="INSIGHTS"
       title="Notes from the studio."
-      intro="What we learn designing, building and looking after websites and web apps, written down as we go."
+      intro="Practical notes on websites, booking, automation, and the work behind them."
     >
       <section aria-label="Notes" className="grid gap-16 pb-12 sm:pb-16">
         <InsightsIndex posts={posts} />

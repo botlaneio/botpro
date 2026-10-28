@@ -4,10 +4,12 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { Contents, ReadingProgress } from "@/components/insights/article-chrome"
+import { MarkdownContent } from "@/components/insights/markdown-content"
 import { InsightCover } from "@/components/insights/insight-cover"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { anchor, findPost, formatDate, postsByDate, readingMinutes, type Block } from "@/lib/insights"
+import { SITE_URL } from "@/lib/site"
 
 export const dynamicParams = false
 
@@ -21,13 +23,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} · Botlane`,
     description: post.dek,
-    openGraph: { type: "article", title: post.title, description: post.dek, publishedTime: post.date },
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: { type: "article", title: post.title, description: post.dek, publishedTime: post.date, url: `/blog/${post.slug}` },
   }
 }
 
 /** One block of the body, set for long reading: a 17px measure of about 68 characters. */
 function Part({ block }: { block: Block }) {
   switch (block.type) {
+    case "markdown":
+      return <MarkdownContent text={block.text} />
     case "p":
       return <p className="text-[17px] leading-[1.75] text-foreground/85 text-pretty">{block.text}</p>
     case "h2":
@@ -84,6 +89,16 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
       <ReadingProgress target="note-body" />
       <main className="mx-auto max-w-6xl px-6">
         <article>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.dek,
+            datePublished: post.date,
+            mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+            author: { "@type": "Organization", name: "Botlane", url: SITE_URL },
+            publisher: { "@type": "Organization", name: "Botlane", url: SITE_URL },
+          }).replace(/</g, "\\u003c") }} />
           <header className="glow-brand grid justify-items-start gap-5 pt-10 pb-10 sm:pt-14">
             <Link href="/blog" className="group/b inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
               <ArrowLeft className="size-3.5 transition-transform group-hover/b:-translate-x-0.5" /> Insights
