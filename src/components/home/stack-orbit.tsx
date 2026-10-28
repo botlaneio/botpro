@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { siGmail, siGooglecalendar, siGooglemeet, siHubspot, siNotion, siStripe, siZoom, type SimpleIcon } from "simple-icons"
 
 import { BotlaneMark } from "@/components/site/botlane-mark"
@@ -43,6 +43,30 @@ const arcPoint = (deg: number) => {
 }
 const ARC_PATH = `M ${arcPoint(-75)} A ${ARC.r} ${ARC.r} 0 0 0 ${arcPoint(75)}`
 
+/** Where an app sits on the arc at angle `deg`, in units of --u from the stage's centre. */
+const at = (deg: number) => {
+  const a = (deg * Math.PI) / 180
+  return [ARC.r * Math.sin(a), ARC.cy + ARC.r * Math.cos(a)] as const
+}
+const place = (deg: number) => {
+  const [x, y] = at(deg)
+  return `calc(-50% + var(--u) * ${x.toFixed(3)}) calc(-50% + var(--u) * ${y.toFixed(3)})`
+}
+// The 700ms lift every discrete move on the site uses: quick away, long soft landing.
+const lift = (t: number) => {
+  // cubic-bezier(0.32, 0.72, 0, 1), solved for x by Newton's method.
+  const bx = (u: number) => 3 * 0.32 * u * (1 - u) ** 2 + 3 * 0 * u * u * (1 - u) + u ** 3
+  const by = (u: number) => 3 * 0.72 * u * (1 - u) ** 2 + 3 * 1 * u * u * (1 - u) + u ** 3
+  let u = t
+  for (let i = 0; i < 6; i++) {
+    const d = (bx(u + 1e-4) - bx(u - 1e-4)) / 2e-4
+    if (Math.abs(d) < 1e-6) break
+    u = Math.min(1, Math.max(0, u - (bx(u) - t) / d))
+  }
+  return by(u)
+}
+const MOVE_MS = 700
+
 /** Where app `i` sits at step `step`: the one at 0 is in the capsule, the rest wrap round the track. */
 const placeOf = (i: number, step: number) => ((((i - step) % APPS.length) + APPS.length + 3) % APPS.length) - 3
 
@@ -54,7 +78,32 @@ const placeOf = (i: number, step: number) => ((((i - step) % APPS.length) + APPS
  */
 export function StackOrbit({ className }: { className?: string }) {
   const root = useRef<HTMLDivElement>(null)
+  const apps = useRef<(HTMLDivElement | null)[]>([])
+  const angle = useRef<number[]>(APPS.map((_, i) => TRACK[placeOf(i, 0)].deg))
   const [step, setStep] = useState(0)
+
+  // Each move turns every app along the arc, frame by frame, writing its position directly. Safari doesn't redraw
+  // a position computed from an animating custom property, so the curve is walked here instead of in CSS. A layout
+  // effect, and the first frame drawn at once, so each app is back at its old place before the browser paints.
+  useLayoutEffect(() => {
+    const from = angle.current.slice()
+    const to = APPS.map((_, i) => TRACK[placeOf(i, step)].deg)
+    let raf = 0
+    const start = performance.now()
+    const frame = (now: number) => {
+      const k = lift(Math.min(1, (now - start) / MOVE_MS))
+      APPS.forEach((_, i) => {
+        // An app wrapping from one end to the other does so while hidden, at once.
+        const deg = to[i] > from[i] ? to[i] : from[i] + (to[i] - from[i]) * k
+        angle.current[i] = deg
+        const el = apps.current[i]
+        if (el) el.style.translate = place(deg)
+      })
+      if (k < 1) raf = requestAnimationFrame(frame)
+    }
+    frame(start)
+    return () => cancelAnimationFrame(raf)
+  }, [step])
 
   useEffect(() => {
     const el = root.current
@@ -103,18 +152,18 @@ export function StackOrbit({ className }: { className?: string }) {
       {/* The apps, each on its place on the track. The one wrapping from end to end does so while hidden. */}
       {APPS.map((app, i) => {
         const p = placeOf(i, step)
-        const at = TRACK[p]
+        const spot = TRACK[p]
         const docked = p === 0
         return (
           <div
             key={app.slug}
-            className="absolute top-1/2 left-1/2 grid size-[calc(var(--u)*5)] place-items-center rounded-full transition-[--orbit-a,scale,opacity] duration-700 ease-(--ease-lift)"
+            ref={(el) => { apps.current[i] = el }}
+            className="absolute top-1/2 left-1/2 grid size-[calc(var(--u)*5)] place-items-center rounded-full transition-[scale,opacity] duration-700 ease-(--ease-lift)"
             style={{
-              // Its angle on the arc, turned smoothly between places (--orbit-a is registered as an angle).
-              ["--orbit-a" as string]: `${at.deg}deg`,
-              translate: `calc(-50% + var(--u) * ${ARC.r} * sin(var(--orbit-a))) calc(-50% + var(--u) * (${ARC.cy} + ${ARC.r} * cos(var(--orbit-a))))`,
-              scale: at.scale,
-              opacity: at.show,
+              // Its place on the arc. The effect above moves it between places; this is where it starts.
+              translate: place(spot.deg),
+              scale: spot.scale,
+              opacity: spot.show,
               transitionDuration: p === 3 ? "0ms" : undefined,
             }}
           >
