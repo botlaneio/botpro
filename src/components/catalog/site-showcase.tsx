@@ -1,14 +1,18 @@
 import { cn } from "@/lib/utils"
 
+export type ShowcaseExample = "clinic" | "firm"
+
 /**
- * An example of the kind of site we build, for an offer page's hero: a browser window with a phone in front
- * of it, both showing the same small business site and scrolling slowly through it. The business is made
- * up and labelled as an example (its address is example.com, reserved for exactly this), and the page has
- * no quotes or reviews, so nothing in it can pass for client work. Its colours are its own, not ours: the
- * point is a site that looks like its business. Hovering pauses it; it holds still under reduced motion.
- * Decorative, so hidden from screen readers. Sized in container units, so it scales with its column.
+ * An example of the kind of site we build, for an offer page's hero: a browser window scrolling slowly
+ * through a made-up business's site, with a second piece in front that shows what the package is about.
+ * "clinic" is a small physio practice with a phone in front (a Business site: right on every phone);
+ * "firm" is an accounting firm with more pages and a blog, with a content editor in front (a Company site:
+ * your team edits it). Each business is made up and labelled as an example (its address is example.com,
+ * reserved for exactly this), with no quotes or reviews, so nothing can pass for client work. Their colours
+ * are their own, not ours: the point is a site that looks like its business. Hovering pauses it; it holds
+ * still under reduced motion. Decorative, so hidden from screen readers. Sized in container units.
  */
-export function SiteShowcase({ className }: { className?: string }) {
+export function SiteShowcase({ example = "clinic", className }: { example?: ShowcaseExample; className?: string }) {
   return (
     <div aria-hidden className={cn("group/s relative mx-auto w-full max-w-[38rem] pb-8 sm:pr-10", className)}>
       {/* Light behind the window, as in the lab's other hero pieces. */}
@@ -28,28 +32,34 @@ export function SiteShowcase({ className }: { className?: string }) {
         <div className="relative aspect-[16/10.5] overflow-hidden [container-type:inline-size]">
           {/* It scrolls by its own height less the window's (65.6cqw at 16:10.5), so it stops at the footer. */}
           <div className="text-[1.6cqw] [--travel:calc(-100%_+_65.6cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
-            <SampleSite wide />
+            {example === "firm" ? <FirmSite /> : <ClinicSite wide />}
           </div>
         </div>
       </div>
 
-      {/* The phone, in front of the window's lower right: the same site, laid out for a small screen. */}
+      {example === "firm" ? <EditorPanel /> : <Phone />}
+    </div>
+  )
+}
+
+/** The phone, in front of the window's lower right: the clinic's site, laid out for a small screen. */
+function Phone() {
+  return (
       <div className="absolute right-0 bottom-0 hidden w-[27%] rounded-[1.4rem] border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.08))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-[0.35rem] shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:block">
         <div className="relative aspect-[9/18.5] overflow-hidden rounded-[1.1rem] [container-type:inline-size]">
           <div className="text-[4.6cqw] [--travel:calc(-100%_+_205.5cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_-4s_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
-            <SampleSite />
+            <ClinicSite />
           </div>
         </div>
       </div>
-    </div>
   )
 }
 
 // The example business's own palette: warm paper, dark ink, a sage green.
 const C = { paper: "#F5F0E8", card: "#FFFDF9", ink: "#26221D", soft: "#6E665C", line: "#E4DCCF", sage: "#3F6B52", sageSoft: "#DCE7DE" }
 
-/** The example site itself, in em so it scales with whatever sets its font size. */
-function SampleSite({ wide = false }: { wide?: boolean }) {
+/** The clinic's site, in em so it scales with whatever sets its font size. */
+function ClinicSite({ wide = false }: { wide?: boolean }) {
   const pad = wide ? "3.2em" : "1.6em"
   const treatments = [
     ["Sports injuries", "Back on your feet, then back to your sport."],
@@ -128,6 +138,119 @@ function SampleSite({ wide = false }: { wide?: boolean }) {
         <span>Juniper Physio</span>
         <span>example.com</span>
       </div>
+    </div>
+  )
+}
+
+// The firm's own palette: cool paper, deep navy, a brass accent.
+const F = { paper: "#F3F2EE", card: "#FFFFFF", ink: "#1B2230", soft: "#5F6675", line: "#E2E0D8", brass: "#A57E45", brassSoft: "#EFE6D6", navy: "#1B2A44" }
+
+/** The firm's site: a fuller company site, with more pages in the nav, services, a blog and the team. */
+function FirmSite() {
+  const pad = "3.2em"
+  const services = [["Tax", "Returns, planning and the deadlines handled."], ["Audit", "Clear, calm year-end audits."], ["Payroll", "Your team paid right, every month."], ["Advisory", "Numbers to plan the next year with."]]
+  const notes = [["12 OCT", "A year-end checklist for small companies"], ["28 SEP", "What changes in the new tax year"], ["09 SEP", "Keeping cash flowing in a slow quarter"]]
+  return (
+    <div style={{ background: F.paper, color: F.ink }} className="font-sans">
+      {/* Nav: a fuller site, so more pages. */}
+      <div className="flex items-center justify-between border-b" style={{ padding: `1.3em ${pad}`, borderColor: F.line }}>
+        <span className="flex items-center gap-[0.55em] font-semibold tracking-tight">
+          <span className="grid size-[1.5em] place-items-center rounded-[0.35em] text-[0.8em] font-bold" style={{ background: F.navy, color: F.paper }}>H</span>
+          Halden &amp; Moss
+        </span>
+        <span className="flex items-center gap-[1.3em] text-[0.8em]" style={{ color: F.soft }}>
+          <span>Services</span><span>Industries</span><span>Team</span><span>Insights</span><span>Careers</span>
+          <span className="rounded-[0.5em] px-[0.9em] py-[0.45em] font-medium" style={{ background: F.navy, color: F.paper }}>Talk to us</span>
+        </span>
+      </div>
+
+      {/* Hero */}
+      <div className="grid grid-cols-[1.2fr_1fr] items-end gap-[2.4em]" style={{ padding: `3.4em ${pad} 3em` }}>
+        <div className="grid justify-items-start gap-[1em]">
+          <span className="text-[0.72em] font-medium tracking-[0.14em]" style={{ color: F.brass }}>ACCOUNTANTS FOR GROWING COMPANIES</span>
+          <span className="text-[2.7em] leading-[1.02] font-semibold tracking-[-0.035em]">Clear numbers, so you can get on with the work.</span>
+          <span className="flex gap-[0.6em] text-[0.85em] font-medium">
+            <span className="rounded-[0.5em] px-[1.1em] py-[0.6em]" style={{ background: F.navy, color: F.paper }}>Book a call</span>
+            <span className="rounded-[0.5em] border px-[1.1em] py-[0.6em]" style={{ borderColor: F.line }}>Our services</span>
+          </span>
+        </div>
+        <span className="text-[0.95em] leading-[1.5]" style={{ color: F.soft }}>Tax, audit, payroll and advice for companies of ten to two hundred people, from one team that knows your business.</span>
+      </div>
+
+      {/* Services */}
+      <div className="grid grid-cols-4 gap-[0.9em]" style={{ padding: `0 ${pad} 3.4em` }}>
+        {services.map(([t, b]) => (
+          <div key={t} className="grid gap-[0.7em] rounded-[0.8em] border p-[1.2em]" style={{ background: F.card, borderColor: F.line }}>
+            <span className="h-[0.25em] w-[1.6em] rounded-full" style={{ background: F.brass }} />
+            <span className="font-semibold">{t}</span>
+            <span className="text-[0.8em] leading-[1.4]" style={{ color: F.soft }}>{b}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* The blog, which the firm writes itself. */}
+      <div className="grid gap-[1.2em]" style={{ padding: `3em ${pad}`, background: F.card }}>
+        <span className="flex items-baseline justify-between">
+          <span className="text-[1.5em] font-semibold tracking-[-0.02em]">Insights</span>
+          <span className="text-[0.8em]" style={{ color: F.brass }}>All articles</span>
+        </span>
+        <div className="grid grid-cols-3 gap-[1em]">
+          {notes.map(([d, t], i) => (
+            <div key={t} className="grid gap-[0.7em]">
+              <span className="aspect-[16/9] rounded-[0.6em]" style={{ background: i === 0 ? F.navy : i === 1 ? F.brassSoft : F.line }} />
+              <span className="text-[0.7em] tracking-[0.1em]" style={{ color: F.soft }}>{d}</span>
+              <span className="font-semibold leading-[1.25]">{t}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Team */}
+      <div className="grid grid-cols-[1fr_2fr] items-center gap-[2em]" style={{ padding: `3em ${pad}` }}>
+        <span className="text-[1.5em] font-semibold leading-[1.15] tracking-[-0.02em]">One team that knows your business.</span>
+        <div className="grid grid-cols-4 gap-[0.8em]">
+          {["AH", "RM", "JS", "LK"].map((n, i) => (
+            <span key={n} className="grid aspect-square place-items-center rounded-full text-[1.1em] font-semibold" style={{ background: i % 2 ? F.brassSoft : F.line, color: F.ink }}>{n}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer: a fuller site, so a fuller footer. */}
+      <div className="grid grid-cols-4 gap-[1.5em] text-[0.75em]" style={{ padding: `2.6em ${pad}`, background: F.navy, color: "rgb(255 255 255 / 0.6)" }}>
+        <span className="font-semibold" style={{ color: F.paper }}>Halden &amp; Moss</span>
+        {[["Services", "Tax · Audit · Payroll"], ["Company", "Team · Careers · Insights"], ["Contact", "example.com"]].map(([h, l]) => (
+          <span key={h} className="grid gap-[0.4em]"><span style={{ color: F.paper }}>{h}</span>{l}</span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/**
+ * The content editor, in front of the window's lower right: the home page's headline being edited, with a
+ * caret, saved, ready to publish. What a Company site adds: the team changes the words themselves.
+ */
+function EditorPanel() {
+  return (
+    <div className="absolute right-0 bottom-0 hidden w-[44%] gap-3 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
+      <span className="flex items-center justify-between">
+        <span className="label-mono text-[10px] text-foreground">EDITING · HOME</span>
+        <span className="label-mono flex items-center gap-1.5 text-[9.5px]"><span className="size-1.5 rounded-full bg-[#3BB273]" />SAVED</span>
+      </span>
+      <span className="grid gap-1">
+        <span className="text-[10.5px] text-muted-foreground">Headline</span>
+        <span className="rounded-md border border-border bg-background px-2 py-1.5 text-[11.5px] leading-snug text-foreground">
+          Clear numbers, so you can get on with the work.<span className="ml-px inline-block h-[1.05em] w-px translate-y-[0.15em] bg-(--brand) [animation:caret-blink_1.1s_steps(1)_infinite] motion-reduce:[animation:none]" />
+        </span>
+      </span>
+      <span className="grid gap-1">
+        <span className="text-[10.5px] text-muted-foreground">Latest article</span>
+        <span className="rounded-md border border-border bg-background px-2 py-1.5 text-[11px] text-foreground/80">A year-end checklist for small companies</span>
+      </span>
+      <span className="flex items-center justify-between pt-0.5">
+        <span className="text-[10.5px] text-muted-foreground">3 changes</span>
+        <span className="btn-light rounded-md! px-2.5 py-1 text-[10.5px] font-medium">Publish</span>
+      </span>
     </div>
   )
 }

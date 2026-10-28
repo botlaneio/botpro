@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesColumn, Check, Mail, Palette, Search, Smartphone } from "lucide-react"
+import { ArrowDown, ArrowRight, ArrowUpRight, ChartNoAxesColumn, Check, Component, Layers, Mail, Palette, PenLine, Plug, Search, Smartphone } from "lucide-react"
 
 import { FoundingBanner } from "@/components/pricing/founding-banner"
 import { PageSection, PageShell } from "@/components/site/page-shell"
@@ -11,12 +11,19 @@ import { cn } from "@/lib/utils"
 import { OFFER_ICONS } from "./offer-icons"
 import { SiteShowcase } from "./site-showcase"
 
+// How many of the three columns the price card takes, by how many outcome cards share its row.
+const PRICE_SPAN = ["lg:col-span-3", "lg:col-span-2", "lg:col-span-1"]
+
 const OUTCOME_ICONS: Record<OutcomeIcon, React.ComponentType<{ className?: string }>> = {
   design: Palette,
   mobile: Smartphone,
   search: Search,
   enquiries: Mail,
   analytics: ChartNoAxesColumn,
+  foundation: Layers,
+  system: Component,
+  editor: PenLine,
+  integrations: Plug,
 }
 
 // The closing line for each category, matched to how it's sold.
@@ -193,7 +200,7 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
           </Link>
         </>
       }
-      aside={<SiteShowcase />}
+      aside={<SiteShowcase example={offer.showcase} />}
       cta={{ title: `Let's talk about your ${offer.name.toLowerCase()}.`, body: CLOSE[offer.category], label: cat.cta.label, href: contact }}
     >
       <PageSection id="included" eyebrow="WHAT YOU GET" title="What your site will do for you.">
@@ -210,8 +217,8 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
               </li>
             )
           })}
-          {/* The price, last: by now the reader knows what it buys. */}
-          <li className="surface-glass grid content-between gap-6 p-6 sm:col-span-2 lg:col-span-1">
+          {/* The price, last: by now the reader knows what it buys. It fills the rest of the last row. */}
+          <li className={cn("surface-glass grid content-between gap-6 p-6", offer.outcomes!.length % 2 ? "sm:col-span-1" : "sm:col-span-2", PRICE_SPAN[offer.outcomes!.length % 3])}>
             <div className="grid gap-4">
               <div className="flex items-center gap-3">
                 <span className={cn("tile-depth size-10", cat.tone)}><Icon className="size-[18px]" /></span>

@@ -49,9 +49,11 @@ export interface Offer {
    * One per included item, in the same order, and no claims the plan doesn't make.
    */
   outcomes?: { icon: OutcomeIcon; title: string; body: string }[]
+  /** Which example site the fuller page shows: a small clinic (with a phone) or a firm (with an editor). */
+  showcase?: "clinic" | "firm"
 }
 
-export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics"
+export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations"
 
 export const CATEGORIES: Category[] = [
   {
@@ -110,6 +112,7 @@ export const OFFERS: Offer[] = [
       { icon: "enquiries", title: "Enquiries straight to you", body: "A contact form that sends every enquiry to your inbox." },
       { icon: "analytics", title: "See who visits", body: "Analytics set up, so you can see how many people come and what they read." },
     ],
+    showcase: "clinic",
   },
   {
     slug: "company-sites",
@@ -122,6 +125,13 @@ export const OFFERS: Offer[] = [
     pain: "Your business has outgrown its website, and every change means waiting on someone else.",
     stack: SITE_STACK,
     proof: OUR_SITE,
+    outcomes: [
+      { icon: "foundation", title: "Everything a Business site does", body: "A custom design, right on every phone, ready to be found, with enquiries to your inbox and analytics." },
+      { icon: "system", title: "One look across every page", body: "A design system of type, colour and components, so every page reads as one site." },
+      { icon: "editor", title: "Your team makes the changes", body: "A content editor for your pages and blog, so an update no longer means waiting on someone else." },
+      { icon: "integrations", title: "Connected to how you work", body: "Booking, CRM and newsletter integrations, so enquiries and sign-ups land where your team already works." },
+    ],
+    showcase: "firm",
   },
   {
     slug: "brand-sites",
