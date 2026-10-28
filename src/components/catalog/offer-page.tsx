@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 
 import { OFFER_ICONS } from "./offer-icons"
 import { SiteShowcase } from "./site-showcase"
+import { StackLogos } from "./stack-logos"
 
 // How many of the three columns the price card takes, by how many outcome cards share its row.
 const PRICE_SPAN = ["lg:col-span-3", "lg:col-span-2", "lg:col-span-1"]
@@ -107,9 +108,7 @@ export function OfferPage({ offer }: { offer: Offer }) {
 
       {offer.stack && (
         <PageSection id="stack" eyebrow="HOW WE BUILD IT" title="The tools we usually build it with." intro="Chosen to fit your project; these are what we reach for first.">
-          <ul className="flex flex-wrap gap-2">
-            {offer.stack.map((t) => <li key={t} className="surface-hairline rounded-full! px-3.5 py-1.5 text-sm">{t}</li>)}
-          </ul>
+          <StackLogos tools={offer.stack} />
         </PageSection>
       )}
 
@@ -131,7 +130,7 @@ export function OfferPage({ offer }: { offer: Offer }) {
   )
 }
 
-/** Our own work as proof, and the tools we usually build with on one quiet line. */
+/** Our own work as proof, and, on the fuller pages, the tools we usually build with by their logos. */
 function Proof({ offer, stack = false }: { offer: Offer; stack?: boolean }) {
   return (
     <PageSection id="proof" eyebrow="PROOF" title="Our own work, not promises.">
@@ -140,7 +139,10 @@ function Proof({ offer, stack = false }: { offer: Offer; stack?: boolean }) {
         <Link href={offer.proof.href} className="inline-flex items-center gap-1.5 text-sm font-medium">{offer.proof.label} <ArrowRight className="size-3.5" /></Link>
       </div>
       {stack && offer.stack && (
-        <p className="label-mono text-[11px]">BUILT WITH · {offer.stack.join(" · ").toUpperCase()}</p>
+        <div className="grid gap-4 pt-2">
+          <span className="label-mono text-[11px]">WHAT WE USUALLY BUILD IT WITH</span>
+          <StackLogos tools={offer.stack} size="sm" />
+        </div>
       )}
     </PageSection>
   )

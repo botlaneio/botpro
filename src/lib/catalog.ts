@@ -40,7 +40,7 @@ export interface Offer {
   deliverables?: string[]
   timeline?: string
   /** What we typically build it with. */
-  stack?: string[]
+  stack?: Tool[]
   /** Our own work that shows we can do it. */
   proof: { text: string; href: string; label: string }
   /**
@@ -51,6 +51,14 @@ export interface Offer {
   outcomes?: { icon: OutcomeIcon; title: string; body: string }[]
   /** Which example site the fuller page shows: a small clinic (with a phone) or a firm (with an editor). */
   showcase?: "clinic" | "firm" | "launch"
+}
+
+/** A tool we build with, shown by its logo. */
+export type ToolId = "nextjs" | "react" | "typescript" | "tailwind" | "vercel" | "postgresql" | "stripe"
+export interface Tool {
+  id: ToolId
+  /** When it applies, if not always. */
+  note?: string
 }
 
 export type OutcomeIcon = "design" | "mobile" | "search" | "enquiries" | "analytics" | "foundation" | "system" | "editor" | "integrations" | "motion" | "structure" | "languages" | "performance"
@@ -88,8 +96,8 @@ export const CATEGORIES: Category[] = [
   },
 ]
 
-const SITE_STACK = ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"]
-const APP_STACK = ["Next.js", "TypeScript", "PostgreSQL", "Stripe, if you take payments", "Vercel"]
+const SITE_STACK: Tool[] = [{ id: "nextjs" }, { id: "react" }, { id: "typescript" }, { id: "tailwind" }, { id: "vercel" }]
+const APP_STACK: Tool[] = [{ id: "nextjs" }, { id: "typescript" }, { id: "postgresql" }, { id: "stripe", note: "If you take payments" }, { id: "vercel" }]
 const OUR_APPS = { text: "We build and run our own apps to the same standard: Syncc for scheduling and Scriblane for documents.", href: "/products", label: "See our products" }
 const OUR_SITE = { text: "This website is our own work, designed and built in-house to the standard we build for clients.", href: "/products", label: "See what else we've built" }
 
