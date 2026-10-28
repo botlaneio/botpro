@@ -10,12 +10,15 @@ export const EYES = {
   large: { d: "M7.9 10.5h1.8a0.3 0.3 0 0 1 0 0.6h-1.8a0.3 0.3 0 0 1 0 -0.6Z M14.3 10.5h1.8a0.3 0.3 0 0 1 0 0.6h-1.8a0.3 0.3 0 0 1 0 -0.6Z", y: [10.5, 11.1] },
 } as const
 
-/** The mark on its own. Use `size` in pixels; below 64px it switches to the small optical size. */
-export function BotlaneMark({ size = 24, id = "botlane-mark", className }: { size?: number; id?: string; className?: string }) {
-  const small = size < 64
+/**
+ * The mark on its own. Use `size` in pixels; below 64px it switches to the small optical size. Pass `optical="small"`
+ * to draw a large mark exactly as the header's (no crease, thicker eyes), scaled up.
+ */
+export function BotlaneMark({ size = 24, id = "botlane-mark", className, optical, label }: { size?: number; id?: string; className?: string; optical?: "small" | "large"; label?: string }) {
+  const small = optical ? optical === "small" : size < 64
   const eyes = EYES[small ? "small" : "large"]
   return (
-    <svg width={size} height={size} viewBox="1 1 22 22" aria-hidden className={cn("shrink-0", className)}>
+    <svg width={size} height={size} viewBox="1 1 22 22" role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true} className={cn("shrink-0", className)}>
       <defs>
         <radialGradient id={`${id}-fall`} gradientUnits="userSpaceOnUse" cx="22.2" cy="11.8" r="11">
           <stop offset="0.1" stopColor="#fff" />

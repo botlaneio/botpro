@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { AgentMark } from "@/components/site/agent-mark"
+import { BotlaneMark } from "@/components/site/botlane-mark"
 import { cn } from "@/lib/utils"
 
 /*
@@ -133,7 +133,7 @@ function Site({ x, y, w, at, out }: { x: number; y: number; w: number; at: numbe
 }
 
 // Care: the client sites around the hub, on an ellipse round the centre, each with its monthly check.
-// When each Care site's check starts and finishes; the hub's mark watches whichever one is running.
+// When each Care site's check starts and finishes.
 const careAt = (i: number) => 21.6 + i * 0.7
 const careDone = (i: number) => 22.6 + i * 0.9
 
@@ -204,30 +204,6 @@ export function HeroScene({ className }: { className?: string }) {
     let compact = root.dataset.compact === "1"
     let keys = camera(compact)
     let shownAct = -1, shownEnd = false
-    // The hub's mark: what it is doing and where it is looking, eased toward the site it is working on.
-    const agent = root.querySelector<SVGSVGElement>("[data-agent]")
-    let agentState = "", rim = 0, lookX = 0, lookY = 0
-    const careAngle = CARE.map((c) => Math.atan2(c.y - CY, c.x - CX))
-    const watch = (t: number) => {
-      if (!agent) return
-      let state = "idle", target = -1
-      const shown = (i: number) => !(compact && COMPACT_SKIP.has(i))
-      for (let i = 0; i < CARE.length; i++) if (shown(i) && t >= careAt(i) && t < careDone(i)) { state = "working"; target = i }
-      for (let i = 0; i < CARE.length; i++) if (shown(i) && t >= careDone(i) && t < careDone(i) + 0.7) { state = "done"; target = i }
-      if (t < 21 || t > 28.4) { state = "idle"; target = -1 }
-      if (state !== agentState) { agentState = state; agent.dataset.state = state }
-      // The light turns the short way round to face the site; the eyes move a little toward it.
-      let goal = target < 0 ? 0 : (careAngle[target] * 180) / Math.PI
-      while (goal - rim > 180) goal -= 360
-      while (goal - rim < -180) goal += 360
-      rim += (goal - rim) * 0.14
-      const a = target < 0 ? 0 : careAngle[target], reach = target < 0 ? 0 : 0.55
-      lookX += (Math.cos(a) * reach - lookX) * 0.14
-      lookY += (Math.sin(a) * reach * 0.6 - lookY) * 0.14
-      agent.style.setProperty("--rim-a", `${rim.toFixed(1)}deg`)
-      agent.style.setProperty("--look-x", `${lookX.toFixed(3)}px`)
-      agent.style.setProperty("--look-y", `${lookY.toFixed(3)}px`)
-    }
 
     const paint = (t: number) => {
       for (const p of parts) {
@@ -248,7 +224,6 @@ export function HeroScene({ className }: { className?: string }) {
       cm.style.transform = `translate(${CX - x * z}px, ${CY - y * z}px) scale(${z})`
       cm.style.transformOrigin = "0 0"
       cm.style.setProperty("--zoom", z.toFixed(3))
-      watch(t)
       // Each tab's ring fills over its act.
       const now = ACTS.findIndex((a) => t < a.end)
       rings.forEach((r, j) => {
@@ -381,7 +356,7 @@ export function HeroScene({ className }: { className?: string }) {
           <Chip x={834} y={482} m={[330, 692]} at={14.7} done={16.2} out={18.4}>Source and design files</Chip>
 
           {/* Care: the hub at the centre, and each site's monthly check. */}
-          <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><AgentMark size={136} label="Botlane" /></div>
+          <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><BotlaneMark size={136} optical="small" id="hub-mark" label="Botlane" /></div>
           {CARE.map((c, i) => (
             <div key={c.label} className={cn("absolute grid justify-items-center gap-3", COMPACT_SKIP.has(i) && "scene-wide")} style={{ left: c.x - 200, top: c.y + 84, width: 400 }}>
               <span data-in={span(20.4 + i * 0.15, 0.6)} data-out={span(28.4, 0.5)} className="text-[22px] text-muted-foreground">{c.label}</span>
