@@ -151,6 +151,12 @@
   46%, 60% { translate: 0 var(--travel); }
   92%, 100% { translate: 0 0; }
 }
+/* The stack orbit's apps: each one's angle on its arc, registered so it can be animated smoothly. */
+@property --orbit-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 /* The stack orbit's capsule edge, lighting up as an app lands in its slot. */
 @keyframes orbit-land {
   0% { opacity: 0; }

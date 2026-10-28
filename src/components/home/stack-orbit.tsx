@@ -20,24 +20,35 @@ function inkFor(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.18 ? "currentColor" : `#${hex}`
 }
 
-// The track the apps travel along, right to left, in units of --u from the centre. 0 is the capsule's
-// lower slot; ±1 and ±2 sit on an arc either side; ±3 are just past the ends, where an app fades in or out.
-const TRACK: Record<number, { x: number; y: number; show: number; scale: number }> = {
-  [-3]: { x: -31, y: -11, show: 0, scale: 0.8 },
-  [-2]: { x: -24, y: -6.5, show: 0.75, scale: 0.9 },
-  [-1]: { x: -13.5, y: 2.6, show: 1, scale: 1 },
-  0: { x: 0, y: 2.7, show: 1, scale: 1 },
-  1: { x: 13.5, y: 2.6, show: 1, scale: 1 },
-  2: { x: 24, y: -6.5, show: 0.75, scale: 0.9 },
-  3: { x: 31, y: -11, show: 0, scale: 0.8 },
+// The track is one arc of a circle whose centre sits above the stage, in units of --u from the stage's
+// centre: it passes through the capsule's lower slot at its lowest point. Each place is an angle on it,
+// and an app moves by turning its angle, so it travels along the curve rather than across it.
+const ARC = { cy: -33.2, r: 35.9 }
+// 0 is the capsule's slot; ±1 and ±2 sit on the arc either side; ±3 are just past the ends, where an app
+// fades in or out.
+const TRACK: Record<number, { deg: number; show: number; scale: number }> = {
+  [-3]: { deg: -62, show: 0, scale: 0.8 },
+  [-2]: { deg: -42, show: 0.75, scale: 0.9 },
+  [-1]: { deg: -22, show: 1, scale: 1 },
+  0: { deg: 0, show: 1, scale: 1 },
+  1: { deg: 22, show: 1, scale: 1 },
+  2: { deg: 42, show: 0.75, scale: 0.9 },
+  3: { deg: 62, show: 0, scale: 0.8 },
 }
+
+// The arc as a path, between ±75° so its ends run off the stage: one curve, no joins.
+const arcPoint = (deg: number) => {
+  const a = (deg * Math.PI) / 180
+  return `${(ARC.r * Math.sin(a)).toFixed(2)} ${(ARC.cy + ARC.r * Math.cos(a)).toFixed(2)}`
+}
+const ARC_PATH = `M ${arcPoint(-75)} A ${ARC.r} ${ARC.r} 0 0 0 ${arcPoint(75)}`
 
 /** Where app `i` sits at step `step`: the one at 0 is in the capsule, the rest wrap round the track. */
 const placeOf = (i: number, step: number) => ((((i - step) % APPS.length) + APPS.length + 3) % APPS.length) - 3
 
 /**
  * Our work and the apps it connects to, after the "Works With Your Existing Stack" reference: a capsule in
- * the middle holds the Botlane mark above a slot, and the apps travel along an arc of hairlines, one at a
+ * the middle holds the Botlane mark above a slot, and the apps travel along one hairline arc, one at a
  * time moving into the slot and lighting the capsule's edge as it lands. Decorative: the words beside it
  * name the apps. Pauses off screen and in a hidden tab, and holds still under reduced motion. Sized by --u.
  */
@@ -73,10 +84,9 @@ export function StackOrbit({ className }: { className?: string }) {
         <div className="absolute top-[52%] left-[30%] h-[12%] w-[55%] -rotate-[18deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*35%),transparent)] blur-2xl" />
       </div>
 
-      {/* The hairlines the apps travel along, from each end of the arc into the capsule. */}
+      {/* The hairline the apps travel along: one arc through every place, passing behind the capsule. */}
       <svg viewBox="-36 -13 72 26" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 -z-10 size-full" fill="none" strokeWidth={0.07}>
-        <path d="M-24 -6.5 C -20 -1, -17 2.6, -13.5 2.6 S -6 4.5, -2.8 4.5" style={{ stroke: "rgb(var(--ink) / 0.16)" }} />
-        <path d="M24 -6.5 C 20 -1, 17 2.6, 13.5 2.6 S 6 4.5, 2.8 4.5" style={{ stroke: "rgb(var(--ink) / 0.16)" }} />
+        <path d={ARC_PATH} style={{ stroke: "rgb(var(--ink) / 0.16)" }} />
       </svg>
 
       {/* The capsule: a glass pill with an accent edge and a dashed inner line, the mark above the slot. */}
@@ -97,9 +107,11 @@ export function StackOrbit({ className }: { className?: string }) {
         return (
           <div
             key={app.slug}
-            className="absolute top-1/2 left-1/2 grid size-[calc(var(--u)*5)] place-items-center rounded-full transition-[translate,scale,opacity] duration-700 ease-(--ease-lift)"
+            className="absolute top-1/2 left-1/2 grid size-[calc(var(--u)*5)] place-items-center rounded-full transition-[--orbit-a,scale,opacity] duration-700 ease-(--ease-lift)"
             style={{
-              translate: `calc(-50% + var(--u) * ${at.x}) calc(-50% + var(--u) * ${at.y})`,
+              // Its angle on the arc, turned smoothly between places (--orbit-a is registered as an angle).
+              ["--orbit-a" as string]: `${at.deg}deg`,
+              translate: `calc(-50% + var(--u) * ${ARC.r} * sin(var(--orbit-a))) calc(-50% + var(--u) * (${ARC.cy} + ${ARC.r} * cos(var(--orbit-a))))`,
               scale: at.scale,
               opacity: at.show,
               transitionDuration: p === 3 ? "0ms" : undefined,
