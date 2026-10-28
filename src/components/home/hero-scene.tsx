@@ -413,22 +413,6 @@ export function HeroScene({ className }: { className?: string }) {
           </div>
         </div>
       </div>
-
-      {/* After Care: the call to action, framed by two lines sliding in. */}
-      {ended && (
-        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-6">
-          <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
-          <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
-          <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
-            <p className="text-3xl font-medium tracking-tight text-balance">What do you have in mind?</p>
-            <p className="text-muted-foreground">Tell us a little about what you need. We&apos;ll help you work out the next step.</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
-              <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

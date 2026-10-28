@@ -57,8 +57,8 @@ export default function Home() {
         </header>
 
         {/* The brief: the prompt bar, under the scene that shows what happens next. */}
-        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-6 border-t border-border/60 py-14 text-center sm:py-20">
-          <h2 id="brief-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">What do you have in mind?</h2>
+        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-3 border-t border-border/60 py-14 text-center sm:gap-6 sm:py-20">
+          <h2 id="brief-title" className="text-[clamp(1rem,5vw,1.25rem)] font-medium tracking-tight whitespace-nowrap sm:text-4xl">What do you have in mind?</h2>
           <div className="w-full"><HeroPrompt /></div>
         </section>
 
