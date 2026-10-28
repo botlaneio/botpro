@@ -205,8 +205,11 @@ export default async function Lab() {
         <StackOrbit />
       </Section>
 
-      <Section id="showcase" title="Site showcase" note="An offer page's hero: an example site in a browser window, with a phone in front, both gliding to the foot of the page and back. The business is made up, sits at example.com and has no quotes, so it can't pass for client work. Hover pauses it; still under reduced motion.">
-        <SiteShowcase />
+      <Section id="showcase" title="Site showcase" note="An offer page's hero: an example site in a browser window gliding to the foot of the page and back, with a phone in front (clinic, for Business sites) or a content editor (firm, for Company sites). The businesses are made up, sit at example.com and have no quotes, so they can't pass for client work. Hover pauses it; still under reduced motion.">
+        <div className="grid gap-12 lg:grid-cols-2">
+          <SiteShowcase example="clinic" />
+          <SiteShowcase example="firm" />
+        </div>
       </Section>
 
       <Section id="reveal" title="Petal reveal" note="The homepage's closing panel. Washed-out petals with boxes opening onto full colour in turn; now and then the whole picture floods. A CURSOR box follows a mouse. Three boxes stay open, still, under reduced motion.">
