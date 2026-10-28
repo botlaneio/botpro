@@ -411,36 +411,115 @@
   }
 }
 
-/* The hero story's timeline. Each element's draw-in (--story-in) and fade-out (--story-out) come from its
-   own timing and don't inherit, so a card inside a fading group never fades twice. Before the script runs,
-   everything timed is undrawn, so the story draws itself in on load. */
-@property --story-in {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
+/* The hero scene (hero-scene.tsx). The clock writes --in and --out (0–1) on each timed element, --done on a
+   task, --p on a tab's ring and --zoom on the camera; these rules turn them into opacity, movement and lines.
+   Until the clock starts, every timed element is hidden, so nothing flashes on load. */
+.scene:not([data-ready]) [data-in] { opacity: 0; }
+.scene [data-in], .scene [data-out] { opacity: calc(var(--in, 1) * var(--out, 1)); }
+.scene [data-rise] { translate: 0 calc((1 - var(--in, 1)) * 14px); }
+.scene [data-pop] { scale: calc(0.72 + 0.28 * var(--in, 1)); }
+.scene [data-draw] { stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--in, 1)); opacity: var(--out, 1); }
+
+.scene-path { fill: none; stroke: rgb(var(--ink) / 0.32); stroke-width: 1.4; stroke-linecap: round; }
+.scene-path-brand { fill: none; stroke: var(--brand); stroke-width: 1.4; stroke-linecap: round; }
+.scene-node { fill: rgb(var(--ink) / 0.6); }
+.scene-node-ring { fill: var(--background); stroke: var(--brand); stroke-width: 1.5; }
+.scene-wire { fill: none; stroke: rgb(var(--ink) / 0.4); stroke-width: 1.5; stroke-dasharray: 1.5 5; stroke-linecap: round; }
+.scene-orbit { fill: none; stroke: rgb(var(--ink) / 0.2); stroke-width: 1.3; stroke-dasharray: 1.5 7; stroke-linecap: round; }
+.scene-orbit.faint { stroke: rgb(var(--ink) / 0.09); }
+.scene-ghost { fill: rgb(var(--ink) / 0.07); }
+.scene-window { fill: var(--card); stroke: rgb(var(--ink) / 0.38); stroke-width: 1.4; }
+.scene-line { stroke: rgb(var(--ink) / 0.18); stroke-width: 1.2; }
+.scene-dot { fill: rgb(var(--ink) / 0.24); }
+.scene-fill-strong { fill: rgb(var(--ink) / 0.55); }
+.scene-fill { fill: rgb(var(--ink) / 0.16); }
+.scene-brand { fill: var(--brand); }
+.scene-card-fill { fill: rgb(var(--ink) / 0.05); stroke: rgb(var(--ink) / 0.14); stroke-width: 1.2; }
+.scene-url { fill: rgb(var(--ink) / 0.08); }
+.scene-url-text { fill: var(--foreground); font-family: var(--font-jetbrains), ui-monospace, monospace; font-size: 11px; }
+/* The dial is the one solid shape: the page colour reversed, so it reads as the thing to watch. */
+.scene-dial { fill: var(--foreground); }
+.scene-dial-track { fill: none; stroke: color-mix(in oklch, var(--background) 16%, transparent); stroke-width: 4; }
+.scene-dial-arc { fill: none; stroke: var(--brand); stroke-width: 4; stroke-linecap: round; }
+.scene-small { fill: color-mix(in oklch, var(--background) 72%, transparent); font-size: 11px; }
+.scene-big { fill: var(--background); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+.scene-chip, .scene-person, .scene-live, .scene-hub, .scene-card {
+  color: var(--foreground);
+  background: var(--card);
+  border: 1px solid rgb(var(--ink) / 0.1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft);
 }
-@property --story-out {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 1;
+.scene-chip { gap: 10px; padding: 9px 16px 9px 12px; border-radius: 999px; font-size: 14px; }
+.scene-chip > span:first-child { width: 16px; height: 16px; }
+.scene-chip-lg { gap: 14px; padding: 14px 24px 14px 18px; font-size: 24px; }
+.scene-chip-lg > span:first-child { width: 26px; height: 26px; }
+.scene-spin { opacity: calc(1 - var(--done, 0)); animation: scene-spin 1s linear infinite; transform-origin: 50% 50%; }
+.scene-tick { opacity: var(--done, 0); scale: calc(0.4 + 0.6 * var(--done, 0)); }
+.scene-person { padding: 8px 18px 8px 8px; border-radius: 999px; }
+.scene-card { width: 280px; padding: 12px 12px 12px 18px; border-radius: calc(var(--radius) * 1.4); box-sizing: border-box; }
+.scene-todo { opacity: calc(1 - var(--done, 0)); color: color-mix(in oklch, var(--danger) 78%, var(--foreground)); background: color-mix(in oklch, var(--danger) 16%, transparent); }
+.scene-doneflag { opacity: var(--done, 0); color: var(--brand-text); background: color-mix(in oklch, var(--brand) 18%, transparent); }
+.scene-live { padding: 6px 14px 6px 11px; border-radius: 999px; font-size: 14px; font-weight: 500; }
+.scene-live-dot { animation: scene-pulse 2s ease-in-out infinite; }
+.scene-hub { border-radius: 999px; }
+/* While the mark works, the hub takes a faint ring of the accent. */
+.scene-hub:has(.agent[data-state="working"]), .scene-hub:has(.agent[data-state="done"]) { box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), var(--shadow-soft), 0 0 0 6px color-mix(in oklch, var(--brand) 10%, transparent), 0 0 48px -8px color-mix(in oklch, var(--brand) 45%, transparent); transition: box-shadow 0.4s var(--ease-soft); }
+.scene-caption {
+  padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500;
+  color: var(--background); background: var(--foreground);
 }
-.story [data-in]:not([data-draw]) {
-  opacity: calc(var(--story-in) * var(--story-out));
+.scene-ring { stroke: var(--brand); stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--p, 0)); }
+.scene-cta { animation: scene-fall 0.55s cubic-bezier(0.17, 0.17, 0.21, 1) 0.15s both; }
+.scene-cta-line { animation: scene-line-l 0.75s cubic-bezier(0.17, 0.17, 0.21, 1) 0.3s both; }
+.scene-cta-line.right { animation-name: scene-line-r; }
+@keyframes scene-spin { to { rotate: 360deg; } }
+@keyframes scene-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 55%, transparent); } 50% { box-shadow: 0 0 0 6px transparent; } }
+@keyframes scene-fall { from { opacity: 0; translate: 0 -28px; } }
+@keyframes scene-line-l { from { opacity: 0; translate: -120px 0; } }
+@keyframes scene-line-r { from { opacity: 0; translate: 120px 0; } }
+
+/* Phones: each piece moves to its phone place (see pos() in hero-scene.tsx), text sizes up to stay readable at
+   the smaller scale, the dial moves above the site, and the dotted wires (drawn for wide screens) are left out. */
+.scene [data-pos] { left: var(--dx); top: var(--dy); }
+.scene[data-phone="1"] [data-pos] { left: var(--mx); top: var(--my); }
+.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) { font-size: 19px; padding: 11px 20px 11px 15px; gap: 12px; }
+.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) > span:first-child { width: 20px; height: 20px; }
+.scene[data-phone="1"] .scene-card { width: 300px; }
+.scene[data-phone="1"] .scene-card > span:first-child { font-size: 18px; }
+.scene[data-phone="1"] .scene-person, .scene[data-phone="1"] .scene-live { font-size: 18px; }
+.scene[data-phone="1"] .scene-dial-g { transform: translate(270px, -240px); }
+.scene[data-phone="1"] .scene-wide { display: none; }
+.scene-caption { line-height: 1.35; }
+
+/* The agent mark (agent-mark.tsx): the logo with a state. Where it looks comes from --rim-a, --look-x and --look-y;
+   what it is doing comes from data-state. */
+.agent .agent-rim { transform-box: view-box; transform-origin: 12px 11.8px; rotate: var(--rim-a, 0deg); }
+.agent .agent-eyes { translate: var(--look-x, 0px) var(--look-y, 0px); transform-box: view-box; transform-origin: 12px 10.8px; }
+/* The glimpse: a slanted band crosses the helmet left to right in about two seconds, every seven, and the outline
+   shows faintly only where the band is. Under reduced motion it never passes, so the helmet stays as the logo. */
+.agent .agent-glimpse { opacity: 0.38; }
+.agent .agent-pass { transform-box: view-box; transform-origin: 0 0; transform: translateX(-6px) skewX(-16deg); animation: agent-pass 7s cubic-bezier(0.45, 0, 0.25, 1) 1.2s infinite; }
+@keyframes agent-pass { 0% { transform: translateX(-6px) skewX(-16deg); } 28%, 100% { transform: translateX(30px) skewX(-16deg); } }
+.agent .agent-eye-glow { fill: var(--mark-eye-edge); opacity: var(--mark-glow); }
+.agent .agent-eye-flash { fill: var(--brand); opacity: 0; }
+.agent .agent-ring-track { stroke: color-mix(in oklch, var(--brand) 22%, transparent); stroke-width: 0.5; opacity: 0; transition: opacity 0.4s var(--ease-soft); }
+.agent .agent-ring {
+  stroke: var(--brand); stroke-width: 0.7; stroke-linecap: round; stroke-dasharray: 18 82; opacity: 0;
+  transform-box: view-box; transform-origin: 12px 11.8px; transition: opacity 0.4s var(--ease-soft);
 }
-.story [data-draw] {
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: calc(1 - var(--story-in));
-  opacity: var(--story-out);
-}
-.story [data-out]:not([data-in]) {
-  opacity: var(--story-out);
-}
-.story [data-rise] {
-  transform: translateY(calc((1 - var(--story-in)) * 6px));
-}
-@keyframes story-spin {
-  to { transform: rotate(360deg); }
-}
-@keyframes story-orbit {
-  to { transform: rotate(360deg); }
-}
+/* Idle: the eyes breathe. */
+.agent[data-state="idle"] .agent-eyes { animation: agent-breathe 3.6s ease-in-out infinite; }
+/* Working: the ring turns and the eyes narrow a little, then open, as it concentrates. */
+.agent[data-state="working"] .agent-ring-track { opacity: 1; }
+.agent[data-state="working"] .agent-ring { opacity: 1; animation: agent-turn 1.3s linear infinite; }
+.agent[data-state="working"] .agent-eyes { animation: agent-focus 1.3s ease-in-out infinite; }
+/* Done: the ring closes and the eyes flash in the accent, once. */
+.agent[data-state="done"] .agent-ring-track { opacity: 1; }
+.agent[data-state="done"] .agent-ring { opacity: 1; animation: agent-close 0.7s cubic-bezier(0.17, 0.17, 0.21, 1) forwards; }
+.agent[data-state="done"] .agent-eye-flash { animation: agent-flash 0.8s ease-out forwards; }
+@keyframes agent-breathe { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+@keyframes agent-turn { to { rotate: 360deg; } }
+@keyframes agent-focus { 0%, 100% { scale: 1 1; } 45% { scale: 1 0.55; } }
+@keyframes agent-close { from { stroke-dasharray: 18 82; } to { stroke-dasharray: 100 0; } }
+@keyframes agent-flash { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0.25; } }

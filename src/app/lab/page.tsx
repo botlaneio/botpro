@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { ContactForm } from "@/components/contact/contact-form"
 import { HeroPrompt } from "@/components/home/hero-prompt"
-import { HeroStory } from "@/components/home/hero-story"
+import { HeroScene } from "@/components/home/hero-scene"
 import { ProductCards } from "@/components/home/product-cards"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { SiteShowcase } from "@/components/catalog/site-showcase"
@@ -32,6 +32,7 @@ import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { HeroMark } from "@/components/site/hero-mark"
+import { AgentMark } from "@/components/site/agent-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
 import { SOLUTIONS } from "@/lib/nav"
 import { LANES, type Lane } from "@/lib/lanes"
@@ -192,9 +193,20 @@ export default async function Lab() {
         <HeroPrompt />
       </Section>
 
-      <Section id="story" title="Hero story" note="Build, Launch, Care as a silent film in hairlines either side of the homepage prompt, on a 20-second loop. Wide screens only on the homepage; pauses off screen; one still frame under reduced motion.">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-[1.6rem] border border-border/60">
-          <HeroStory className="absolute inset-0 size-full" />
+      <Section id="agent" title="Agent mark" note="The logo with a state. Idle: the light rests on the right and the eyes breathe. Working: an accent ring turns and the eyes narrow. Done: the ring closes and the eyes flash once. The hero's Care scene points it at each site as that site's check runs.">
+        <div className="grid grid-cols-3 gap-4">
+          {(["idle", "working", "done"] as const).map((s) => (
+            <div key={s} className="surface-hairline grid justify-items-center gap-4 p-8">
+              <AgentMark size={112} state={s} />
+              <span className="label-mono">{s.toUpperCase()}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="scene" title="Hero scene" note="The homepage hero: Build, Launch and Care as one illustrated scene round the client's site, with captions, tabs that fill as each act plays, and a call to action at the end. Pauses off screen; one finished frame per tab under reduced motion.">
+        <div className="relative overflow-hidden rounded-[1.6rem] border border-border/60 px-6">
+          <HeroScene className="h-[760px]" />
         </div>
       </Section>
 

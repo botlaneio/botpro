@@ -27,6 +27,16 @@
       "bucket_name": "botpro-cache"
     }
   ],
+  // Branch previews (wrangler preview) get their own cache bucket, so a preview never reads or writes
+  // production's. The self-reference service isn't carried over: previews skip background revalidation.
+  "previews": {
+    "r2_buckets": [
+      {
+        "binding": "NEXT_INC_CACHE_R2_BUCKET",
+        "bucket_name": "botpro-cache-preview"
+      }
+    ]
+  },
   "observability": {
     "enabled": true
   }
