@@ -94,7 +94,8 @@ export function StackOrbit({ className }: { className?: string }) {
         <span className="absolute inset-[calc(var(--u)*0.4)] rounded-full border border-dashed border-[color-mix(in_oklch,var(--brand)_35%,transparent)]" />
         {/* A flash of the accent round the edge each time an app lands; restarted by its key. */}
         <span key={step} className="absolute -inset-px rounded-full border border-[var(--brand)] opacity-0 [animation:orbit-land_900ms_var(--ease-soft)_300ms] motion-reduce:hidden" />
-        <span className="tile-depth absolute top-[calc(var(--u)*1.4)] left-1/2 size-[calc(var(--u)*3.4)] -translate-x-1/2 rounded-full!">
+        {/* The mark's button stays dark with the light mark in both themes: `dark` scopes the dark tokens to it. */}
+        <span className="dark tile-depth absolute top-[calc(var(--u)*1.4)] left-1/2 size-[calc(var(--u)*3.4)] -translate-x-1/2 rounded-full!">
           <BotlaneMark size={30} id="orbit-mark" className="size-[52%]" />
         </span>
       </div>
@@ -124,7 +125,7 @@ export function StackOrbit({ className }: { className?: string }) {
                 docked && "opacity-0",
               )}
             />
-            <span className="tile-depth relative size-[calc(var(--u)*3.4)] rounded-full! text-foreground">
+            <span className="tile-depth relative size-[calc(var(--u)*3.4)] rounded-full!">
               <svg viewBox="0 0 24 24" className="size-[48%]">
                 <path d={app.path} fill={inkFor(app.hex)} />
               </svg>
