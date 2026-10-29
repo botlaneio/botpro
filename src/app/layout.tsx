@@ -39,8 +39,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable}`} suppressHydrationWarning>
-      <body>
+      <body className="relative">
         <AmbientLight />
+        {/* Light theme: hairline rails down the content's edges (materials.css). */}
+        <div aria-hidden className="page-rails hidden lg:block"><div /></div>
         <ScrollMotion />
         <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>

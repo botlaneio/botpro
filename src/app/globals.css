@@ -59,11 +59,13 @@
 /* Semantic tokens (shadcn/ui names), all drawn from the neutral scale */
 /* ------------------------------------------------------------------ */
 :root {
-  --background: var(--neutral-1);
+  /* Light: a soft cool grey page, with cards and panels in white on it, so surfaces read by contrast, not by
+     shadow alone. Dark keeps its own below. */
+  --background: #F2F3F5;
   --foreground: var(--neutral-12);
-  --card: var(--neutral-2);
+  --card: #FFFFFF;
   --card-foreground: var(--neutral-12);
-  --popover: var(--neutral-2);
+  --popover: #FFFFFF;
   --popover-foreground: var(--neutral-12);
   /* Primary is neutral: near-black on light, near-white on dark. */
   --primary: var(--neutral-12);
@@ -144,6 +146,10 @@
 }
 
 .dark {
+  /* The page and its surfaces, from the dark scale (the light theme sets its own literal grey and white). */
+  --background: var(--neutral-1);
+  --card: var(--neutral-2);
+  --popover: var(--neutral-2);
   --glow: 0.70;
   --mark-rim: #D0D6E0;
   --mark-crease: #3A3C42;
