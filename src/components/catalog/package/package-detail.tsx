@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { offerHref, offerPrice, offersIn, type Offer } from "@/lib/catalog"
 import { plan } from "@/lib/pricing"
 import { STEPS } from "@/lib/process"
+import { MilestoneTimeline } from "@/components/process/milestone-timeline"
 import { cn } from "@/lib/utils"
 
 import { ArtPanel } from "@/components/art/art-panel"
@@ -233,24 +234,14 @@ export function PackageDetail({ offer, c }: { offer: Offer; c: PackageContent })
           </div>
         </section>
 
-        {/* The path to launch, as a line of five stops. */}
+        {/* The path to launch, as a milestone timeline that lights up as it is read. */}
         <section aria-labelledby="path-title" className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28">
           <div className="mx-auto grid max-w-2xl justify-items-center gap-5 text-center">
             <Eyebrow>FROM FIRST CALL TO LIVE</Eyebrow>
             <h2 id="path-title" className="text-4xl leading-[1.05] font-medium tracking-[-0.04em] text-balance sm:text-5xl">{p.specs?.Timeline}, start to finish.</h2>
             <p className="max-w-md text-foreground/70">With {p.specs?.Revisions?.toLowerCase()} of design revisions along the way. The timeline is agreed once we&apos;ve seen your scope and content.</p>
           </div>
-          <ol className="relative mt-14 grid gap-8 md:grid-cols-5 md:gap-4">
-            <span aria-hidden className="absolute top-[0.6rem] right-[10%] left-[10%] hidden h-px bg-[linear-gradient(90deg,transparent,rgb(143_180_242/0.6),rgb(143_180_242/0.6),transparent)] md:block" />
-            {STEPS.map((s, i) => (
-              <li key={s.title} className="relative grid justify-items-center gap-3 text-center">
-                <span className={cn("relative z-10 size-5 rounded-full border-2 border-background", i === STEPS.length - 1 ? "bg-[#8FB4F2] shadow-[0_0_18px_#8FB4F2]" : "bg-foreground/80")} />
-                <span className="font-mono text-[10.5px] text-muted-foreground">0{i + 1}</span>
-                <h3 className="font-medium">{s.title}</h3>
-                <p className="max-w-[16rem] text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
+          <MilestoneTimeline className="mx-auto mt-14 max-w-2xl" steps={STEPS.map((s) => ({ ...s, note: s.title === "Design" && p.specs?.Revisions ? `${p.specs.Revisions} of revisions` : undefined }))} />
         </section>
 
         {/* The price, centred. */}
