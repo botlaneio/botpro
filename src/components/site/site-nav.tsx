@@ -9,7 +9,6 @@ import type { OfferIcon } from "@/lib/catalog"
 import type { LaneId } from "@/lib/lanes"
 import { cn } from "@/lib/utils"
 
-import { ActivityBadge } from "./activity-badge"
 import { BotlaneMark } from "./botlane-mark"
 import { ProductArt } from "./nav-art"
 import { ThemeSwitch } from "./theme-switch"
@@ -67,8 +66,6 @@ const GRACE_MS = 180
 // How far a phone's drawer must be dragged to the right before letting go closes it.
 const SWIPE_CLOSE = 80
 
-const AVAILABILITY = "Taking new projects"
-
 // A few pages that aren't in either menu, as small links at the foot of the phone's drawer.
 const EXTRAS = [{ href: "/care", label: "Care" }, { href: "/solutions#process", label: "How we work" }, { href: "/contact", label: "Contact" }]
 
@@ -82,16 +79,6 @@ function Burger({ open }: { open: boolean }) {
     <span aria-hidden className="relative block h-2.5 w-4">
       <span className={cn("absolute inset-x-0 h-[1.5px] rounded-full bg-current transition-[top,transform] duration-300 ease-(--ease-lift)", open ? "top-1 rotate-45" : "top-0")} />
       <span className={cn("absolute inset-x-0 h-[1.5px] rounded-full bg-current transition-[top,transform] duration-300 ease-(--ease-lift)", open ? "top-1 -rotate-45" : "top-2")} />
-    </span>
-  )
-}
-
-/** Whether someone is taking on work, as a green pulse and a few words. */
-function Availability({ className }: { className?: string }) {
-  return (
-    <span className={cn("inline-flex items-center gap-2 text-[12.5px] whitespace-nowrap text-muted-foreground", className)}>
-      <ActivityBadge />
-      {AVAILABILITY}
     </span>
   )
 }
@@ -493,7 +480,6 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
         </div>
 
         <div className="ml-auto flex items-center justify-end gap-2 lg:ml-0 lg:flex-1" onMouseEnter={unhover}>
-          <Availability className="mr-2 hidden xl:inline-flex" />
           <ThemeSwitch />
           <Link href="/account" onClick={close} aria-label="Sign in or sign up" className="inline-flex min-h-11 shrink-0 items-center rounded-full px-2 text-sm font-medium whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-3">
             <span className="sm:hidden">Sign in</span>
@@ -624,8 +610,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
         </div>
 
         <div className="relative grid shrink-0 gap-3 border-t border-border/60 px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-          <div className="flex items-center justify-between">
-            <Availability />
+          <div className="flex items-center justify-end">
             <ThemeSwitch />
           </div>
           <Link href="/account" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-5 text-[15px] font-medium transition-colors hover:bg-foreground/[0.05] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
