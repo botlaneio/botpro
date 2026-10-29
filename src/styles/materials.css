@@ -510,6 +510,19 @@
 .scene[data-compact="1"] .scene-person, .scene[data-compact="1"] .scene-live { font-size: 18px; }
 .scene[data-compact="1"] .scene-dial-g { transform: translate(64px, 182px); }
 .scene[data-compact="1"] .scene-wide { display: none; }
+/* Phones: the pieces at their phone places (pos()'s p), stacked tight round the site, so the scene is drawn near the
+   screen's width; text a touch smaller than on tablets, since the scene is now drawn larger. Care's names and checks
+   size up, as the camera pulls back further to fit the three sites. */
+.scene[data-phone="1"] [data-pos] { left: var(--px); top: var(--py); }
+.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) { font-size: 17px; padding: 9px 16px 9px 12px; gap: 10px; }
+.scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) > span:first-child { width: 18px; height: 18px; }
+.scene[data-phone="1"] .scene-card { width: 236px; padding: 11px 10px 11px 14px; gap: 10px; }
+.scene[data-phone="1"] .scene-card > span:first-child { font-size: 16px; }
+.scene[data-phone="1"] .scene-person, .scene[data-phone="1"] .scene-live { font-size: 16px; }
+.scene[data-phone="1"] .scene-dial-g { transform: translate(132px, 182px); }
+.scene[data-phone="1"] .scene-care-label { font-size: 32px; }
+.scene[data-phone="1"] .scene-chip-lg { font-size: 28px; padding: 14px 24px 14px 18px; gap: 14px; }
+.scene[data-phone="1"] .scene-chip-lg > span:first-child { width: 28px; height: 28px; }
 .scene-caption { line-height: 1.35; }
 
 /* The agent mark (agent-mark.tsx): the logo with a state. Where it looks comes from --rim-a, --look-x and --look-y;

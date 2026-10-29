@@ -50,7 +50,10 @@ const brake = bezier(0.82, 0, 0.22, 1)
 
 // The camera: [second, zoom, x, y] — the point at (x, y) sits at the centre of the action at that zoom.
 type Key = [number, number, number, number]
-const camera = (compact: boolean): Key[] => [
+const camera = (compact: boolean, phone: boolean): Key[] => phone ? [
+  // Phones: no zoom while the site is the subject; for Care, pulled back and lifted so the three sites fill the band.
+  [0, 1, CX, CY], [19, 1, CX, CY], [20.6, 0.41, CX, 233],
+] : [
   [0, 1, CX, CY], [5.6, 1, CX, CY], [6.9, compact ? 1 : 1.14, CX, compact ? CY : 410], [11.5, compact ? 1 : 1.14, CX, compact ? CY : 410], [12.6, 1, CX, CY],
   [19, 1, CX, CY], [20.6, compact ? 0.6 : 0.56, CX, CY],
 ]
@@ -59,14 +62,19 @@ const span = (s: number, len = 0.5) => `${s} ${s + len}`
 
 // In the compact layout, the band of the stage that holds every scene, top to bottom, in stage units.
 const COMPACT = { top: 110, bottom: 750 }
+// On phones, a narrower and shorter band (x from 400 to 800): the pieces are stacked tight round the site, at their
+// p places, so the scene can be drawn nearly the width of the screen.
+const PHONE = { top: 210, bottom: 726, width: 400 }
 // Care sites left out of the compact layout, so three sites sit in a triangle round the hub.
 const COMPACT_SKIP = new Set([1, 4])
 
 type At = [number, number]
-// Where a piece sits: on wide screens at (x, y), and on phones at m, stacked round the site where it stays readable.
-const pos = (x: number, y: number, m?: At) => ({
-  "--dx": `${x}px`, "--dy": `${y}px`, "--mx": `${(m ?? [x, y])[0]}px`, "--my": `${(m ?? [x, y])[1]}px`,
-}) as React.CSSProperties
+// Where a piece sits: on wide screens at (x, y), on tablets at m, stacked round the site where it stays readable,
+// and on phones at p, inside the phone band.
+const pos = (x: number, y: number, m?: At, p?: At) => {
+  const mm = m ?? [x, y], pp = p ?? mm
+  return { "--dx": `${x}px`, "--dy": `${y}px`, "--mx": `${mm[0]}px`, "--my": `${mm[1]}px`, "--px": `${pp[0]}px`, "--py": `${pp[1]}px` } as React.CSSProperties
+}
 
 function Spinner() {
   return (
@@ -84,12 +92,12 @@ function Tick() {
 }
 
 /** A task that arrives with a spinner and settles with a tick. */
-function Chip({ x, y, m, at, done, out, children, size = "sm", place = "absolute" }: { x: number; y: number; m?: At; at: number; done: number; out: number; children: React.ReactNode; size?: "sm" | "lg"; place?: "absolute" | "static" }) {
+function Chip({ x, y, m, p, at, done, out, children, size = "sm", place = "absolute" }: { x: number; y: number; m?: At; p?: At; at: number; done: number; out: number; children: React.ReactNode; size?: "sm" | "lg"; place?: "absolute" | "static" }) {
   return (
     <div
       data-in={span(at)} data-out={span(out, 0.4)} data-done={done} data-rise="" data-pos={place === "absolute" ? "" : undefined}
       className={cn("scene-chip flex items-center whitespace-nowrap", place === "absolute" ? "absolute" : "relative", size === "lg" ? "scene-chip-lg" : "")}
-      style={place === "absolute" ? pos(x, y, m) : undefined}
+      style={place === "absolute" ? pos(x, y, m, p) : undefined}
     >
       <span className="relative shrink-0 text-muted-foreground"><Spinner /><Tick /></span>
       {children}
@@ -98,10 +106,10 @@ function Chip({ x, y, m, at, done, out, children, size = "sm", place = "absolute
 }
 
 /** A task card with its status: "To do" until it's done. */
-function Task({ x, y, m, at, done, out, wide, children }: { x: number; y: number; m?: At; at: number; done: number; out: number; wide?: boolean; children: React.ReactNode }) {
+function Task({ x, y, m, p, at, done, out, wide, children }: { x: number; y: number; m?: At; p?: At; at: number; done: number; out: number; wide?: boolean; children: React.ReactNode }) {
   return (
-    <div data-in={span(at)} data-out={span(out, 0.4)} data-done={done} data-rise="" data-pos="" className={cn("scene-card absolute flex items-center gap-4", wide && "scene-wide")} style={pos(x, y, m)}>
-      <span className="text-[15px]">{children}</span>
+    <div data-in={span(at)} data-out={span(out, 0.4)} data-done={done} data-rise="" data-pos="" className={cn("scene-card absolute flex items-center gap-4", wide && "scene-wide")} style={pos(x, y, m, p)}>
+      <span className="text-[15px] whitespace-nowrap">{children}</span>
       <span className="relative ml-auto h-6 w-[74px]">
         <span className="scene-todo absolute inset-0 grid place-items-center rounded-full text-[12px] font-medium">To do</span>
         <span className="scene-doneflag absolute inset-0 grid place-items-center rounded-full text-[12px] font-medium">Done</span>
@@ -171,7 +179,9 @@ export function HeroScene({ className }: { className?: string }) {
     const fit = () => {
       const { width, height } = el.getBoundingClientRect()
       const compact = width < 1024
+      const phone = width < 640
       el.dataset.compact = compact ? "1" : ""
+      el.dataset.phone = phone ? "1" : ""
       const top = (el.querySelector("[data-hero-top]") as HTMLElement | null)?.offsetHeight ?? 0
       const bottom = (el.querySelector("[data-hero-bottom]") as HTMLElement | null)?.offsetHeight ?? 0
       const free = Math.max(0, height - top - bottom - 24)
@@ -179,10 +189,11 @@ export function HeroScene({ className }: { className?: string }) {
       const narrow = !compact && width < 1280
       const lift = narrow ? top * 0.4 : 0
       const room = height - lift - (narrow ? bottom * 0.7 : 0)
-      const k = compact ? Math.min(width / 600, free / (COMPACT.bottom - COMPACT.top)) : Math.min(width / W, room / H)
+      const band = phone ? PHONE : { ...COMPACT, width: 600 }
+      const k = compact ? Math.min(width / band.width, free / (band.bottom - band.top)) : Math.min(width / W, room / H)
       const tx = width / 2 - CX * k
       const ty = compact
-        ? top + 12 + free / 2 - ((COMPACT.top + COMPACT.bottom) / 2) * k
+        ? top + 12 + free / 2 - ((band.top + band.bottom) / 2) * k
         : lift + (room - H * k) / 2
       
       st.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${k.toFixed(4)})`
@@ -211,8 +222,9 @@ export function HeroScene({ className }: { className?: string }) {
     }))
     const rings = Array.from(root.querySelectorAll<SVGElement>("[data-ring]"))
     const prog = ([s, e]: number[], t: number) => Math.min(1, Math.max(0, (t - s) / (e - s)))
-    let compact = root.dataset.compact === "1"
-    let keys = camera(compact)
+    const mode = () => `${root.dataset.compact}${root.dataset.phone}`
+    let shownMode = mode()
+    let keys = camera(root.dataset.compact === "1", root.dataset.phone === "1")
     let shownAct = -1, shownEnd = false
 
     const paint = (t: number) => {
@@ -225,7 +237,7 @@ export function HeroScene({ className }: { className?: string }) {
         if (p.type) el.textContent = p.full.slice(0, Math.round(prog(p.type, t) * p.full.length))
       }
       // The camera, between the two keys either side of now.
-      if (root.dataset.compact === "1" !== compact) { compact = !compact; keys = camera(compact) }
+      if (mode() !== shownMode) { shownMode = mode(); keys = camera(root.dataset.compact === "1", root.dataset.phone === "1") }
       let i = keys.length - 1
       while (i > 0 && keys[i][0] > t) i--
       const a = keys[i], b = keys[Math.min(i + 1, keys.length - 1)]
@@ -335,7 +347,7 @@ export function HeroScene({ className }: { className?: string }) {
           </svg>
 
           {/* Build, scene one: a new brief, and the first decisions, each settling with a tick. */}
-          <div data-in={span(1.6)} data-out={span(5.0, 0.4)} data-rise="" data-pos="" className="scene-person absolute flex items-center gap-3" style={pos(770, 214, [330, 168])}>
+          <div data-in={span(1.6)} data-out={span(5.0, 0.4)} data-rise="" data-pos="" className="scene-person absolute flex items-center gap-3" style={pos(770, 214, [330, 168], [420, 218])}>
             <span className="grid size-9 place-items-center rounded-full bg-foreground/10 text-[13px] font-semibold">MR</span>
             <span className="grid leading-tight"><span className="text-[15px] font-medium">New brief</span><span className="text-[12.5px] text-muted-foreground">Meera Rao, Northside Physio</span></span>
           </div>
@@ -349,29 +361,29 @@ export function HeroScene({ className }: { className?: string }) {
             <Wire d="M780 480 L 830 500" at={14.7} out={18.4} />
             <Wire d="M420 400 L 370 400" at={13.4} out={18.4} />
           </svg>
-          <Chip x={210} y={298} m={[300, 560]} at={2.2} done={3.3} out={5.0}>Scope agreed</Chip>
-          <Chip x={196} y={398} m={[300, 630]} at={2.6} done={3.9} out={5.0}>Proposal signed</Chip>
-          <Chip x={834} y={360} m={[620, 560]} at={3.0} done={4.4} out={5.0}>Design approved</Chip>
+          <Chip x={210} y={298} m={[300, 560]} p={[420, 542]} at={2.2} done={3.3} out={5.0}>Scope agreed</Chip>
+          <Chip x={196} y={398} m={[300, 630]} p={[420, 592]} at={2.6} done={3.9} out={5.0}>Proposal signed</Chip>
+          <Chip x={834} y={360} m={[620, 560]} p={[420, 642]} at={3.0} done={4.4} out={5.0}>Design approved</Chip>
 
           {/* Build, scene two: the work, each task moving from to do to done. */}
-          <Task x={800} y={296} m={[476, 548]} at={7.2} done={8.4} out={11.4}>Booking flow</Task>
-          <Task x={812} y={356} m={[476, 612]} at={7.8} done={9.4} out={11.4}>Payments tested</Task>
+          <Task x={800} y={296} m={[476, 548]} p={[544, 548]} at={7.2} done={8.4} out={11.4}>Booking flow</Task>
+          <Task x={812} y={356} m={[476, 612]} p={[544, 606]} at={7.8} done={9.4} out={11.4}>Payments tested</Task>
           <Task x={420} y={556} at={8.4} done={10.2} out={11.4} wide>Every screen size</Task>
 
           {/* Launch: live, then the handover. */}
-          <div data-in={span(14.4)} data-out={span(18.4, 0.4)} data-pop="" data-pos="" className="scene-live absolute flex items-center gap-2" style={pos(700, 252, [660, 222])}>
+          <div data-in={span(14.4)} data-out={span(18.4, 0.4)} data-pop="" data-pos="" className="scene-live absolute flex items-center gap-2" style={pos(700, 252, [660, 222], [700, 236])}>
             <span className="scene-live-dot size-2 rounded-full bg-brand" />Live
           </div>
-          <Chip x={198} y={380} m={[330, 536]} at={13.4} done={14.2} out={18.4}>Domain connected</Chip>
-          <Chip x={834} y={300} m={[330, 588]} at={13.9} done={15.0} out={18.4}>Logins handed over</Chip>
-          <Chip x={834} y={380} m={[330, 640]} at={14.3} done={15.6} out={18.4}>Editor guide for your team</Chip>
-          <Chip x={834} y={482} m={[330, 692]} at={14.7} done={16.2} out={18.4}>Source and design files</Chip>
+          <Chip x={198} y={380} m={[330, 536]} p={[420, 542]} at={13.4} done={14.2} out={18.4}>Domain connected</Chip>
+          <Chip x={834} y={300} m={[330, 588]} p={[420, 588]} at={13.9} done={15.0} out={18.4}>Logins handed over</Chip>
+          <Chip x={834} y={380} m={[330, 640]} p={[420, 634]} at={14.3} done={15.6} out={18.4}>Editor guide for your team</Chip>
+          <Chip x={834} y={482} m={[330, 692]} p={[420, 680]} at={14.7} done={16.2} out={18.4}>Source and design files</Chip>
 
           {/* Care: the hub at the centre, and each site's monthly check. */}
           <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><BotlaneMark size={136} optical="small" id="hub-mark" label="Botlane" /></div>
           {CARE.map((c, i) => (
             <div key={c.label} className={cn("absolute grid justify-items-center gap-3", COMPACT_SKIP.has(i) && "scene-wide")} style={{ left: c.x - 200, top: c.y + 84, width: 400 }}>
-              <span data-in={span(20.4 + i * 0.15, 0.6)} data-out={span(28.4, 0.5)} className="text-[22px] text-muted-foreground">{c.label}</span>
+              <span data-in={span(20.4 + i * 0.15, 0.6)} data-out={span(28.4, 0.5)} className="scene-care-label text-[22px] text-muted-foreground">{c.label}</span>
               <Chip x={0} y={0} at={careAt(i)} done={careDone(i)} out={28.4} size="lg" place="static">{c.task}</Chip>
             </div>
           ))}
@@ -379,14 +391,14 @@ export function HeroScene({ className }: { className?: string }) {
       </div>
 
       {/* The headline and the one line under it. */}
-      <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-4 pt-10 sm:pt-14">
-        <h1 className="max-w-[13ch] text-[clamp(2rem,8.5vw,2.25rem)] font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
-        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-foreground/80">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
+      <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-3 pt-7 sm:gap-y-4 sm:pt-14">
+        <h1 className="max-w-[13ch] text-[clamp(1.75rem,7.4vw,2.25rem)] leading-[1.08] font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
+        <p className="max-w-[19rem] border-l border-border/80 pl-3.5 text-[14px] leading-normal text-foreground/80 sm:pl-4 sm:text-[15px] sm:leading-relaxed">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
       </div>
 
       {/* The scene's captions, the tabs, and the track they sit on. */}
-      <div data-hero-bottom className="absolute inset-x-0 bottom-0 z-10 grid justify-items-center gap-5 pb-6">
-        <div aria-live="polite" className="relative h-12 w-full sm:h-9">
+      <div data-hero-bottom className="absolute inset-x-0 bottom-0 z-10 grid justify-items-center gap-3 pb-3 sm:gap-5 sm:pb-6">
+        <div aria-live="polite" className="relative h-9 w-full">
           {[["It starts with your idea.", 0.2, 5.2], ["Takes shape, detail by detail.", 5.8, 11.5], ["Launches into the world.", 12.4, 18.6], ["Keeps moving with you.", 19.4, 28.6]].map(([text, a, b]) => (
             <div key={text as string} className="absolute inset-x-0 top-0 flex justify-center px-4">
               <span data-in={span(a as number, 0.4)} data-out={span(b as number, 0.3)} data-rise="" className="scene-caption text-center">{text}</span>
