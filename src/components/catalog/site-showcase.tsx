@@ -13,9 +13,9 @@ export type ShowcaseExample = "clinic" | "firm" | "launch"
  * are their own, not ours: the point is a site that looks like its business. Hovering pauses it; it holds
  * still under reduced motion. Decorative, so hidden from screen readers. Sized in container units.
  */
-export function SiteShowcase({ example = "clinic", className, still = false }: { example?: ShowcaseExample; className?: string; still?: boolean }) {
+export function SiteShowcase({ example = "clinic", className, still = false, panel = true }: { example?: ShowcaseExample; className?: string; still?: boolean; /** The panel in front (editor, budget); false for small sizes, where it would crowd the window. The clinic's phone always shows. */ panel?: boolean }) {
   return (
-    <div aria-hidden className={cn("group/s relative mx-auto w-full max-w-[38rem] pb-8 sm:pr-10", className)}>
+    <div aria-hidden className={cn("group/s relative mx-auto w-full max-w-[38rem] pb-8", (panel || example === "clinic") && "sm:pr-10", className)}>
       {/* Light behind the window, as in the lab's other hero pieces. */}
       <div className="pointer-events-none absolute -inset-[12%] -z-10 [mask-image:radial-gradient(closest-side,#000,transparent)]">
         <div className="absolute top-[30%] left-[10%] h-[30%] w-[80%] -rotate-[14deg] rounded-full bg-[color-mix(in_oklch,var(--brand)_calc(var(--glow)*30%),transparent)] blur-3xl" />
@@ -38,7 +38,7 @@ export function SiteShowcase({ example = "clinic", className, still = false }: {
         </div>
       </div>
 
-      {example === "firm" ? <EditorPanel /> : example === "launch" ? <BudgetPanel /> : <Phone still={still} />}
+      {example === "firm" ? (panel && <EditorPanel />) : example === "launch" ? (panel && <BudgetPanel />) : <Phone still={still} />}
     </div>
   )
 }
