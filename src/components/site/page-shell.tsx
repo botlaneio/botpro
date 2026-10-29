@@ -11,8 +11,8 @@ const priceOf = (icon: string) => SOLUTIONS.flatMap((g) => g.items).find((i) => 
 // The four parts of Botlane, for the row of links near the foot of each page.
 const MORE = [
   { href: "/websites", title: "Websites", meta: priceOf("websites"), Icon: NAV_ICONS.websites, tone: NAV_ICON_TONES.websites },
-  { href: "/web-apps", title: "Web apps", meta: priceOf("apps"), Icon: NAV_ICONS.apps, tone: NAV_ICON_TONES.apps },
-  { href: "/custom-solutions", title: "Custom solutions", meta: "Quoted after a call", Icon: NAV_ICONS.assistant, tone: "text-(--violet-text)" },
+  { href: "/web-apps", title: "Web Apps", meta: priceOf("apps"), Icon: NAV_ICONS.apps, tone: NAV_ICON_TONES.apps },
+  { href: "/custom-solutions", title: "Custom Solutions", meta: "Quoted after a call", Icon: NAV_ICONS.assistant, tone: "text-(--violet-text)" },
   { href: "/products", title: "Our products", meta: LANES.map((l) => l.name).join(" · "), Icon: LayoutGrid, tone: "text-foreground/70" },
 ]
 

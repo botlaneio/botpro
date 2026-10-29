@@ -46,7 +46,7 @@ export async function PricingSection() {
               <PlanCard planId="website-apex" offer={offerFor("website-apex")} cta="Start a project" />
             </div>
           </Group>
-          <Group title="Web apps" note="plan, prove, build">
+          <Group title="Web Apps" note="plan, prove, build">
             <div className="grid gap-5 md:grid-cols-3">
               <PlanCard planId="app-scoping" offer={offerFor("app-scoping")} cta="Book a sprint" />
               <PlanCard planId="app-prototype" offer={offerFor("app-prototype")} cta="Talk to us" />

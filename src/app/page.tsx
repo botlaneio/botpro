@@ -7,6 +7,8 @@ import { HeroScene } from "@/components/home/hero-scene"
 import { PetalReveal } from "@/components/home/petal-reveal"
 import { ProductCards } from "@/components/home/product-cards"
 import { StackOrbit } from "@/components/home/stack-orbit"
+import { cn } from "@/lib/utils"
+import { ArtPanel } from "@/components/art/art-panel"
 import { StatCards, type Stat } from "@/components/home/stat-cards"
 import { ServiceBlocks } from "@/components/home/service-blocks"
 import { FoundingBanner } from "@/components/pricing/founding-banner"
@@ -32,9 +34,9 @@ const STATS: Stat[] = [
   { value: Math.round(founding.discount * 100), suffix: "%", label: `off for our first ${founding.places} clients` },
 ]
 
-function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
+function Section({ id, eyebrow, title, intro, className, children }: { id: string; eyebrow: string; title: string; intro?: string; className?: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="grid min-w-0 scroll-mt-20 gap-8 [&>*]:min-w-0 border-t border-border/60 py-14 sm:gap-10 sm:py-20">
+    <section id={id} aria-labelledby={`${id}-title`} className={cn("grid min-w-0 scroll-mt-20 gap-8 [&>*]:min-w-0 border-t border-border/60 py-14 sm:gap-10 sm:py-20", className)}>
       <div className="grid min-w-0 max-w-2xl gap-3">
         <span className="label-mono">{eyebrow}</span>
         <h2 id={`${id}-title`} className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">{title}</h2>
@@ -57,7 +59,7 @@ export default function Home() {
         </header>
 
         {/* The brief: the prompt bar, under the scene that shows what happens next. */}
-        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-3 border-t border-border/60 py-14 text-center sm:gap-6 sm:py-20">
+        <section id="brief" aria-labelledby="brief-title" className="dots-field grid scroll-mt-20 justify-items-center gap-3 border-t border-border/60 py-14 text-center sm:gap-6 sm:py-20">
           <h2 id="brief-title" className="text-[clamp(1rem,5vw,1.25rem)] font-medium tracking-tight whitespace-nowrap sm:text-4xl">What do you have in mind?</h2>
           <div className="min-w-0 w-full"><HeroPrompt /></div>
         </section>
@@ -87,7 +89,11 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <StackOrbit />
+          {/* By day the orbit floats on a painted sky; by night on the dark, as before. */}
+          <div className="relative">
+            <ArtPanel sky="dawn" seed={11} className="absolute inset-x-0 -inset-y-2 rounded-[1.75rem] border border-[rgb(var(--ink)/0.06)] dark:hidden" />
+            <div className="relative"><StackOrbit /></div>
+          </div>
         </section>
 
         <Section
@@ -96,11 +102,14 @@ export default function Home() {
           title="Our ideas. Out in the world."
           intro="We also design and build our own software. Explore our work in scheduling, document processing, and automation."
         >
-          <ProductCards copy={HOME_PRODUCTS} />
+          <div className="relative">
+            <ArtPanel sky="azure" seed={3} className="absolute inset-0 rounded-[1.75rem] border border-[rgb(var(--ink)/0.06)] dark:hidden" />
+            <div className="relative"><ProductCards copy={HOME_PRODUCTS} /></div>
+          </div>
           <StatCards stats={STATS} />
         </Section>
 
-        <Section id="process" eyebrow="HOW WE WORK" title="A clear process. Room for your input.">
+        <Section id="process" className="dots-field" eyebrow="HOW WE WORK" title="A clear process. Room for your input.">
           <ProcessWheel steps={HOME_PROCESS} />
         </Section>
 

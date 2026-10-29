@@ -31,7 +31,7 @@ export function SiteHeader() {
     return {
       label: cat.label,
       href: cat.href,
-      all: `All ${cat.label.toLowerCase()}`,
+      all: `All ${cat.label}`,
       cards: offersIn(id).map((o) => ({ href: offerHref(o), title: WEBSITE_MENU_NAMES[o.slug] ?? o.name, body: id === "websites" ? o.menu.replace(/^[^·]+·\s*/, "") : o.menu, meta: offerPrice(o), icon: o.icon, glow: GLOW[id], tone: cat.tone })),
     }
   }
