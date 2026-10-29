@@ -785,3 +785,65 @@
 /* The hero card lets more of the light through than the note, which has text to keep legible. */
 .dark .scene-frost { background: color-mix(in oklch, var(--card) 62%, transparent); }
 :root:not(.dark) .scene-frost { background: rgb(255 255 255 / 0.55); }
+
+/* The milestone timeline (milestone-timeline.tsx), after Framer's Timeline Slider. The rail runs from the first
+   dot to the last; the light fills it down to the reading position (--tl-reach), with a glowing head. A step the
+   light has reached is lit: its dot glows. An open step's card grows out of its dot, first a slim bud beside the
+   dot, then to its full width, and its text arrives after it. */
+.tl { --tl-col: 2rem; --tl-x: 1rem; --tl-top: calc(1.3rem + 5px); --tl-ease: cubic-bezier(0.2, 0.9, 0.25, 1); }
+@media (min-width: 40rem) { .tl { --tl-x: 4.5rem; } }
+.tl-rail, .tl-light { position: absolute; left: calc(var(--tl-x) - 1px); top: var(--tl-top); width: 2px; border-radius: 2px; pointer-events: none; }
+.tl-rail { height: calc(var(--tl-end, 100%) - var(--tl-top)); background: rgb(var(--ink) / 0.1); }
+.tl-light {
+  height: max(0px, calc(var(--tl-reach, 0px) - var(--tl-top)));
+  background: linear-gradient(180deg, color-mix(in oklch, var(--brand) 10%, transparent), var(--brand));
+  box-shadow: 0 0 12px color-mix(in oklch, var(--brand) 55%, transparent);
+}
+.tl-head {
+  position: absolute; left: calc(var(--tl-x) - 4px); top: calc(max(var(--tl-top), var(--tl-reach, 0px)) - 4px);
+  width: 8px; height: 8px; border-radius: 99px; pointer-events: none; background: white;
+  box-shadow: 0 0 10px 2px color-mix(in oklch, var(--brand) 90%, transparent), 0 0 28px 8px color-mix(in oklch, var(--brand) 40%, transparent);
+  opacity: 0; transition: opacity 300ms;
+}
+.tl[data-ready] .tl-head { opacity: 1; }
+.tl-num { color: rgb(var(--ink) / 0.35); transition: color 400ms; }
+.tl-step[data-lit="1"] .tl-num { color: var(--brand-text); }
+.tl-dot {
+  position: relative; z-index: 1; width: 10px; height: 10px; border-radius: 99px;
+  background: var(--background); border: 2px solid rgb(var(--ink) / 0.22);
+  transition: background-color 400ms, border-color 400ms, box-shadow 500ms, scale 500ms var(--tl-ease);
+}
+.tl-step[data-lit="1"] .tl-dot {
+  background: var(--brand); border-color: color-mix(in oklch, var(--brand) 60%, white); scale: 1.2;
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--brand) 18%, transparent), 0 0 16px color-mix(in oklch, var(--brand) 70%, transparent);
+}
+/* The card: a frosted surface that grows from the dot's side. Folded, only a bud of it shows behind the title. */
+.tl-bg {
+  position: absolute; inset: 0 0 1rem 0; border-radius: 1rem; transform-origin: 0 1.8rem;
+  background: color-mix(in oklch, var(--card) 70%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border: 1px solid rgb(var(--ink) / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha, 0.06)), 0 18px 40px -20px rgb(0 0 0 / 0.45);
+  clip-path: inset(0 calc(100% - 14px) calc(100% - 3.5rem) 0 round 1rem);
+  opacity: 0; transition: clip-path 520ms var(--tl-ease), opacity 260ms;
+}
+/* The tail: a small point from the card to its dot. */
+.tl-bg::before {
+  content: ""; position: absolute; left: -6px; top: 1.45rem; width: 11px; height: 11px; rotate: 45deg;
+  background: inherit; border-left: inherit; border-bottom: inherit; border-radius: 2px;
+}
+.tl-step[data-open="1"] .tl-bg { clip-path: inset(-12px -12px -12px -12px round 1rem); opacity: 1; transition: clip-path 640ms var(--tl-ease) 60ms, opacity 200ms; }
+.tl-step[data-lit="1"]:not([data-open="1"]) .tl-bg { opacity: 0.55; }
+.tl-title { color: rgb(var(--ink) / 0.55); transition: color 400ms; }
+.tl-step[data-lit="1"] .tl-title, .tl-step[data-open="1"] .tl-title { color: var(--foreground); }
+.tl-plus { transition: rotate 400ms var(--tl-ease); }
+.tl-step[data-open="1"] .tl-plus { rotate: 45deg; }
+.tl-body { grid-template-rows: 0fr; transition: grid-template-rows 560ms var(--tl-ease); }
+.tl-step[data-open="1"] .tl-body { grid-template-rows: 1fr; }
+.tl-text { opacity: 0; translate: 0 6px; transition: opacity 240ms, translate 400ms var(--tl-ease); }
+.tl-step[data-open="1"] .tl-text { opacity: 1; translate: 0 0; transition: opacity 420ms 240ms, translate 520ms var(--tl-ease) 220ms; }
+.tl-note { color: var(--brand-text); background: color-mix(in oklch, var(--brand) 14%, transparent); }
+.tl button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .tl-bg, .tl-body, .tl-text, .tl-dot, .tl-plus { transition: none; }
+}

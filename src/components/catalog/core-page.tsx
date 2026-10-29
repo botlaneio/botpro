@@ -6,6 +6,7 @@ import { SiteHeader, SiteFooter } from "@/components/site/site-header"
 import { offerPrice, type Offer } from "@/lib/catalog"
 import { plan } from "@/lib/pricing"
 import { STEPS } from "@/lib/process"
+import { MilestoneTimeline } from "@/components/process/milestone-timeline"
 import { CoreHeroPreview } from "./core-hero-preview"
 import { CoreWorkShowcase } from "./core-work-showcase"
 import { SiteShowcase } from "./site-showcase"
@@ -83,7 +84,7 @@ export function CorePage({ offer }: { offer: Offer }) {
 
       <section aria-labelledby="process-title" className="py-14 sm:py-20">
         <div className="grid gap-5 sm:grid-cols-2 sm:items-end"><div><span className="label-mono">FROM FIRST IDEA TO LIVE</span><h2 id="process-title" className="mt-5 text-3xl font-medium tracking-tight sm:text-4xl">A clear path to launch.</h2></div><p className="max-w-md text-foreground/75">{p.specs?.Timeline}, with {p.specs?.Revisions.toLowerCase()} of design revisions. We agree the timeline after reviewing your scope and content.</p></div>
-        <ol className="mt-10 grid gap-0 border-t border-border/70 sm:grid-cols-2 lg:grid-cols-5">{STEPS.map((step, i) => <li key={step.title} className="border-b border-border/70 py-6 pr-6"><span className="label-mono text-xs">0{i + 1}</span><h3 className="mt-5 font-medium">{step.title}</h3><p className="mt-3 text-sm leading-relaxed text-foreground/75">{step.body}</p></li>)}</ol>
+        <MilestoneTimeline className="mt-10 max-w-3xl" steps={STEPS.map((s) => ({ ...s, note: s.title === "Design" && p.specs?.Revisions ? `${p.specs.Revisions} of revisions` : undefined }))} />
       </section>
 
       <section aria-labelledby="fit-title" className="grid gap-8 border-y border-border/70 py-10 sm:grid-cols-2 sm:gap-16">
