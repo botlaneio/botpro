@@ -304,21 +304,30 @@ export function HeroScene({ className }: { className?: string }) {
         </svg>
 
         <div ref={cam} className="absolute inset-0">
-          {/* Phones: lines of their own for the opening, fitted to the phone layout. A line comes down the edge from
-              under the intro and kinks into the site; two blue lines curl in from the right, into its top and its
-              bottom; and the three decisions hang from it on a dotted spine. They pass under the glass. */}
+          {/* Phones: connecting lines fitted to the phone layout, each joining two things on screen. The idea flows
+              from under the intro into the site, and the brief into the site's top; the decisions hang from the site
+              on a dotted spine; then the dial and the tasks are wired to it, and at launch "Live" and the handover
+              items. They pass under the glass. */}
           <svg viewBox={`0 0 ${W} ${H}`} className="scene-phone absolute inset-0 size-full overflow-visible">
+            {/* Build, scene one: the intro into the site, the brief into its top, the decisions on a spine. */}
             <path d="M403 196 C 403 228 414 246 407 262 C 400 278 390 272 393 262 C 396 250 410 256 407 284 C 405 306 407 326 402 342 C 397 358 393 372 400 384 C 406 393 413 395 420 398" pathLength={1} fill="none" data-in={span(0.2, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path" />
             <path d="M403 196 C 403 228 414 246 407 262 C 400 278 390 272 393 262 C 396 250 410 256 407 284 C 405 306 407 326 402 342 C 397 358 393 372 400 384 C 406 393 413 395 420 398" pathLength={1} fill="none" data-in={span(1.6, 0.5)} data-out={span(5.0, 0.5)} className="scene-sheen" />
             <circle cx={420} cy={398} r={4} data-in={span(1.5, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
-            <path d="M840 232 C 806 232 800 210 772 216 C 744 222 758 254 732 258 C 712 261 700 250 692 264 C 686 272 688 276 690 280" pathLength={1} fill="none" data-in={span(0.5, 1.3)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
-            <circle cx={690} cy={280} r={4.5} data-in={span(1.7, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
-            <path d="M840 704 C 790 704 772 676 792 650 C 812 624 806 590 772 594 C 742 598 726 582 738 556 C 744 542 736 530 730 520" pathLength={1} fill="none" data-in={span(0.8, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
-            <circle cx={730} cy={520} r={4.5} data-in={span(2.1, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
+            <circle cx={652} cy={244} r={3.5} data-in={span(2.0, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
+            <path d="M652 244 C 690 244 704 222 732 230 C 758 238 752 262 730 262 C 712 262 712 248 726 248 C 740 248 742 266 736 280" pathLength={1} fill="none" data-in={span(2.0, 1.1)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
+            <circle cx={736} cy={280} r={4.5} data-in={span(3.0, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
             <path d="M430 520 C 430 532 406 528 406 546 L 406 661" data-in={span(2.0, 0.6)} data-out={span(5.0, 0.4)} className="scene-wire" />
-            <path d="M406 561 L 418 561" data-in={span(2.2, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
-            <path d="M406 611 L 418 611" data-in={span(2.6, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
-            <path d="M406 661 L 418 661" data-in={span(3.0, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
+            {[561, 611, 661].map((y, i) => <path key={y} d={`M406 ${y} L 418 ${y}`} data-in={span(2.2 + i * 0.4, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />)}
+
+            {/* Build, scene two: the dial and the two tasks on one line from the site. */}
+            <path d="M600 520 L 600 534 L 462 534 L 462 540 M534 534 L 534 630" data-in={span(7.0, 0.6)} data-out={span(11.4, 0.4)} className="scene-wire" />
+            <path d="M534 572 L 544 572" data-in={span(7.3, 0.4)} data-out={span(11.4, 0.4)} className="scene-wire" />
+            <path d="M534 630 L 544 630" data-in={span(7.9, 0.4)} data-out={span(11.4, 0.4)} className="scene-wire" />
+
+            {/* Launch: "Live" to the address, and the handover items on a spine from the site. */}
+            <path d="M704 253 C 690 253 690 270 702 288" data-in={span(14.4, 0.5)} data-out={span(18.4, 0.4)} className="scene-wire" />
+            <path d="M430 520 C 430 532 406 528 406 546 L 406 699" data-in={span(13.3, 0.6)} data-out={span(18.4, 0.4)} className="scene-wire" />
+            {[561, 607, 653, 699].map((y, i) => <path key={y} d={`M406 ${y} L 418 ${y}`} data-in={span([13.4, 13.9, 14.3, 14.7][i], 0.4)} data-out={span(18.4, 0.4)} className="scene-wire" />)}
           </svg>
           {/* The client's site sits on frosted glass (the frost card), drawn behind the drawing of it. */}
           <div data-in={span(0.8, 0.6)} data-out={span(20.0, 0.5)} className="frost scene-frost absolute" style={{ left: 420, top: 280, width: 360, height: 240 }} />
@@ -448,13 +457,13 @@ export function HeroScene({ className }: { className?: string }) {
       {/* After Care: the closing line and the call to action, framed by two lines sliding in. The brief section
           below asks "What do you have in mind?", so this says something of its own and points there. */}
       {ended && (
-        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-6 max-md:items-end max-md:pb-32">
+        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-6 max-md:items-end max-md:pb-32 max-sm:justify-items-stretch max-sm:px-0">
           <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
           <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
-          <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
+          <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center max-sm:justify-items-start max-sm:text-left">
             <p className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Yours could be next.</p>
             <p className="text-muted-foreground">From the first idea to launch, and every day after. Tell us what you&apos;re building.</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
+            <div className="mt-2 flex flex-wrap justify-center gap-3 max-sm:flex-nowrap max-sm:justify-start max-sm:gap-2">
               <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
               <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>
             </div>
