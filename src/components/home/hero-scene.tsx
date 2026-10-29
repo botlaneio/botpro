@@ -124,11 +124,11 @@ function Wire({ d, at, out, className }: { d: string; at: number; out: number; c
 }
 
 /** The client's site, drawn in hairlines: a browser window with a hero, a button and three service cards. */
-function Site({ x, y, w, at, out }: { x: number; y: number; w: number; at: number; out: number }) {
+function Site({ x, y, w, at, out, glass }: { x: number; y: number; w: number; at: number; out: number; glass?: boolean }) {
   const s = w / 360, h = 240 * s
   return (
     <g data-in={span(at, 0.6)} data-out={span(out, 0.5)}>
-      <rect x={x} y={y} width={w} height={h} rx={12 * s} className="scene-window" />
+      <rect x={x} y={y} width={w} height={h} rx={12 * s} className={cn("scene-window", glass && "glass")} />
       <path d={`M${x} ${y + 26 * s} H${x + w}`} className="scene-line" />
       {[0, 1, 2].map((i) => <circle key={i} cx={x + (16 + i * 11) * s} cy={y + 13 * s} r={3 * s} className="scene-dot" />)}
       <g transform={`translate(${x} ${y}) scale(${s})`}>
@@ -304,6 +304,8 @@ export function HeroScene({ className }: { className?: string }) {
         </svg>
 
         <div ref={cam} className="absolute inset-0">
+          {/* The client's site sits on frosted glass (the frost card), drawn behind the drawing of it. */}
+          <div data-in={span(0.8, 0.6)} data-out={span(20.0, 0.5)} className="frost scene-frost absolute" style={{ left: 420, top: 280, width: 360, height: 240 }} />
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full overflow-visible">
             {/* Build, scene two, and Launch: an orbit round the site, with faint pieces of work drifting on it. */}
             <circle cx={CX} cy={CY} r={250} data-in={span(6.0, 1.2)} data-out={span(18.4, 0.6)} className="scene-orbit" />
@@ -313,7 +315,7 @@ export function HeroScene({ className }: { className?: string }) {
             ))}
 
             {/* The client's site, at the centre of every scene until Care zooms out past it. */}
-            <Site x={420} y={280} w={360} at={0.8} out={20.0} />
+            <Site x={420} y={280} w={360} at={0.8} out={20.0} glass />
 
             {/* Build, scene two: the progress dial. */}
             <g data-in={span(6.6, 0.6)} data-out={span(11.4, 0.5)} className="scene-dial-g">

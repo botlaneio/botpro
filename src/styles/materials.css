@@ -758,3 +758,30 @@
   background-size: 18px 18px; background-position: center;
   mask-image: radial-gradient(70% 75% at 50% 50%, #000 35%, transparent);
 }
+
+/* Frost: the card of Framer's Cookie Consent Banner. The page shows through, blurred, under a tint of the card
+   colour; a light hairline, a lit top edge and a deep soft shadow. Used by the cookie note and the site at the
+   centre of the hero. */
+@utility frost {
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--card) 82%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 24px 48px rgb(0 0 0 / 0.4);
+}
+:root:not(.dark) .frost {
+  background: rgb(255 255 255 / 0.74);
+  border-color: rgb(var(--ink) / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 24px 48px -12px rgb(20 30 60 / 0.18), 0 2px 6px rgb(20 30 60 / 0.05);
+}
+/* The cookie note rises in with a little spring, like the banner's. */
+.cookie-note { animation: cookie-in 620ms cubic-bezier(0.2, 1.3, 0.35, 1) both; }
+@keyframes cookie-in { from { opacity: 0; translate: 0 40px; scale: 0.96; } }
+@media (prefers-reduced-motion: reduce) { .cookie-note { animation: none; } }
+/* The hero's site in frost: its outline and fill come from the card behind the drawing. */
+.scene-window.glass { fill: none; stroke: none; }
+.scene-frost { border-radius: 12px; }
+/* The hero card lets more of the light through than the note, which has text to keep legible. */
+.dark .scene-frost { background: color-mix(in oklch, var(--card) 62%, transparent); }
+:root:not(.dark) .scene-frost { background: rgb(255 255 255 / 0.55); }
