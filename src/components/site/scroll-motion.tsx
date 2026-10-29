@@ -28,7 +28,8 @@ function groupsIn(root: ParentNode) {
   const all = Array.from(root.querySelectorAll<HTMLElement>(GROUPS))
   // Only the outermost: a section inside a section reveals with its parent.
   return all.filter((el) => {
-    if (el.dataset.reveal === "off" || el.closest("header, [data-reveal='off']")) return false
+    // The first block of the page has its own entrance (globals.css), so it is left out here.
+    if (el.dataset.reveal === "off" || el.closest("header, [data-reveal='off'], main > :first-child")) return false
     const parent = el.parentElement?.closest(GROUPS)
     return !parent || !all.includes(parent as HTMLElement)
   })

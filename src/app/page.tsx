@@ -34,8 +34,8 @@ const STATS: Stat[] = [
 
 function Section({ id, eyebrow, title, intro, children }: { id: string; eyebrow: string; title: string; intro?: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="grid scroll-mt-20 gap-8 border-t border-border/60 py-14 sm:gap-10 sm:py-20">
-      <div className="grid max-w-2xl gap-3">
+    <section id={id} aria-labelledby={`${id}-title`} className="grid min-w-0 scroll-mt-20 gap-8 [&>*]:min-w-0 border-t border-border/60 py-14 sm:gap-10 sm:py-20">
+      <div className="grid min-w-0 max-w-2xl gap-3">
         <span className="label-mono">{eyebrow}</span>
         <h2 id={`${id}-title`} className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">{title}</h2>
         {intro && <p className="text-lg text-muted-foreground">{intro}</p>}
@@ -50,16 +50,16 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-6">
+      <main className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* The hero: one scene, Build, Launch and Care, played round the client's site. */}
         <header className="glow-brand relative">
-          <HeroScene className="h-[calc(100svh-var(--header-h))] min-h-[640px] max-h-[920px]" />
+          <HeroScene className="h-[calc(100svh-var(--header-h))] min-h-[660px] max-h-[920px]" />
         </header>
 
         {/* The brief: the prompt bar, under the scene that shows what happens next. */}
-        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-6 border-t border-border/60 py-14 text-center sm:py-20">
-          <h2 id="brief-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">What do you have in mind?</h2>
-          <div className="w-full"><HeroPrompt /></div>
+        <section id="brief" aria-labelledby="brief-title" className="grid scroll-mt-20 justify-items-center gap-3 border-t border-border/60 py-14 text-center sm:gap-6 sm:py-20">
+          <h2 id="brief-title" className="text-[clamp(1rem,5vw,1.25rem)] font-medium tracking-tight whitespace-nowrap sm:text-4xl">What do you have in mind?</h2>
+          <div className="min-w-0 w-full"><HeroPrompt /></div>
         </section>
 
         {/* What we do: the words and the main action on the left, four service blocks on the right. */}
@@ -68,7 +68,7 @@ export default function Home() {
             <span className="label-mono">WHAT WE BUILD</span>
             <h2 id="build-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">The right build. For where you’re headed.</h2>
             <p className="text-lg text-muted-foreground">Custom websites, web apps, and ongoing support. A clear scope and an agreed price before each project begins.</p>
-            <Link href="/solutions" className="btn-light mt-2 inline-flex h-10 w-fit items-center gap-1.5 px-5 text-sm font-medium">Explore services &amp; pricing <ArrowRight className="size-4" /></Link>
+            <Link href="/solutions" className="btn-light mt-2 inline-flex min-h-11 w-fit items-center gap-1.5 px-5 text-sm font-medium">Explore services &amp; pricing <ArrowRight className="size-4" /></Link>
           </div>
           <ServiceBlocks items={solutions} />
         </section>
@@ -108,13 +108,13 @@ export default function Home() {
           {/* The flower in X-ray, with boxes opening onto it in colour. The panel sits under it on phones and
               in the clear black to its left from lg, so the flower is never behind glass. */}
           <PetalReveal className="grid min-h-[48rem] items-end justify-items-center rounded-[1.6rem] p-4 sm:p-10 lg:aspect-[16/9] lg:min-h-0 lg:items-center lg:justify-items-start">
-            <div className="surface-frosted grid w-full max-w-md justify-items-start gap-5 p-7 text-left sm:p-9 lg:max-w-[22rem] lg:p-8">
+            <div className="surface-frosted grid w-full max-w-md justify-items-start gap-5 p-5 text-left sm:p-9 lg:max-w-[22rem] lg:p-8">
               <FoundingBanner />
               <h2 id="cta-title" className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Let&apos;s make it happen.</h2>
               <p className="max-w-md text-muted-foreground">Tell us what you have in mind. We’ll help you find the right place to start.</p>
               <div className="grid justify-items-start gap-2">
-                <Link href="/contact" className="btn-light inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
-                <Link href="/solutions" className="inline-flex h-10 items-center text-sm text-muted-foreground hover:text-foreground">Explore services &amp; pricing</Link>
+                <Link href="/contact" className="btn-light inline-flex min-h-11 items-center gap-1.5 px-5 text-sm font-medium">Start a project <ArrowRight className="size-4" /></Link>
+                <Link href="/solutions" className="inline-flex min-h-11 items-center text-sm text-muted-foreground hover:text-foreground">Explore services &amp; pricing</Link>
               </div>
             </div>
           </PetalReveal>

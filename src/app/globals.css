@@ -99,9 +99,9 @@
   --brand: var(--blue-solid);
   --brand-text: var(--blue-text);
 
-  /* The ambient light behind the dark page (ambient-light.tsx, glow-brand): Raycast's crimson. Light only, never
+  /* The ambient light behind the dark page (ambient-light.tsx, glow-brand): reference cobalt blue. Light only, never
      on controls or text: buttons, rings and links keep the blue accent. */
-  --ambient: #C0282A;
+  --ambient: #3060B0;
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;
@@ -262,10 +262,11 @@
 
 /* Reveal on scroll (src/components/site/scroll-motion.tsx). Nothing is hidden until that script has run
    and added .reveal-on, so the page reads in full without JavaScript and under reduced motion. The rise
-   uses `translate` and leaves `transform` alone, and fills only backwards, so an element's own
-   rotation, offset and hover transitions are untouched once it has arrived. */
+   uses `transform`, which Tailwind v4 leaves free (its translate, rotate and scale utilities are
+   separate properties), and fills only backwards, so an element's own offset, rotation and hover
+   transitions are untouched once it has arrived. */
 @keyframes reveal-rise {
-  from { opacity: 0; translate: 0 22px; }
+  from { opacity: 0; transform: translateY(22px); }
 }
 .reveal-on [data-reveal]:not([data-revealed]) {
   opacity: 0;
@@ -279,3 +280,62 @@ html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* The first screen of every page rises in as it loads: the first block in <main>, its parts one after
+   another. Pure CSS, so it plays from the first paint with no flash, and again on each new page.
+   Decorative layers (absolute backdrops, canvases) stay put. */
+@keyframes entrance-rise {
+  from { opacity: 0; transform: translateY(18px); }
+}
+main > :first-child > :not([aria-hidden="true"], canvas, .absolute, .fixed) {
+  animation: entrance-rise 900ms var(--ease-lift) backwards;
+  animation-delay: 60ms;
+}
+main > :first-child > :not([aria-hidden="true"], canvas, .absolute, .fixed):nth-child(2) { animation-delay: 160ms; }
+main > :first-child > :not([aria-hidden="true"], canvas, .absolute, .fixed):nth-child(3) { animation-delay: 240ms; }
+main > :first-child > :not([aria-hidden="true"], canvas, .absolute, .fixed):nth-child(4) { animation-delay: 310ms; }
+main > :first-child > :not([aria-hidden="true"], canvas, .absolute, .fixed):nth-child(n+5) { animation-delay: 370ms; }
+
+/* Page transitions (src/app/template.tsx): the old page fades out, the new one fades up behind it.
+   The header is anchored, so only the content changes. Browsers without view transitions just swap. */
+@keyframes page-fade-out { to { opacity: 0; } }
+@keyframes page-fade-in { from { opacity: 0; } }
+::view-transition-old(.page-out) { animation: page-fade-out 180ms var(--ease-soft) both; }
+::view-transition-new(.page-in) { animation: page-fade-in 320ms var(--ease-soft) 90ms both; }
+::view-transition { pointer-events: none; }
+::view-transition-group(site-header) { animation: none; z-index: 100; }
+::view-transition-old(site-header) { display: none; }
+::view-transition-new(site-header) { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
+}
+
+/* Press feedback: cards that are links lift a touch on hover and settle when pressed. */
+:is(a, button):is(.surface-hairline, .surface-glass, .surface-tinted) {
+  transition-property: background-color, border-color, box-shadow, transform;
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-lift);
+}
+@media (hover: hover) {
+  :is(a, button):is(.surface-hairline, .surface-glass, .surface-tinted):hover { transform: translateY(-2px); }
+}
+:is(a, button):is(.surface-hairline, .surface-glass, .surface-tinted):active { transform: translateY(0) scale(0.99); transition-duration: 90ms; }
+
+/* Care (src/components/pricing/care-set.tsx): the floating card settles into its angle as it arrives,
+   and straightens a little under the pointer. The plan's price and list fade in when it is switched. */
+@keyframes care-settle {
+  from { opacity: 0; transform: translateY(26px) rotate(0deg); }
+}
+.care-float {
+  transform: rotate(-4deg);
+  transition: transform 700ms var(--ease-lift);
+  animation: care-settle 1000ms var(--ease-lift) 200ms backwards;
+}
+@media (hover: hover) {
+  .care-float:hover { transform: rotate(-2deg) translateY(-4px); }
+}
+@keyframes care-swap {
+  from { opacity: 0; transform: translateY(6px); }
+}
+/* Below the fold, the card waits for its section to be revealed before it settles. */
+.reveal-on [data-reveal]:not([data-revealed]) .care-float { animation-name: none; }

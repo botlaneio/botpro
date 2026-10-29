@@ -32,7 +32,7 @@ export function ThemeSwitch({ className }: { className?: string }) {
       aria-label="Dark mode"
       onClick={() => setTheme(dark ? "light" : "dark")}
       className={cn(
-        "group relative inline-flex h-7 w-[52px] shrink-0 items-center rounded-full border border-border bg-muted p-0.5",
+        "group relative inline-flex before:absolute before:-inset-y-2 before:inset-x-0 before:content-[''] h-7 w-[52px] shrink-0 items-center rounded-full border border-border bg-muted p-0.5",
         "shadow-[inset_0_1px_2px_rgb(0_0_0/0.12)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
         className,
       )}

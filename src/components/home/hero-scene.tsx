@@ -21,8 +21,8 @@ const ACTS = [
   { name: "Launch", start: 12, end: 19, still: 17.6 },
   { name: "Care", start: 19, end: 29, still: 27.4 },
 ] as const
-// After the last act: the scene clears and the call to action arrives; the clock stops here.
-const END = 30.2
+// Hold the completed Care scene before its exit fades, rather than leaving an empty hero.
+const END = ACTS[ACTS.length - 1].still
 
 // Cubic-bezier easing, the way CSS and After Effects define it.
 function bezier(x1: number, y1: number, x2: number, y2: number) {
@@ -123,11 +123,20 @@ function Site({ x, y, w, at, out }: { x: number; y: number; w: number; at: numbe
       <rect x={x} y={y} width={w} height={h} rx={12 * s} className="scene-window" />
       <path d={`M${x} ${y + 26 * s} H${x + w}`} className="scene-line" />
       {[0, 1, 2].map((i) => <circle key={i} cx={x + (16 + i * 11) * s} cy={y + 13 * s} r={3 * s} className="scene-dot" />)}
-      <rect x={x + 24 * s} y={y + 50 * s} width={150 * s} height={12 * s} rx={3 * s} className="scene-fill-strong" />
-      <rect x={x + 24 * s} y={y + 70 * s} width={110 * s} height={12 * s} rx={3 * s} className="scene-fill-strong" />
-      <rect x={x + 24 * s} y={y + 94 * s} width={190 * s} height={6 * s} rx={3 * s} className="scene-fill" />
-      <rect x={x + 24 * s} y={y + 114 * s} width={74 * s} height={22 * s} rx={7 * s} className="scene-brand" />
-      {[0, 1, 2].map((i) => <rect key={i} x={x + (24 + i * 106) * s} y={y + 160 * s} width={96 * s} height={58 * s} rx={8 * s} className="scene-card-fill" />)}
+      <g transform={`translate(${x} ${y}) scale(${s})`}>
+        <text x="24" y="49" fill="var(--foreground)" fontSize="9" fontWeight="600" letterSpacing="1.5">NORTHSIDE / PHYSIO</text>
+        <text x="24" y="80" fill="var(--foreground)" fontSize="23" fontWeight="500" letterSpacing="-0.7">Move freely.</text>
+        <text x="24" y="107" fill="var(--foreground)" fontSize="23" fontWeight="500" letterSpacing="-0.7">Feel yourself again.</text>
+        <text x="24" y="127" fill="var(--muted-foreground)" fontSize="8">Personal care. A plan that moves with you.</text>
+        <rect x="24" y="140" width="105" height="24" rx="6" className="scene-brand" />
+        <text x="35" y="155" fill="var(--brand-foreground, white)" fontSize="8" fontWeight="500">Book a consultation ↗</text>
+        {["Recover", "Strengthen", "Keep moving"].map((label, i) => (
+          <g key={label}>
+            <rect x={24 + i * 106} y="183" width="96" height="35" rx="6" className="scene-card-fill" />
+            <text x={34 + i * 106} y="204" fill="var(--foreground)" fontSize="8.5">{label}</text>
+          </g>
+        ))}
+      </g>
     </g>
   )
 }
@@ -181,6 +190,7 @@ export function HeroScene({ className }: { className?: string }) {
     fit()
     const ro = new ResizeObserver(fit)
     ro.observe(el)
+    for (const band of el.querySelectorAll("[data-hero-top], [data-hero-bottom]")) ro.observe(band)
     return () => ro.disconnect()
   }, [])
 
@@ -228,7 +238,8 @@ export function HeroScene({ className }: { className?: string }) {
       const now = ACTS.findIndex((a) => t < a.end)
       rings.forEach((r, j) => {
         const a = ACTS[j]
-        r.style.setProperty("--p", (t >= a.end ? 1 : prog([a.start, a.end], t)).toFixed(3))
+        const end = Math.min(a.end, END)
+        r.style.setProperty("--p", (t >= end ? 1 : prog([a.start, end], t)).toFixed(3))
       })
       const ending = t >= ACTS[ACTS.length - 1].end
       const actNow = now === -1 ? ACTS.length - 1 : now
@@ -274,6 +285,8 @@ export function HeroScene({ className }: { className?: string }) {
         {/* Build, scene one: a line from the headline winds to the site; another arrives from the right. */}
         <svg viewBox={`0 0 ${W} ${H}`} className="scene-wide absolute inset-0 size-full overflow-visible">
           <path d="M372 150 C 430 150 440 214 380 214 L 150 214 C 70 214 70 330 150 330 L 190 330 C 260 330 250 478 330 478 L 420 478" pathLength={1} fill="none" data-in={span(0.2, 1.6)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path" />
+          {/* A glint of light that runs along the line into the site, once the line is drawn. */}
+          <path d="M372 150 C 430 150 440 214 380 214 L 150 214 C 70 214 70 330 150 330 L 190 330 C 260 330 250 478 330 478 L 420 478" pathLength={1} fill="none" data-in={span(1.8, 0.5)} data-out={span(5.0, 0.5)} className="scene-sheen" />
           <circle cx={420} cy={478} r={4} data-in={span(1.7, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
           <path d="M1260 300 C 1130 300 1090 478 990 478 L 780 478" pathLength={1} fill="none" data-in={span(0.6, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
           <circle cx={780} cy={478} r={4.5} data-in={span(1.9, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
@@ -368,13 +381,13 @@ export function HeroScene({ className }: { className?: string }) {
 
       {/* The headline and the one line under it. */}
       <div data-hero-top className="relative z-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-4 pt-10 sm:pt-14">
-        <h1 className="max-w-[13ch] text-4xl font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
-        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-muted-foreground">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
+        <h1 className="max-w-[13ch] text-[clamp(2rem,8.5vw,2.25rem)] font-medium tracking-tight text-balance sm:text-5xl sm:leading-[1.05]">Experiences. Worth putting your name on.</h1>
+        <p className="max-w-[19rem] border-l border-border/80 pl-4 text-[15px] leading-relaxed text-foreground/80">You put care into your business. We bring that same attention to its website and software—from the first design to the final handover.</p>
       </div>
 
       {/* The scene's captions, the tabs, and the track they sit on. */}
       <div data-hero-bottom className="absolute inset-x-0 bottom-0 z-10 grid justify-items-center gap-5 pb-6">
-        <div aria-live="polite" className="relative h-9 w-full">
+        <div aria-live="polite" className="relative h-12 w-full sm:h-9">
           {[["It starts with your idea.", 0.2, 5.2], ["Takes shape, detail by detail.", 5.8, 11.5], ["Launches into the world.", 12.4, 18.6], ["Keeps moving with you.", 19.4, 28.6]].map(([text, a, b]) => (
             <div key={text as string} className="absolute inset-x-0 top-0 flex justify-center px-4">
               <span data-in={span(a as number, 0.4)} data-out={span(b as number, 0.3)} data-rise="" className="scene-caption text-center">{text}</span>
@@ -389,7 +402,7 @@ export function HeroScene({ className }: { className?: string }) {
             {ACTS.map((a, i) => (
               <button
                 key={a.name} type="button" onClick={() => go(a.start)} aria-current={i === act && !ended ? "step" : undefined}
-                className={cn("flex h-11 items-center justify-center gap-2 px-5 text-sm transition-colors duration-200 sm:px-8", i === act && !ended ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
+                className={cn("flex h-11 items-center justify-center gap-2 px-3 text-sm transition-colors duration-200 sm:px-8", i === act && !ended ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
               >
                 {a.name}
                 <svg viewBox="0 0 16 16" className="size-3.5 -rotate-90" aria-hidden>
@@ -402,22 +415,6 @@ export function HeroScene({ className }: { className?: string }) {
           </div>
         </div>
       </div>
-
-      {/* After Care: the call to action, framed by two lines sliding in. */}
-      {ended && (
-        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-6">
-          <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
-          <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
-          <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
-            <p className="text-3xl font-medium tracking-tight text-balance">What do you have in mind?</p>
-            <p className="text-muted-foreground">Tell us a little about what you need. We&apos;ll help you work out the next step.</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
-              <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

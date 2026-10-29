@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 import { ProductFan } from "./product-fan"
 
-const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
+export const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
   syncc: CalendarDays,
   scriblane: FileText,
   flowlane: Workflow,
@@ -31,7 +31,7 @@ function SynccVisual() {
         <div className="grid grid-cols-7 gap-y-2 text-center text-[11px] tabular-nums text-muted-foreground">
           {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => <span key={i} className="text-[9px] opacity-60">{d}</span>)}
           {days.map((d, i) => (
-            <span key={i} className={cn("mx-auto grid size-6 place-items-center rounded-md", i >= 20 && "opacity-40", d === 28 && "bg-[color-mix(in_oklch,var(--lane)_30%,transparent)] text-foreground")}>{d}</span>
+            <span key={i} className={cn("mx-auto grid size-5 sm:size-6 place-items-center rounded-md", i >= 20 && "opacity-40", d === 28 && "bg-[color-mix(in_oklch,var(--lane)_30%,transparent)] text-foreground")}>{d}</span>
           ))}
         </div>
       </div>
@@ -137,11 +137,11 @@ function ProductCard({ lane, copy }: { lane: Lane; copy?: HomeProductCopy }) {
   const live = lane.status === "live"
   return (
     <article className={cn(lane.scope, "surface-product group/card flex flex-col overflow-hidden")}>
-      <div className="flex items-center gap-3 p-5 pb-0">
+      <div className="flex flex-wrap items-center gap-2 p-4 pb-0 sm:gap-3 sm:p-5 sm:pb-0">
         <span className="tile-depth size-11 shrink-0"><Icon className="size-5" /></span>
-        <h3 className="text-lg font-medium">{lane.name}</h3>
+        <h3 className="min-w-0 text-lg font-medium">{lane.name}</h3>
         {!live && <span className="label-mono ml-auto rounded-full border border-border px-2 py-0.5 text-[10px]">SOON</span>}
-        <Link href={`/products/${lane.id}`} aria-label={`About ${lane.name}`} className={cn("key-physical grid size-10 place-items-center transition-transform duration-300 ease-(--ease-lift) group-hover/card:-translate-y-0.5", live && "ml-auto")}>
+        <Link href={`/products/${lane.id}`} aria-label={`About ${lane.name}`} className={cn("key-physical grid size-11 shrink-0 place-items-center transition-transform duration-300 ease-(--ease-lift) group-hover/card:-translate-y-0.5", live && "ml-auto")}>
           <ChevronRight className="size-4" />
         </Link>
       </div>

@@ -15,13 +15,13 @@ const pad = (i: number) => String(i + 1).padStart(2, "0")
 const TICKS = 4, BEZEL = R + 46
 
 // Under reduced motion, or on a narrow screen, the steps are a list: nothing pins, nothing turns.
-const listQuery = "(prefers-reduced-motion: reduce), (max-width: 767px)"
+const listQuery = "(prefers-reduced-motion: reduce), (max-width: 1279px), (max-height: 650px)"
 const subscribeList = (cb: () => void) => {
   const m = window.matchMedia(listQuery)
   m.addEventListener("change", cb)
   return () => m.removeEventListener("change", cb)
 }
-const useList = () => useSyncExternalStore(subscribeList, () => window.matchMedia(listQuery).matches, () => false)
+const useList = () => useSyncExternalStore(subscribeList, () => window.matchMedia(listQuery).matches, () => true)
 
 /** Where the page is through the pinned section, as a step position from 0 to the last step. */
 function useStepProgress(section: React.RefObject<HTMLElement | null>, enabled: boolean) {
@@ -99,9 +99,9 @@ function Wheel({ p }: { p: number }) {
 function Words({ i, steps = STEPS, className, style }: { i: number; steps?: typeof STEPS; className?: string; style?: React.CSSProperties }) {
   const s = steps[i]
   return (
-    <div className={cn("grid content-start gap-4", className)} style={style}>
+    <div className={cn("grid min-w-0 content-start gap-4", className)} style={style}>
       <span className="label-mono">STEP {pad(i)}</span>
-      <h3 className="text-4xl font-medium tracking-tight text-balance lg:text-5xl">{s.title}</h3>
+      <h3 className="text-3xl font-medium tracking-tight text-balance sm:text-4xl xl:text-5xl">{s.title}</h3>
       <p className="max-w-md text-lg text-muted-foreground">{s.body}</p>
       <ul className="flex flex-wrap gap-2">
         {s.tags.map((t) => <li key={t} className="rounded-full border border-border px-3 py-1 text-[13px] text-muted-foreground">{t}</li>)}
@@ -123,11 +123,11 @@ export function ProcessWheel({ steps = STEPS }: { steps?: typeof STEPS }) {
 
   if (list) {
     return (
-      <ol className="grid gap-12">
+      <ol className="grid min-w-0 gap-12 overflow-x-clip">
         {steps.map((s, i) => (
-          <li key={s.title} className="grid items-center gap-8 sm:grid-cols-[1fr_auto]">
+          <li key={s.title} className="grid min-w-0 items-center gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
             <Words i={i} steps={steps} />
-            <ToolCluster step={i} className="[--tile:2.75rem] sm:[--tile:3rem]" />
+            <ToolCluster step={i} className="[--tile:clamp(2rem,8vw,2.75rem)] md:[--tile:3rem]" />
           </li>
         ))}
       </ol>

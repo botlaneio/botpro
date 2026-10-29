@@ -19,7 +19,7 @@ const STUDIO = [
 ]
 
 const heading = "label-mono text-[11px]"
-const link = "text-sm text-muted-foreground transition-colors hover:text-foreground"
+const link = "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
 
 /**
  * The foot of every page: the mark and one line, the whole site in three columns, and the wordmark set
@@ -29,7 +29,7 @@ export function SiteFooter({ description = "An independent studio for websites a
   return (
     <footer data-site-footer className="relative overflow-hidden border-t border-border/60">
       <AmbientLight className="bottom-0 h-[34rem] [mask-image:linear-gradient(0deg,#000_25%,transparent)]" />
-      <div data-stagger className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
+      <div data-stagger className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:gap-x-6 sm:px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
             <BotlaneMark size={30} id="footer-mark" />
@@ -42,12 +42,12 @@ export function SiteFooter({ description = "An independent studio for websites a
           </Link>
         </div>
 
-        <nav aria-labelledby="footer-solutions" className="grid content-start gap-3">
+        <nav aria-labelledby="footer-solutions" className="grid min-w-0 content-start gap-1">
           <span id="footer-solutions" className={heading}>SOLUTIONS</span>
           {SOLUTION_LINKS.map((s) => <Link key={s.href} href={s.href} className={link}>{s.label}</Link>)}
         </nav>
 
-        <nav aria-labelledby="footer-products" className="grid content-start gap-3">
+        <nav aria-labelledby="footer-products" className="grid min-w-0 content-start gap-1">
           <span id="footer-products" className={heading}>PRODUCTS</span>
           {LANES.map((l) => (
             <Link key={l.id} href={`/products/${l.id}`} className={`${link} inline-flex items-center gap-2`}>
@@ -57,14 +57,14 @@ export function SiteFooter({ description = "An independent studio for websites a
           ))}
         </nav>
 
-        <nav aria-labelledby="footer-studio" className="grid content-start gap-3">
+        <nav aria-labelledby="footer-studio" className="grid min-w-0 content-start gap-1">
           <span id="footer-studio" className={heading}>STUDIO</span>
           {STUDIO.map((s) => <Link key={s.href} href={s.href} className={link}>{s.label}</Link>)}
           <PartnerDialog className={link} />
         </nav>
       </div>
 
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-6 py-6 text-[13px] text-muted-foreground sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-4 py-6 text-[13px] text-muted-foreground sm:px-6">
         <span>© {new Date().getFullYear()} Botlane</span>
         <span className="label-mono text-[11px]">DESIGN AND ENGINEERING STUDIO</span>
       </div>

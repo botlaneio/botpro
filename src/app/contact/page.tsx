@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 import { ContactSet } from "@/components/contact/contact-set"
-import { GlassCubes } from "@/components/contact/glass-cubes"
+import { ContactLight } from "@/components/contact/contact-light"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { NEEDS } from "@/lib/contact"
 import { NEED_OPTIONS } from "@/lib/contact-options"
@@ -33,9 +33,9 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
     <>
       <SiteHeader />
       <main>
-        {/* The form sits on a field of red-lit glass cubes, dark in either theme. */}
+        {/* The form sits on a bed of red light, dark in either theme. */}
         <section aria-label="Start a project" className="relative isolate overflow-hidden bg-[#050506] py-10 sm:py-16">
-          <GlassCubes className="inset-0 -z-10" />
+          <ContactLight className="inset-0 -z-10" />
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <ContactSet needs={NEED_OPTIONS} initial={initial} />
           </div>

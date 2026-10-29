@@ -57,8 +57,8 @@ export function HeroPrompt() {
   const example = useTypedExample(!brief && !focused)
 
   return (
-    <form ref={form} action="/contact" method="get" className="surface-prompt relative mx-auto grid w-full max-w-2xl gap-3 p-3 text-left sm:p-4">
-      <label className="relative grid">
+    <form ref={form} action="/contact" method="get" className="surface-prompt relative mx-auto grid min-w-0 w-full grid-cols-[minmax(0,1fr)] max-w-2xl gap-3 p-3 text-left sm:p-4">
+      <label className="relative grid min-w-0">
         <span className="sr-only">What do you have in mind?</span>
         <textarea
           name="brief"
@@ -76,10 +76,10 @@ export function HeroPrompt() {
             }
           }}
           placeholder={focused ? "Tell us a little about what you need." : ""}
-          className="min-h-16 w-full resize-none bg-transparent px-2 pt-1.5 max-sm:pr-11 text-[17px] leading-relaxed text-foreground outline-none placeholder:text-muted-foreground/70"
+          className="min-h-20 min-w-0 w-full resize-none bg-transparent px-2 pt-1.5 max-sm:pr-14 text-[17px] leading-relaxed text-foreground outline-none placeholder:text-muted-foreground/70"
         />
         {!brief && !focused && (
-          <span aria-hidden className="pointer-events-none absolute top-1.5 left-2 text-[17px] max-sm:right-11 leading-relaxed text-muted-foreground/80">
+          <span aria-hidden className="pointer-events-none absolute top-1.5 left-2 text-[17px] max-sm:right-14 leading-relaxed text-muted-foreground/80">
             {example}
             <span className="ml-px inline-block h-[1.1em] w-px translate-y-[3px] bg-foreground/60 [animation:caret-blink_1.1s_steps(1)_infinite]" />
           </span>
@@ -87,13 +87,13 @@ export function HeroPrompt() {
       </label>
 
       <div className="flex flex-wrap items-center gap-2">
-        <fieldset className="flex min-w-0 flex-nowrap gap-1 overflow-x-auto [scrollbar-width:none] sm:flex-wrap sm:gap-1.5 sm:overflow-visible [&::-webkit-scrollbar]:hidden">
+        <fieldset className="flex min-w-0 w-full flex-wrap gap-1 sm:w-auto sm:gap-1.5">
           <legend className="sr-only">What you need</legend>
           {CHIPS.map((c) => (
             <label key={c.id} className="cursor-pointer">
               <input type="radio" name="need" value={c.id} className="peer sr-only" />
               <span className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-[6px] border border-border bg-background/50 px-2.5 text-[12px] whitespace-nowrap text-muted-foreground transition-colors sm:px-3 sm:text-[13px]",
+                "inline-flex min-h-11 items-center gap-1.5 rounded-[6px] border border-border bg-background/50 px-2.5 text-[12px] whitespace-nowrap text-muted-foreground transition-colors sm:px-3 sm:text-[13px]",
                 "peer-checked:border-foreground/30 peer-checked:bg-foreground/[0.07] peer-checked:text-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50 hover:text-foreground",
               )}>
                 <span aria-hidden className="text-(--mark-eye-edge) max-sm:hidden">✦</span>
@@ -105,7 +105,7 @@ export function HeroPrompt() {
         <span className="ml-auto hidden items-center gap-1 text-[12px] text-muted-foreground sm:inline-flex">
           <CornerDownLeft className="size-3" aria-hidden /> to send
         </span>
-        <button type="submit" aria-label="Start your brief" className="btn-light grid size-9 shrink-0 place-items-center rounded-full! max-sm:absolute max-sm:top-3 max-sm:right-3">
+        <button type="submit" aria-label="Start your brief" className="btn-light grid size-11 shrink-0 place-items-center rounded-full! max-sm:absolute max-sm:top-3 max-sm:right-3">
           <ArrowUp className="size-4" />
         </button>
       </div>

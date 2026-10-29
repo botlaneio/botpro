@@ -4,6 +4,12 @@ import { LANES, type LaneId } from "@/lib/lanes"
 import { SiteNav, type NavMenu, type NavSection } from "./site-nav"
 
 // The plain links beside the menus: pages only, never sections of one. Contact sits with the actions on the right.
+const WEBSITE_MENU_NAMES: Record<string, string> = {
+  "business-sites": "Core",
+  "company-sites": "Ascend",
+  "brand-sites": "Apex",
+}
+
 const LINKS = [{ href: "/blog", label: "Insights" }]
 
 // Each category's light, for its cards in the menu.
@@ -26,7 +32,7 @@ export function SiteHeader() {
       label: cat.label,
       href: cat.href,
       all: `All ${cat.label.toLowerCase()}`,
-      cards: offersIn(id).map((o) => ({ href: offerHref(o), title: o.name, body: o.menu, meta: offerPrice(o), icon: o.icon, glow: GLOW[id], tone: cat.tone })),
+      cards: offersIn(id).map((o) => ({ href: offerHref(o), title: WEBSITE_MENU_NAMES[o.slug] ?? o.name, body: id === "websites" ? o.menu.replace(/^[^·]+·\s*/, "") : o.menu, meta: offerPrice(o), icon: o.icon, glow: GLOW[id], tone: cat.tone })),
     }
   }
   const menus: NavMenu[] = [

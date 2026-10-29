@@ -188,6 +188,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
   return (
     <header
       ref={root}
+      style={{ viewTransitionName: "site-header" }}
       className="sticky top-0 z-40 h-(--header-h)"
     >
       {/* Once the page scrolls under the bar, a fade behind it keeps the logo and buttons legible. */}
@@ -283,7 +284,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
             aria-expanded={sheet}
             aria-controls="nav-sheet"
             onClick={() => setSheet(!sheet)}
-            className="surface-pill relative grid size-11 place-items-center rounded-full transition-[scale] duration-200 ease-(--ease-lift) active:scale-95 lg:hidden"
+            className="surface-pill relative grid size-11 shrink-0 place-items-center rounded-full transition-[scale] duration-200 ease-(--ease-lift) active:scale-95 lg:hidden"
           >
             <Burger open={sheet} />
           </button>
