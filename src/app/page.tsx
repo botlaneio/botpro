@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { HeroPrompt } from "@/components/home/hero-prompt"
 import { HeroScene } from "@/components/home/hero-scene"
 import { PetalReveal } from "@/components/home/petal-reveal"
+import { ProductWorlds } from "@/components/home/product-worlds"
 import { ProductCards } from "@/components/home/product-cards"
 import { StackOrbit } from "@/components/home/stack-orbit"
 import { cn } from "@/lib/utils"
@@ -52,7 +53,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 sm:px-6">
+      <main className="daylight-home mx-auto max-w-6xl px-4 sm:px-6">
         {/* The hero: one scene, Build, Launch and Care, played round the client's site. */}
         <header className="glow-brand relative">
           <HeroScene className="h-[calc(100svh-var(--header-h))] min-h-[660px] max-h-[920px]" />
@@ -102,10 +103,8 @@ export default function Home() {
           title="Our ideas. Out in the world."
           intro="We also design and build our own software. Explore our work in scheduling, document processing, and automation."
         >
-          <div className="relative">
-            <ArtPanel sky="azure" seed={3} className="absolute inset-0 rounded-[1.75rem] border border-[rgb(var(--ink)/0.06)] dark:hidden" />
-            <div className="relative"><ProductCards copy={HOME_PRODUCTS} /></div>
-          </div>
+          <div className="dark:hidden"><ProductWorlds /></div>
+          <div className="hidden dark:block"><ProductCards copy={HOME_PRODUCTS} /></div>
           <StatCards stats={STATS} />
         </Section>
 
