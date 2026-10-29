@@ -21,8 +21,8 @@ const ACTS = [
   { name: "Launch", start: 12, end: 19, still: 17.6 },
   { name: "Care", start: 19, end: 29, still: 27.4 },
 ] as const
-// Hold the completed Care scene before its exit fades, rather than leaving an empty hero.
-const END = ACTS[ACTS.length - 1].still
+// After the last act: the scene clears and the closing line and call to action arrive; the clock stops here.
+const END = 30.2
 
 // Cubic-bezier easing, the way CSS and After Effects define it.
 function bezier(x1: number, y1: number, x2: number, y2: number) {
@@ -238,8 +238,7 @@ export function HeroScene({ className }: { className?: string }) {
       const now = ACTS.findIndex((a) => t < a.end)
       rings.forEach((r, j) => {
         const a = ACTS[j]
-        const end = Math.min(a.end, END)
-        r.style.setProperty("--p", (t >= end ? 1 : prog([a.start, end], t)).toFixed(3))
+        r.style.setProperty("--p", (t >= a.end ? 1 : prog([a.start, a.end], t)).toFixed(3))
       })
       const ending = t >= ACTS[ACTS.length - 1].end
       const actNow = now === -1 ? ACTS.length - 1 : now
@@ -415,6 +414,23 @@ export function HeroScene({ className }: { className?: string }) {
           </div>
         </div>
       </div>
+
+      {/* After Care: the closing line and the call to action, framed by two lines sliding in. The brief section
+          below asks "What do you have in mind?", so this says something of its own and points there. */}
+      {ended && (
+        <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center px-6 max-md:items-end max-md:pb-32">
+          <span aria-hidden className="scene-cta-line absolute top-1/2 left-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
+          <span aria-hidden className="scene-cta-line right absolute top-1/2 right-0 h-px w-[18%] bg-foreground/20 max-md:hidden" />
+          <div className="scene-cta pointer-events-auto grid max-w-md justify-items-center gap-4 text-center">
+            <p className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">Yours could be next.</p>
+            <p className="text-muted-foreground">From the first idea to launch, and every day after. Tell us what you&apos;re building.</p>
+            <div className="mt-2 flex flex-wrap justify-center gap-3">
+              <a href="#brief" className="btn-light inline-flex h-11 items-center px-5 font-medium">Start a project</a>
+              <button type="button" onClick={() => go(0)} className="inline-flex h-11 items-center rounded-(--radius) border border-border px-5 text-sm hover:bg-foreground/5">Watch again</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
