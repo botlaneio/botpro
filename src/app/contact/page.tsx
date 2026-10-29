@@ -33,7 +33,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
     <>
       <SiteHeader />
       <main>
-        {/* The form sits on a bed of red light, dark in either theme. */}
+        {/* The form sits on a bed of blue light, dark in either theme. */}
         <section aria-label="Start a project" className="relative isolate overflow-hidden bg-[#050506] py-10 sm:py-16">
           <ContactLight className="inset-0 -z-10" />
           <div className="mx-auto max-w-6xl px-4 sm:px-6">

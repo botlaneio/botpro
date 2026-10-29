@@ -1,12 +1,12 @@
 import type { Post } from "@/lib/insights"
 import { cn } from "@/lib/utils"
 
-const LIT = "#FF7A70"
-const glow = (a = 1) => ({ filter: `drop-shadow(0 0 2px rgb(255 255 255 / ${0.5 * a})) drop-shadow(0 0 10px rgb(192 40 42 / ${0.8 * a}))` })
+const LIT = "#8FB4F2"
+const glow = (a = 1) => ({ filter: `drop-shadow(0 0 2px rgb(255 255 255 / ${0.5 * a})) drop-shadow(0 0 10px rgb(58 100 184 / ${0.8 * a}))` })
 const hair = (a: number) => ({ stroke: `rgb(255 255 255 / ${a})` })
 
 /**
- * A post's cover: no photograph, a hairline composition lit like the hero, white lines glowing red in the dark.
+ * A post's cover: no photograph, a hairline composition lit like the hero, white lines glowing blue in the dark.
  * Always dark, in either theme, so the light reads. "grid" is a scope in squares with one lit, "lines" is many
  * paths gathering into one with a glint running along it, "orbit" is rings round a point with a body turning on
  * the outer ring. Decorative; the post's title says what it is. Its parent can mark itself `group/cover` to
@@ -15,9 +15,9 @@ const hair = (a: number) => ({ stroke: `rgb(255 255 255 / ${a})` })
 export function InsightCover({ variant, topic, label = true, side = false, className }: { variant: Post["cover"]; topic: string; label?: boolean; /** From md, draw the art in the right part only, leaving the left for words. */ side?: boolean; className?: string }) {
   return (
     <div aria-hidden className={cn("cover dark relative isolate overflow-hidden rounded-2xl border border-white/[0.08] bg-[#08080a]", className)}>
-      {/* The red light, pooling from the upper right, and a softer one low on the left. */}
-      <div className="cover-light absolute -top-[35%] -right-[20%] -z-10 h-[110%] w-[80%] rounded-full bg-[radial-gradient(closest-side,rgb(170_30_34/0.55),rgb(90_14_18/0.2)_60%,transparent)] blur-2xl transition-opacity duration-700" />
-      <div className="absolute -bottom-[40%] -left-[15%] -z-10 h-[80%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(120_18_22/0.35),transparent)] blur-2xl" />
+      {/* The blue light, pooling from the upper right, and a softer one low on the left. */}
+      <div className="cover-light absolute -top-[35%] -right-[20%] -z-10 h-[110%] w-[80%] rounded-full bg-[radial-gradient(closest-side,rgb(50_94_181/0.55),rgb(14_40_90/0.2)_60%,transparent)] blur-2xl transition-opacity duration-700" />
+      <div className="absolute -bottom-[40%] -left-[15%] -z-10 h-[80%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(28_58_130/0.35),transparent)] blur-2xl" />
       {/* A fine dot grid, faded towards the edges. */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgb(255_255_255/0.09)_1px,transparent_1.2px)] [background-size:16px_16px] [mask-image:radial-gradient(70%_70%_at_50%_45%,#000,transparent)]" />
 
@@ -47,7 +47,7 @@ function Grid() {
         const x = x0 + (i % cols) * (size + gap), y = y0 + Math.floor(i / cols) * (size + gap)
         return i === lit ? (
           <g key={i} className="cover-pulse" style={glow()}>
-            <rect x={x} y={y} width={size} height={size} rx={16} style={{ fill: "rgb(192 40 42 / 0.28)", stroke: LIT }} strokeWidth={1.4} />
+            <rect x={x} y={y} width={size} height={size} rx={16} style={{ fill: "rgb(58 100 184 / 0.28)", stroke: LIT }} strokeWidth={1.4} />
             <path d={`M${x + 24} ${y + 36} l8 8 l15 -17`} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" stroke="#fff" />
           </g>
         ) : (
@@ -70,9 +70,9 @@ function Lines() {
       {ends.map((y, i) => (
         y !== 250 && <path key={y} d={`M-10 ${y} C 260 ${y}, 360 250, 560 250`} style={hair(0.08 + (3 - Math.abs(3 - i)) * 0.035)} />
       ))}
-      <path d={main} strokeWidth={1.6} stroke="rgb(255 240 238 / 0.75)" strokeLinecap="round" style={glow(0.8)} />
+      <path d={main} strokeWidth={1.6} stroke="rgb(228 238 252 / 0.75)" strokeLinecap="round" style={glow(0.8)} />
       <path d={main} pathLength={1} strokeWidth={2.6} stroke="#fff" strokeLinecap="round" className="cover-glint" style={glow()} />
-      <circle cx={560} cy={250} r={34} style={{ fill: "rgb(192 40 42 / 0.22)" }} />
+      <circle cx={560} cy={250} r={34} style={{ fill: "rgb(58 100 184 / 0.22)" }} />
       <circle cx={560} cy={250} r={7} fill="#fff" style={glow()} />
     </g>
   )
@@ -83,7 +83,7 @@ function Orbit() {
   return (
     <g strokeWidth={1}>
       {[60, 112, 172, 240].map((r, i) => <circle key={r} cx={400} cy={250} r={r} style={hair(0.22 - i * 0.04)} strokeDasharray={i === 2 ? "2 6" : undefined} />)}
-      <circle cx={400} cy={250} r={30} style={{ fill: "rgb(192 40 42 / 0.25)" }} />
+      <circle cx={400} cy={250} r={30} style={{ fill: "rgb(58 100 184 / 0.25)" }} />
       <circle cx={400} cy={250} r={9} fill="#fff" style={glow()} />
       <g className="cover-turn" style={{ transformOrigin: "400px 250px" }}>
         <circle cx={400} cy={10} r={6} fill={LIT} style={glow()} />

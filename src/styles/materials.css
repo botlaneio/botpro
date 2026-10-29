@@ -9,7 +9,7 @@
  *   surface-spotlight glass with a soft white glow from the top    (neutral, featured)
  *   surface-apex      spotlight with a light-catching metal edge   (the single top tier)
  *                     and a slow beam of the accent travelling round it
- *   glow-brand        a faint red light from above, behind a page's opening section (the ambient light)
+ *   glow-brand        a faint blue light from above, behind a page's opening section (the ambient light)
  *   btn-light         near-white bevelled primary                 (botlane.io)
  *   btn-lane          lane-coloured primary                       (product pages only)
  *   tile-depth        raised icon squircle
@@ -220,7 +220,7 @@
   }
 }
 
-/* A faint red light falling from above, the same red as the ambient light. Put it on a page's opening section; nothing else. */
+/* A faint blue light falling from above, the same blue as the ambient light. Put it on a page's opening section; nothing else. */
 @utility glow-brand {
   position: relative;
   isolation: isolate;
@@ -415,15 +415,15 @@
 .scene [data-draw] { stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--in, 1)); opacity: var(--out, 1); }
 
 .scene-path { fill: none; stroke: rgb(var(--ink) / 0.5); stroke-width: 1.5; stroke-linecap: round; filter: drop-shadow(0 0 2px rgb(var(--ink) / 0.25)); }
-.dark .scene-path { stroke: rgb(255 240 238 / 0.62); filter: drop-shadow(0 0 2px rgb(255 255 255 / 0.4)) drop-shadow(0 0 9px rgb(192 40 42 / 0.55)); }
+.dark .scene-path { stroke: rgb(228 238 252 / 0.62); filter: drop-shadow(0 0 2px rgb(255 255 255 / 0.4)) drop-shadow(0 0 9px rgb(58 100 184 / 0.55)); }
 /* The glint: a short bright stretch of the same line, running from the headline into the site every few seconds. */
 .scene-sheen {
   fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round;
   stroke-dasharray: 0.1 1.5; stroke-dashoffset: 0.1;
-  filter: drop-shadow(0 0 3px rgb(255 255 255 / 0.9)) drop-shadow(0 0 10px rgb(255 120 110 / 0.8));
+  filter: drop-shadow(0 0 3px rgb(255 255 255 / 0.9)) drop-shadow(0 0 10px rgb(143 180 242 / 0.8));
   animation: scene-sheen 3.4s cubic-bezier(.45,.05,.35,1) infinite;
 }
-:root:not(.dark) .scene-sheen { stroke: rgb(var(--ink) / 0.85); filter: drop-shadow(0 0 4px rgb(192 40 42 / 0.5)); }
+:root:not(.dark) .scene-sheen { stroke: rgb(var(--ink) / 0.85); filter: drop-shadow(0 0 4px rgb(58 100 184 / 0.5)); }
 @keyframes scene-sheen {
   0% { stroke-dashoffset: 0.1; }
   70%, 100% { stroke-dashoffset: -1; }
@@ -567,18 +567,18 @@
   &:hover path, &[data-lit] path { fill: var(--c-ink, var(--foreground)); }
 }
 
-/* The contact page's backdrop (contact-light.tsx): a slow-drifting pool of red, and a fine grain over it. */
+/* The contact page's backdrop (contact-light.tsx): a slow-drifting pool of blue, and a fine grain over it. */
 .contact-pool { animation: contact-drift 20s ease-in-out infinite alternate; }
 @keyframes contact-drift { to { translate: 8% 6%; scale: 1.1; } }
 .contact-grain { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-/* The contact cards. The lead card is red glass over the red light; the others are near-black. */
+/* The contact cards. The lead card is blue glass over the blue light; the others are near-black. */
 @utility set-glass {
   color: #fff;
   background:
-    radial-gradient(70% 90% at 72% 30%, rgb(226 76 70 / 0.55), transparent 70%),
-    radial-gradient(60% 70% at 18% 85%, rgb(150 22 26 / 0.45), transparent 70%),
-    linear-gradient(135deg, rgb(40 8 10 / 0.86), rgb(92 18 20 / 0.78) 50%, rgb(28 6 8 / 0.9));
+    radial-gradient(50% 65% at 68% 26%, rgb(143 180 242 / 0.7), transparent 70%),
+    radial-gradient(55% 60% at 22% 72%, rgb(6 27 65 / 0.8), transparent 70%),
+    linear-gradient(130deg, rgb(10 34 84 / 0.94), rgb(44 87 165 / 0.88) 55%, rgb(50 94 181 / 0.9));
   border: 1px solid rgb(255 255 255 / 0.12);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 40px 80px -30px rgb(0 0 0 / 0.9);
   backdrop-filter: blur(24px) saturate(140%);

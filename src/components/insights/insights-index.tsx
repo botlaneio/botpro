@@ -77,7 +77,7 @@ function Feature({ post }: { post: PostSummary }) {
       <div aria-hidden className="absolute inset-0 rounded-[1.75rem] bg-[linear-gradient(180deg,transparent_20%,rgb(5_5_6/0.55)_55%,rgb(5_5_6/0.92))] md:bg-[linear-gradient(90deg,rgb(5_5_6/0.85),rgb(5_5_6/0.35)_45%,transparent_65%)]" />
       <div className="dark relative grid min-h-[30rem] content-end gap-5 p-6 text-foreground sm:min-h-[34rem] sm:p-10 lg:min-h-[36rem] lg:p-14">
         <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 backdrop-blur-md">
-          <span className="size-1.5 rounded-full bg-[#FF7A70] shadow-[0_0_10px_#FF7A70]" />
+          <span className="size-1.5 rounded-full bg-[#8FB4F2] shadow-[0_0_10px_#8FB4F2]" />
           <span className="label-mono text-[10.5px] text-white/85">LATEST NOTE</span>
         </span>
         <h2 className="max-w-3xl text-[2.2rem] leading-[1.04] font-medium tracking-[-0.03em] text-balance text-white sm:text-5xl lg:text-[4.25rem]">{post.title}</h2>
@@ -98,7 +98,7 @@ function Feature({ post }: { post: PostSummary }) {
 function Card({ post }: { post: PostSummary }) {
   return (
     <Link href={href(post.slug)} className="group/cover grid content-start gap-5 outline-none focus-visible:[&_h3]:underline">
-      <InsightCover variant={post.cover} topic={post.topic} className="aspect-[16/10] rounded-[1.4rem] transition-[translate,box-shadow] duration-500 ease-(--ease-lift) group-hover/cover:-translate-y-1 group-hover/cover:shadow-[0_34px_60px_-30px_rgb(120_14_18/0.7)]" />
+      <InsightCover variant={post.cover} topic={post.topic} className="aspect-[16/10] rounded-[1.4rem] transition-[translate,box-shadow] duration-500 ease-(--ease-lift) group-hover/cover:-translate-y-1 group-hover/cover:shadow-[0_34px_60px_-30px_rgb(28_58_130/0.7)]" />
       <div className="grid gap-3 px-1">
         <Meta post={post} />
         <h3 className="text-2xl leading-tight font-medium tracking-[-0.02em] text-balance sm:text-[1.75rem]">{post.title}</h3>
@@ -149,8 +149,8 @@ export function InsightsIndex({ posts }: { posts: PostSummary[] }) {
                     href={href(p.slug)}
                     className="group/r relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-b border-border/70 py-7 outline-none sm:grid-cols-[4.5rem_minmax(0,1fr)_2.5rem] lg:grid-cols-[5.5rem_minmax(0,1fr)_14rem_2.5rem] lg:gap-x-8"
                   >
-                    {/* A red hairline that draws itself across the row on hover. */}
-                    <span aria-hidden className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#C0282A,#FF7A70_60%,transparent)] transition-transform duration-700 ease-(--ease-lift) group-hover/r:scale-x-100 group-focus-visible/r:scale-x-100" />
+                    {/* A blue hairline that draws itself across the row on hover. */}
+                    <span aria-hidden className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#3A64B8,#8FB4F2_60%,transparent)] transition-transform duration-700 ease-(--ease-lift) group-hover/r:scale-x-100 group-focus-visible/r:scale-x-100" />
                     <span className="pt-1 font-serif text-[1.6rem] leading-none font-light text-foreground/30 tabular-nums transition-colors duration-300 group-hover/r:text-foreground sm:text-[2.1rem]">
                       {String(i + 4).padStart(2, "0")}
                     </span>

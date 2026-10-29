@@ -1,24 +1,24 @@
 import { cn } from "@/lib/utils"
 
-// Beams of red falling diagonally, as in the site's ambient light but a little brighter, since this stage is
+// Beams of blue falling diagonally, as in the site's ambient light but a little brighter, since this stage is
 // always dark. Each is [top, height, colour, strength, blur], measured along a band turned 28°.
 const BEAMS: [top: string, height: string, colour: string, alpha: number, blur: number][] = [
-  ["6%", "10rem", "#7A1114", 0.5, 90],
-  ["18%", "2.5rem", "#C8292B", 0.22, 30],
-  ["32%", "7rem", "#8A1418", 0.32, 80],
-  ["47%", "1.75rem", "#C8292B", 0.14, 24],
-  ["60%", "12rem", "#4A090C", 0.5, 110],
+  ["6%", "10rem", "#12306E", 0.5, 90],
+  ["18%", "2.5rem", "#3A64B8", 0.22, 30],
+  ["32%", "7rem", "#1B3C80", 0.32, 80],
+  ["47%", "1.75rem", "#3A64B8", 0.14, 24],
+  ["60%", "12rem", "#061B41", 0.5, 110],
 ]
 
 /**
- * The contact page's backdrop: near-black, a deep red pool of light behind the form, beams of red falling
+ * The contact page's backdrop: near-black, a deep blue pool of light behind the form, beams of blue falling
  * across it, and a fine grain so the gradients don't band. Decorative; the pool drifts slowly, and is still
  * under reduced motion.
  */
 export function ContactLight({ className }: { className?: string }) {
   return (
     <div aria-hidden className={cn("pointer-events-none absolute overflow-hidden bg-[#050506]", className)}>
-      <div className="contact-pool absolute top-[-20%] left-[10%] h-[95%] w-[80%] rounded-full bg-[radial-gradient(closest-side,rgb(150_24_28/0.55),rgb(80_12_14/0.25)_55%,transparent)] blur-2xl" />
+      <div className="contact-pool absolute top-[-20%] left-[10%] h-[95%] w-[80%] rounded-full bg-[radial-gradient(closest-side,rgb(44_87_165/0.55),rgb(6_27_65/0.25)_55%,transparent)] blur-2xl" />
       <div className="absolute -inset-x-1/2 -top-1/3 bottom-0 rotate-[28deg]">
         {BEAMS.map(([top, height, colour, alpha, blur]) => (
           <div

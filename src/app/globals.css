@@ -99,9 +99,9 @@
   --brand: var(--blue-solid);
   --brand-text: var(--blue-text);
 
-  /* The ambient light behind the dark page (ambient-light.tsx, glow-brand): Raycast's crimson. Light only, never
+  /* The ambient light behind the dark page (ambient-light.tsx, glow-brand): electric blue. Light only, never
      on controls or text: buttons, rings and links keep the blue accent. */
-  --ambient: #C0282A;
+  --ambient: #3A64B8;
 
   /* The logo: graphite on light, light on dark. No colour; the mark is hairline and light. */
   --mark-rim: #232327;

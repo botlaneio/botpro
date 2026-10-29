@@ -122,7 +122,7 @@ function StepBar({ step, done, label, disabled }: { step: number; done: number; 
 }
 
 /**
- * The contact page's form, after a "Get in touch" set: a red glass card asking one thing at a time, a black
+ * The contact page's form, after a "Get in touch" set: a blue glass card asking one thing at a time, a black
  * services card to pick from, and a black card that gathers the answers and counts up to 100% as they come
  * in. It sends through the same server action as before, which checks everything again.
  */
@@ -298,9 +298,9 @@ export function ContactSet({ needs, initial }: { needs: NeedOption[]; initial: P
 
       {/* The services, to pick from at any point. */}
       <section aria-labelledby="set-services" className="set-black order-2 flex gap-4 rounded-[2rem] p-3 sm:gap-6 sm:p-4 lg:order-none">
-        <div aria-hidden className="relative hidden aspect-[4/5] w-44 shrink-0 place-items-center overflow-hidden rounded-[1.4rem] bg-[radial-gradient(80%_70%_at_50%_35%,rgb(192_40_42/0.55),transparent_70%),linear-gradient(160deg,#1d1012,#070708)] sm:grid">
+        <div aria-hidden className="relative hidden aspect-[4/5] w-44 shrink-0 place-items-center overflow-hidden rounded-[1.4rem] bg-[radial-gradient(80%_70%_at_50%_35%,rgb(58_100_184/0.55),transparent_70%),linear-gradient(160deg,#0b1424,#070708)] sm:grid">
           <span className="absolute inset-0 bg-[linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] bg-[size:22px_22px]" />
-          <span key={values.need} className="relative grid size-20 place-items-center rounded-[1.4rem] border border-white/20 bg-white/10 shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_20px_40px_-12px_rgb(192_40_42/0.8)] backdrop-blur [animation:set-in_450ms_var(--ease-lift)_both]">
+          <span key={values.need} className="relative grid size-20 place-items-center rounded-[1.4rem] border border-white/20 bg-white/10 shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_20px_40px_-12px_rgb(58_100_184/0.8)] backdrop-blur [animation:set-in_450ms_var(--ease-lift)_both]">
             <Chosen className="size-8 text-white" />
           </span>
         </div>
