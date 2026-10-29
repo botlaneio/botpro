@@ -658,3 +658,28 @@
   .cover-glint { display: none; }
   .cover-turn, .cover-pulse { animation: none; }
 }
+
+/* The website package pages (components/catalog/package). Small motions for the feature drawings. */
+.pk-rise { animation: pk-rise 700ms var(--ease-lift) both; }
+@keyframes pk-rise { from { opacity: 0; translate: 0 10px; } }
+.pk-caret { animation: pk-blink 1s steps(1) infinite; }
+@keyframes pk-blink { 50% { opacity: 0; } }
+.pk-flow { stroke-dasharray: 0.12 1.4; stroke-dashoffset: 0.12; animation: pk-flow 2.6s cubic-bezier(.45,.05,.35,1) infinite; }
+.pk-flow:nth-of-type(2) { animation-delay: .4s; }
+@keyframes pk-flow { 0% { stroke-dashoffset: 1.12; } 75%, 100% { stroke-dashoffset: -0.05; } }
+.pk-draw { stroke-dasharray: 1 1; animation: pk-draw 3.2s var(--ease-lift) infinite; }
+@keyframes pk-draw { 0% { stroke-dashoffset: 1; } 70%, 100% { stroke-dashoffset: 0; } }
+.pk-swap { animation: pk-swap 520ms var(--ease-lift) both; }
+@keyframes pk-swap { from { opacity: 0; translate: 0 8px; filter: blur(4px); } }
+.pk-gauge { animation: pk-gauge 1.6s var(--ease-lift) both; }
+@keyframes pk-gauge { from { stroke-dasharray: 0 100; } }
+.pk-fill { animation: pk-fill 1.6s var(--ease-lift) both; transform-origin: left; }
+@keyframes pk-fill { from { scale: 0 1; } }
+/* The stage under a package hero: lit from below and behind, its two notes floating either side. */
+.pk-float { animation: pk-float 6s ease-in-out infinite alternate; }
+.pk-float.late { animation-delay: -3s; }
+@keyframes pk-float { to { translate: 0 -8px; } }
+@media (prefers-reduced-motion: reduce) {
+  .pk-rise, .pk-caret, .pk-flow, .pk-draw, .pk-swap, .pk-gauge, .pk-fill, .pk-float { animation: none; }
+  .pk-draw { stroke-dasharray: none; }
+}
