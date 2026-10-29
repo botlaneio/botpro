@@ -1,5 +1,5 @@
-import AuthSectionThree from "@/components/ui/auth-section-3"
+import AccountAccess from "@/components/auth/account-access"
 
 export default function Demo() {
-  return <AuthSectionThree />
+  return <AccountAccess />
 }

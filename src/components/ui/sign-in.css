@@ -1,0 +1,19 @@
+/* Scoped to the supplied account component. Content remains visible without animation. */
+@keyframes authFadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes authSlideRightIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; filter: blur(0); transform: translateX(0); }
+}
+@keyframes authTestimonialIn {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .auth-page .auth-element { animation: authFadeSlideIn 600ms var(--ease-lift) var(--auth-delay, 0ms) backwards; }
+  .auth-page .auth-image { animation: authSlideRightIn 700ms var(--ease-lift) 120ms backwards; }
+  .auth-page .auth-testimonial { animation: authTestimonialIn 600ms var(--ease-lift) var(--auth-delay, 0ms) backwards; }
+}
+.auth-page :is(button, a):focus-visible { outline: 2px solid var(--brand-text); outline-offset: 4px; }

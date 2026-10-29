@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
-import AuthSectionThree from "@/components/ui/auth-section-3"
+import AccountAccess from "@/components/auth/account-access"
 
 export const metadata: Metadata = {
   title: "Your account · Botlane",
-  description: "Preview your Botlane account experience for projects, products, and billing.",
+  description: "Your Botlane account for projects, products, and billing.",
   robots: { index: false, follow: true },
 }
 
 export default function Account() {
-  return <main><AuthSectionThree /></main>
+  return <main><AccountAccess /></main>
 }
