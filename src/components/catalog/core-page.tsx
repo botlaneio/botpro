@@ -7,6 +7,7 @@ import { offerPrice, type Offer } from "@/lib/catalog"
 import { plan } from "@/lib/pricing"
 import { STEPS } from "@/lib/process"
 import { CoreHeroPreview } from "./core-hero-preview"
+import { CoreWorkShowcase } from "./core-work-showcase"
 import { SiteShowcase } from "./site-showcase"
 
 const PAGES = [
@@ -90,7 +91,7 @@ export function CorePage({ offer }: { offer: Offer }) {
         <div className="grid content-start gap-4 text-sm leading-relaxed"><p className="text-foreground/80">Need a content editor, a blog, or more pages? <Link href="/websites/company-sites" className="underline underline-offset-4">Explore Ascend <span aria-hidden>↗</span></Link></p><p className="text-foreground/80">Hosting, security updates and ongoing edits are available separately through <Link href="/care" className="underline underline-offset-4">Care</Link>.</p><Link href="/websites" className="inline-flex min-h-11 items-center gap-2 font-medium">Compare website packages <ArrowRight aria-hidden className="size-4" /></Link></div>
       </section>
 
-      <section aria-labelledby="proof-title" className="flex flex-wrap items-center justify-between gap-5 border-b border-border/70 py-8"><div><h2 id="proof-title" className="text-base font-medium">See the work behind the offer.</h2><p className="mt-2 max-w-xl text-sm text-foreground/75">{offer.proof.text}</p></div><Link href={offer.proof.href} className="inline-flex min-h-11 items-center gap-2 text-sm font-medium">{offer.proof.label}<ArrowUpRight aria-hidden className="size-4" /></Link></section>
+      <CoreWorkShowcase />
       <section aria-labelledby="core-cta" className="glow-brand grid justify-items-start gap-6 py-16 sm:py-24"><span className="label-mono">YOUR NEXT CHAPTER</span><h2 id="core-cta" className="max-w-[18ch] text-4xl font-medium tracking-tight text-balance sm:text-6xl">Give your business a place of its own.</h2><p className="max-w-lg text-lg text-foreground/80">Tell us what you do and what your website needs to achieve. We’ll work out the right scope together.</p><Link href={contact} className="btn-light inline-flex min-h-12 items-center gap-5 px-6 font-medium">Start with Core<ArrowUpRight aria-hidden className="size-4" /></Link></section>
     </main>
     <SiteFooter />

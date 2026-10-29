@@ -60,7 +60,7 @@ function Phone({ still = false }: { still?: boolean }) {
 const C = { paper: "#F5F0E8", card: "#FFFDF9", ink: "#26221D", soft: "#6E665C", line: "#E4DCCF", sage: "#3F6B52", sageSoft: "#DCE7DE" }
 
 /** The clinic's site, in em so it scales with whatever sets its font size. */
-function ClinicSite({ wide = false }: { wide?: boolean }) {
+export function ClinicSite({ wide = false }: { wide?: boolean }) {
   const pad = wide ? "3.2em" : "1.6em"
   const treatments = [
     ["Sports injuries", "Back on your feet, then back to your sport."],
