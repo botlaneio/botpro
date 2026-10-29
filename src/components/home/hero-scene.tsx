@@ -304,6 +304,22 @@ export function HeroScene({ className }: { className?: string }) {
         </svg>
 
         <div ref={cam} className="absolute inset-0">
+          {/* Phones: lines of their own for the opening, fitted to the phone layout. A line comes down the edge from
+              under the intro and kinks into the site; two blue lines curl in from the right, into its top and its
+              bottom; and the three decisions hang from it on a dotted spine. They pass under the glass. */}
+          <svg viewBox={`0 0 ${W} ${H}`} className="scene-phone absolute inset-0 size-full overflow-visible">
+            <path d="M403 196 C 403 228 414 246 407 262 C 400 278 390 272 393 262 C 396 250 410 256 407 284 C 405 306 407 326 402 342 C 397 358 393 372 400 384 C 406 393 413 395 420 398" pathLength={1} fill="none" data-in={span(0.2, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path" />
+            <path d="M403 196 C 403 228 414 246 407 262 C 400 278 390 272 393 262 C 396 250 410 256 407 284 C 405 306 407 326 402 342 C 397 358 393 372 400 384 C 406 393 413 395 420 398" pathLength={1} fill="none" data-in={span(1.6, 0.5)} data-out={span(5.0, 0.5)} className="scene-sheen" />
+            <circle cx={420} cy={398} r={4} data-in={span(1.5, 0.3)} data-out={span(5.0, 0.5)} className="scene-node" />
+            <path d="M840 232 C 806 232 800 210 772 216 C 744 222 758 254 732 258 C 712 261 700 250 692 264 C 686 272 688 276 690 280" pathLength={1} fill="none" data-in={span(0.5, 1.3)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
+            <circle cx={690} cy={280} r={4.5} data-in={span(1.7, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
+            <path d="M840 704 C 790 704 772 676 792 650 C 812 624 806 590 772 594 C 742 598 726 582 738 556 C 744 542 736 530 730 520" pathLength={1} fill="none" data-in={span(0.8, 1.4)} data-out={span(5.0, 0.5)} data-draw="" className="scene-path-brand" />
+            <circle cx={730} cy={520} r={4.5} data-in={span(2.1, 0.3)} data-out={span(5.0, 0.5)} className="scene-node-ring" />
+            <path d="M430 520 C 430 532 406 528 406 546 L 406 661" data-in={span(2.0, 0.6)} data-out={span(5.0, 0.4)} className="scene-wire" />
+            <path d="M406 561 L 418 561" data-in={span(2.2, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
+            <path d="M406 611 L 418 611" data-in={span(2.6, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
+            <path d="M406 661 L 418 661" data-in={span(3.0, 0.4)} data-out={span(5.0, 0.4)} className="scene-wire" />
+          </svg>
           {/* The client's site sits on frosted glass (the frost card), drawn behind the drawing of it. */}
           <div data-in={span(0.8, 0.6)} data-out={span(20.0, 0.5)} className="frost scene-frost absolute" style={{ left: 420, top: 280, width: 360, height: 240 }} />
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 size-full overflow-visible">
