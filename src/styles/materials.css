@@ -544,6 +544,53 @@
 @keyframes agent-close { from { stroke-dasharray: 18 82; } to { stroke-dasharray: 100 0; } }
 @keyframes agent-flash { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0.25; } }
 
+/* The activity badge (activity-badge.tsx): a glowing dot, and a ring of its colour that appears at full size and
+   spreads out as it fades, every 1.3s (0.9s of pulse, 0.4s of rest), as in Framer's ActivityBadge. */
+.activity { --a: #31EE33; }
+.activity[data-tone="orange"] { --a: #FFBB00; }
+.activity[data-tone="red"] { --a: #FF3B30; }
+.activity-dot { background: var(--a); box-shadow: 0 0 10px color-mix(in oklch, var(--a) 28%, transparent); }
+.activity-ring { background: var(--a); opacity: 0; animation: activity-pulse 1.3s ease-out infinite; }
+@keyframes activity-pulse {
+  0% { opacity: 0; scale: 1; }
+  1.5% { opacity: 0.75; scale: 1; }
+  55% { opacity: 0; scale: 2.6; }
+  100% { opacity: 0; scale: 2.6; }
+}
+
+/* The pill navigation (site-nav.tsx), after Framer's Pill Dropdown Nav: a dark glass pill holding the tabs, a
+   soft highlight that glides under the tab in focus, and one panel that grows out beneath it and resizes as it
+   moves between menus. On phones the same glass is a round button that grows into the menu. */
+@utility surface-pill {
+  background: color-mix(in oklch, var(--popover) 90%, transparent);
+  border: 1px solid rgb(var(--ink) / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 18px 40px -14px var(--float-shadow);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+@utility surface-pill-panel {
+  background: var(--popover);
+  border: 1px solid rgb(var(--ink) / 0.08);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 24px 48px -18px var(--float-shadow), var(--menu-drop);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .activity-ring { animation: none; }
+}
+@keyframes pill-pop {
+  from { opacity: 0; scale: 0.96; translate: 0 -6px; }
+  to { opacity: 1; scale: 1; translate: 0 0; }
+}
+@keyframes pill-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* The phone menu sits over busy content, so it's opaque. */
+@utility surface-pill-sheet {
+  background: var(--popover);
+  border: 1px solid rgb(var(--ink) / 0.08);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / var(--highlight-alpha)), 0 24px 48px -18px var(--float-shadow), var(--menu-drop);
+}
+
 /* An app logo's tile: a hairline rounded square (or circle), the logo in the page's text colour, and a very faint
    wash and glow of the logo's own colour. Hovered, or marked data-lit (the tool in focus), the logo takes its
    colour and the glow strengthens. Set --c and --c-ink with appTile() (src/lib/app-tile.ts); --tile-base puts an
