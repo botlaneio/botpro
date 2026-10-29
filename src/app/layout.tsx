@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import localFont from "next/font/local"
 
 import { AmbientLight } from "@/components/site/ambient-light"
+import { CookieNote } from "@/components/site/cookie-note"
 import { ScrollMotion } from "@/components/site/scroll-motion"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ScrollMotion />
         <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>
+          <CookieNote />
         </ThemeProvider>
       </body>
     </html>
