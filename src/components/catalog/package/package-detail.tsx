@@ -104,22 +104,22 @@ export function PackageDetail({ offer, c }: { offer: Offer; c: PackageContent })
       <SiteHeader />
       <main className="relative isolate overflow-x-clip">
         {/* The opening: centred, the stage beneath it. */}
-        <header className="relative isolate mx-auto grid max-w-6xl justify-items-center px-5 pt-10 text-center sm:px-6 sm:pt-14">
+        <header className="relative isolate mx-auto grid max-w-6xl justify-items-start px-5 pt-10 text-left sm:justify-items-center sm:px-6 sm:pt-14 sm:text-center">
           <Pool className="-top-40 left-1/2 h-[42rem] w-[70rem] -translate-x-1/2 opacity-80" />
           <TierLadder current={c.planId} />
-          <div className="mt-10 grid justify-items-center gap-6 sm:mt-14">
+          <div className="mt-10 grid justify-items-start gap-6 sm:mt-14 sm:justify-items-center">
             <Eyebrow>{c.kicker}</Eyebrow>
             <h1 className="max-w-[16ch] text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] font-medium tracking-[-0.055em] text-balance">
               {c.title[0]}{" "}
               <span className="bg-[linear-gradient(100deg,var(--foreground)_0%,rgb(var(--ink)/0.42)_80%)] bg-clip-text text-transparent">{c.title[1]}</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-foreground/72 text-pretty">{c.intro}</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <Link href={contact} className="inline-flex h-12 items-center gap-2 rounded-full bg-foreground pr-2 pl-5 text-[15px] font-medium text-background transition-[gap] duration-300 hover:gap-3">
+            <div className="mt-2 flex gap-2 sm:flex-wrap sm:justify-center sm:gap-3">
+              <Link href={contact} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-foreground pr-1.5 pl-4 text-[14px] font-medium text-background transition-[gap] duration-300 hover:gap-3 sm:h-12 sm:pr-2 sm:pl-5 sm:text-[15px]">
                 {c.cta}
-                <span className="grid size-8 place-items-center rounded-full bg-background text-foreground"><ArrowUpRight className="size-4" /></span>
+                <span className="grid size-7 place-items-center rounded-full bg-background text-foreground sm:size-8"><ArrowUpRight className="size-4" /></span>
               </Link>
-              <Link href="#adds" className="inline-flex h-12 items-center gap-2 rounded-full border border-border px-5 text-[15px] text-foreground/80 transition-colors hover:bg-foreground/[0.04]">
+              <Link href="#adds" className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-border px-4 text-[14px] text-foreground/80 transition-colors hover:bg-foreground/[0.04] sm:h-12 sm:px-5 sm:text-[15px]">
                 What&apos;s inside <ArrowDown className="size-4" />
               </Link>
             </div>
@@ -296,18 +296,18 @@ export function PackageDetail({ offer, c }: { offer: Offer; c: PackageContent })
         {/* The close. */}
         <section aria-labelledby="close-title" className="relative isolate overflow-hidden border-t border-border">
           <Pool className="top-0 left-1/2 h-[30rem] w-[60rem] -translate-x-1/2 opacity-80" />
-          <div className="mx-auto grid max-w-4xl justify-items-center gap-7 px-5 py-24 text-center sm:px-6 sm:py-32">
+          <div className="mx-auto grid max-w-4xl justify-items-start gap-7 px-5 py-24 text-left sm:justify-items-center sm:px-6 sm:py-32 sm:text-center">
             <h2 id="close-title" className="text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.98] font-medium tracking-[-0.055em] text-balance">
               {c.close[0]} <span className="text-foreground/40">{c.close[1]}</span>
             </h2>
             <p className="max-w-lg text-lg text-foreground/70">{c.closeBody}</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link href={contact} className="inline-flex h-12 items-center gap-2 rounded-full bg-foreground pr-2 pl-5 text-[15px] font-medium text-background transition-[gap] duration-300 hover:gap-3">
+            <div className="flex gap-2 sm:flex-wrap sm:justify-center sm:gap-3">
+              <Link href={contact} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-foreground pr-1.5 pl-4 text-[14px] font-medium text-background transition-[gap] duration-300 hover:gap-3 sm:h-12 sm:pr-2 sm:pl-5 sm:text-[15px]">
                 {c.cta}
-                <span className="grid size-8 place-items-center rounded-full bg-background text-foreground"><ArrowUpRight className="size-4" /></span>
+                <span className="grid size-7 place-items-center rounded-full bg-background text-foreground sm:size-8"><ArrowUpRight className="size-4" /></span>
               </Link>
-              <Link href="/websites" className="inline-flex h-12 items-center gap-2 rounded-full border border-border px-5 text-[15px] text-foreground/80 hover:bg-foreground/[0.04]">
-                Compare packages <ArrowRight className="size-4" />
+              <Link href="/websites" className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-border px-4 text-[14px] text-foreground/80 hover:bg-foreground/[0.04] sm:h-12 sm:px-5 sm:text-[15px]">
+                <span>Compare<span className="max-[379px]:sr-only"> packages</span></span> <ArrowRight className="size-4" />
               </Link>
             </div>
           </div>
