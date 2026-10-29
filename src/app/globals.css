@@ -176,6 +176,20 @@
 /* Tailwind theme: exposes the tokens as utilities (bg-card, text-lane…) */
 /* ------------------------------------------------------------------ */
 @theme inline {
+  /* Lab only (dqnamo experiments): his grey scale, fixed to light values. */
+  --color-grayscale-1: #FFFFFF;
+  --color-grayscale-2: #F7F8F9;
+  --color-grayscale-3: #F0F1F3;
+  --color-grayscale-4: #E8E9EC;
+  --color-grayscale-5: #E0E2E6;
+  --color-grayscale-6: #D6D9DE;
+  --color-grayscale-7: #C7CBD1;
+  --color-grayscale-8: #AEB3BB;
+  --color-grayscale-9: #868C97;
+  --color-grayscale-10: #6B717C;
+  --color-grayscale-11: #4B505A;
+  --color-grayscale-12: #16181C;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
