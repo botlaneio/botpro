@@ -514,6 +514,11 @@
    screen's width; text a touch smaller than on tablets, since the scene is now drawn larger. Care's names and checks
    size up, as the camera pulls back further to fit the three sites. */
 .scene[data-phone="1"] [data-pos] { left: var(--px); top: var(--py); }
+/* The phone's own opening lines: only on phones, a touch heavier, as they are drawn smaller. */
+.scene-phone { display: none; }
+.scene[data-phone="1"] .scene-phone { display: block; }
+.scene-phone .scene-path, .scene-phone .scene-path-brand { stroke-width: 2; }
+.scene-phone .scene-sheen { stroke-width: 2.6; }
 .scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) { font-size: 17px; padding: 9px 16px 9px 12px; gap: 10px; }
 .scene[data-phone="1"] .scene-chip:not(.scene-chip-lg) > span:first-child { width: 18px; height: 18px; }
 .scene[data-phone="1"] .scene-card { width: 236px; padding: 11px 10px 11px 14px; gap: 10px; }
