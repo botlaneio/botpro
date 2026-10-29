@@ -1009,3 +1009,130 @@
     padding-top: 3px;
   }
 }
+
+/* Daylight uses the homepage's material system: a cool-grey canvas (#F2F3F5),
+   white raised surfaces, a lit top edge, and soft directional shadows.
+   The shared layout owns the canvas/ambient light; scope these finishes to
+   light mode so the graphite publication retains its existing treatment. */
+:root:not(.dark) .insight-card,
+:root:not(.dark) .insight-invite {
+  background: linear-gradient(180deg, var(--glass-top), var(--glass-bottom));
+  border-color: rgb(var(--ink) / var(--edge-alpha));
+  box-shadow:
+    inset 0 1px 0 var(--raised-lit),
+    var(--shadow-lift);
+}
+:root:not(.dark) .insight-card:hover {
+  border-color: var(--raised-edge);
+  box-shadow:
+    inset 0 1px 0 var(--raised-lit),
+    var(--shadow-lift),
+    0 18px 38px -24px var(--float-shadow);
+}
+:root:not(.dark) .insight-card-foot {
+  background: color-mix(in srgb, var(--neutral-2) 62%, var(--card));
+  border-top-color: rgb(var(--ink) / 0.065);
+}
+:root:not(.dark) .insight-search {
+  background: linear-gradient(180deg, var(--raised-top), var(--neutral-1));
+  border-color: var(--raised-edge);
+  box-shadow:
+    inset 0 1px 0 var(--raised-lit),
+    var(--shadow-soft);
+}
+:root:not(.dark) .insight-card-copy p,
+:root:not(.dark) .insight-card-meta,
+:root:not(.dark) .insight-topic,
+:root:not(.dark) .insight-card-foot > span,
+:root:not(.dark) .insight-invite p {
+  color: var(--neutral-11);
+}
+:root:not(.dark) .insight-feature .insight-topic {
+  color: var(--brand-text);
+}
+:root:not(.dark) .insight-art-slot,
+:root:not(.dark) .article-hero-art {
+  border-color: rgb(var(--ink) / 0.08);
+  box-shadow: inset 0 1px 2px rgb(var(--ink) / 0.035);
+}
+:root:not(.dark) .insight-art {
+  background: linear-gradient(150deg, var(--neutral-3), var(--neutral-2) 75%);
+  color: var(--neutral-12);
+}
+:root:not(.dark) .art-grid {
+  background-image: radial-gradient(
+    rgb(var(--ink) / 0.13) 0.7px,
+    transparent 0.8px
+  );
+}
+:root:not(.dark) .art-node {
+  fill: var(--card);
+  stroke: var(--neutral-8);
+  filter: drop-shadow(0 3px 4px rgb(var(--ink) / 0.08));
+}
+:root:not(.dark) .scope-sheet,
+:root:not(.dark) .calendar-art,
+:root:not(.dark) .intake-art > div,
+:root:not(.dark) .night-message {
+  background: linear-gradient(180deg, var(--raised-top), var(--neutral-1));
+  border-color: var(--raised-edge);
+  box-shadow:
+    inset 0 1px 0 var(--raised-lit),
+    var(--shadow-soft);
+}
+:root:not(.dark) .scope-sheet {
+  box-shadow:
+    inset 0 1px 0 var(--raised-lit),
+    var(--shadow-lift),
+    5px 7px 0 -1px var(--neutral-4);
+}
+:root:not(.dark) .scope-line {
+  border-top-color: var(--neutral-5);
+}
+:root:not(.dark) .art-eyebrow,
+:root:not(.dark) .art-caption,
+:root:not(.dark) .calendar-confirm,
+:root:not(.dark) .calendar-days > span:nth-child(-n + 7),
+:root:not(.dark) .intake-art > div > span,
+:root:not(.dark) .stamp-footer {
+  color: var(--neutral-11);
+}
+:root:not(.dark) .insight-feature-foil {
+  --foil-base-gradient: linear-gradient(
+    135deg,
+    var(--neutral-3),
+    var(--neutral-5),
+    var(--neutral-2)
+  ) !important;
+  --shine-opacity-scale: 0.1 !important;
+  --glare-opacity: 0.06 !important;
+}
+:root:not(.dark) .insight-feature-foil .insight-art {
+  background: transparent;
+}
+:root:not(.dark) .scope-stamp {
+  --stamp-paper: var(--card) !important;
+  filter: drop-shadow(0 8px 9px rgb(var(--ink) / 0.14)) !important;
+}
+:root:not(.dark) .insight-invite {
+  background:
+    radial-gradient(
+      ellipse at 100% 100%,
+      color-mix(in srgb, var(--ambient) 8%, transparent),
+      transparent 65%
+    ),
+    linear-gradient(180deg, var(--glass-top), var(--glass-bottom));
+}
+:root:not(.dark) .insight-tabs button[aria-pressed="true"] {
+  background: linear-gradient(
+    180deg,
+    var(--primary-top),
+    var(--primary-bottom)
+  );
+  box-shadow:
+    inset 0 1px 0 var(--primary-lit),
+    var(--shadow-soft);
+}
+:root:not(.dark) .insight-art svg > g[stroke="currentColor"] {
+  opacity: 0.32;
+}

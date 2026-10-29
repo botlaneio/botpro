@@ -14,3 +14,14 @@ Build target: the supplied card-feed reference, adapted to Botlane's current hom
 The owner confirmed on 29 October 2026 that JP gave permission to reuse the dqnamo components. This records the owner's confirmation, not additional or inferred licensing terms. Preserve attribution to JP / The Interface Company of London and original source links.
 
 Article URLs, content, import generation, canonical metadata, sitemap, and structured data remain in place. Search/topic state uses URL parameters; the unfiltered archive and article links render on the server. No tracking counters, account system, or invented integration results.
+
+## Light-theme material polish
+
+Follow-up requested after #108 was merged. The homepage's shared `--background`
+remains `#F2F3F5`; its ambient light is reused. Publication cards now use the same
+`--glass-top` / `--glass-bottom`, `--raised-lit`, `--shadow-lift`, and `--shadow-soft`
+material tokens. White cards sit above grey illustration trays; the small papers,
+calendar and intake rows receive soft shadows. Light illustration strokes and
+secondary text have more contrast. All overrides are scoped to `:root:not(.dark)`
+and the publication components. No shared palette, article data or dark finish is
+changed.
