@@ -276,7 +276,7 @@ function ShowcaseOfferPage({ offer }: { offer: Offer }) {
           <span aria-hidden className="absolute top-4 right-[10%] left-[10%] hidden h-px bg-[linear-gradient(90deg,transparent,rgb(var(--ink)/0.18)_12%,rgb(var(--ink)/0.18)_88%,transparent)] lg:block" />
           {STEPS.map((step, i) => (
             <li key={step.title} className="relative grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 lg:grid-cols-1 lg:justify-items-center lg:text-center">
-              <span className="label-mono row-span-2 grid size-8 place-items-center rounded-full border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] text-[11px] text-foreground lg:row-span-1 lg:mb-2">
+              <span className="label-mono row-span-2 grid size-8 place-items-center rounded-full border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] [background:linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] text-[11px] text-foreground lg:row-span-1 lg:mb-2">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="font-medium">{step.title}</span>
