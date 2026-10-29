@@ -41,7 +41,7 @@ export function AmbientLight({ className }: { className?: string }) {
   const place = className ?? "top-0 h-[72rem] [mask-image:linear-gradient(180deg,#000_35%,transparent)]"
   return (
     <>
-      <div aria-hidden className={cn("pointer-events-none absolute inset-x-0 -z-10 overflow-hidden dark:hidden", place)}>
+      <div aria-hidden className={cn("ambient-day pointer-events-none absolute inset-x-0 -z-10 overflow-hidden dark:hidden", place)}>
         <div className="absolute -top-1/4 left-1/2 h-[60rem] w-[90rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(143_180_242/0.28),transparent)]" />
         <Beams beams={DAY_BEAMS} />
       </div>
