@@ -6,6 +6,8 @@ import { ArrowUpRight, Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import { ArtPanel } from "@/components/art/art-panel"
+
 import { SiteShowcase } from "../site-showcase"
 
 export interface ShowroomCard {
@@ -71,7 +73,8 @@ export function WebsitesShowroom({ cards }: { cards: ShowroomCard[] }) {
               )}
             >
               {/* The example site, in a lit well. */}
-              <div className="relative overflow-hidden border-b border-border/70 bg-[#070a12] px-6 pt-8 pb-2">
+              <div className="relative isolate overflow-hidden border-b border-border/70 px-6 pt-8 pb-2 dark:bg-[#070a12]">
+                <ArtPanel sky={["dawn", "azure", "dusk"][i] as "dawn" | "azure" | "dusk"} seed={i * 4 + 2} res={260} className="absolute inset-0 -z-10 dark:hidden" />
                 <div aria-hidden className={cn("absolute -top-1/3 left-1/2 -z-0 h-[120%] w-[90%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(58_100_184/0.5),transparent)] blur-2xl transition-opacity duration-700", on || flagship ? "opacity-100" : "opacity-50 group-hover:opacity-90")} />
                 <SiteShowcase example={c.example} still panel={false} className="relative pointer-events-none" />
               </div>
