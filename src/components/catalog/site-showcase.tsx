@@ -22,7 +22,7 @@ export function SiteShowcase({ example = "clinic", className, still = false, pan
       </div>
 
       {/* The browser window. */}
-      <div className="surface-glass overflow-hidden rounded-2xl! p-0!">
+      <div className="surface-glass relative z-0 overflow-hidden rounded-2xl! p-0!">
         <div className="flex items-center gap-3 border-b border-border/60 px-3.5 py-2.5">
           <span className="flex gap-1.5">
             {[0.5, 0.3, 0.2].map((a) => <span key={a} className="size-2 rounded-full" style={{ background: `rgb(var(--ink) / ${a})` }} />)}
@@ -46,7 +46,7 @@ export function SiteShowcase({ example = "clinic", className, still = false, pan
 /** The phone, in front of the window's lower right: the clinic's site, laid out for a small screen. */
 function Phone({ still = false }: { still?: boolean }) {
   return (
-      <div className="absolute right-0 bottom-0 hidden w-[27%] rounded-[1.4rem] border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.08))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-[0.35rem] shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:block">
+      <div className="absolute right-0 bottom-0 z-10 hidden w-[27%] [transform:translateZ(2px)] rounded-[1.4rem] border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.08))] [background:linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-[0.35rem] shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:block">
         <div className="relative aspect-[9/18.5] overflow-hidden rounded-[1.1rem] [container-type:inline-size]">
           <div style={still ? { animation: "none" } : undefined} className="text-[4.6cqw] [--travel:calc(-100%_+_205.5cqw)] [animation:showcase-scroll_18s_var(--ease-soft)_-4s_infinite] group-hover/s:[animation-play-state:paused] motion-reduce:[animation:none]">
             <ClinicSite />
@@ -233,7 +233,7 @@ function FirmSite() {
  */
 function EditorPanel() {
   return (
-    <div className="absolute right-0 bottom-0 hidden w-[44%] gap-3 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
+    <div className="absolute right-0 bottom-0 z-10 hidden w-[44%] [transform:translateZ(2px)] gap-3 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] [background:linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
       <span className="flex items-center justify-between">
         <span className="label-mono text-[10px] text-foreground">EDITING · HOME</span>
         <span className="label-mono flex items-center gap-1.5 text-[9.5px]"><span className="size-1.5 rounded-full bg-[#3BB273]" />SAVED</span>
@@ -347,7 +347,7 @@ function LaunchSite() {
 function BudgetPanel() {
   const rows = [["Page weight", "640 KB", "1 MB", 0.64], ["Largest paint", "1.4 s", "2.0 s", 0.7], ["JavaScript", "110 KB", "150 KB", 0.73], ["Layout shift", "0.01", "0.10", 0.1]] as const
   return (
-    <div className="absolute right-0 bottom-0 hidden w-[44%] gap-2.5 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] bg-[linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
+    <div className="absolute right-0 bottom-0 z-10 hidden w-[44%] [transform:translateZ(2px)] gap-2.5 rounded-xl border border-[rgb(var(--ink)/calc(var(--edge-alpha)+0.06))] [background:linear-gradient(180deg,var(--glass-top),var(--glass-bottom)),var(--background)] p-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/var(--highlight-alpha)),var(--shadow-lift)] sm:grid">
       <span className="flex items-center justify-between">
         <span className="label-mono text-[10px] text-foreground">PERFORMANCE BUDGET</span>
         <span className="label-mono flex items-center gap-1.5 text-[9.5px]"><span className="size-1.5 rounded-full bg-[#3BB273]" />ALL UNDER</span>
