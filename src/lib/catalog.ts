@@ -86,7 +86,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     id: "custom-solutions",
-    label: "Custom solutions",
+    label: "Custom Solutions",
     href: "/custom-solutions",
     eyebrow: "CUSTOM SOLUTIONS · QUOTED",
     title: "AI and automation, built around how you work.",
