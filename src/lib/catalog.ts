@@ -76,7 +76,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     id: "web-apps",
-    label: "Web apps",
+    label: "Web Apps",
     href: "/web-apps",
     eyebrow: "WEB APPS · BY STAGE",
     title: "Web apps, from first plan to full product.",

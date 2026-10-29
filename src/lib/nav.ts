@@ -36,7 +36,7 @@ export const SOLUTIONS: NavGroup[] = [
       },
       {
         href: "/web-apps",
-        title: "Web apps",
+        title: "Web Apps",
         body: "Plan it, prove it, then build it. Fixed price per stage.",
         price: `Scoping ${money(plan("app-scoping").charges[0].amounts[REGION], REGION)}`,
         icon: "apps",

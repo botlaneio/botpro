@@ -62,7 +62,7 @@ export const OFFERINGS: readonly Offering[] = [
   {
     id: "web-apps",
     lane: "botlane",
-    name: "Web apps",
+    name: "Web Apps",
     kind: "service",
     notes: ["Apps are priced by stage: plan, prove, then build."],
     plans: [
