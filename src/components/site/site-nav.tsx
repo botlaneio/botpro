@@ -495,6 +495,10 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
         <div className="ml-auto flex items-center justify-end gap-2 lg:ml-0 lg:flex-1" onMouseEnter={unhover}>
           <Availability className="mr-2 hidden xl:inline-flex" />
           <ThemeSwitch />
+          <Link href="/account" onClick={close} aria-label="Sign in or sign up" className="inline-flex min-h-11 shrink-0 items-center rounded-full px-2 text-sm font-medium whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-3">
+            <span className="sm:hidden">Sign in</span>
+            <span className="hidden sm:inline">Sign in / Sign up</span>
+          </Link>
           <Link href="/contact" onClick={close} className="btn-light hidden h-9 items-center px-4 text-sm font-medium sm:inline-flex">Start a project</Link>
           <button
             ref={burger}
@@ -624,6 +628,9 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
             <Availability />
             <ThemeSwitch />
           </div>
+          <Link href="/account" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-5 text-[15px] font-medium transition-colors hover:bg-foreground/[0.05] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+            Sign in / Sign up
+          </Link>
           <Link href="/contact" onClick={close} className="flex h-12 items-center justify-between rounded-full bg-foreground pr-1.5 pl-5 text-[15px] font-medium text-background transition-[scale] duration-200 active:scale-[0.98]">
             Start a project
             <span className="grid size-9 place-items-center rounded-full bg-background text-foreground"><ArrowUpRight className="size-4" /></span>
