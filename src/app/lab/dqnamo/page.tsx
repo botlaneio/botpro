@@ -32,17 +32,17 @@ const ITEMS: { slug: string; title: string; line: string; demo: React.ReactNode;
 
 /**
  * A white canvas for evaluating dqnamo's experiments (JP, The Interface Company of London), copied from
- * dqnamo.com. Local only, for review: not to be pushed or used on the site until JP confirms the terms.
+ * dqnamo.com. The owner confirmed permission from JP on 29 October 2026. Original attribution is retained.
  */
 export default function DqnamoLab() {
   return (
     <main className="min-h-dvh bg-white text-grayscale-12 [color-scheme:light]">
       <div className="mx-auto max-w-6xl px-6 py-14">
         <header className="grid gap-3">
-          <span className="font-mono text-[11px] tracking-[0.08em] text-grayscale-10">LAB · EVALUATION ONLY</span>
+          <span className="font-mono text-[11px] tracking-[0.08em] text-grayscale-10">LAB · DQNAMO EXPERIMENTS</span>
           <h1 className="text-4xl font-medium tracking-[-0.04em]">dqnamo experiments</h1>
           <p className="max-w-2xl text-grayscale-10">
-            Twelve of the fifteen experiments from dqnamo.com, by JP at The Interface Company of London, running in Botlane&apos;s stack. Not for the live site until JP confirms the terms. Tactile Button, Advanced Model Selector and Logo Trace Loader are left out: their source isn&apos;t published in full.
+            Twelve of the fifteen experiments from dqnamo.com, by JP at The Interface Company of London, running in Botlane&apos;s stack. The owner has confirmed permission from JP to reuse these components. Tactile Button, Advanced Model Selector and Logo Trace Loader are left out: their source isn&apos;t published in full.
           </p>
         </header>
         <div className="mt-12 grid gap-5 md:grid-cols-2">

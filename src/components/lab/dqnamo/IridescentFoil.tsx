@@ -3,10 +3,20 @@ import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
   useEffect,
+  useSyncExternalStore,
   useRef,
 } from "react";
 import { cn } from "@/lib/utils";
 import styles from "./IridescentFoil.module.css";
+const motionQuery = "(prefers-reduced-motion: reduce)";
+function subscribeMotion(listener: () => void) {
+  const query = window.matchMedia(motionQuery);
+  query.addEventListener("change", listener);
+  return () => query.removeEventListener("change", listener);
+}
+const reducedSnapshot = () => window.matchMedia(motionQuery).matches;
+const serverReducedSnapshot = () => true;
+
 type ScrollProgressMode = "element" | "document";
 type IridescentFoilCustomProperty =
   | "--foil-shift"
@@ -86,12 +96,13 @@ export function IridescentFoil({
   style,
   ...props
 }: IridescentFoilProps) {
+  const reduceMotion = useSyncExternalStore(subscribeMotion, reducedSnapshot, serverReducedSnapshot);
   const foilRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const pointerRef = useRef({ x: 0.5, y: 0.5 });
   useEffect(() => {
     const foil = foilRef.current;
-    if (!foil) {
+    if (!foil || reduceMotion) {
       return;
     }
     const applyEffect = () => {
@@ -154,7 +165,7 @@ export function IridescentFoil({
         window.cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [scrollProgressMode]);
+  }, [scrollProgressMode, reduceMotion]);
   return (
     <div
       {...props}
