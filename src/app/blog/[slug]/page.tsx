@@ -5,7 +5,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { Contents, ReadingProgress } from "@/components/insights/article-chrome"
 import { MarkdownContent } from "@/components/insights/markdown-content"
-import { InsightCover } from "@/components/insights/insight-cover"
+import { ArticleArt } from "@/components/insights/article-art"
+import { ArticleShare } from "@/components/insights/article-share"
+import "@/components/insights/publication.css"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 import { anchor, findPost, formatDate, postsByDate, readingMinutes, type Block } from "@/lib/insights"
@@ -121,7 +123,8 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
             </span>
           </header>
 
-          <InsightCover variant={post.cover} topic={post.topic} className="aspect-[21/9] w-full" />
+          <div className="mb-4 flex justify-end"><ArticleShare slug={post.slug} title={post.title} /></div>
+          <ArticleArt slug={post.slug} className="article-hero-art rounded-2xl border border-border" />
 
           <div className="grid gap-12 py-14 sm:py-20 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-16">
             <Contents items={sections} />
@@ -134,7 +137,7 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
         <aside aria-label="Read next" className="grid gap-4 border-t border-border/60 py-12 sm:py-16">
           {next && next.slug !== post.slug && (
             <Link href={`/blog/${next.slug}`} className="surface-hairline group/n grid items-center gap-6 p-4 transition-colors hover:bg-foreground/[0.03] sm:grid-cols-[14rem_minmax(0,1fr)_auto] sm:p-5">
-              <InsightCover variant={next.cover} topic={next.topic} className="aspect-[16/10]" />
+              <ArticleArt slug={next.slug} className="rounded-xl" />
               <span className="grid gap-2">
                 <span className="label-mono text-[11px]">READ NEXT · {readingMinutes(next)} MIN</span>
                 <span className="text-xl font-medium tracking-tight text-balance">{next.title}</span>
