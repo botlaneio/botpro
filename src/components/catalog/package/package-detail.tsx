@@ -8,6 +8,8 @@ import { plan } from "@/lib/pricing"
 import { STEPS } from "@/lib/process"
 import { cn } from "@/lib/utils"
 
+import { ArtPanel } from "@/components/art/art-panel"
+
 import { CoreHeroPreview } from "../core-hero-preview"
 import { SiteShowcase } from "../site-showcase"
 
@@ -126,6 +128,8 @@ export function PackageDetail({ offer, c }: { offer: Offer; c: PackageContent })
           {/* The stage: the example site, lit, with a note floating either side. */}
           <div className="relative mt-12 w-full max-w-5xl sm:mt-16">
             <Pool className="inset-x-[-10%] top-[20%] bottom-[-20%] opacity-90" />
+            {/* By day the stage is a painted sky, the site floating on it; by night the blue light does that. */}
+            <ArtPanel sky={c.example === "launch" ? "dusk" : "azure"} seed={c.example === "launch" ? 5 : 9} className="absolute inset-x-0 top-[8%] bottom-[6%] rounded-[2rem] border border-[rgb(var(--ink)/0.06)] dark:hidden" />
             <CoreHeroPreview><SiteShowcase example={c.example} className="max-w-[54rem]" /></CoreHeroPreview>
             {c.notes.map(([label, value], i) => (
               <span

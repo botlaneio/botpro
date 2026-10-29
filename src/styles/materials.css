@@ -43,8 +43,8 @@
   --raised-lit: rgb(255 255 255 / 1);
   --raised-ring: rgb(0 0 0 / 0.025);
   --shadow-soft: 0 1px 2px rgb(16 24 40 / 0.06), 0 4px 10px -4px rgb(16 24 40 / 0.10);
-  --shadow-lift: 0 1px 2px rgb(16 24 40 / 0.04), 0 18px 36px -22px rgb(16 24 40 / 0.22);
-  --glass-top: rgb(255 255 255 / 0.92); --glass-bottom: rgb(255 255 255 / 0.72);
+  --shadow-lift: 0 1px 2px rgb(16 24 40 / 0.06), 0 0 0 1px rgb(16 24 40 / 0.015), 0 16px 32px -20px rgb(16 24 40 / 0.2);
+  --glass-top: #FFFFFF; --glass-bottom: rgb(255 255 255 / 0.96);
   --tip-bg: rgb(255 255 255 / 0.86);
   --menu-top: #FFFFFF; --menu-bottom: var(--neutral-1);
   --menu-drop: 0 32px 64px -32px rgb(16 24 40 / 0.28);
@@ -682,4 +682,18 @@
 @media (prefers-reduced-motion: reduce) {
   .pk-rise, .pk-caret, .pk-flow, .pk-draw, .pk-swap, .pk-gauge, .pk-fill, .pk-float { animation: none; }
   .pk-draw { stroke-dasharray: none; }
+}
+
+/* Light theme's structure (light only; dark has its light and depth instead). The page rails: hairlines down
+   the content's edges, the full length of the page. A dot field: a fine grid of dots under a quiet band,
+   fading to its edges, so open space reads as designed rather than empty. */
+.page-rails { position: absolute; inset: 0; z-index: -5; pointer-events: none; }
+.page-rails > div { height: 100%; max-width: 72rem; margin-inline: auto; border-inline: 1px solid rgb(var(--ink) / 0.07); }
+.dark .page-rails, .dark .dots-field::before { display: none; }
+.dots-field { position: relative; isolation: isolate; }
+.dots-field::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgb(var(--ink) / 0.085) 1px, transparent 1.3px);
+  background-size: 18px 18px; background-position: center;
+  mask-image: radial-gradient(70% 75% at 50% 50%, #000 35%, transparent);
 }
