@@ -7,6 +7,7 @@ import { Contents, ReadingProgress } from "@/components/insights/article-chrome"
 import { MarkdownContent } from "@/components/insights/markdown-content"
 import { ArticleArt } from "@/components/insights/article-art"
 import { ArticleShare } from "@/components/insights/article-share"
+import { DuetVisual } from "@/components/insights/duet-visuals"
 import "@/components/insights/publication.css"
 import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
@@ -129,7 +130,15 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
           <div className="grid gap-12 py-14 sm:py-20 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-16">
             <Contents items={sections} />
             <div id="note-body" className="grid max-w-[68ch] gap-6">
-              {post.body.map((b, i) => <Part key={i} block={b} />)}
+              {post.body.map((b, i) => {
+                const next = post.body[i + 1]
+                const section = [...post.body.slice(0, i + 1)].reverse().find((part) => part.type === "h2")
+                const sectionEnds = !next || next.type === "h2"
+                const visual = post.slug === "claude-duet-small-business" && sectionEnds && section?.type === "h2"
+                  ? ({ "What is Claude Duet?": "flow", "Three small business workflows worth evaluating": "morning", "Where a dedicated workflow still fits": "comparison" } as const)[section.text as "What is Claude Duet?" | "Three small business workflows worth evaluating" | "Where a dedicated workflow still fits"]
+                  : undefined
+                return <div key={i} className="grid min-w-0 gap-6"><Part block={b} />{visual && <DuetVisual kind={visual} />}</div>
+              })}
             </div>
           </div>
         </article>
