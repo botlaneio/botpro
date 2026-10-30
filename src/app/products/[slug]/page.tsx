@@ -28,7 +28,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const lane = laneFor((await params).slug)
-  return lane ? { title: `${lane.name} · Botlane`, description: lane.tagline } : {}
+  return lane ? { title: `${lane.name} · Botlane`, description: { syncc: "Syncc makes scheduling simple: share a booking link so people can choose a time that lands in your calendar.", scriblane: "Scriblane turns invoices, scans, and Office files into clean, checked data for your document-processing workflow.", flowlane: "Flowlane is in development: explore our upcoming automation product, or ask Botlane to connect your business tools today." }[lane.id] } : {}
 }
 
 /**
