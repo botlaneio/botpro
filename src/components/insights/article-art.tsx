@@ -11,8 +11,8 @@ export function ArticleArt({
 }) {
   if (slug === "claude-duet-small-business") {
     return (
-      <div aria-hidden="true" className={`insight-art ${className}`}>
-        <Image src="/images/insights/claude-duet.webp" alt="" fill sizes="(max-width: 768px) 100vw, 1200px" className="object-cover" />
+      <div className={`insight-art ${className}`}>
+        <Image src="/images/insights/claude-duet.webp" alt="Illustration of a small business owner reviewing an AI assistant briefing" fill sizes="(max-width: 768px) 100vw, 1200px" className="object-cover" />
       </div>
     );
   }
