@@ -1,4 +1,5 @@
 import { Stamp } from "@/components/lab/dqnamo/Stamp";
+import Image from "next/image";
 
 /** Editorial diagrams, not screenshots or measured customer outcomes. */
 export function ArticleArt({
@@ -8,6 +9,13 @@ export function ArticleArt({
   slug: string;
   className?: string;
 }) {
+  if (slug === "claude-duet-small-business") {
+    return (
+      <div aria-hidden="true" className={`insight-art ${className}`}>
+        <Image src="/images/insights/claude-duet.webp" alt="" fill sizes="(max-width: 768px) 100vw, 1200px" className="object-cover" />
+      </div>
+    );
+  }
   const kind = slug.includes("fixed-price")
     ? "scope"
     : slug.includes("cloudflare")

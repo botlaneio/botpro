@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${post.title} · Botlane`,
     description: post.dek,
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: { type: "article", title: post.title, description: post.dek, publishedTime: post.date, url: `/blog/${post.slug}` },
+    openGraph: { type: "article", title: post.title, description: post.dek, publishedTime: post.date, url: `/blog/${post.slug}`, ...(post.slug === "claude-duet-small-business" ? { images: [{ url: "/images/insights/claude-duet.webp", width: 1672, height: 941, alt: "A small business owner reviews an illustrated AI assistant briefing on a phone" }] } : {}) },
   }
 }
 
