@@ -5,12 +5,13 @@ import { buildPosts, parsePost } from "./build-insights.mjs"
 
 const directory = new URL("../src/content/blog", import.meta.url)
 
-test("imports all seven articles with preserved URLs and true publication dates", () => {
+test("imports all published articles with preserved URLs and true publication dates", () => {
   const posts = buildPosts(directory)
   assert.deepEqual(posts.map((p) => [p.slug, p.date]), [
     ["after-hours-enquiries", "2026-10-23"],
     ["ai-appointment-booking-implementation", "2026-10-28"],
     ["ai-chatbot-vs-booking-form", "2026-10-24"],
+    ["claude-duet-small-business", "2026-10-30"],
     ["fixed-scope-explained", "2026-10-21"],
     ["google-business-profile-checklist", "2026-10-18"],
     ["service-business-intake-requirements", "2026-10-28"],
