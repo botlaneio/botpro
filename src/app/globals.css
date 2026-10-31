@@ -288,10 +288,12 @@
 @keyframes reveal-rise {
   from { opacity: 0; transform: translateY(22px); }
 }
-.reveal-on [data-reveal]:not([data-revealed]) {
+/* `data-reveal="off"` opts a group out. The attribute still matched these rules, so an opted-out
+   page (the account form) stayed at opacity 0 after .reveal-on was added. Leave "off" visible. */
+.reveal-on [data-reveal]:not([data-reveal="off"]):not([data-revealed]) {
   opacity: 0;
 }
-.reveal-on [data-reveal][data-revealed=""] {
+.reveal-on [data-reveal]:not([data-reveal="off"])[data-revealed=""] {
   animation: reveal-rise var(--duration-lift) var(--ease-lift) var(--reveal-delay, 0ms) backwards;
 }
 
