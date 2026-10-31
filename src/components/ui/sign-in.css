@@ -1,19 +1,56 @@
-/* Scoped to the supplied account component. Content remains visible without animation. */
-@keyframes authFadeSlideIn {
+/* Account pages. The rise fills backwards only, and only when motion is allowed, so the
+   form is never left at opacity 0. The global reveal opt-out is handled in globals.css.
+   The light theme's content rails belong to the marketing pages; they cut across this full-bleed form. */
+body:has(.auth-page) .page-rails { display: none; }
+
+@keyframes auth-rise {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
-@keyframes authSlideRightIn {
-  from { opacity: 0; transform: translateX(18px); }
-  to { opacity: 1; filter: blur(0); transform: translateX(0); }
-}
-@keyframes authTestimonialIn {
-  from { opacity: 0; transform: translateY(12px) scale(.98); }
-  to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
-}
+
 @media (prefers-reduced-motion: no-preference) {
-  .auth-page .auth-element { animation: authFadeSlideIn 600ms var(--ease-lift) var(--auth-delay, 0ms) backwards; }
-  .auth-page .auth-image { animation: authSlideRightIn 700ms var(--ease-lift) 120ms backwards; }
-  .auth-page .auth-testimonial { animation: authTestimonialIn 600ms var(--ease-lift) var(--auth-delay, 0ms) backwards; }
+  .auth-page .auth-rise {
+    animation: auth-rise 700ms var(--ease-lift) var(--auth-delay, 0ms) backwards;
+  }
 }
-.auth-page :is(button, a):focus-visible { outline: 2px solid var(--brand-text); outline-offset: 4px; }
+
+/* Soft cobalt wash behind the sign-up card. Same blues as the page's ambient light. */
+.auth-wash {
+  background: radial-gradient(closest-side, rgb(143 180 242 / 0.55), transparent 72%);
+}
+.auth-wash-soft {
+  background: radial-gradient(closest-side, rgb(197 216 238 / 0.85), transparent 70%);
+}
+.dark .auth-wash {
+  background: radial-gradient(closest-side, rgb(48 96 176 / 0.5), transparent 72%);
+}
+.dark .auth-wash-soft {
+  background: radial-gradient(closest-side, rgb(79 123 255 / 0.18), transparent 70%);
+}
+
+/* The sign-in ribbon: a blurred cobalt stroke, not a second brand colour. */
+.auth-ribbon {
+  color: rgb(143 180 242 / 0.95);
+  filter: blur(18px);
+}
+.dark .auth-ribbon {
+  color: rgb(79 123 255 / 0.38);
+}
+
+/* Danger is #F2555A, which is too light for small text on a white card. Darken it for the
+   words; the field border keeps the token. On dark the token already reads clearly. */
+.auth-error {
+  color: color-mix(in oklch, var(--destructive) 68%, black);
+}
+.dark .auth-error {
+  color: var(--destructive);
+}
+
+@media (min-width: 1024px) {
+  .auth-col {
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    justify-content: safe center;
+  }
+}
