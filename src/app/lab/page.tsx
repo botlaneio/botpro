@@ -31,6 +31,7 @@ import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
+import { BotlaneLockup, BotlaneSeal } from "@/components/site/botlane-seal"
 import { HeroMark } from "@/components/site/hero-mark"
 import { AgentMark } from "@/components/site/agent-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
@@ -177,15 +178,27 @@ export default async function Lab() {
         </form>
       </Section>
 
-      <Section id="mark" title="The mark" note="The Visor: a helmet seen only where light catches its right edge. Below 64px it switches to heavier eyes for small sizes.">
+      <Section id="mark" title="The mark" note="The seal: a dark glass disc holding the circuit bolt, with Syncc, Scriblane and Flowlane lit round its edge. Each size gets its own drawing.">
         <div className="flex flex-wrap items-end gap-10">
           <BotlaneMark size={26} id="lab-mark-s" />
           <BotlaneMark size={64} id="lab-mark-m" />
           <BotlaneMark size={120} id="lab-mark-l" />
         </div>
+        <BotlaneSeal size={420} label="The Botlane seal" />
+        <div className="flex flex-wrap items-center gap-8">
+          <BotlaneSeal size={180} rings lanes={["brand"]} />
+          <BotlaneSeal size={180} rings lanes={["teal"]} />
+          <BotlaneSeal size={180} rings lanes={["violet"]} />
+          <BotlaneSeal size={180} rings lanes={["orchid"]} />
+        </div>
+        <BotlaneLockup height={40} />
+        <div className="grid justify-items-center gap-6 rounded-[calc(var(--radius)*1.4)] bg-[#0B0C0E] p-8">
+          <BotlaneSeal size={260} tone="white" label="The Botlane seal in white" />
+          <BotlaneLockup height={32} tone="white" />
+        </div>
         <div className="grid justify-items-start gap-2">
           <HeroMark size={140} />
-          <p className="text-sm text-muted-foreground">The homepage mark: the light follows the pointer, the eyes look at it, and a line of light passes every few seconds.</p>
+          <p className="text-sm text-muted-foreground">The old Visor homepage mark, kept here for reference: the light follows the pointer, the eyes look at it, and a line of light passes every few seconds.</p>
         </div>
       </Section>
 
