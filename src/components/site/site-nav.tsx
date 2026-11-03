@@ -405,7 +405,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
 
       <div className="relative mx-auto flex h-full max-w-6xl items-center gap-4 px-4 sm:px-6">
         <Link href="/" onClick={close} onMouseEnter={unhover} className="flex items-center gap-2 lg:flex-1">
-          <BotlaneMark size={26} id="nav-mark" />
+          <BotlaneMark size={28} id="nav-mark" />
           <span className="font-semibold tracking-[-0.035em]">botlane</span>
         </Link>
 

@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils"
 // read their own tokens, so the seal follows the theme; the disc stays dark in both themes, like a button that keeps its own material.
 const R = 376
 const REACH = 512   // half the canvas with the rings on
-const NEAT = R + 2  // half the canvas with the rings off
+// Half the canvas with the rings off. The rim's stroke stays at least 1.25px however small the seal gets, so the padding
+// grows as the size falls: enough for that stroke and 1px clear on every side.
+const neat = (size: number) => Math.ceil(Math.max(R + 26, (R - 2.5) / (1 - ((size < 24 ? 1.75 : 1.25) + 2) / size)))
 const LINE = 18.92     // the bolt's line width
 const ICON = "M-1.7 -199.3L-1.7 -145.1L36.5 -107.3L-17.2 -41.9L14.6 -17.8L-39.1 47.5L-0.9 85.3L-0.9 139.5M-0.9 196.3L-0.9 259.1M-1.7 -145.1L-118.2 -29.9L-198.6 -29.9M-0.9 85.3L115.7 -29.9L196.1 -29.9M-118.2 -29.9L-71.8 14.8L-152.2 100.8M115.7 -29.9L69.2 -74.6L149.6 -160.6M-215.0 -161.0L-143.2 -161.0L-64.5 -82.3M212.4 101.3L140.6 101.3L61.9 22.6M-30.1 -227.7a28.4 28.4 0 1 0 56.8 0a28.4 28.4 0 1 0 -56.8 0ZM-29.2 167.9a28.4 28.4 0 1 0 56.8 0a28.4 28.4 0 1 0 -56.8 0ZM-255.4 -29.9a28.4 28.4 0 1 0 56.8 0a28.4 28.4 0 1 0 -56.8 0ZM196.1 -29.9a28.4 28.4 0 1 0 56.8 0a28.4 28.4 0 1 0 -56.8 0ZM-227.5 133.5a44.7 44.7 0 1 0 89.4 0a44.7 44.7 0 1 0 -89.4 0ZM135.4 -193.3a44.7 44.7 0 1 0 89.4 0a44.7 44.7 0 1 0 -89.4 0Z"
 const BOLT = "M-1.7 -145.1L36.5 -107.3L-17.2 -41.9L14.6 -17.8L-39.1 47.5L-0.9 85.3"  // the spine's zigzag alone, for the tiny size
@@ -66,7 +68,7 @@ const opticalFor = (disc: number): SealOptical => (disc < 24 ? "tiny" : disc < 4
 
 /**
  * The seal. `size` is in pixels. Below 160px the rings are left off unless `rings` asks for them, because they turn to
- * dust; the disc then fills the whole size. The drawing follows the disc's real width on screen:
+ * dust; the disc then fills the size, less a small padding. The drawing follows the disc's real width on screen:
  *
  *   tiny    under 24px   the zigzag alone, heavy and still, on the disc
  *   small   24 to 47px   heavy circuit, no traces or ticks, and a still beam
@@ -84,9 +86,9 @@ const opticalFor = (disc: number): SealOptical => (disc < 24 ? "tiny" : disc < 4
 export function BotlaneSeal({ size = 64, rings, animated = true, optical, lanes = THREE_LANES, tone = "theme", className, label }: { size?: number; rings?: boolean; animated?: boolean; optical?: SealOptical; lanes?: readonly SealLane[]; tone?: SealTone; className?: string; label?: string }) {
   const id = useId().replace(/:/g, "")
   const showRings = rings ?? size >= 160
-  const half = showRings ? REACH : NEAT
+  const half = showRings ? REACH : neat(size)
   const px = size / (half * 2)   // pixels per unit
-  const look = optical ?? opticalFor(R * 2 * px)
+  const look = optical ?? opticalFor(showRings ? R * 2 * px : size)
   const tiny = look === "tiny", small = tiny || look === "small", large = look === "large"
   const line = LINE * (tiny ? 3.4 : small ? 1.75 : large ? 1 : 1.3)
   const art = tiny ? BOLT : ICON
