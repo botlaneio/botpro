@@ -32,7 +32,7 @@ export function SiteFooter({ description = "An independent studio for websites a
       <div data-stagger className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:gap-x-6 sm:px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
-            <BotlaneMark size={30} id="footer-mark" />
+            <BotlaneMark size={32} id="footer-mark" />
             <span className="text-lg font-semibold tracking-[-0.035em]">botlane</span>
           </Link>
           <p className="max-w-xs text-sm text-muted-foreground">{description}</p>
