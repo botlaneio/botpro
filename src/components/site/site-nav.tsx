@@ -523,8 +523,9 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
         onPointerCancel={onTouchEnd}
         className={cn(
           "surface-pill-sheet fixed top-0 right-0 bottom-0 z-50 flex w-[min(78vw,24rem)] touch-pan-y flex-col overflow-hidden rounded-l-[1.75rem] border-r-0 lg:hidden",
-          drag ? "transition-none" : "transition-[translate,box-shadow] duration-500 ease-(--ease-lift)",
-          sheet ? "translate-x-0 shadow-[-30px_0_80px_-20px_rgb(0_0_0/0.55)]" : "translate-x-[105%] shadow-none",
+          drag ? "transition-none" : "transition-[translate,box-shadow,visibility] duration-500 ease-(--ease-lift)",
+          // Hidden as well as moved away, so a closed drawer can't show even if a browser drops the translate.
+          sheet ? "visible translate-x-0 shadow-[-30px_0_80px_-20px_rgb(0_0_0/0.55)]" : "invisible translate-x-[105%] shadow-none",
         )}
         style={sheet && drag ? { translate: `${drag}px 0` } : undefined}
       >
