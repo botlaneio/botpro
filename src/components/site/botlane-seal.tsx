@@ -3,7 +3,7 @@ import { useId } from "react"
 import { cn } from "@/lib/utils"
 
 // The Botlane seal: a dark glass disc holding the circuit bolt, with rings of broken arcs round it. Light falls from
-// above and short arcs of light travel round the edge, as on surface-apex, one for each product lane. All coordinates share one space
+// above and short arcs of light travel round the edge, as on surface-apex. All coordinates share one space
 // with the disc's centre at 0,0, so the beams can turn about the origin. The rings read --neutral-12 and the lane colours
 // read their own tokens, so the seal follows the theme; the disc stays dark in both themes, like a button that keeps its own material.
 const R = 376
@@ -44,7 +44,7 @@ const LANE = {
   orchid: { live: "color-mix(in srgb, var(--orchid-solid, #E36BD3), var(--neutral-12, #EDEEF0) 24%)", solid: "#E36BD3", lit: "#F4B9EC" },
 } as const
 export type SealLane = keyof typeof LANE
-const THREE_LANES: readonly SealLane[] = ["teal", "violet", "orchid"]
+const BOTLANE: readonly SealLane[] = ["brand"]
 
 // Beams share the edge evenly: the first head sits here, in degrees clockwise from the right, and each beam is shorter the more there are.
 const BEAM_HEAD = -48, BEAM_LENGTH = { 1: 104, 2: 80, 3: 62 } as const
@@ -77,13 +77,13 @@ const opticalFor = (disc: number): SealOptical => (disc < 24 ? "tiny" : disc < 4
  *
  * Hairlines use non-scaling strokes, so they stay exact device-pixel lines at any size.
  *
- * `lanes` picks the colours, one to three, in order: by default Syncc teal, Scriblane violet and Flowlane orchid. Each
- * lane lights one arc of the rings and one beam on the disc's edge, so `lanes={["teal"]}` is the seal for Syncc alone
- * and `lanes={["brand"]}` is the blue Botlane seal. The beams turn once every 7 seconds and stop under reduced motion;
+ * `lanes` picks the colours, one to three, in order: by default Botlane's blue alone, which is the logo. Each
+ * lane lights one arc of the rings and one beam on the disc's edge, so `lanes={["teal"]}` is the seal for Syncc alone,
+ * for use inside that product's own scope. The beams turn once every 7 seconds and stop under reduced motion;
  * pass `animated={false}` for a still seal. `tone="white"` is the one-colour version for dark backgrounds and photos:
  * all white, no lanes, no glass fill and no motion.
  */
-export function BotlaneSeal({ size = 64, rings, animated = true, optical, lanes = THREE_LANES, tone = "theme", className, label }: { size?: number; rings?: boolean; animated?: boolean; optical?: SealOptical; lanes?: readonly SealLane[]; tone?: SealTone; className?: string; label?: string }) {
+export function BotlaneSeal({ size = 64, rings, animated = true, optical, lanes = BOTLANE, tone = "theme", className, label }: { size?: number; rings?: boolean; animated?: boolean; optical?: SealOptical; lanes?: readonly SealLane[]; tone?: SealTone; className?: string; label?: string }) {
   const id = useId().replace(/:/g, "")
   const showRings = rings ?? size >= 160
   const half = showRings ? REACH : neat(size)

@@ -178,7 +178,7 @@ export default async function Lab() {
         </form>
       </Section>
 
-      <Section id="mark" title="The mark" note="The seal: a dark glass disc holding the circuit bolt, with Syncc, Scriblane and Flowlane lit round its edge. Each size gets its own drawing.">
+      <Section id="mark" title="The mark" note="The seal: a dark glass disc holding the circuit bolt, with one blue beam round its edge. Each size gets its own drawing. Product versions are for use inside that product's scope.">
         <div className="flex flex-wrap items-end gap-10">
           <BotlaneMark size={26} id="lab-mark-s" />
           <BotlaneMark size={64} id="lab-mark-m" />
@@ -186,7 +186,6 @@ export default async function Lab() {
         </div>
         <BotlaneSeal size={420} label="The Botlane seal" />
         <div className="flex flex-wrap items-center gap-8">
-          <BotlaneSeal size={180} rings lanes={["brand"]} />
           <BotlaneSeal size={180} rings lanes={["teal"]} />
           <BotlaneSeal size={180} rings lanes={["violet"]} />
           <BotlaneSeal size={180} rings lanes={["orchid"]} />
