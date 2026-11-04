@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { usePathname } from "next/navigation"
 import Lenis from "lenis"
 
+import { setSmoothScroll } from "@/lib/smooth-scroll"
+
 /**
  * The page's own motion, mounted once in the layout:
  *
@@ -52,9 +54,10 @@ export function ScrollMotion() {
     // Radix marks <body> while a dialog, sheet or select holds the page still.
     const body = document.body
     const sync = () => (body.hasAttribute("data-scroll-locked") ? lenis.stop() : lenis.start())
+    setSmoothScroll(lenis)
     const mo = new MutationObserver(sync)
     mo.observe(body, { attributes: true, attributeFilter: ["data-scroll-locked"] })
-    return () => { mo.disconnect(); lenis.destroy() }
+    return () => { mo.disconnect(); setSmoothScroll(null); lenis.destroy() }
   }, [])
 
   // Reveal on scroll, re-scanned on every route.

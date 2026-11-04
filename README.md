@@ -42,6 +42,8 @@ Copy `.env.example` to `.env.local` for development. In production every value i
 | `src/lib/insights.ts` | The Insights notes at `/blog` |
 | `src/lib/partners.ts` | The partner programme's terms and application rules (the dialog is in `src/components/partners/`) |
 | `src/lib/site.ts` | The public address, used for canonical links, the sitemap and robots.txt |
+| `src/components/site/lane-orb/` | Lane, the particle orb in the corner: `engine.js` draws the orb and runs the panel and the conversation, `lane-orb.tsx` mounts it in the layout |
+| `src/lib/lane.ts` | Lane's ElevenLabs agent ID, and where Lane's knowledge lives |
 | `src/app/solutions/` | The Solutions hub; each category and offer has its own route (`/websites`, `/web-apps`, `/custom-solutions`) |
 | `src/app/lab/` | The component lab: every primitive in the Botlane finishes. Not indexed, not in the sitemap |
 | `design/hairline/` | Sources of the four lane figures, written for the hairline-create skill |
@@ -52,6 +54,16 @@ Copy `.env.example` to `.env.local` for development. In production every value i
 - **Electric blue is Botlane's own accent,** used sparingly: the glow behind a page's opening section (`glow-brand`), the Founding Ten banner and the logo mark. Use `bg-brand` / `text-brand-text`; everything else stays neutral.
 - **Product colour lives in a lane scope.** Wrap a product card, section or page in `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
 - **Status colours are for mock UI only,** never for lanes.
+
+## Lane
+
+Lane is Botlane's intelligence orchestrator: an ElevenLabs agent (voice "Lane") that visitors type or talk to through the particle orb in the bottom-right corner. Lane scrolls the homepage to what it is explaining (`brief`, `build`, `stack`, `products`, `process`, and the closing section) and opens pages through the router, so the conversation carries on across them.
+
+- **What Lane knows** is the agent's system prompt in ElevenLabs (agent "Lane – botlane.io guide (orb)"), not this repo. Update it when prices or services change.
+- **The agent ID** is in `src/lib/lane.ts`. It is public by design; no secret is needed.
+- **Limits** are set on the agent: allowed hosts, 5 conversations at once, 150 a day, transcripts kept 30 days.
+- **Privacy:** the orb stores nothing in the browser, so the cookie note stays true. The ElevenLabs SDK loads only when a visitor starts a conversation.
+- **Renamed a homepage section id?** Update `DEFAULT_SECTIONS` in `engine.js`.
 
 ## Deploy
 
