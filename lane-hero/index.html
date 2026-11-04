@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Lane Scroll Engine</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one pinned stage. Pre-rendered Lane frames (transparent background) are scrubbed by scroll on a canvas; a "behind" text layer sits under Lane and a "front" content layer above, each moving at its own speed. A live eye line, positioned per frame from a visor track, reacts to Lane's voice. The final shot dissolves Lane into the wordmark. */
+:root {
+  --bg: #f2f3f5;
+  --fg: #16181c;
+  --muted: #4b505a;
+  --label: #686d77;
+  --panel: rgba(255, 255, 255, 0.72);
+  --line: rgba(22, 24, 28, 0.12);
+  --accent: #2f55f0;
+  --accent-text: #1e3fc8;
+  --on-accent: #ffffff;
+  --word: rgba(22, 24, 28, 0.9);
+  --glow: rgba(79, 123, 255, 0.22);
+  --scrim: rgba(242, 243, 245, 0.92);
+  --ok: #12a150;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #05070c; --fg: #edeef0; --muted: #b6bac2; --label: #8a8f99;
+    --panel: rgba(14, 17, 25, 0.7); --line: rgba(237, 238, 240, 0.13);
+    --accent: #4f7bff; --accent-text: #9db5ff; --on-accent: #050a1f;
+    --word: rgba(237, 238, 240, 0.9); --glow: rgba(47, 85, 240, 0.3); --scrim: rgba(5, 7, 12, 0.9); --ok: #5cdd8b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #05070c; --fg: #edeef0; --muted: #b6bac2; --label: #8a8f99;
+  --panel: rgba(14, 17, 25, 0.7); --line: rgba(237, 238, 240, 0.13);
+  --accent: #4f7bff; --accent-text: #9db5ff; --on-accent: #050a1f;
+  --word: rgba(237, 238, 240, 0.9); --glow: rgba(47, 85, 240, 0.3); --scrim: rgba(5, 7, 12, 0.9); --ok: #5cdd8b;
+  color-scheme: dark;
+}
+@media (min-width: 860px) {
+  :root { --gutter-l: max(48px, env(safe-area-inset-left, 0px)); --gutter-r: max(48px, env(safe-area-inset-right, 0px)); }
+}
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); -webkit-font-smoothing: antialiased; transition: background-color .5s ease, color .5s ease; }
+a { color: inherit; text-decoration: none; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+
+.nav { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 20; display: flex; align-items: center; gap: 24px; height: 72px; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.wordmark { font-weight: 600; font-size: 1.15rem; letter-spacing: -0.03em; }
+.links { display: flex; gap: 22px; margin-left: 18px; font-size: .9rem; color: var(--muted); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.icon-btn { appearance: none; width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: var(--fg); display: grid; place-items: center; cursor: pointer; }
+.icon-btn svg { width: 17px; height: 17px; }
+.toggle .moon { display: none; }
+.is-dark .toggle .sun { display: none; }
+.is-dark .toggle .moon { display: block; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 999px; font: 500 .92rem/1 var(--sans); border: 1px solid transparent; cursor: pointer; transition: transform .2s ease; }
+.btn:focus-visible, .icon-btn:focus-visible, .sound:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost { border-color: var(--line); background: var(--panel); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: var(--fg); }
+.btn-sm { height: 36px; padding: 0 14px; font-size: .85rem; }
+
+/* pinned stage */
+.reel { position: relative; }
+.pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+.behind { z-index: 1; display: grid; place-items: center; overflow: hidden; }
+.behind span { grid-area: 1 / 1; font-weight: 600; font-size: clamp(5rem, 20vw, 21rem); letter-spacing: -0.06em; line-height: 1; color: var(--word); opacity: 0; white-space: nowrap; will-change: transform, opacity; }
+#lane { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; display: block; }
+.front { z-index: 3; }
+.front > * { position: absolute; opacity: 0; will-change: transform, opacity; }
+.front .on { pointer-events: auto; }
+.kicker { margin: 0 0 12px; font: 500 11px/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); }
+.hero-copy { left: var(--gutter-l); bottom: 12vh; max-width: 520px; }
+.hero-copy h1 { margin: 0 0 18px; font-weight: 600; font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: .98; letter-spacing: -0.045em; text-wrap: balance; }
+.hero-copy h1 em { font-style: normal; color: var(--accent); }
+.hero-copy p { margin: 0 0 22px; color: var(--muted); line-height: 1.6; max-width: 44ch; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.card { width: min(380px, calc(100% - 32px)); padding: 22px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-sizing: border-box; }
+.card h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); line-height: 1.6; font-size: .95rem; }
+.card .row { margin-top: 18px; }
+.c-right { right: var(--gutter-r); top: 50%; }
+.c-left { left: var(--gutter-l); top: 50%; }
+.c-bottom { left: 50%; bottom: 8vh; text-align: center; }
+.c-bottom .row { justify-content: center; }
+.tagline { left: var(--gutter-l); right: var(--gutter-r); bottom: 9vh; display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.tagline p { margin: 0; font-size: clamp(1.4rem, 2.6vw, 2.2rem); letter-spacing: -0.03em; line-height: 1.1; text-align: right; }
+.tagline small { color: var(--muted); max-width: 32ch; line-height: 1.5; font-size: .85rem; }
+
+/* sound + captions */
+.sound { position: fixed; z-index: 25; right: var(--gutter-r); bottom: max(20px, env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); color: var(--fg); font: 500 .85rem var(--sans); cursor: pointer; }
+.sound .bars { display: inline-flex; align-items: end; gap: 2px; height: 14px; }
+.sound .bars i { width: 3px; height: 4px; border-radius: 2px; background: var(--accent); }
+.sound[aria-pressed="true"] .bars i { animation: eq 1s ease-in-out infinite; }
+.sound .bars i:nth-child(2) { animation-delay: -.3s; } .sound .bars i:nth-child(3) { animation-delay: -.6s; }
+@keyframes eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+.captions { position: fixed; z-index: 24; left: var(--gutter-l); bottom: max(24px, env(safe-area-inset-bottom, 0px)); max-width: min(520px, calc(100% - 220px)); padding: 10px 16px; border-radius: 12px; background: rgba(5, 7, 12, 0.82); color: #f2f3f5; font-size: 1rem; line-height: 1.45; text-align: center; opacity: 0; transition: opacity .2s ease; pointer-events: none; }
+.captions.on { opacity: 1; }
+.loader { position: fixed; z-index: 24; left: var(--gutter-l); bottom: max(28px, env(safe-area-inset-bottom, 0px)); font: 400 11px/1.4 var(--mono); color: var(--label); transition: opacity .6s ease; }
+.loader.done { opacity: 0; }
+
+/* after the reel */
+.after { position: relative; z-index: 1; padding-left: var(--gutter-l); padding-right: var(--gutter-r); padding-block: 96px 40px; border-top: 1px solid var(--line); background: var(--bg); }
+.after .inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
+.after h2 { margin: 0 0 14px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
+.after p { color: var(--muted); line-height: 1.6; margin: 0 0 22px; max-width: 46ch; }
+details { border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; background: var(--panel); }
+summary { cursor: pointer; font-weight: 500; }
+details ol { margin: 14px 0 0; padding-left: 20px; color: var(--muted); line-height: 1.7; }
+.foot { padding-left: var(--gutter-l); padding-right: var(--gutter-r); padding-block: 24px 96px; color: var(--label); font-size: .8rem; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); }
+
+/* live talk */
+.talk-btn { position: absolute; z-index: 4; left: 0; top: 0; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid rgba(157, 181, 255, 0.55); background: rgba(6, 13, 38, 0.72); color: #eef3ff; font: 500 .85rem var(--sans); cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: ping 2.6s ease-out infinite; opacity: 0; pointer-events: none; transition: opacity .3s ease; will-change: transform; }
+.talk-btn.show { opacity: 1; pointer-events: auto; }
+.talk-btn svg { width: 16px; height: 16px; }
+.talk-btn:focus-visible, .talk-bar button:focus-visible { outline: 2px solid #9db5ff; outline-offset: 3px; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(79, 123, 255, .45), 0 8px 30px -10px rgba(79, 123, 255, .8); } 70%, 100% { box-shadow: 0 0 0 14px rgba(79, 123, 255, 0), 0 8px 30px -10px rgba(79, 123, 255, .8); } }
+.talk-bar { position: fixed; z-index: 26; left: 50%; bottom: max(24px, env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); box-sizing: border-box; padding: 8px 8px 8px 16px; border-radius: 22px; border: 1px solid var(--line); background: var(--panel); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); color: var(--fg); font: 500 .88rem/1.4 var(--sans); opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
+.talking .talk-bar { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.talk-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+.talk-bar[data-state="speaking"] .dot { background: #7da0ff; box-shadow: 0 0 10px #7da0ff; }
+.talk-bar[data-state="failed"] .dot { background: #e5484d; }
+.talk-bar a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+.talk-bar button { appearance: none; height: 34px; padding: 0 14px; border-radius: 999px; border: 0; background: var(--fg); color: var(--bg); font: 500 .82rem var(--sans); cursor: pointer; flex: none; }
+html.talking { overflow: hidden; }
+.talking .sound, .talking .loader { opacity: 0; pointer-events: none; }
+.talking .captions { left: 50%; transform: translateX(-50%); top: auto; bottom: 96px; max-width: min(620px, calc(100% - 32px)); width: max-content; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .talk-btn { animation: none; } }
+
+@media (max-width: 859px) {
+  .links { display: none; }
+  .nav { height: 60px; }
+  .hero-copy { bottom: 4vh; right: var(--gutter-r); }
+  .hero-copy h1 { font-size: 2.5rem; }
+  .c-right, .c-left { left: var(--gutter-l); right: var(--gutter-r); top: auto; bottom: 4vh; width: auto; }
+  .c-bottom { left: var(--gutter-l); right: var(--gutter-r); width: auto; bottom: 4vh; }
+  .card { padding: 18px; }
+  .card h2 { font-size: 1.6rem; }
+  .tagline { flex-direction: column; align-items: flex-start; }
+  .tagline p { text-align: left; }
+  .after .inner { grid-template-columns: minmax(0, 1fr); }
+  .sound { display: none; }
+  .captions { left: 50%; right: auto; bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 64px); transform: translateX(-50%); max-width: calc(100% - 32px); width: max-content; font-size: .92rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body, .captions, .loader { transition: none; }
+  .sound[aria-pressed="true"] .bars i { animation: none; height: 10px; }
+}
+</style>
+
+<header class="nav">
+  <a class="wordmark" href="https://botlane.io" aria-label="Botlane home">botlane</a>
+  <nav class="links" aria-label="Main"><a href="https://botlane.io">Solutions</a><a href="https://botlane.io">Products</a><a href="https://botlane.io">Insights</a></nav>
+  <div class="nav-right">
+    <button class="icon-btn toggle" id="toggle" type="button" aria-label="Switch to dark theme">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+    </button>
+    <a class="btn btn-ghost btn-sm" href="https://botlane.io">Start a project</a>
+  </div>
+</header>
+
+<main>
+  <section class="reel" id="reel" aria-label="Meet Lane">
+    <div class="pin" id="pin">
+      <div class="layer behind" aria-hidden="true">
+        <span data-shot="turn">Hello.</span>
+        <span data-shot="answer">Answers.</span>
+        <span data-shot="automate">Automates.</span>
+        <span data-shot="ready">Delivers.</span>
+      </div>
+      <canvas id="lane" aria-hidden="true"></canvas>
+      <button class="talk-btn" id="talk" type="button" aria-label="Talk to Lane"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>Talk to me</button>
+      <div class="layer front" id="front">
+        <div class="hero-copy" data-shot="open" data-in="-1" data-out="1.35" data-speed="1.3">
+          <p class="kicker">Agent Lane // L-01</p>
+          <h1>Meet Lane. Your newest <em>teammate.</em></h1>
+          <p>Lane answers your visitors, moves work between your tools and clears the busywork. Scroll to meet him.</p>
+          <div class="row"><a class="btn btn-primary" href="https://botlane.io">Put Lane to work</a><a class="btn btn-ghost" href="#after">Skip intro</a></div>
+        </div>
+        <div class="card c-left" data-shot="answer" data-speed="1.25">
+          <p class="kicker">01 · Website chat</p>
+          <h2>Answers every visitor.</h2>
+          <p>Trained on your business, Lane replies to questions on your site day and night, in your words, and hands warm leads to you.</p>
+        </div>
+        <div class="card c-left" data-shot="automate" data-speed="1.25">
+          <p class="kicker">02 · Workflow automation</p>
+          <h2>Clears the busywork.</h2>
+          <p>Lane connects the tools you already use and moves work between them, so routine jobs finish themselves.</p>
+        </div>
+        <div class="card c-bottom" data-shot="ready" data-speed="1.2">
+          <p class="kicker">03 · How we work</p>
+          <h2>Scoped and priced up front.</h2>
+          <p>Tell us how your business runs. We agree the scope and the price before any work begins.</p>
+          <div class="row"><a class="btn btn-primary" href="https://botlane.io">Put Lane to work</a></div>
+        </div>
+        <div class="tagline" data-shot="dissolve" data-in="0.84" data-speed="1">
+          <small>Custom websites, web apps and AI, designed around your business.</small>
+          <p>Experiences.<br>Worth putting your name on.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="after" id="after">
+    <div class="inner">
+      <div>
+        <p class="kicker">Next</p>
+        <h2>The right build. For where you're headed.</h2>
+        <p>Websites from $2,500, web apps planned and priced in stages, and AI like Lane that works alongside your team.</p>
+        <div class="row"><a class="btn btn-primary" href="https://botlane.io">Start a project</a></div>
+      </div>
+      <div><p class="kicker">Ask Lane anything</p><p>Lane is Botlane’s AI teammate. Tap <strong>Talk to me</strong> on his visor and ask about websites, web apps, automation or pricing. He’ll point you to the right build.</p></div>
+    </div>
+  </section>
+  <footer class="foot"><span>botlane</span><span>Prototype · scroll engine with Veo 3.1 footage and a live Lane agent</span></footer>
+</main>
+
+<button class="sound" id="sound" type="button" aria-pressed="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="label">Talk to Lane</span></button>
+<div class="captions" id="captions" role="status" aria-live="polite"></div>
+<div class="talk-bar" id="talkbar" data-state="idle" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="talk-status">Connecting to Lane</span><button type="button" id="talk-end">End</button></div>
+<div class="loader" id="loader" aria-hidden="true">Loading frames</div>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var saveData = !!(navigator.connection && navigator.connection.saveData);
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function seg(v, a, b) { return clamp((v - a) / (b - a), 0, 1); }
+  function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function range(a, b, s) { var r = []; for (var i = a; i <= b; i += (s || 1)) r.push(i); return r; }
+
+  /* ================= CONFIG: swap these for the real renders ================= */
+  var FRAME = { w: 1440, h: 810, path: function (n) { return 'frames/' + String(n).padStart(3, '0') + '.webp'; } };
+  var LAST = 356, HEAD = [880, 250];
+  // Each shot: frames to scrub, scroll length (screens), camera stand-in (start/end), voice line.
+  // cam: a = where the eye line sits on screen (fraction of width/height), z = zoom.
+  // Veo 3.1 clips: V1 turn to camera, V2 attentive glance, V3 turn to the left, V4 back to camera with the eye line fading out.
+  var SHOTS = [
+    { id: 'open',     frames: [1],               len: 0.7, cam: [{ a: [0.68, 0.32], z: 1.0 },  { a: [0.68, 0.32], z: 1.0 }] },
+    { id: 'turn',     frames: range(1, 97),      len: 1.6, cam: [{ a: [0.68, 0.32], z: 1.0 },  { a: [0.64, 0.32], z: 1.04 }], line: 0 },
+    { id: 'answer',   frames: range(98, 162),    len: 1.5, cam: [{ a: [0.64, 0.32], z: 1.04 }, { a: [0.64, 0.32], z: 1.06 }], line: 1 },
+    { id: 'automate', frames: range(163, 259),   len: 1.5, cam: [{ a: [0.66, 0.32], z: 1.06 }, { a: [0.66, 0.32], z: 1.08 }], line: 2 },
+    { id: 'ready',    frames: range(260, LAST),  len: 1.6, cam: [{ a: [0.62, 0.32], z: 1.06 }, { a: [0.5, 0.31], z: 1.0 }],  line: 3 },
+    { id: 'dissolve', frames: [LAST],            len: 2.6, cam: [{ a: [0.5, 0.31], z: 1.0 },   { a: [0.5, 0.31], z: 1.0 }], particles: true }
+  ];
+  // One continuous narration. map: [narration time (s), scroll position in shot units]; Lane's moves land on his words.
+  var NARR = {
+    src: 'audio/narration.mp3', envelope: 'envelope.json',
+    cues: [[0, 1.27, "Hi, I'm Lane."], [1.27, 2.6, 'Your newest teammate.'],
+           [3.6, 6.25, 'When people visit your site, I answer them.'], [6.25, 8.3, 'Day or night, in your words.'],
+           [9.4, 12.35, 'Behind the scenes, I move work between your tools,'], [12.35, 14.4, 'so the busywork clears itself.'],
+           [15.4, 17.2, 'Tell us how your business runs.'], [17.2, 20.7, "We'll scope it, price it, and put me to work."]],
+    starts: [0, 3.6, 9.4, 15.4],
+    map: [[0, 0.72], [2.7, 2.3], [3.6, 2.75], [8.2, 3.45], [9.4, 4.25], [14.3, 4.95], [15.4, 5.75], [20.5, 6.45], [21.2, 7.0], [23.7, 8.55]]
+  };
+  /* =========================================================================== */
+
+  // transcript
+  var tr = document.getElementById('transcript');
+  if (tr) [[0, 1], [2, 3], [4, 5], [6, 7]].forEach(function (pair) { var li = document.createElement('li'); li.textContent = pair.map(function (i) { return NARR.cues[i][2]; }).join(' '); tr.appendChild(li); });
+
+  /* ---------- theme ---------- */
+  var toggle = document.getElementById('toggle');
+  function isDark() { var t = root.getAttribute('data-theme'); return t ? t === 'dark' : mqDark.matches; }
+  var dark = isDark();
+  function syncTheme() { dark = isDark(); root.classList.toggle('is-dark', dark); toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme'); dirty = true; }
+  toggle.addEventListener('click', function () { root.setAttribute('data-theme', isDark() ? 'light' : 'dark'); syncTheme(); });
+  if (mqDark.addEventListener) mqDark.addEventListener('change', syncTheme);
+  new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* ---------- timeline ---------- */
+  var reel = document.getElementById('reel'), pin = document.getElementById('pin');
+  var canvas = document.getElementById('lane'), ctx = canvas.getContext('2d');
+  var layerC = document.createElement('canvas'), lctx = layerC.getContext('2d');
+  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2), wide = true, dirty = true;
+  var TOTAL = SHOTS.reduce(function (s, x) { return s + x.len; }, 0);
+  var starts = []; (function () { var acc = 0; SHOTS.forEach(function (s) { starts.push(acc); acc += s.len; }); })();
+  reel.style.height = ((TOTAL + 1) * 100) + 'vh';
+  function where() {
+    var r = reel.getBoundingClientRect(), span = r.height - H;
+    var u = span > 0 ? clamp(-r.top / span, 0, 1) * TOTAL : 0;
+    for (var i = SHOTS.length - 1; i >= 0; i--) if (u >= starts[i]) return { i: i, t: clamp((u - starts[i]) / SHOTS[i].len, 0, 1), u: u };
+    return { i: 0, t: 0, u: 0 };
+  }
+
+  /* ---------- frames: coarse-to-fine, nearest-first loading ---------- */
+  var track = null, imgs = {}, state = {};
+  var all = []; // {n, shot, idx, level, u}
+  SHOTS.forEach(function (s, si) {
+    s.frames.forEach(function (n, k) {
+      var level = k % 8 === 0 ? 0 : k % 4 === 0 ? 1 : k % 2 === 0 ? 2 : 3;
+      if (k === s.frames.length - 1) level = 0;
+      all.push({ n: n, level: level, u: starts[si] + (s.frames.length > 1 ? k / (s.frames.length - 1) : 0) * s.len });
+    });
+  });
+  var uniq = {}; all = all.filter(function (f) { if (uniq[f.n] !== undefined) { all[uniq[f.n]].level = Math.min(all[uniq[f.n]].level, f.level); return false; } uniq[f.n] = 1; return true; });
+  var maxLevel = saveData ? 1 : 3, inflight = 0, loadedCount = 0, wanted = all.filter(function (f) { return f.level <= maxLevel; }).length;
+  var loaderEl = document.getElementById('loader');
+  function pump() {
+    var here = where().u;
+    while (inflight < 6) {
+      var best = null, bestScore = Infinity;
+      for (var i = 0; i < all.length; i++) {
+        var f = all[i];
+        if (state[f.n] || f.level > maxLevel) continue;
+        var score = f.level * 1.4 + Math.abs(f.u - here);
+        if (score < bestScore) { bestScore = score; best = f; }
+      }
+      if (!best) break;
+      (function (f) {
+        state[f.n] = 'loading'; inflight++;
+        var im = new Image(); im.decoding = 'async';
+        im.onload = function () { (im.decode ? im.decode() : Promise.resolve()).catch(function () {}).then(function () { imgs[f.n] = im; state[f.n] = 'ok'; inflight--; loadedCount++; dirty = true; progress(); pump(); }); };
+        im.onerror = function () { state[f.n] = 'err'; inflight--; pump(); };
+        im.src = FRAME.path(f.n);
+      })(best);
+    }
+  }
+  function progress() {
+    loaderEl.textContent = 'Loading frames ' + loadedCount + ' / ' + wanted;
+    if (loadedCount >= wanted) loaderEl.classList.add('done');
+  }
+  function frameFor(shot, t) {
+    var fr = shot.frames, k = Math.round(t * (fr.length - 1));
+    for (var d = 0; d < fr.length; d++) {
+      if (imgs[fr[k - d]]) return fr[k - d];
+      if (imgs[fr[k + d]]) return fr[k + d];
+    }
+    return null;
+  }
+
+  /* ---------- camera stand-in ---------- */
+  function cam(shot, t, n) {
+    var a = shot.cam[0], b = shot.cam[1], e = ease(t);
+    var ax = lerp(a.a[0], b.a[0], e), ay = lerp(a.a[1], b.a[1], e), z = lerp(a.z, b.z, e);
+    // ease across the boundary into the next shot so cuts never jump
+    var si = SHOTS.indexOf(shot), next = SHOTS[si + 1];
+    if (next && t > 0.85) { var k = ease(seg(t, 0.85, 1)); ax = lerp(ax, next.cam[0].a[0], k); ay = lerp(ay, next.cam[0].a[1], k); z = lerp(z, next.cam[0].z, k); }
+    if (!wide) { ax = 0.5; ay = 0.3; }
+    var s = (wide ? H / FRAME.h : Math.min(W * 2.0 / FRAME.w, H * 0.62 / FRAME.h)) * z;
+    var eye = eyeAt(n);
+    var fx = eye ? eye[0] : HEAD[0], fy = eye ? eye[1] : HEAD[1];
+    // follow the head loosely (half way between a fixed point and the eye)
+    fx = lerp(HEAD[0], fx, 0.3); fy = lerp(HEAD[1], fy, 0.3);   // the clips carry their own camera moves; follow the head only lightly
+    var ox = W * ax - fx * s, oy = H * ay - fy * s;
+    var ih = FRAME.h * s;
+    if (wide && oy + ih < H) oy = H - ih;
+    return { s: s, x: ox, y: oy };
+  }
+  function eyeAt(n) { return track && track.frames[n] ? track.frames[n] : null; }
+
+  /* ---------- voice: one narration that drives the scroll ---------- */
+  var soundBtn = document.getElementById('sound'), capEl = document.getElementById('captions'), labelEl = soundBtn.querySelector('.label');
+  var narr = new Audio(); narr.preload = 'auto'; narr.src = NARR.src;
+  var env = null;
+  fetch(NARR.envelope).then(function (r) { return r.json(); }).then(function (j) { env = j; }).catch(function () {});
+  var guided = false, blendFrom = 0, blendStart = 0, level = 0;
+  function mapU(t) {
+    var K = NARR.map;
+    if (t <= K[0][0]) return K[0][1];
+    for (var i = 1; i < K.length; i++) if (t <= K[i][0]) { var a = K[i - 1], b = K[i]; return lerp(a[1], b[1], (t - a[0]) / (b[0] - a[0])); }
+    return K[K.length - 1][1];
+  }
+  function startForU(u) { var t = 0; NARR.starts.forEach(function (st) { if (mapU(st) <= u + 0.05) t = st; }); return t; }
+  function setLabel(txt) { labelEl.textContent = txt; soundBtn.setAttribute('aria-label', txt === 'Pause' ? 'Pause Lane' : txt); }
+  function startGuided() {
+    var here = where().u, dur = narr.duration || 23.7;
+    var t;
+    if (narr.currentTime > 0 && narr.currentTime < dur - 0.1 && Math.abs(mapU(narr.currentTime) - here) < 0.35) t = narr.currentTime;   // resume where we paused
+    else if (here < 0.72 || here > TOTAL - 0.3) t = 0;                                                                                  // from the top
+    else t = startForU(here);                                                                                                           // from the line covering this spot
+    try { narr.currentTime = t; } catch (e) {}
+    blendFrom = here; blendStart = performance.now();
+    guided = true; soundBtn.setAttribute('aria-pressed', 'true'); setLabel('Pause');
+    var pr = narr.play(); if (pr && pr.catch) pr.catch(function () { stopGuided('Hear Lane'); });
+  }
+  function stopGuided(txt) { guided = false; narr.pause(); soundBtn.setAttribute('aria-pressed', 'false'); setLabel(txt || 'Resume'); capEl.classList.remove('on'); }
+  soundBtn.addEventListener('click', function () { startTalk(); });
+  narr.addEventListener('ended', function () { guided = false; soundBtn.setAttribute('aria-pressed', 'false'); setLabel('Replay'); capEl.classList.remove('on'); });
+  // the visitor takes over: any manual scroll input pauses the narration
+  function takeover(e) {
+    if (!guided || soundBtn.contains(e.target)) return;
+    if (e.type === 'keydown' && !/^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| )$/.test(e.key)) return;
+    stopGuided('Talk to Lane');
+  }
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, takeover, { passive: true }); });
+  function envAt(t) { if (!env) return 0; var f = t * env.fps, i = Math.floor(f), k = f - i; return lerp(env.v[i] || 0, env.v[i + 1] || 0, k); }
+  function voiceTick(now) {
+    var t = narr.currentTime;
+    if (guided) {
+      var u = mapU(t), b = clamp((now - blendStart) / 700, 0, 1);
+      u = lerp(blendFrom, u, ease(b));
+      var top = reel.getBoundingClientRect().top + window.scrollY, span = reel.offsetHeight - H;
+      window.scrollTo(0, Math.round(top + (u / TOTAL) * span));
+    }
+    var cue = null;
+    if (!narr.paused) for (var i = 0; i < NARR.cues.length; i++) { var c = NARR.cues[i]; if (t >= c[0] && t < c[1]) { cue = c; break; } }
+    if (cue) { if (capEl.textContent !== cue[2]) capEl.textContent = cue[2]; capEl.classList.add('on'); } else capEl.classList.remove('on');
+    var target = narr.paused ? 0 : envAt(t);
+    level += (target - level) * (target > level ? 0.6 : 0.22);
+  }
+
+  /* ---------- live eye line ---------- */
+  function drawEye(c, cm, n, now) {
+    var e = eyeAt(n); if (!e) return;
+    var cx = cm.x + e[0] * cm.s, cy = cm.y + e[1] * cm.s, L = e[2] * cm.s, ang = e[3], baked = e[4];
+    var idle = (1 - baked) * 0.55;               // keep a faint eye line once the baked bar fades
+    var amt = Math.max(level, idle * (0.8 + 0.2 * Math.sin(now / 600)));
+    if (amt < 0.02) return;
+    c.save();
+    c.translate(cx, cy); c.rotate(ang);
+    c.globalCompositeOperation = 'lighter';
+    var th = Math.max(2, L * 0.05) * (1 + level * 1.6);
+    var half = L / 2 * (1 + level * 0.12);
+    // glow
+    c.shadowColor = 'rgba(79,123,255,0.95)'; c.shadowBlur = 18 + level * 30;
+    c.strokeStyle = 'rgba(125,160,255,' + (0.35 + 0.5 * amt).toFixed(3) + ')';
+    c.lineWidth = th; c.lineCap = 'round';
+    c.beginPath();
+    var N = 48;
+    for (var i = 0; i <= N; i++) {
+      var u = i / N, x = -half + u * half * 2;
+      var win = Math.sin(Math.PI * u);
+      var bin = narr.paused ? 0 : envAt(narr.currentTime + u * 0.3);
+      var ripple = reduce ? 0 : (Math.sin(u * 18 - now / 90) * 0.5 + bin) * level * L * 0.07 * win;
+      if (i === 0) c.moveTo(x, ripple); else c.lineTo(x, ripple);
+    }
+    c.stroke();
+    // bright core
+    c.shadowBlur = 6; c.lineWidth = Math.max(1, th * 0.35);
+    c.strokeStyle = 'rgba(235,242,255,' + (0.4 + 0.6 * amt).toFixed(3) + ')';
+    c.stroke();
+    c.restore();
+  }
+
+  /* ---------- particle hand-off (seeded from the last frame) ---------- */
+  var parts = null;
+  function buildParticles() {
+    var src = imgs[LAST]; if (!src) return null;
+    var SW = 300, SH = Math.round(SW * FRAME.h / FRAME.w);
+    var oc = document.createElement('canvas'); oc.width = SW; oc.height = SH;
+    var o = oc.getContext('2d'); o.drawImage(src, 0, 0, SW, SH);
+    var d = o.getImageData(0, 0, SW, SH).data, pts = [];
+    var sd = 7; function rnd() { sd = (sd * 1664525 + 1013904223) >>> 0; return sd / 4294967296; }
+    for (var y = 0; y < SH; y += 1) for (var x = 0; x < SW; x += 1) {
+      var k = (y * SW + x) * 4;
+      if (d[k + 3] > 140 && rnd() < 0.42) pts.push({ ix: (x + 0.5) / SW * FRAME.w, iy: (y + 0.5) / SH * FRAME.h, r: d[k], g: d[k + 1], b: d[k + 2], k: rnd(), j: rnd() });
+    }
+    return { pts: pts, logo: null, lw: 0 };
+  }
+  // Wordmark targets. Lane's own particles become the "lane" part; a second set condenses into "bot".
+  // Each letter group is sampled once and only moved, so "botLane" settles into "botlane" cleanly; only the L changes shape.
+  function glyphPoints(text, fs, step) {
+    var w = Math.ceil(fs * text.length * 0.8) + 8, h = Math.ceil(fs * 1.3);
+    var oc = document.createElement('canvas'); oc.width = w; oc.height = h;
+    var o = oc.getContext('2d'); o.font = '600 ' + fs + 'px Inter, system-ui, sans-serif'; o.textBaseline = 'middle'; o.textAlign = 'left';
+    o.fillText(text, 0, h / 2);
+    var d = o.getImageData(0, 0, w, h).data, out = [];
+    for (var x = 0; x < w; x += step) for (var y = 0; y < h; y += step) if (d[(y * w + x) * 4 + 3] > 128) out.push([x, y - h / 2]);
+    return { pts: out, w: o.measureText(text).width };
+  }
+  function resample(arr, n) { var out = []; for (var i = 0; i < n; i++) out.push(arr[Math.floor(i * arr.length / n)] || [0, 0]); return out; }
+  function logoTargets(nLane) {
+    var lw = Math.min(W * 0.78, 1100), fs = Math.round(lw * 0.3 * 0.82), step = Math.max(2, Math.round(fs / 60));
+    var bot = glyphPoints('bot', fs, step), L = glyphPoints('L', fs, step), l = glyphPoints('l', fs, step), ane = glyphPoints('ane', fs, step);
+    var x0Beat = -(bot.w + L.w + ane.w) / 2, x0End = -(bot.w + l.w + ane.w) / 2;
+    var nFirst = Math.round(nLane * l.pts.length / (l.pts.length + ane.pts.length)), nAne = nLane - nFirst;
+    var nBot = Math.round(nLane * bot.pts.length / Math.max(1, l.pts.length + ane.pts.length));
+    var sd = 11; function rnd() { sd = (sd * 1664525 + 1013904223) >>> 0; return sd / 4294967296; }
+    function jit() { return [(rnd() - 0.5) * step * 0.9, (rnd() - 0.5) * step * 0.9]; }
+    var Lr = resample(L.pts, nFirst), lr = resample(l.pts, nFirst), ar = resample(ane.pts, nAne), br = resample(bot.pts, nBot);
+    var laneBeat = [], laneEnd = [], botBeat = [], botEnd = [], botStart = [];
+    for (var i = 0; i < nFirst; i++) { var j = jit(); laneBeat.push([x0Beat + bot.w + Lr[i][0] + j[0], Lr[i][1] + j[1]]); laneEnd.push([x0End + bot.w + lr[i][0] + j[0], lr[i][1] + j[1]]); }
+    for (var k = 0; k < nAne; k++) { var j2 = jit(); laneBeat.push([x0Beat + bot.w + L.w + ar[k][0] + j2[0], ar[k][1] + j2[1]]); laneEnd.push([x0End + bot.w + l.w + ar[k][0] + j2[0], ar[k][1] + j2[1]]); }
+    // shuffle lane order so Lane's particles spread across the whole word, not head-to-L / body-to-ane
+    for (var q = nLane - 1; q > 0; q--) { var r = Math.floor(rnd() * (q + 1)), t1 = laneBeat[q]; laneBeat[q] = laneBeat[r]; laneBeat[r] = t1; var t2 = laneEnd[q]; laneEnd[q] = laneEnd[r]; laneEnd[r] = t2; }
+    for (var m = 0; m < nBot; m++) { var j3 = jit(); botBeat.push([x0Beat + br[m][0] + j3[0], br[m][1] + j3[1]]); botEnd.push([x0End + br[m][0] + j3[0], br[m][1] + j3[1]]); var a = rnd() * Math.PI * 2, rr = (0.35 + rnd()) * Math.max(W, H) * 0.5; botStart.push([Math.cos(a) * rr, Math.sin(a) * rr * 0.6, rnd()]); }
+    return { lw: lw, laneBeat: laneBeat, laneEnd: laneEnd, botBeat: botBeat, botEnd: botEnd, botStart: botStart };
+  }
+  var mp = { x: -999, y: -999 };
+  pin.addEventListener('pointermove', function (e) { var r = pin.getBoundingClientRect(); mp.x = e.clientX - r.left; mp.y = e.clientY - r.top; });
+  pin.addEventListener('pointerleave', function () { mp.x = mp.y = -999; });
+  function drawParticles(c, cm, t, now) {
+    if (!parts) parts = buildParticles();
+    if (!parts) return false;
+    if (!parts.logo || parts.lw !== W) { parts.logo = logoTargets(parts.pts.length); parts.lw = W; }
+    var Lg = parts.logo, P = parts.pts;
+    // timeline inside the shot: Lane dissolves, flies into "Lane", "bot" condenses, a beat on bot + Lane, then it settles into the wordmark
+    var dissolve = ease(seg(t, 0.05, 0.3)), travel = seg(t, 0.18, 0.6), botIn = ease(seg(t, 0.36, 0.62)), settle = ease(seg(t, 0.76, 0.9));
+    var beat = Math.min(seg(t, 0.55, 0.64), 1 - settle);
+    var gap = Lg.lw * 0.05 * (1 - settle);                      // a breath of space between bot and Lane during the beat
+    var cx = W / 2, cy = H * (wide ? 0.44 : 0.4);
+    var c1 = dark ? [111, 150, 255] : [47, 85, 240], c2 = dark ? [190, 170, 255] : [120, 90, 240];
+    var ink = dark ? [237, 238, 240] : [22, 24, 28], glow = dark ? [150, 182, 255] : [47, 85, 240];
+    var size = Math.max(1.4, cm.s * 2.2), dot = Math.max(1.6, W / 600);
+    function brandCol(x) { var u = clamp(x / (Lg.lw * 0.78) + 0.5, 0, 1); return [lerp(c1[0], c2[0], u), lerp(c1[1], c2[1], u), lerp(c1[2], c2[2], u)]; }
+    function push(x, y) { var dx = x - mp.x, dy = y - mp.y, dd = dx * dx + dy * dy; if (dd < 8000 && t > 0.9) { var f = (1 - dd / 8000) * 24, l = Math.sqrt(dd) || 1; return [x + dx / l * f, y + dy / l * f]; } return [x, y]; }
+    // "lane": Lane's own particles
+    for (var i = 0; i < P.length; i++) {
+      var p = P[i];
+      var hx = cm.x + p.ix * cm.s, hy = cm.y + p.iy * cm.s;
+      var m = ease(clamp((travel - p.k * 0.35) / 0.65, 0, 1));
+      var tx = lerp(Lg.laneBeat[i][0], Lg.laneEnd[i][0], settle) + gap / 2, ty = lerp(Lg.laneBeat[i][1], Lg.laneEnd[i][1], settle);
+      var swirl = (1 - Math.abs(m - 0.5) * 2) * 60 * (p.j - 0.5);
+      var x = lerp(hx, cx + tx, m) + swirl + (reduce ? 0 : Math.sin(now / 700 + p.k * 30) * 2 * dissolve);
+      var y = lerp(hy, cy + ty, m) - Math.sin(m * Math.PI) * 80 * p.j + (reduce ? 0 : Math.cos(now / 800 + p.j * 30) * 2 * dissolve);
+      var q = push(x, y);
+      var bc = brandCol(tx), shine = beat * (0.75 + 0.25 * Math.sin(now / 160 + p.k * 20));
+      var r = lerp(lerp(p.r, glow[0], m), bc[0], settle), g = lerp(lerp(p.g, glow[1], m), bc[1], settle), bl = lerp(lerp(p.b, glow[2], m), bc[2], settle);
+      r = lerp(r, 255, shine * 0.35); g = lerp(g, 255, shine * 0.35);
+      c.fillStyle = 'rgba(' + (r | 0) + ',' + (g | 0) + ',' + (bl | 0) + ',' + (0.35 + 0.65 * dissolve).toFixed(2) + ')';
+      var sz = lerp(size, dot, m) * (1 + beat * 0.35);
+      c.fillRect(q[0], q[1], sz, sz);
+    }
+    // "bot": condenses out of a faint haze while Lane arrives
+    if (botIn > 0) {
+      for (var k = 0; k < Lg.botEnd.length; k++) {
+        var s0 = Lg.botStart[k], mk = ease(clamp((botIn - s0[2] * 0.3) / 0.7, 0, 1));
+        var bx = lerp(Lg.botBeat[k][0], Lg.botEnd[k][0], settle) - gap / 2, by = lerp(Lg.botBeat[k][1], Lg.botEnd[k][1], settle);
+        var x2 = cx + lerp(bx + s0[0], bx, mk), y2 = cy + lerp(by + s0[1], by, mk);
+        var q2 = push(x2, y2), bc2 = brandCol(bx);
+        c.fillStyle = 'rgba(' + (lerp(ink[0], bc2[0], settle) | 0) + ',' + (lerp(ink[1], bc2[1], settle) | 0) + ',' + (lerp(ink[2], bc2[2], settle) | 0) + ',' + (mk * 0.95).toFixed(2) + ')';
+        c.fillRect(q2[0], q2[1], dot, dot);
+      }
+    }
+    return dissolve;
+  }
+
+  /* ---------- depth layers ---------- */
+  var behind = Array.prototype.slice.call(document.querySelectorAll('.behind span'));
+  var front = Array.prototype.slice.call(document.querySelectorAll('.front > *'));
+  function shotIndex(id) { for (var i = 0; i < SHOTS.length; i++) if (SHOTS[i].id === id) return i; return -1; }
+  function layers(w) {
+    behind.forEach(function (el) {
+      var si = shotIndex(el.dataset.shot), lt = (w.u - starts[si]) / SHOTS[si].len;
+      var vis = clamp(Math.min(seg(lt, 0.05, 0.3), 1 - seg(lt, 0.75, 0.98)), 0, 1);
+      el.style.opacity = vis.toFixed(3);
+      el.style.transform = 'translate3d(' + ((0.5 - lt) * 22).toFixed(2) + 'vw,0,0)';   // slow layer
+    });
+    front.forEach(function (el) {
+      var si = shotIndex(el.dataset.shot), lt = (w.u - starts[si]) / SHOTS[si].len;
+      var inA = el.dataset.in != null ? parseFloat(el.dataset.in) : 0.12, outA = el.dataset.out != null ? parseFloat(el.dataset.out) : 0.82;
+      var vis = clamp(Math.min(seg(lt, inA, inA + 0.18), 1 - seg(lt, outA, outA + 0.16)), 0, 1);
+      var sp = parseFloat(el.dataset.speed) || 1;
+      var dy = (0.5 - lt) * 180 * sp;                                                     // fast layer
+      var base = el.classList.contains('c-right') || el.classList.contains('c-left') ? (wide ? 'translateY(-50%) ' : '') : el.classList.contains('c-bottom') && wide ? 'translateX(-50%) ' : '';
+      if (el.dataset.shot === 'open') dy = -Math.max(0, lt) * 220 * sp;
+      el.style.opacity = vis.toFixed(3);
+      el.style.transform = base + 'translate3d(0,' + dy.toFixed(1) + 'px,0)';
+      el.classList.toggle('on', vis > 0.5);
+      el.setAttribute('aria-hidden', vis > 0.5 ? 'false' : 'true');
+    });
+  }
+
+  /* ---------- live talk (ElevenLabs agent: Gemini brain, Lane's voice) ---------- */
+  var AGENT_ID = 'agent_9701m6hw1j3wfenacv4e8v338gsx';
+  var SDK_URL = 'https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.28.0/dist/lib.iife.js';
+  var TEST_LINK = 'https://elevenlabs.io/app/talk-to?agent_id=' + AGENT_ID;
+  var TALK_SHOT = { id: 'talk', frames: [LAST], len: 1, cam: [{ a: [0.5, 0.36], z: 1.08 }, { a: [0.5, 0.36], z: 1.08 }] };
+  var talk = { on: false, conv: null, mode: 'listening', state: 'idle', out: 0, inp: 0, since: 0, savedY: 0, capTimer: 0 };
+  var talkBtn = document.getElementById('talk'), talkBar = document.getElementById('talkbar'), talkStatus = document.getElementById('talk-status'), talkEnd = document.getElementById('talk-end');
+  function loadSDK() {
+    return new Promise(function (res, rej) {
+      if (window.ElevenLabsClient) return res(window.ElevenLabsClient);
+      var sc = document.createElement('script'); sc.src = SDK_URL; sc.async = true;
+      sc.onload = function () { window.ElevenLabsClient ? res(window.ElevenLabsClient) : rej(new Error('sdk')); };
+      sc.onerror = function () { rej(new Error('sdk')); };
+      document.head.appendChild(sc);
+    });
+  }
+  function setTalk(state, text, withLink) {
+    talk.state = state; talkBar.dataset.state = state;
+    talkStatus.textContent = text;
+    if (withLink) { talkStatus.appendChild(document.createTextNode(' ')); var a = document.createElement('a'); a.href = TEST_LINK; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Talk to Lane in ElevenLabs'; talkStatus.appendChild(a); }
+    talkEnd.textContent = state === 'failed' ? 'Close' : 'End';
+  }
+  function showLine(who, text) {
+    if (!text) return;
+    capEl.textContent = who + ': ' + text; capEl.classList.add('on');
+    clearTimeout(talk.capTimer); talk.capTimer = setTimeout(function () { capEl.classList.remove('on'); }, 7000);
+  }
+  async function startTalk() {
+    if (talk.on) return;
+    if (guided) stopGuided('Talk to Lane');
+    talk.on = true; talk.since = performance.now(); talk.mode = 'listening'; talk.out = talk.inp = 0;
+    talk.savedY = window.scrollY;
+    root.classList.add('talking');
+    behind.concat(front).forEach(function (el) { el.style.opacity = 0; el.classList.remove('on'); });
+    setTalk('connecting', 'Connecting to Lane');
+    talkEnd.focus({ preventScroll: true });
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('mic');
+      var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach(function (t) { t.stop(); });
+    } catch (e) { if (talk.on) setTalk('failed', 'Lane needs your microphone. Allow it for this page and try again, or', true); return; }
+    if (!talk.on) return;
+    try {
+      var SDK = await loadSDK();
+      var conv = await SDK.Conversation.startSession({
+        agentId: AGENT_ID, connectionType: /[?&]lane=ws\b/.test(location.search) ? 'websocket' : 'webrtc',
+        onConnect: function () { setTalk('listening', 'Listening'); },
+        onDisconnect: function () { if (talk.on && talk.conv) endTalk(); },
+        onError: function (m) { console.warn('Lane:', m); },
+        onModeChange: function (m) { talk.mode = m.mode; if (talk.state !== 'failed') setTalk(m.mode === 'speaking' ? 'speaking' : 'listening', m.mode === 'speaking' ? 'Lane is speaking' : 'Listening'); },
+        onMessage: function (m) { showLine((m.role === 'agent' || m.source === 'ai') ? 'Lane' : 'You', m.message); }
+      });
+      if (!talk.on) { try { await conv.endSession(); } catch (e) {} return; }
+      talk.conv = conv;
+    } catch (e) {
+      console.warn('Lane connection failed', e);
+      if (talk.on) setTalk('failed', "Couldn't reach Lane from this page.", true);
+    }
+  }
+  async function endTalk() {
+    var c = talk.conv; talk.conv = null; talk.on = false;
+    root.classList.remove('talking'); capEl.classList.remove('on'); setTalk('idle', '');
+    if (c) { try { await c.endSession(); } catch (e) {} }
+    window.scrollTo(0, talk.savedY);
+    talkBtn.focus({ preventScroll: true });
+  }
+  talkBtn.addEventListener('click', startTalk);
+  talkEnd.addEventListener('click', endTalk);
+  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && talk.on) endTalk(); });
+  function talkTick() {
+    if (!talk.conv) { talk.out *= 0.9; talk.inp *= 0.9; return; }
+    var o = 0, i = 0;
+    try { o = talk.conv.getOutputVolume() || 0; i = talk.conv.getInputVolume() || 0; } catch (e) {}
+    talk.out += (Math.min(1, o * 2.2) - talk.out) * 0.35;
+    talk.inp += (Math.min(1, i * 2.6) - talk.inp) * 0.35;
+  }
+  // particle orb on the visor
+  var ORB = (function () { var N = reduce ? 260 : 560, g = Math.PI * (3 - Math.sqrt(5)), out = []; for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = g * i; out.push([Math.cos(th) * r, y, Math.sin(th) * r, (i * 0.618) % 1]); } return out; })();
+  function drawOrb(c, cm, n, now) {
+    var e = eyeAt(n) || [HEAD[0], HEAD[1], 120, 0, 0];
+    var cx = cm.x + e[0] * cm.s, cy = cm.y + (e[1] + 4) * cm.s;
+    var appear = ease(clamp((now - talk.since) / 800, 0, 1));
+    var speaking = talk.mode === 'speaking';
+    var v = talk.state === 'connecting' ? 0.18 + 0.12 * Math.sin(now / 260) : speaking ? talk.out : talk.inp * 0.85;
+    var R = e[2] * cm.s * 0.4 * (0.82 + v * 0.6) * appear;
+    if (R < 1) return;
+    var rot = reduce ? 0.6 : now / 1700 * (1 + v * 1.6), ca = Math.cos(rot), sa = Math.sin(rot), ct = Math.cos(0.38), st = Math.sin(0.38);
+    var col = talk.state === 'failed' ? [229, 72, 77] : speaking ? [125, 160, 255] : [190, 225, 255];
+    c.save();
+    c.globalCompositeOperation = 'lighter';
+    var gr = c.createRadialGradient(cx, cy, 0, cx, cy, R * 2.4);
+    gr.addColorStop(0, 'rgba(' + col.join(',') + ',' + ((0.22 + 0.35 * v) * appear).toFixed(3) + ')'); gr.addColorStop(1, 'rgba(' + col.join(',') + ',0)');
+    c.fillStyle = gr; c.beginPath(); c.arc(cx, cy, R * 2.4, 0, Math.PI * 2); c.fill();
+    var px = Math.max(1, cm.s * 1.6);
+    for (var k = 0; k < ORB.length; k++) {
+      var p = ORB[k];
+      var wob = reduce ? 1 : 1 + Math.sin(now / 110 + p[3] * 40) * 0.08 * v + Math.sin(now / 900 + p[3] * 12) * 0.03;
+      var x = p[0] * ca + p[2] * sa, z = -p[0] * sa + p[2] * ca, y = p[1] * ct - z * st; z = p[1] * st + z * ct;
+      var depth = (z + 1) / 2;
+      c.fillStyle = 'rgba(' + Math.round(lerp(col[0], 255, depth * 0.5)) + ',' + Math.round(lerp(col[1], 255, depth * 0.5)) + ',255,' + ((0.2 + 0.8 * depth) * appear).toFixed(3) + ')';
+      var sz = px * (0.6 + depth);
+      c.fillRect(cx + x * R * wob - sz / 2, cy + y * R * wob - sz / 2, sz, sz);
+    }
+    c.restore();
+  }
+  function placeTalkButton(cm, n, shot) {
+    var e = eyeAt(n);
+    var show = !talk.on && e && !shot.particles && track;
+    talkBtn.classList.toggle('show', !!show);
+    if (!show) return;
+    var x = cm.x + e[0] * cm.s, y = cm.y + (e[1] + e[2] * 0.62) * cm.s;
+    talkBtn.style.transform = 'translate(' + Math.round(x - talkBtn.offsetWidth / 2) + 'px,' + Math.round(y - talkBtn.offsetHeight / 2) + 'px)';
+  }
+
+  /* ---------- render ---------- */
+  var lastShot = -1;
+  function render(now) {
+    var w = where(), shot = SHOTS[w.i];
+    if (w.i !== lastShot) { lastShot = w.i; pump(); }
+    talkTick();
+    if (talk.on) { shot = TALK_SHOT; w = { i: -1, t: 0, u: w.u }; } else { voiceTick(now); layers(w); }
+    var n = frameFor(shot, w.t);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    if (n == null) { talkBtn.classList.remove('show'); return; }
+    var cm = cam(shot, w.t, n);
+    placeTalkButton(cm, n, shot);
+    // soft glow behind Lane (stands in for a lighting/shadow pass)
+    var e = eyeAt(n) || [820, 220];
+    var gx = cm.x + e[0] * cm.s, gy = cm.y + (e[1] + 160) * cm.s, gr = Math.max(W, H) * 0.42;
+    var g = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
+    g.addColorStop(0, dark ? 'rgba(47,85,240,.32)' : 'rgba(79,123,255,.2)'); g.addColorStop(1, 'rgba(79,123,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    var fade = 1;
+    if (shot.particles) {
+      var d = drawParticles(ctx, cm, w.t, now);
+      fade = 1 - (d || 0);
+    }
+    if (fade > 0.001) {
+      // Lane goes through an offscreen layer so the frame edges can be feathered on any background
+      lctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      lctx.clearRect(0, 0, W, H);
+      lctx.globalCompositeOperation = 'source-over';
+      var fw = FRAME.w * cm.s, fh2 = FRAME.h * cm.s;
+      lctx.drawImage(imgs[n], cm.x, cm.y, fw, fh2);
+      lctx.globalCompositeOperation = 'destination-out';
+      function feather(x0, y0, x1, y1, rx, ry, rw, rh) { var gg = lctx.createLinearGradient(x0, y0, x1, y1); gg.addColorStop(0, 'rgba(0,0,0,0)'); gg.addColorStop(1, 'rgba(0,0,0,1)'); lctx.fillStyle = gg; lctx.fillRect(rx, ry, rw, rh); }
+      var right = cm.x + fw, bottom = cm.y + fh2, ew = fw * 0.1, eh = fh2 * 0.28;
+      if (right < W + 2) feather(right - ew, 0, right, 0, right - ew, 0, ew + 1, H);
+      if (bottom < H + 2) feather(0, bottom - eh, 0, bottom, 0, bottom - eh, W, eh + 1);
+      lctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = fade;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(layerC, 0, 0);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.globalAlpha = 1;
+      if (talk.on) drawOrb(ctx, cm, n, now); else drawEye(ctx, cm, n, now);
+    }
+  }
+  function loop(now) { render(now); requestAnimationFrame(loop); }
+
+  function resize() {
+    W = pin.clientWidth; H = pin.clientHeight; wide = W >= 860;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    layerC.width = canvas.width; layerC.height = canvas.height;
+    dirty = true;
+  }
+  new ResizeObserver(resize).observe(pin);
+  resize();
+  syncTheme();
+  window.addEventListener('scroll', function () { pump(); }, { passive: true });
+  fetch('track.json').then(function (r) { return r.json(); }).then(function (j) { track = j; }).catch(function () {});
+  progress(); pump();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body></html>
