@@ -5,7 +5,7 @@ import { CareSet } from "@/components/pricing/care-set"
 import { PageSection, PageShell } from "@/components/site/page-shell"
 
 export const metadata: Metadata = {
-  title: "Care · Botlane",
+  title: "Care · botLane",
   description: "Hosting, security updates, backups and small edits for your site, handled every month.",
 }
 

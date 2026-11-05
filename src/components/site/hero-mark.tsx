@@ -100,7 +100,7 @@ export function HeroMark({ size = 88, className }: { size?: number; className?: 
 
   const eyes = EYES.large
   return (
-    <svg ref={svg} width={size} height={size} viewBox="1 1 22 22" role="img" aria-label="Botlane" className={cn("shrink-0 overflow-visible", className)}>
+    <svg ref={svg} width={size} height={size} viewBox="1 1 22 22" role="img" aria-label="botLane" className={cn("shrink-0 overflow-visible", className)}>
       <defs>
         <radialGradient id={`${id}-fall`} gradientUnits="userSpaceOnUse" cx={CX + REACH} cy={CY} r="11">
           <stop offset="0.1" stopColor="#fff" />

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = findPost((await params).slug)
   if (!post) return {}
   return {
-    title: `${post.title} · Botlane`,
+    title: `${post.title} · botLane`,
     description: post.dek,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: { type: "article", title: post.title, description: post.dek, publishedTime: post.date, url: `/blog/${post.slug}`, ...(post.slug === "claude-duet-small-business" ? { images: [{ url: "/images/insights/claude-duet.webp", width: 1672, height: 941, alt: "A small business owner reviews an illustrated AI assistant briefing on a phone" }] } : {}) },
@@ -99,8 +99,8 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
             description: post.dek,
             datePublished: post.date,
             mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
-            author: { "@type": "Organization", name: "Botlane", url: SITE_URL },
-            publisher: { "@type": "Organization", name: "Botlane", url: SITE_URL },
+            author: { "@type": "Organization", name: "botLane", url: SITE_URL },
+            publisher: { "@type": "Organization", name: "botLane", url: SITE_URL },
           }).replace(/</g, "\\u003c") }} />
           <header className="glow-brand grid justify-items-start gap-5 pt-10 pb-10 sm:pt-14">
             <Link href="/blog" className="group/b inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -118,7 +118,7 @@ export default async function Note({ params }: { params: Promise<{ slug: string 
             <span className="mt-2 flex items-center gap-3 text-sm">
               <span className="tile-depth size-9 rounded-full! text-foreground"><BotlaneMark size={20} id="byline-mark" /></span>
               <span className="grid">
-                <span className="font-medium">The Botlane studio</span>
+                <span className="font-medium">The botLane studio</span>
                 <span className="text-muted-foreground">Written by the people who build the work</span>
               </span>
             </span>

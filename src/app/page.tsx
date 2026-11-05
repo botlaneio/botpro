@@ -22,7 +22,7 @@ import { OFFERS } from "@/lib/pricing"
 import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
-  title: "Botlane · Experiences. Worth putting your name on.",
+  title: "botLane · Experiences. Worth putting your name on.",
   description: "Custom websites and software, designed around your business. A clear scope and an agreed price before each project begins.",
 }
 

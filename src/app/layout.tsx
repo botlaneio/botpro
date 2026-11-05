@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   // Resolves canonical links and social preview images to botlane.io, never www or a preview URL.
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
-  title: "Botlane",
+  title: "botLane",
   description: "Design that balances aesthetic polish with technical permanence.",
 }
 

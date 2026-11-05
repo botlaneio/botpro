@@ -194,7 +194,7 @@ function SignUp({ title, description, onSignIn, onSwitchToSignIn, notice }: Omit
             <span className="text-foreground">Projects, products, and what comes next.</span>{" "}
             <span className="font-normal text-muted-foreground">Websites and web apps from the studio, plus slotLane, spotLane and dotLane.</span>
           </h2>
-          <ul aria-label="Botlane products" className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border min-[420px]:grid-cols-2 sm:mt-10">
+          <ul aria-label="botLane products" className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border min-[420px]:grid-cols-2 sm:mt-10">
             {PRODUCTS.map((product) => (
               <li key={product.href} className="bg-background">
                 <Link href={product.href} className="flex h-full min-h-24 flex-col gap-2 p-4 transition-colors hover:bg-foreground/[0.03] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-ring">
@@ -236,7 +236,7 @@ function SignIn({ title, description, onSignIn, onResetPassword, onCreateAccount
           </Link>
           <div className="auth-rise rounded-[1.5rem] border border-border/80 bg-card px-5 py-6 shadow-[var(--shadow-lift)] sm:px-7 sm:py-8 [--auth-delay:80ms]">
             <h1 id={`${uid}-title`} className="text-[1.75rem] leading-tight font-medium tracking-tight sm:text-[2rem]">
-              {title ?? "Sign in to Botlane"}
+              {title ?? "Sign in to botLane"}
             </h1>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               {description ?? "Your projects, products, and what comes next."}
@@ -277,7 +277,7 @@ function SignIn({ title, description, onSignIn, onResetPassword, onCreateAccount
               <Notice id={`${uid}-notice`} notice={notice || form.fallback} />
             </form>
             <p className="mt-2 text-center text-sm text-muted-foreground">
-              New to Botlane?{" "}
+              New to botLane?{" "}
               <button type="button" onClick={onCreateAccount} disabled={!onCreateAccount} className={cn("font-medium text-foreground underline underline-offset-4 hover:text-foreground/80 disabled:cursor-not-allowed disabled:opacity-60", focusLink)}>
                 Create an account
               </button>

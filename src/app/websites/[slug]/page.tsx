@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const offer = findOffer("websites", (await params).slug)
-  return offer ? { title: `${offer.slug === "business-sites" ? "Core" : offer.slug === "company-sites" ? "Ascend" : offer.slug === "brand-sites" ? "Apex" : offer.name} · Botlane`, description: `${offer.headline} ${offer.pain}` } : {}
+  return offer ? { title: `${offer.slug === "business-sites" ? "Core" : offer.slug === "company-sites" ? "Ascend" : offer.slug === "brand-sites" ? "Apex" : offer.name} · botLane`, description: `${offer.headline} ${offer.pain}` } : {}
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

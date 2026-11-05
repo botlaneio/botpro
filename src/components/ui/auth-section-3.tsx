@@ -35,12 +35,12 @@ export default function AuthSectionThree() {
               {signingUp && <div className="grid gap-4 sm:grid-cols-2"><InputField label="First name" name="given-name" placeholder="First name" autoComplete="given-name" /><InputField label="Last name" name="family-name" placeholder="Last name" autoComplete="family-name" /></div>}
               <InputField label="Email" name="email" placeholder="you@company.com" type="email" autoComplete="email" />
               <InputField label="Password" name="password" placeholder={signingUp ? "Create a password" : "Enter your password"} type="password" autoComplete={signingUp ? "new-password" : "current-password"} />
-              {signingUp && <div className="pt-2 text-xs leading-5 text-black/65 sm:text-[13px] dark:text-white/65"><CheckboxLine>Send me occasional Botlane product news and updates.</CheckboxLine></div>}
+              {signingUp && <div className="pt-2 text-xs leading-5 text-black/65 sm:text-[13px] dark:text-white/65"><CheckboxLine>Send me occasional botLane product news and updates.</CheckboxLine></div>}
               <button type="submit" className="mt-6 flex min-h-11 w-full items-center justify-center rounded-lg border border-black/40 bg-black text-sm font-medium text-white transition-colors hover:bg-black/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-white/40 dark:bg-white dark:text-black dark:hover:bg-white/85 dark:focus-visible:outline-white">Preview {signingUp ? "sign up" : "sign in"}</button>
               <p role="status" aria-live="polite" className="text-sm leading-6 text-black/70 dark:text-white/70">{notice}</p>
             </form>
-            <p className="mt-6 text-center text-sm text-black/65 dark:text-white/65">{signingUp ? "Already have an account?" : "New to Botlane?"} <button type="button" onClick={() => { setMode(signingUp ? "signin" : "signup"); setNotice(""); }} className="min-h-11 font-medium text-black underline underline-offset-4 dark:text-white">{signingUp ? "Sign in" : "Create an account"}</button></p>
-            <Link href="/" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm text-black/65 hover:text-black dark:text-white/65 dark:hover:text-white"><ArrowLeft size={15} aria-hidden="true" />Back to Botlane</Link>
+            <p className="mt-6 text-center text-sm text-black/65 dark:text-white/65">{signingUp ? "Already have an account?" : "New to botLane?"} <button type="button" onClick={() => { setMode(signingUp ? "signin" : "signup"); setNotice(""); }} className="min-h-11 font-medium text-black underline underline-offset-4 dark:text-white">{signingUp ? "Sign in" : "Create an account"}</button></p>
+            <Link href="/" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm text-black/65 hover:text-black dark:text-white/65 dark:hover:text-white"><ArrowLeft size={15} aria-hidden="true" />Back to botLane</Link>
           </div>
         </div>
         <div className="relative flex min-h-[600px] flex-col overflow-hidden rounded-md bg-[#123c50] p-8 text-white sm:p-12 lg:min-h-0 lg:p-16">
@@ -52,13 +52,13 @@ export default function AuthSectionThree() {
           </div>
           <div className="relative z-10 flex h-full flex-1 flex-col">
             <motion.div initial={false} animate={{ y: 0, opacity: 1 }} transition={{ duration: reduced ? 0 : 0.7 }} className="max-w-[460px] lg:pt-12">
-              <span className="inline-flex items-center gap-2 text-sm text-white/75"><LockKeyhole size={16} aria-hidden="true" />Your Botlane workspace</span>
+              <span className="inline-flex items-center gap-2 text-sm text-white/75"><LockKeyhole size={16} aria-hidden="true" />Your botLane workspace</span>
               <h2 className="mt-7 text-3xl font-light leading-tight tracking-[-0.035em] text-white/95 sm:text-4xl">A place for everything you’re building.</h2>
               <p className="mt-5 max-w-sm text-sm leading-6 text-white/75">Start a project. Find your next tool. Keep the important details together.</p>
             </motion.div>
             <div className="mt-12 w-full overflow-hidden rounded-2xl border border-white/20 bg-black/80 p-2 shadow-[0_30px_90px_rgba(0,0,0,0.5)] lg:mt-auto lg:-mr-16 lg:translate-x-8 lg:translate-y-20 lg:-rotate-3">
               <div className="overflow-hidden rounded-xl border border-white/15 bg-[#111215]">
-                <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-3"><span className="size-2 rounded-full bg-white/35" /><span className="size-2 rounded-full bg-white/25" /><span className="size-2 rounded-full bg-white/15" /><span className="ml-3 text-xs text-white/60">Botlane · Workspace preview</span></div>
+                <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-3"><span className="size-2 rounded-full bg-white/35" /><span className="size-2 rounded-full bg-white/25" /><span className="size-2 rounded-full bg-white/15" /><span className="ml-3 text-xs text-white/60">botLane · Workspace preview</span></div>
                 <div className="relative h-32 overflow-hidden sm:h-40">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/daylight/glacial-inlet.webp" alt="" width={1200} height={800} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center opacity-55" />

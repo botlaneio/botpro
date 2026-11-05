@@ -407,7 +407,7 @@ export function HeroScene({ className }: { className?: string }) {
           <Chip x={834} y={482} m={[330, 692]} p={[420, 680]} at={14.7} done={16.2} out={18.4}>Source and design files</Chip>
 
           {/* Care: the hub at the centre, and each site's monthly check. */}
-          <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><BotlaneMark size={136} optical="small" id="hub-mark" label="Botlane" /></div>
+          <div data-in={span(20.8, 0.6)} data-out={span(28.4, 0.5)} data-pop="" className="scene-hub absolute grid place-items-center" style={{ left: CX - 92, top: CY - 92, width: 184, height: 184 }}><BotlaneMark size={136} optical="small" id="hub-mark" label="botLane" /></div>
           {CARE.map((c, i) => (
             <div key={c.label} className={cn("absolute grid justify-items-center gap-3", COMPACT_SKIP.has(i) && "scene-wide")} style={{ left: c.x - 200, top: c.y + 84, width: 400 }}>
               <span data-in={span(20.4 + i * 0.15, 0.6)} data-out={span(28.4, 0.5)} className="scene-care-label text-[22px] text-muted-foreground">{c.label}</span>

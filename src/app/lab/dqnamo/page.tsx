@@ -42,7 +42,7 @@ export default function DqnamoLab() {
           <span className="font-mono text-[11px] tracking-[0.08em] text-grayscale-10">LAB · DQNAMO EXPERIMENTS</span>
           <h1 className="text-4xl font-medium tracking-[-0.04em]">dqnamo experiments</h1>
           <p className="max-w-2xl text-grayscale-10">
-            Twelve of the fifteen experiments from dqnamo.com, by JP at The Interface Company of London, running in Botlane&apos;s stack. The owner has confirmed permission from JP to reuse these components. Tactile Button, Advanced Model Selector and Logo Trace Loader are left out: their source isn&apos;t published in full.
+            Twelve of the fifteen experiments from dqnamo.com, by JP at The Interface Company of London, running in botLane&apos;s stack. The owner has confirmed permission from JP to reuse these components. Tactile Button, Advanced Model Selector and Logo Trace Loader are left out: their source isn&apos;t published in full.
           </p>
         </header>
         <div className="mt-12 grid gap-5 md:grid-cols-2">

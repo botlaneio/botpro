@@ -6,7 +6,7 @@ import { BotlaneMark } from "@/components/site/botlane-mark"
 import { SiteFooter, SiteHeader } from "@/components/site/site-header"
 
 export const metadata: Metadata = {
-  title: "Not found · Botlane",
+  title: "Not found · botLane",
 }
 
 /** Any address that doesn't exist: the mark alone in the dark, and three ways back. */

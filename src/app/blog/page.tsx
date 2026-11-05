@@ -5,7 +5,7 @@ import { formatDate, postsByDate, readingMinutes } from "@/lib/insights";
 import "@/components/insights/publication.css";
 
 export const metadata: Metadata = {
-  title: "Insights · Botlane",
+  title: "Insights · botLane",
   description:
     "Practical notes on websites, booking, automation, and the work behind them.",
 };

@@ -8,7 +8,7 @@ import { PageSection, PageShell } from "@/components/site/page-shell"
 import { SOLUTIONS } from "@/lib/nav"
 
 export const metadata: Metadata = {
-  title: "Solutions · Botlane",
+  title: "Solutions · botLane",
   description: "Websites and web apps, designed and built end to end, and the care after launch. Clear, fixed prices in US dollars.",
 }
 
