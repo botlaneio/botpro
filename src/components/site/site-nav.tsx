@@ -9,7 +9,7 @@ import type { OfferIcon } from "@/lib/catalog"
 import type { LaneId } from "@/lib/lanes"
 import { cn } from "@/lib/utils"
 
-import { BotlaneMark } from "./botlane-mark"
+import { BotlaneLogo } from "./botlane-logo"
 import { ProductArt } from "./nav-art"
 import { ThemeSwitch } from "./theme-switch"
 
@@ -405,8 +405,7 @@ export function SiteNav({ menus, links }: { menus: NavMenu[]; links: { href: str
 
       <div className="relative mx-auto flex h-full max-w-6xl items-center gap-4 px-4 sm:px-6">
         <Link href="/" onClick={close} onMouseEnter={unhover} className="flex items-center gap-2 lg:flex-1">
-          <BotlaneMark size={28} id="nav-mark" />
-          <span className="font-semibold tracking-[-0.035em]">botlane</span>
+          <BotlaneLogo size={24} />
         </Link>
 
         {/* The pill: the tabs, then the panel they share, then the plain links. That's also the order Tab follows. */}

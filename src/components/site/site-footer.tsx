@@ -6,7 +6,7 @@ import { LANES } from "@/lib/lanes"
 import { CATEGORIES } from "@/lib/catalog"
 
 import { AmbientLight } from "./ambient-light"
-import { BotlaneMark } from "./botlane-mark"
+import { BotlaneLogo } from "./botlane-logo"
 
 // The three categories, and Care after launch.
 const SOLUTION_LINKS = [...CATEGORIES.map((c) => ({ href: c.href, label: c.label })), { href: "/care", label: "Care" }]
@@ -32,8 +32,7 @@ export function SiteFooter({ description = "An independent studio for websites a
       <div data-stagger className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:gap-x-6 sm:px-6 pt-14 pb-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12 md:pt-16">
         <div className="col-span-2 grid content-start justify-items-start gap-4 md:col-span-1">
           <Link href="/" className="flex items-center gap-2">
-            <BotlaneMark size={32} id="footer-mark" />
-            <span className="text-lg font-semibold tracking-[-0.035em]">botlane</span>
+            <BotlaneLogo size={28} />
           </Link>
           <p className="max-w-xs text-sm text-muted-foreground">{description}</p>
           <Link href="/contact" className="group/cta inline-flex items-center gap-1.5 text-sm font-medium">
