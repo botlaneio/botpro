@@ -11,6 +11,10 @@ import { D, D_VIEWBOX, ORCHID, dOptical } from "./dotlane-d"
  * `size` is the mark's height in px. The component carries one accessible name (`label`); pass `decorative` when
  * visible text beside it already says it.
  */
+// The mark's box already holds 0.14 of its size as air to the right of the letter, so this small gap leaves
+// about 0.16 of the size between the letter and the name.
+const LOCKUP_GAP = 0.02
+
 export type DotlaneLogoProps = {
   variant?: "mark" | "lockup"
   size?: number
@@ -35,7 +39,7 @@ export function DotlaneLogo({ variant = "lockup", size = 28, label = "dotLane", 
   if (variant === "mark") return <Mark size={size} className={className} a11y={a11y} />
 
   return (
-    <span className={className ? `inline-flex items-center ${className}` : "inline-flex items-center"} style={{ gap: Math.round(size * 0.18) }} {...a11y}>
+    <span className={className ? `inline-flex items-center ${className}` : "inline-flex items-center"} style={{ gap: Math.round(size * LOCKUP_GAP) }} {...a11y}>
       <Mark size={size} a11y={{ "aria-hidden": true }} />
       <span aria-hidden className="font-semibold tracking-[-0.035em]" style={{ fontSize: Math.round(size * 0.82), lineHeight: 1 }}>
         dotLane

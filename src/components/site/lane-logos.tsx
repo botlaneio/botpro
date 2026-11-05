@@ -56,13 +56,16 @@ export const LANE_MARKS: Record<LaneId, React.ComponentType<MarkProps>> = {
   spotlane: SpotlaneMark,
   dotlane: DotlaneMark,
 }
+// About 0.16 of the size between mark and name, like BotlaneLogo: the d and the p already carry 0.14 of air on the
+// right inside their box, the calendar only 0.04.
+const LOCKUP_GAP: Record<LaneId, number> = { slotlane: 0.12, spotlane: 0.02, dotlane: 0.02 }
 const NAMES: Record<LaneId, string> = { slotlane: "slotLane", spotlane: "spotLane", dotlane: "dotLane" }
 
 export function LaneLogo({ id, variant = "lockup", size = 28, label = NAMES[id], decorative = false, className }: { id: LaneId; variant?: "mark" | "lockup"; size?: number; label?: string; decorative?: boolean; className?: string }) {
   const Mark = LANE_MARKS[id]
   if (variant === "mark") return <Mark size={size} className={className} label={label} decorative={decorative} />
   return (
-    <span className={className ? `inline-flex items-center ${className}` : "inline-flex items-center"} style={{ gap: Math.round(size * 0.18) }} {...a11yOf(label, decorative)}>
+    <span className={className ? `inline-flex items-center ${className}` : "inline-flex items-center"} style={{ gap: Math.round(size * LOCKUP_GAP[id]) }} {...a11yOf(label, decorative)}>
       <Mark size={size} />
       <span aria-hidden className="font-semibold tracking-[-0.035em]" style={{ fontSize: Math.round(size * 0.82), lineHeight: 1 }}>
         {NAMES[id]}
