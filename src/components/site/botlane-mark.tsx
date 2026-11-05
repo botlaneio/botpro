@@ -1,4 +1,4 @@
-import { COMET, COMET_VIEWBOX, cometOptical } from "./botlane-comet"
+import { BotlaneLogo } from "./botlane-logo"
 
 // The old Visor geometry: a helmet whose shell shows only where light catches its right edge, with two dashes for eyes.
 // Colours come from the --mark-* tokens.
@@ -11,25 +11,11 @@ export const EYES = {
 } as const
 
 /**
- * The Botlane logo at every call site: the comet, in the current text colour, so it follows the theme and any dark
- * tile it sits on. Below 24px it switches to its small optical size. `optical` and `id` are kept for existing callers
+ * The Botlane mark at every existing call site: the "b" from BotlaneLogo (botlane-logo.tsx), in the current text
+ * colour, so it follows the theme and any dark tile it sits on. Below 24px it switches to its small optical size. `optical` and `id` are kept for existing callers
  * and no longer change the drawing. The seal (botlane-seal.tsx) stays as brand artwork for large, decorative use.
  * The helmet geometry above stays for HeroMark and AgentMark, the animated marks shown in the lab.
  */
 export function BotlaneMark({ size = 24, className, label }: { size?: number; id?: string; className?: string; optical?: "small" | "large"; label?: string }) {
-  const c = COMET[cometOptical(size)]
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={COMET_VIEWBOX}
-      className={className ? `shrink-0 ${className}` : "shrink-0"}
-      role={label ? "img" : undefined}
-      aria-label={label}
-      aria-hidden={label ? undefined : true}
-    >
-      <path d={c.tail} fill="currentColor" />
-      <circle cx={c.node.cx} cy={c.node.cy} r={c.node.r} fill="currentColor" />
-    </svg>
-  )
+  return <BotlaneLogo variant="mark" size={size} className={className} label={label} decorative={!label} />
 }
