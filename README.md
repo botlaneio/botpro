@@ -51,7 +51,8 @@ Copy `.env.example` to `.env.local` for development. In production every value i
 ## Rules
 
 - **botlane.io is neutral.** The primary button is near-white on dark (`btn-light`).
-- **Electric blue is Botlane's own accent,** used sparingly: the glow behind a page's opening section (`glow-brand`), the Founding Ten banner and the logo mark. Use `bg-brand` / `text-brand-text`; everything else stays neutral.
+- **Electric blue is Botlane's own accent,** used sparingly: the glow behind a page's opening section (`glow-brand`) and the Founding Ten banner. Use `bg-brand` / `text-brand-text`; everything else stays neutral.
+- **The logo is the comet beside the botlane wordmark.** The comet (`BotlaneMark`, geometry in `src/components/site/botlane-comet.ts`) is always one colour, the current text colour, and sits to the left of the wordmark, never inside it. In a lockup it is about 1.15 times the wordmark's ascender height, with a gap of half its own height. Give it at least its own width of clear space. Below 24px it switches to its sturdier small drawing by itself. App icons and the browser-tab icon are the one exception to one colour: the comet in white on a soft blue tile, lit from the top left (the same tile as Lane's voice button). The seal (`BotlaneSeal`) is brand artwork for large, decorative use, not the logo.
 - **Product colour lives in a lane scope.** Wrap a product card, section or page in `lane-teal` (Syncc), `lane-violet` (Scriblane) or `lane-orchid` (Flowlane). `bg-lane`, `text-lane-text`, `border-lane-border`, `surface-tinted`, `btn-lane` and a hairline figure's highlight all follow it.
 - **Status colours are for mock UI only,** never for lanes.
 
