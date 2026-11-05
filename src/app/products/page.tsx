@@ -9,14 +9,14 @@ import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
   title: "Our products · Botlane",
-  description: "Syncc, Scriblane and Flowlane: software we build and run ourselves, to the same standard as client work.",
+  description: "slotLane, spotLane and dotLane: software we build and run ourselves, to the same standard as client work.",
 }
 
 const founding = OFFERS.find((o) => o.id === "founding-ten")!
 const STATS: Stat[] = [
   { value: LANES.length, label: "products built and run in-house" },
-  { value: PRODUCT_NUMBERS.flowlaneIntegrations, suffix: "+", label: "app integrations in Flowlane" },
-  { value: PRODUCT_NUMBERS.scriblaneFileTypes, label: "file types Scriblane can read" },
+  { value: PRODUCT_NUMBERS.flowlaneIntegrations, suffix: "+", label: "app integrations in dotLane" },
+  { value: PRODUCT_NUMBERS.scriblaneFileTypes, label: "file types spotLane can read" },
   { value: Math.round(founding.discount * 100), suffix: "%", label: `off for our first ${founding.places} clients` },
 ]
 

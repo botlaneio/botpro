@@ -8,7 +8,7 @@ import { appTile } from "@/lib/app-tile"
 import { cn } from "@/lib/utils"
 
 // Only apps our work really connects to: the automation service names Gmail, Stripe, HubSpot and Notion,
-// and Syncc syncs Google Calendar with Meet or Zoom links. Seven, one for each place on the track below.
+// and slotLane syncs Google Calendar with Meet or Zoom links. Seven, one for each place on the track below.
 // Logos from Simple Icons; each mark belongs to its owner.
 const APPS: SimpleIcon[] = [siGmail, siStripe, siHubspot, siGooglecalendar, siNotion, siZoom, siGooglemeet]
 

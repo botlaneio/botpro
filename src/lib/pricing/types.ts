@@ -56,7 +56,7 @@ export interface Plan {
 export interface Offering {
   id: string
   /** "botlane" for the studio's own services (neutral, no lane colour); otherwise the product lane. */
-  lane: "botlane" | "syncc" | "scriblane" | "flowlane"
+  lane: "botlane" | "slotlane" | "spotlane" | "dotlane"
   name: string
   kind: "service" | "product" | "add-on"
   /**

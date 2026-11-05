@@ -13,9 +13,9 @@ import { PRODUCT_PAGES } from "@/lib/products"
 import { cn } from "@/lib/utils"
 
 // Where each product sends someone who'd rather have it built or set up for them.
-const RELATED: Partial<Record<LaneId, { href: string; text: string }>> = {
-  scriblane: { href: "/custom-solutions/document-processing", text: "Want it wired into your own systems? We set it up as a custom solution." },
-  flowlane: { href: "/custom-solutions/workflow-automation", text: "Can't wait for it to open? We build automations on the same engine today." },
+const RELATED: Partial<Record<LaneId, { href: string; text: string; label: string }>> = {
+  spotlane: { href: "/custom-solutions/document-processing", text: "Want it wired into your own systems? We set it up as a custom solution.", label: "Set it up with us today" },
+  dotlane: { href: "/custom-solutions/workflow-automation", text: "Can't wait for it to open? We build automations on the same engine today.", label: "Automate with us today" },
 }
 
 const laneFor = (slug: string): Lane | undefined => LANES.find((l) => l.id === slug)
@@ -28,12 +28,12 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const lane = laneFor((await params).slug)
-  return lane ? { title: `${lane.name} · Botlane`, description: { syncc: "Syncc makes scheduling simple: share a booking link so people can choose a time that lands in your calendar.", scriblane: "Scriblane turns invoices, scans, and Office files into clean, checked data for your document-processing workflow.", flowlane: "Flowlane is in development: explore our upcoming automation product, or ask Botlane to connect your business tools today." }[lane.id] } : {}
+  return lane ? { title: `${lane.name} · Botlane`, description: { slotlane: "slotLane makes scheduling simple: share a booking link so people can choose a time that lands in your calendar.", spotlane: "spotLane turns invoices, scans, and Office files into clean, checked data for your document-processing workflow.", dotlane: "dotLane is in development: explore our upcoming automation product, or ask Botlane to connect your business tools today." }[lane.id] } : {}
 }
 
 /**
  * One product's own page, in its lane colour: what it does, everything it does, how it compares, what it
- * costs, and what it doesn't do yet. Live products link out to their site; one opening soon points to the
+ * costs, and what it doesn't do yet. Live products link out to their site; one coming soon points to the
  * custom solution built on the same engine.
  */
 export default async function Product({ params }: { params: Promise<{ slug: string }> }) {
@@ -47,7 +47,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
   return (
     <PageShell
       current="/products"
-      eyebrow={`OUR PRODUCTS · ${lane.name.toUpperCase()} · ${live ? "LIVE" : "OPENING SOON"}`}
+      eyebrow={`OUR PRODUCTS · ${lane.name.toUpperCase()} · ${live ? "LIVE" : "COMING SOON"}`}
       title={lane.tagline}
       intro={`${lane.name} is software we build and run ourselves, to the same standard as the work we do for clients.`}
       cta={live
@@ -56,7 +56,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
     >
       <section aria-label={lane.name} className={cn(lane.scope, "surface-product mb-12 grid overflow-hidden lg:grid-cols-[1fr_1.1fr]")}>
         <div className="grid content-center justify-items-start gap-5 p-6 sm:p-10">
-          <span className="label-mono">{live ? `LIVE · ${lane.host.toUpperCase()}` : "OPENING SOON"}</span>
+          <span className="label-mono">{live ? `LIVE · ${lane.host.toUpperCase()}` : `COMING SOON · ${lane.host.toUpperCase()}`}</span>
           <h2 className="text-3xl font-medium tracking-tight">{lane.name}</h2>
           <ul className="grid gap-2.5">
             {page.features.slice(0, 3).map((f) => (
@@ -65,7 +65,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
           </ul>
           {live
             ? <a href={visit.href} className="btn-light mt-2 inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">{visit.label} <ArrowUpRight className="size-4" /></a>
-            : related && <Link href={related.href} className="btn-light mt-2 inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">Automate with us today <ArrowRight className="size-4" /></Link>}
+            : related && <Link href={related.href} className="btn-light mt-2 inline-flex h-10 items-center gap-1.5 px-5 text-sm font-medium">{related.label} <ArrowRight className="size-4" /></Link>}
         </div>
         <div aria-hidden className="relative h-72 lg:h-auto lg:min-h-80">
           <ProductVisual id={lane.id} />
@@ -106,19 +106,19 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
         </PageSection>
       )}
 
-      {lane.id === "syncc" && (
+      {lane.id === "slotlane" && (
         <PageSection id="pricing" eyebrow="PRICING" title="One flat price, never per seat.">
           <div className={lane.scope}><SynccPlans /></div>
         </PageSection>
       )}
-      {lane.id === "scriblane" && (
+      {lane.id === "spotlane" && (
         <PageSection id="pricing" eyebrow="PRICING" title="Priced by the pages you process.">
           <div className={cn(lane.scope, "grid gap-5")}>
             <div className="grid gap-5 md:grid-cols-2">
               <PlanCard planId="scriblane-starter" cta="Start with Starter" href="/contact?need=custom" />
               <PlanCard planId="scriblane-growth" featured cta="Start with Growth" href="/contact?need=custom" />
             </div>
-            <Comparison planIds={["scriblane-starter", "scriblane-growth"]} caption="Scriblane plans compared" />
+            <Comparison planIds={["scriblane-starter", "scriblane-growth"]} caption="spotLane plans compared" />
           </div>
         </PageSection>
       )}

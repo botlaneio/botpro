@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
       // The AI Assistant moved under Custom solutions.
       { source: "/ai-assistant", destination: "/custom-solutions/ai-assistant", permanent: true },
       // scriblane.botlane.io still forwards here, from the old site's layout.
-      { source: "/document-processing", destination: "/products/scriblane", permanent: true },
+      { source: "/document-processing", destination: "/products/spotlane", permanent: true },
+      // The products were renamed: Syncc is slotLane, Scriblane is spotLane, Flowlane is dotLane.
+      { source: "/products/syncc", destination: "/products/slotlane", permanent: true },
+      { source: "/products/scriblane", destination: "/products/spotlane", permanent: true },
+      { source: "/products/flowlane", destination: "/products/dotlane", permanent: true },
       { source: "/pricing", destination: "/solutions", permanent: true },
       // The partner programme is a footer dialog now: #partners opens it on any page.
       { source: "/partners", destination: "/#partners", permanent: true },

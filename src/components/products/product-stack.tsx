@@ -100,7 +100,7 @@ export function ProductStack() {
                     <span className="label-mono ml-auto text-[11px] tabular-nums">{String(i + 1).padStart(2, "0")} / {String(LANES.length).padStart(2, "0")}</span>
                   </div>
                   <span className="label-mono w-fit rounded-full border border-(--lane-border) px-2.5 py-0.5 text-[10px] text-(--lane-text)">
-                    {live ? `LIVE · ${lane.host.toUpperCase()}` : "OPENING SOON"}
+                    {live ? `LIVE · ${lane.host.toUpperCase()}` : `COMING SOON · ${lane.host.toUpperCase()}`}
                   </span>
                   <p className="text-xl leading-snug text-pretty text-foreground/90">{lane.tagline}</p>
                   <ul className="grid gap-2.5">

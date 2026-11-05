@@ -9,17 +9,17 @@ import type { LaneId } from "./lanes.ts"
 export const PRODUCT_NUMBERS = { flowlaneIntegrations: 700, scriblaneFileTypes: 14 }
 
 export const PRODUCT_FEATURES: Record<LaneId, string[]> = {
-  syncc: [
+  slotlane: [
     "Your booking page on your own domain",
     "Google Calendar sync, with Meet or Zoom links",
     "One flat price per page, never per seat",
   ],
-  scriblane: [
+  spotlane: [
     "Invoice fields with a confidence score each",
     "Checks line items, subtotal, tax and total",
     "PDFs, scans, photos and Office files",
   ],
-  flowlane: [
+  dotlane: [
     "700+ app integrations, from Gmail to HubSpot",
     "A visual builder with branches and loops",
     "AI agent steps you brief in plain language",
@@ -34,7 +34,7 @@ export interface ProductPage {
 }
 
 export const PRODUCT_PAGES: Record<LaneId, ProductPage> = {
-  syncc: {
+  slotlane: {
     features: [
       "Your booking page on your own domain, with no vendor branding on any plan",
       "One flat price per booking page, never per seat",
@@ -57,7 +57,7 @@ export const PRODUCT_PAGES: Record<LaneId, ProductPage> = {
     },
     limit: "Built for one owner's calendar: teams and round-robin aren't supported yet.",
   },
-  scriblane: {
+  spotlane: {
     features: [
       "Invoice fields, each with a confidence score and the page it came from",
       "Checks the maths: line items, subtotal, tax and total",
@@ -69,7 +69,7 @@ export const PRODUCT_PAGES: Record<LaneId, ProductPage> = {
     ],
     limit: "Tuned for English invoice layouts today; other documents come out as key-value pairs and tables.",
   },
-  flowlane: {
+  dotlane: {
     features: [
       "700+ app integrations, from Gmail, Slack and Stripe to HubSpot and Notion",
       "A visual builder: triggers, steps, branches and loops",
@@ -78,6 +78,6 @@ export const PRODUCT_PAGES: Record<LaneId, ProductPage> = {
       "Tables to keep data between runs, and webhooks in and out",
       "Can run on your own server, so your data stays with you",
     ],
-    limit: "Opening soon: it's being prepared for clients now.",
+    limit: "Coming soon: it's being prepared for clients now.",
   },
 }

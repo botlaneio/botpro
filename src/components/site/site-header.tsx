@@ -20,7 +20,7 @@ const OFFER_HUE: Record<OfferIcon, Hue> = {
   scoping: "ember", mvp: "orchid", full: "blue",
   assistant: "violet", automation: "teal", documents: "ember",
 }
-const LANE_HUE: Record<LaneId, Hue> = { syncc: "teal", scriblane: "violet", flowlane: "orchid" }
+const LANE_HUE: Record<LaneId, Hue> = { slotlane: "teal", spotlane: "violet", dotlane: "orchid" }
 
 // Each category's place in the menu: its colour and icon in the list, a line under its name, and the card beside its offers.
 const CATEGORY: Record<CategoryId, { hue: Hue; line: string; feature: (first: string) => NavSection["feature"] }> = {
@@ -43,9 +43,9 @@ const CATEGORY: Record<CategoryId, { hue: Hue; line: string; feature: (first: st
 
 // A product's line for its card: shorter than its tagline, so the cards stay even.
 const LANE_LINE: Record<LaneId, string> = {
-  syncc: "Booking pages on your own domain.",
-  scriblane: "Documents in, checked data out.",
-  flowlane: "Automation across 700+ apps.",
+  slotlane: "Booking pages on your own domain.",
+  spotlane: "Documents in, checked data out.",
+  dotlane: "Automation across 700+ apps.",
 }
 
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1)
@@ -86,7 +86,7 @@ export function SiteHeader() {
     },
     {
       label: "Products",
-      line: "Syncc, Scriblane, Flowlane",
+      line: "slotLane, spotLane, dotLane",
       sections: [{
         id: "products",
         label: "Built and run by us",
@@ -94,7 +94,7 @@ export function SiteHeader() {
         hue: "teal",
         href: "/products",
         all: "All products",
-        cards: LANES.map((l) => ({ href: `/products/${l.id}`, title: l.name, body: LANE_LINE[l.id], meta: l.status === "live" ? l.host : "Opening soon", icon: l.id, hue: LANE_HUE[l.id], soon: l.status === "soon" })),
+        cards: LANES.map((l) => ({ href: `/products/${l.id}`, title: l.name, body: LANE_LINE[l.id], meta: l.status === "live" ? l.host : `Coming soon · ${l.host}`, icon: l.id, hue: LANE_HUE[l.id], soon: l.status === "soon" })),
       }],
     },
   ]

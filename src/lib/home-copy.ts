@@ -16,17 +16,17 @@ export interface HomeProductCopy {
 }
 
 export const HOME_PRODUCTS: Record<LaneId, HomeProductCopy> = {
-  syncc: {
+  slotlane: {
     headline: "A time that works. Without the back-and-forth.",
     description: "Share your link. Let people choose a time. Find the meeting in your calendar.",
     features: ["A booking page on your own domain", "Google Calendar, with Meet or Zoom links", "Flat pricing per page"],
   },
-  scriblane: {
+  spotlane: {
     headline: "From documents to usable data.",
     description: "Extract information from invoices, scans, and Office files, with checks that help you review the results.",
     features: ["Confidence scores for extracted fields", "Checks for invoice totals and line items", "Support for PDFs, images, and Office files"],
   },
-  flowlane: {
+  dotlane: {
     headline: "Less moving information. More moving forward.",
     description: "Connect your apps and automate the steps between an enquiry, a task, and the next thing that needs to happen.",
     features: ["A visual workflow builder", "Branches and loops", "AI steps described in plain language"],

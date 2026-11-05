@@ -23,11 +23,11 @@ import { HOME_PRODUCTS } from "@/lib/home-copy";
 import { LANES, type LaneId } from "@/lib/lanes";
 import "./product-worlds.css";
 
-const ICONS = { syncc: CalendarDays, scriblane: FileText, flowlane: Workflow };
+const ICONS = { slotlane: CalendarDays, spotlane: FileText, dotlane: Workflow };
 const SUBTITLES = {
-  syncc: "Make room for a good conversation.",
-  scriblane: "A little less paperwork. A lot more clarity.",
-  flowlane: "Let the next step take care of itself.",
+  slotlane: "Make room for a good conversation.",
+  spotlane: "A little less paperwork. A lot more clarity.",
+  dotlane: "Let the next step take care of itself.",
 };
 
 function BookingScene() {
@@ -36,7 +36,7 @@ function BookingScene() {
     <div className="world-booking">
       <div className="world-window-bar">
         <span className="world-window-dot" />
-        <span>syncc / your booking page</span>
+        <span>slotlane / your booking page</span>
         <span>
           <ShieldCheck size={12} /> Your domain. Your experience.
         </span>
@@ -241,7 +241,7 @@ function FlowScene() {
 }
 
 export function ProductWorlds() {
-  const [active, setActive] = useState<LaneId>("syncc");
+  const [active, setActive] = useState<LaneId>("slotlane");
   const tabs = useRef<HTMLDivElement>(null);
   const lane = LANES.find((l) => l.id === active)!;
   const copy = HOME_PRODUCTS[active];
@@ -313,17 +313,17 @@ export function ProductWorlds() {
                   </span>
                   <span>
                     PRODUCT EXPLORER /{" "}
-                    {active === "syncc"
+                    {active === "slotlane"
                       ? "01"
-                      : active === "scriblane"
+                      : active === "spotlane"
                         ? "02"
                         : "03"}
                   </span>
                 </div>
                 <div className="world-scene-body">
-                  {active === "syncc" ? (
+                  {active === "slotlane" ? (
                     <BookingScene />
-                  ) : active === "scriblane" ? (
+                  ) : active === "spotlane" ? (
                     <DocumentScene />
                   ) : (
                     <FlowScene />
@@ -332,7 +332,7 @@ export function ProductWorlds() {
                 <div className="world-scene-bottom">
                   <span>DESIGNED & BUILT BY BOTLANE</span>
                   <span>
-                    {active === "syncc"
+                    {active === "slotlane"
                       ? "Interactive preview · select a time"
                       : "Illustrative product preview"}
                   </span>

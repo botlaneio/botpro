@@ -6,7 +6,7 @@
  * Colours themselves live in globals.css; this file only names the scope.
  */
 
-export type LaneId = "syncc" | "scriblane" | "flowlane";
+export type LaneId = "slotlane" | "spotlane" | "dotlane";
 
 export interface Lane {
   id: LaneId;
@@ -14,7 +14,7 @@ export interface Lane {
   status: "live" | "soon";
   /** The class that scopes the lane's colour: wrap its cards, sections and pages in it. */
   scope: "lane-ember" | "lane-teal" | "lane-violet" | "lane-orchid";
-  /** Each product lives on its own subdomain. */
+  /** Each product's own domain (all three are coming soon there). */
   host: string;
   tagline: string;
   /** The hairline figure that represents it. */
@@ -23,29 +23,29 @@ export interface Lane {
 
 export const LANES: readonly Lane[] = [
   {
-    id: "syncc",
-    name: "Syncc",
-    status: "live",
+    id: "slotlane",
+    name: "slotLane",
+    status: "soon",
     scope: "lane-teal",
-    host: "syncc.botlane.io",
+    host: "slotlane.cloud",
     tagline: "Share one link. People pick a time, and it lands in your calendar.",
     figure: "pegboard",
   },
   {
-    id: "scriblane",
-    name: "Scriblane",
-    status: "live",
+    id: "spotlane",
+    name: "spotLane",
+    status: "soon",
     scope: "lane-violet",
-    host: "scriblane.botlane.io",
+    host: "spotlane.cloud",
     tagline: "Invoices, scans and Office files in. Clean, checked data out.",
     figure: "reader",
   },
   {
-    id: "flowlane",
-    name: "Flowlane",
+    id: "dotlane",
+    name: "dotLane",
     status: "soon",
     scope: "lane-orchid",
-    host: "flowlane.botlane.io",
+    host: "dotlane.cloud",
     tagline: "Automate the busywork between your tools, your team and your clients.",
     figure: "dominoes",
   },

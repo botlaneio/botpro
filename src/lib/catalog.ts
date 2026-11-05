@@ -98,7 +98,7 @@ export const CATEGORIES: Category[] = [
 
 const SITE_STACK: Tool[] = [{ id: "nextjs" }, { id: "react" }, { id: "typescript" }, { id: "tailwind" }, { id: "vercel" }]
 const APP_STACK: Tool[] = [{ id: "nextjs" }, { id: "typescript" }, { id: "postgresql" }, { id: "stripe", note: "If you take payments" }, { id: "vercel" }]
-const OUR_APPS = { text: "We build and run our own apps to the same standard: Syncc for scheduling and Scriblane for documents.", href: "/products", label: "See our products" }
+const OUR_APPS = { text: "We build and run our own apps to the same standard: slotLane for scheduling and spotLane for documents.", href: "/products", label: "See our products" }
 const OUR_SITE = { text: "This website is our own work, designed and built in-house to the standard we build for clients.", href: "/products", label: "See what else we've built" }
 
 export const OFFERS: Offer[] = [
@@ -225,7 +225,7 @@ export const OFFERS: Offer[] = [
       "A handover your team can follow",
     ],
     timeline: "Set after the call",
-    proof: { text: "Built on Flowlane, our own automation platform, with 700+ integrations.", href: "/products/flowlane", label: "About Flowlane" },
+    proof: { text: "Built on dotLane, our own automation platform, with 700+ integrations.", href: "/products/dotlane", label: "About dotLane" },
   },
   {
     slug: "document-processing",
@@ -244,7 +244,7 @@ export const OFFERS: Offer[] = [
       "Tuned to your own document layouts during setup",
     ],
     timeline: "Set after the call",
-    proof: { text: "Built on Scriblane, our own document processing product, which reads 14 file types.", href: "/products/scriblane", label: "About Scriblane" },
+    proof: { text: "Built on spotLane, our own document processing product, which reads 14 file types.", href: "/products/spotlane", label: "About spotLane" },
   },
 ]
 

@@ -6,7 +6,7 @@ import type { LaneId } from "@/lib/lanes"
  * their card is hovered (group/p).
  */
 
-/** Syncc: a week of slots, one booked and glowing. */
+/** slotLane: a week of slots, one booked and glowing. */
 function Calendar() {
   return (
     <div className="grid grid-cols-5 gap-1.5">
@@ -21,7 +21,7 @@ function Calendar() {
   )
 }
 
-/** Scriblane: a page turning into checked fields. */
+/** spotLane: a page turning into checked fields. */
 function Document() {
   return (
     <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ function Document() {
   )
 }
 
-/** Flowlane: one trigger, two paths, one result. */
+/** dotLane: one trigger, two paths, one result. */
 function Flow() {
   return (
     <svg viewBox="0 0 200 90" className="w-44" fill="none">
@@ -53,5 +53,5 @@ function Flow() {
 }
 
 export function ProductArt({ id }: { id: LaneId }) {
-  return id === "syncc" ? <Calendar /> : id === "scriblane" ? <Document /> : <Flow />
+  return id === "slotlane" ? <Calendar /> : id === "spotlane" ? <Document /> : <Flow />
 }
