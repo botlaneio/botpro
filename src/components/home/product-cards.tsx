@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { CalendarCheck, CalendarDays, Check, ChevronRight, FileText, Workflow } from "lucide-react"
+import { CalendarCheck, Check, ChevronRight, Workflow } from "lucide-react"
 
+import { LANE_MARKS } from "@/components/site/lane-logos"
 import type { HomeProductCopy } from "@/lib/home-copy"
 import { LANES, type Lane, type LaneId } from "@/lib/lanes"
 import { PRODUCT_FEATURES } from "@/lib/products"
@@ -8,11 +9,8 @@ import { cn } from "@/lib/utils"
 
 import { ProductFan } from "./product-fan"
 
-export const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
-  slotlane: CalendarDays,
-  spotlane: FileText,
-  dotlane: Workflow,
-}
+/** Each product's own logo mark, for its tile. */
+export const ICONS = LANE_MARKS
 
 // The lower half of each card fades into the card, so the visual reads as a window onto the product.
 const fadeOut = "[mask-image:linear-gradient(180deg,#000_62%,transparent)]"

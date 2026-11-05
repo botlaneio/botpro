@@ -2,9 +2,10 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
-import { AppWindow, ArrowRight, ArrowUpRight, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, FileText, PanelsTopLeft, Sparkles, Workflow, X } from "lucide-react"
+import { AppWindow, ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, PanelsTopLeft, Sparkles, X } from "lucide-react"
 
 import { OFFER_ICONS } from "@/components/catalog/offer-icons"
+import { LANE_MARKS } from "@/components/site/lane-logos"
 import type { OfferIcon } from "@/lib/catalog"
 import type { LaneId } from "@/lib/lanes"
 import { cn } from "@/lib/utils"
@@ -51,7 +52,6 @@ export interface NavMenu {
   after?: { label: string; href: string; meta: string }
 }
 
-const LANE_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = { slotlane: CalendarDays, spotlane: FileText, dotlane: Workflow }
 const SECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = { websites: PanelsTopLeft, "web-apps": AppWindow, "custom-solutions": Sparkles }
 const isOffer = (k: NavCard["icon"]): k is OfferIcon => k in OFFER_ICONS
 
@@ -70,7 +70,11 @@ const SWIPE_CLOSE = 80
 const EXTRAS = [{ href: "/care", label: "Care" }, { href: "/solutions#process", label: "How we work" }, { href: "/contact", label: "Contact" }]
 
 function CardIcon({ icon, className }: { icon: NavCard["icon"]; className?: string }) {
-  const Icon = isOffer(icon) ? OFFER_ICONS[icon] : LANE_ICONS[icon]
+  if (!isOffer(icon)) {
+    const Mark = LANE_MARKS[icon]
+    return <Mark className={className} />
+  }
+  const Icon = OFFER_ICONS[icon]
   return <Icon aria-hidden className={className} />
 }
 
