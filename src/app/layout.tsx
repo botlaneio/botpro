@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   // Resolves canonical links and social preview images to botlane.io, never www or a preview URL.
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
-  title: "Botlane",
-  description: "Design that balances aesthetic polish with technical permanence.",
+  title: "botLane",
+  description: "Designs that balance aesthetic polish with technical permanence.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

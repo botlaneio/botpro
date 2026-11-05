@@ -8,7 +8,7 @@ import { OFFERS } from "@/lib/pricing"
 import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
-  title: "Our products · Botlane",
+  title: "Our products · botLane",
   description: "slotLane, spotLane and dotLane: software we build and run ourselves, to the same standard as client work.",
 }
 

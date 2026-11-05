@@ -264,7 +264,7 @@ export function ProductWorlds() {
       <div
         className="world-tabs"
         role="tablist"
-        aria-label="Explore Botlane products"
+        aria-label="Explore botLane products"
         ref={tabs}
       >
         {LANES.map((l, i) => {

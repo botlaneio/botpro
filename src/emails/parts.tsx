@@ -23,7 +23,7 @@ export function Frame({ preview, children }: { preview: string; children: React.
             <span style={{ display: "inline-block", verticalAlign: "middle", marginLeft: 10, fontSize: 18, fontWeight: 600, letterSpacing: "-0.03em" }}>botlane</span>
           </Section>
           <Section style={{ backgroundColor: "#FFFFFF", border: `1px solid ${LINE}`, borderRadius: 16, padding: "28px 28px 20px" }}>{children}</Section>
-          <Text style={{ margin: "16px 4px 0", fontSize: 12, lineHeight: "18px", color: MUTED }}>Botlane · Websites and web apps, built properly.</Text>
+          <Text style={{ margin: "16px 4px 0", fontSize: 12, lineHeight: "18px", color: MUTED }}>botLane · Websites and web apps, built properly.</Text>
         </Container>
       </Body>
     </Html>

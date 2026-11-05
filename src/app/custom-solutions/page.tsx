@@ -5,7 +5,7 @@ import { PageSection, PageShell } from "@/components/site/page-shell"
 import { categoryById, offersIn } from "@/lib/catalog"
 
 export const metadata: Metadata = {
-  title: "Custom Solutions · Botlane",
+  title: "Custom Solutions · botLane",
   description: "AI website assistants, workflow automation and document processing, built on the engines behind our own products and quoted after a short call.",
 }
 

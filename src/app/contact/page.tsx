@@ -7,7 +7,7 @@ import { NEEDS } from "@/lib/contact"
 import { NEED_OPTIONS } from "@/lib/contact-options"
 
 export const metadata: Metadata = {
-  title: "Start a project · Botlane",
+  title: "Start a project · botLane",
   description: "Tell us what you're building. We read every brief ourselves and reply with honest advice.",
 }
 

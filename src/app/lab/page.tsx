@@ -43,7 +43,7 @@ import { ThemeSwitch } from "@/components/site/theme-switch"
 import { Keycaps } from "./lab-controls"
 
 // The lab is a working page for us, not for visitors: kept out of search results and the sitemap.
-export const metadata: Metadata = { title: "Component lab · Botlane", robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: "Component lab · botLane", robots: { index: false, follow: false } }
 
 const ICONS = LANE_MARKS
 
@@ -65,7 +65,7 @@ export default async function Lab() {
       <header className="flex flex-wrap items-end justify-between gap-6 py-14">
         <div className="grid max-w-2xl gap-3">
           <span className="label-mono">BOTLANE · COMPONENT LAB · LAYER 1–2</span>
-          <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">Every primitive, in the Botlane finishes.</h1>
+          <h1 className="text-4xl font-medium tracking-tight text-balance sm:text-5xl">Every primitive, in the botLane finishes.</h1>
           <p className="text-muted-foreground">
             shadcn/ui components themed by the Layer 0 tokens. botlane.io stays neutral; colour appears only inside a lane.
           </p>
@@ -198,7 +198,7 @@ export default async function Lab() {
           <LaneLogo id="spotlane" size={40} />
         </div>
         <p className="text-sm text-muted-foreground">Brand artwork: the seal.</p>
-        <BotlaneSeal size={420} label="The Botlane seal" />
+        <BotlaneSeal size={420} label="The botLane seal" />
         <div className="flex flex-wrap items-center gap-8">
           <BotlaneSeal size={180} rings lanes={["teal"]} />
           <BotlaneSeal size={180} rings lanes={["violet"]} />
@@ -206,7 +206,7 @@ export default async function Lab() {
         </div>
         <BotlaneLockup height={40} />
         <div className="grid justify-items-center gap-6 rounded-[calc(var(--radius)*1.4)] bg-[#0B0C0E] p-8">
-          <BotlaneSeal size={260} tone="white" label="The Botlane seal in white" />
+          <BotlaneSeal size={260} tone="white" label="The botLane seal in white" />
           <BotlaneLockup height={32} tone="white" />
         </div>
         <div className="grid justify-items-start gap-2">

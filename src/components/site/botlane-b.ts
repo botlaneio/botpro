@@ -52,5 +52,5 @@ export function bSvg({ size, fill, background, radius = 0, padding = 0, optical 
   const pad = w * padding
   const vb = [x - pad, y - pad, w + pad * 2, w + pad * 2]
   const bg = background ? `<rect x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}" rx="${n(vb[2] * radius)}" fill="${background}"/>` : ""
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${vb.join(" ")}" role="img" aria-label="Botlane">${bg}<path d="${B[optical]}" fill="${fill}" fill-rule="evenodd"/></svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${vb.join(" ")}" role="img" aria-label="botLane">${bg}<path d="${B[optical]}" fill="${fill}" fill-rule="evenodd"/></svg>`
 }

@@ -23,7 +23,7 @@ Then separate three possible projects:
 
 Do not compare these as if they are identical products. An automatic acknowledgment is different from an answer to a question; a booking link is different from a workflow that creates appointments.
 
-Botlane’s current packages are Core, Ascend, and Apex. Core covers a business website; Ascend adds a company-wide design system, a content editor, and integrations; Apex adds signature motion and structured content. Check the [current package comparison](/websites#compare) for page limits, revision rounds, timelines, and full inclusions before choosing.
+botLane’s current packages are Core, Ascend, and Apex. Core covers a business website; Ascend adds a company-wide design system, a content editor, and integrations; Apex adds signature motion and structured content. Check the [current package comparison](/websites#compare) for page limits, revision rounds, timelines, and full inclusions before choosing.
 
 ## Put every cost in one place
 

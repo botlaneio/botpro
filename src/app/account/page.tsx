@@ -4,8 +4,8 @@ import AccountAccess from "@/components/auth/account-access"
 import type { AccountMode } from "@/lib/account-form"
 
 export const metadata: Metadata = {
-  title: "Your account · Botlane",
-  description: "Your Botlane account for projects, products, and billing.",
+  title: "Your account · botLane",
+  description: "Your botLane account for projects, products, and billing.",
   robots: { index: false, follow: true },
 }
 

@@ -64,7 +64,7 @@ export function SiteFooter({ description = "An independent studio for websites a
       </div>
 
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border/60 px-4 py-6 text-[13px] text-muted-foreground sm:px-6">
-        <span>© {new Date().getFullYear()} Botlane</span>
+        <span>© {new Date().getFullYear()} botLane</span>
         <span className="label-mono text-[11px]">DESIGN AND ENGINEERING STUDIO</span>
       </div>
 

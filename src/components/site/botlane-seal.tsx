@@ -227,7 +227,7 @@ export function BotlaneSeal({ size = 64, rings, animated = true, optical, lanes 
 }
 
 /** The seal beside the wordmark, for the nav, footer and documents. `height` is the seal's size; the word follows the text colour. */
-export function BotlaneLockup({ height = 32, animated = false, lanes, tone, className, label = "Botlane" }: { height?: number; animated?: boolean; lanes?: readonly SealLane[]; tone?: SealTone; className?: string; label?: string }) {
+export function BotlaneLockup({ height = 32, animated = false, lanes, tone, className, label = "botLane" }: { height?: number; animated?: boolean; lanes?: readonly SealLane[]; tone?: SealTone; className?: string; label?: string }) {
   const type = height * 0.72, width = (WORD_WIDTH / UNITS) * type, xHeight = (WORD_XHEIGHT / UNITS) * type
   return (
     <span role="img" aria-label={label} className={cn("inline-flex items-center", className)} style={{ gap: height * 0.3, color: tone === "white" ? "#fff" : undefined }}>

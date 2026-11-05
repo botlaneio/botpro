@@ -87,7 +87,7 @@ export function createLaneOrb(opts) {
   <div class="root">
     <div class="dock">
       <span class="pill hint" role="status" aria-live="polite">Talk to Lane</span>
-      <button class="lane" type="button" aria-label="Talk to Lane, Botlane's intelligence orchestrator" aria-pressed="false">
+      <button class="lane" type="button" aria-label="Talk to Lane, botLane's intelligence orchestrator" aria-pressed="false">
         <span class="halo"></span><span class="ring"></span>${BLOB}<span class="bars"><i></i><i></i><i></i><i></i></span>
       </button>
     </div>
@@ -110,7 +110,7 @@ export function createLaneOrb(opts) {
     dock.classList.toggle('connecting', s === 'connecting');
     dock.classList.toggle('live', s === 'listening' || s === 'speaking');
     btn.setAttribute('aria-pressed', s === 'idle' ? 'false' : 'true');
-    btn.setAttribute('aria-label', s === 'idle' ? "Talk to Lane, Botlane's intelligence orchestrator" : 'End the conversation with Lane');
+    btn.setAttribute('aria-label', s === 'idle' ? "Talk to Lane, botLane's intelligence orchestrator" : 'End the conversation with Lane');
   }
   let pillTimer = 0;
   function say(text, { hold = 0, warn = false } = {}) {

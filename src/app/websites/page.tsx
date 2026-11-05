@@ -11,7 +11,7 @@ import { plan } from "@/lib/pricing"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
-  title: "Websites · Botlane",
+  title: "Websites · botLane",
   description: "Core, Ascend and Apex: custom websites for getting online properly, for growing companies, and for brands where the site is the experience.",
 }
 

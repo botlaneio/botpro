@@ -84,6 +84,6 @@ Collect these items in one document:
 7. Data access, retention, and deletion expectations to resolve before launch.
 8. Acceptance scenarios with an observed-result column.
 
-The next step is implementation, not adding more questions. Botlane offers an [AI website assistant](/custom-solutions/ai-assistant) for business questions and human handoff, and [workflow automation](/custom-solutions/workflow-automation) for connections between tools. Qualifying questions, existing-site compatibility, and the exact integrations should be confirmed in your proposal.
+The next step is implementation, not adding more questions. botLane offers an [AI website assistant](/custom-solutions/ai-assistant) for business questions and human handoff, and [workflow automation](/custom-solutions/workflow-automation) for connections between tools. Qualifying questions, existing-site compatibility, and the exact integrations should be confirmed in your proposal.
 
 Send that brief with your project enquiry. If the desired outcome is a confirmed appointment, the [booking implementation guide](/blog/ai-appointment-booking-implementation/) explains the calendar and confirmation work that follows.
