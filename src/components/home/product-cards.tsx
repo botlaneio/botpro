@@ -9,15 +9,15 @@ import { cn } from "@/lib/utils"
 import { ProductFan } from "./product-fan"
 
 export const ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = {
-  syncc: CalendarDays,
-  scriblane: FileText,
-  flowlane: Workflow,
+  slotlane: CalendarDays,
+  spotlane: FileText,
+  dotlane: Workflow,
 }
 
 // The lower half of each card fades into the card, so the visual reads as a window onto the product.
 const fadeOut = "[mask-image:linear-gradient(180deg,#000_62%,transparent)]"
 
-/** Syncc: a month tilted into the light, and a booking landing on top of it. */
+/** slotLane: a month tilted into the light, and a booking landing on top of it. */
 function SynccVisual() {
   // Three weeks of October from Monday the 12th: it ends on the 31st, and November begins.
   const days = Array.from({ length: 21 }, (_, i) => ((i + 11) % 31) + 1)
@@ -47,7 +47,7 @@ function SynccVisual() {
   )
 }
 
-/** Scriblane: an invoice being read, its fields picked out with their confidence, and the maths checked. */
+/** spotLane: an invoice being read, its fields picked out with their confidence, and the maths checked. */
 function ScriblaneVisual() {
   const fields: [string, string, string][] = [["Vendor", "Northwind Studio", "0.92"], ["Invoice", "INV-0042", "0.98"], ["Total", "$2,696.00", "0.95"]]
   return (
@@ -81,7 +81,7 @@ function ScriblaneVisual() {
   )
 }
 
-/** Flowlane: one trigger, and the steps it sets off, fading as they queue. */
+/** dotLane: one trigger, and the steps it sets off, fading as they queue. */
 function FlowlaneVisual() {
   const steps = [
     { t: "Contact created", n: "02" },
@@ -109,7 +109,7 @@ function FlowlaneVisual() {
   )
 }
 
-const VISUALS: Record<LaneId, () => React.ReactElement> = { syncc: SynccVisual, scriblane: ScriblaneVisual, flowlane: FlowlaneVisual }
+const VISUALS: Record<LaneId, () => React.ReactElement> = { slotlane: SynccVisual, spotlane: ScriblaneVisual, dotlane: FlowlaneVisual }
 
 /** A product's visual on its own, for its page. */
 export function ProductVisual({ id }: { id: LaneId }) {
@@ -158,7 +158,7 @@ function ProductCard({ lane, copy }: { lane: Lane; copy?: HomeProductCopy }) {
 
 /** The three Lane products, as proof of what we build: a fan of cards, each a small window onto the product. */
 export function ProductCards({ copy }: { copy?: Record<LaneId, HomeProductCopy> }) {
-  const items = LANES.map((l) => ({ title: l.name, note: l.status === "live" ? `LIVE · ${l.host.toUpperCase()}` : "OPENING SOON" }))
+  const items = LANES.map((l) => ({ title: l.name, note: l.status === "live" ? `LIVE · ${l.host.toUpperCase()}` : `COMING SOON · ${l.host.toUpperCase()}` }))
   return (
     <ProductFan items={items}>
       {LANES.map((l) => <ProductCard key={l.id} lane={l} copy={copy?.[l.id]} />)}

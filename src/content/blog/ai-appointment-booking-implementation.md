@@ -85,6 +85,6 @@ The owner needs more than login credentials. Ask for a short operating note show
 
 Choose one person to review exceptions and unanswered questions. Track confirmed bookings, failed attempts, manual corrections, and qualified requests. Chat volume alone does not show whether the workflow helps.
 
-For a booking page, explore [Syncc](/products/syncc). If the project also needs qualification, lead logging, or follow-up across tools, start with [workflow automation](/custom-solutions/workflow-automation). Website compatibility, scheduling support, and the exact connections need confirmation in the proposal; these examples are not a promise that every integration is available.
+For a booking page, explore [slotLane](/products/slotlane). If the project also needs qualification, lead logging, or follow-up across tools, start with [workflow automation](/custom-solutions/workflow-automation). Website compatibility, scheduling support, and the exact connections need confirmation in the proposal; these examples are not a promise that every integration is available.
 
 Bring your existing booking tool, one appointment type, staff availability rules, and exception owner to the project enquiry. For the information to prepare beforehand, use the [intake requirements checklist](/blog/service-business-intake-requirements/).

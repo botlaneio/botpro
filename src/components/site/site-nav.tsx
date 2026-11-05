@@ -51,7 +51,7 @@ export interface NavMenu {
   after?: { label: string; href: string; meta: string }
 }
 
-const LANE_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = { syncc: CalendarDays, scriblane: FileText, flowlane: Workflow }
+const LANE_ICONS: Record<LaneId, React.ComponentType<{ className?: string }>> = { slotlane: CalendarDays, spotlane: FileText, dotlane: Workflow }
 const SECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = { websites: PanelsTopLeft, "web-apps": AppWindow, "custom-solutions": Sparkles }
 const isOffer = (k: NavCard["icon"]): k is OfferIcon => k in OFFER_ICONS
 
@@ -273,7 +273,7 @@ function ProductCards({ menu, onNavigate }: { menu: NavMenu; onNavigate: () => v
                 )}
               </span>
               <span className="text-[13px] text-muted-foreground">{c.body}</span>
-              <span className="label-mono text-[10.5px]">{c.soon ? "OPENING SOON" : c.meta}</span>
+              <span className="label-mono text-[10.5px]">{c.soon ? "COMING SOON" : c.meta}</span>
             </span>
           </Link>
         ))}

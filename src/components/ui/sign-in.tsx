@@ -51,9 +51,9 @@ const PRODUCTS: {
   Icon: typeof PanelsTopLeft
 }[] = [
   { href: "/websites", name: "Websites", line: "Fixed price, with the scope agreed before we start.", Icon: PanelsTopLeft },
-  { href: "/products/syncc", name: "Syncc", line: "Share one link. People pick a time, and it lands in your calendar.", scope: "lane-teal", Icon: CalendarDays },
-  { href: "/products/scriblane", name: "Scriblane", line: "Invoices, scans and Office files in. Clean, checked data out.", scope: "lane-violet", Icon: FileText },
-  { href: "/products/flowlane", name: "Flowlane", line: "Automate the busywork between your tools, your team and your clients.", scope: "lane-orchid", soon: true, Icon: Workflow },
+  { href: "/products/slotlane", name: "slotLane", line: "Share one link. People pick a time, and it lands in your calendar.", scope: "lane-teal", soon: true, Icon: CalendarDays },
+  { href: "/products/spotlane", name: "spotLane", line: "Invoices, scans and Office files in. Clean, checked data out.", scope: "lane-violet", soon: true, Icon: FileText },
+  { href: "/products/dotlane", name: "dotLane", line: "Automate the busywork between your tools, your team and your clients.", scope: "lane-orchid", soon: true, Icon: Workflow },
 ]
 
 const CHIPS = ["Preview only", "Nothing is sent", "No tracking cookies"]
@@ -192,7 +192,7 @@ function SignUp({ title, description, onSignIn, onSwitchToSignIn, notice }: Omit
         <div className="auth-rise mx-auto w-full max-w-lg [--auth-delay:120ms]">
           <h2 id={`${uid}-aside`} className="text-balance text-3xl leading-[1.15] font-medium tracking-tight xl:text-[2.65rem] xl:leading-[1.12]">
             <span className="text-foreground">Projects, products, and what comes next.</span>{" "}
-            <span className="font-normal text-muted-foreground">Websites and web apps from the studio, plus Syncc, Scriblane and Flowlane.</span>
+            <span className="font-normal text-muted-foreground">Websites and web apps from the studio, plus slotLane, spotLane and dotLane.</span>
           </h2>
           <ul aria-label="Botlane products" className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border min-[420px]:grid-cols-2 sm:mt-10">
             {PRODUCTS.map((product) => (

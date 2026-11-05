@@ -59,18 +59,18 @@ export async function PricingSection() {
         </div>
 
         <div className="lane-teal">
-          <Group title="Syncc" note="scheduling">
+          <Group title="slotLane" note="scheduling">
             <SynccPlans />
           </Group>
         </div>
 
         <div className="lane-violet">
-          <Group title="Scriblane" note="document processing">
+          <Group title="spotLane" note="document processing">
             <div className="grid gap-5 md:grid-cols-2">
               <PlanCard planId="scriblane-starter" cta="Start with Starter" />
               <PlanCard planId="scriblane-growth" featured cta="Start with Growth" />
             </div>
-            <Comparison planIds={["scriblane-starter", "scriblane-growth"]} caption="Scriblane plans compared" />
+            <Comparison planIds={["scriblane-starter", "scriblane-growth"]} caption="spotLane plans compared" />
           </Group>
         </div>
 

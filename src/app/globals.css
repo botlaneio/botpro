@@ -32,7 +32,7 @@
   /* Botlane's accent: an electric blue. Light-mode text is deeper so small words stay readable on white. */
   --blue-solid: #2F55F0;   --blue-hover: #4A6CF5;   --blue-text: #1E3FC8;   --blue-subtle: #ECF0FE;   --blue-border: #BCC9FB;
   --violet-solid: #8B7CFF; --violet-hover: #A397FF; --violet-text: #5B4BD6; --violet-subtle: #F1EFFF; --violet-border: #CEC8FF;
-  /* Flowlane: proposed, not yet on the palette sheet */
+  /* dotLane: proposed, not yet on the palette sheet */
   --orchid-solid: #E36BD3; --orchid-hover: #EB8BDF; --orchid-text: #A3248F; --orchid-subtle: #FCEEFA; --orchid-border: #F2C2EB;
 
   /* Status: mock UI only, never for lanes */

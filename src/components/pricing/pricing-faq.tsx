@@ -31,7 +31,7 @@ export function PricingFaq() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="self-hosted">
-        <AccordionTrigger>What does a self-hosted Syncc licence include?</AccordionTrigger>
+        <AccordionTrigger>What does a self-hosted slotLane licence include?</AccordionTrigger>
         <AccordionContent>
           Twelve months of updates and email support. After the first year, renewing updates is optional.
         </AccordionContent>

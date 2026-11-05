@@ -65,7 +65,7 @@ export default function AuthSectionThree() {
                   <div className="absolute inset-0 bg-linear-to-t from-[#111215] to-transparent" /><h3 className="absolute bottom-5 left-6 text-xl font-medium">Your next chapter starts here.</h3>
                 </div>
                 <div className="grid gap-0 px-6 pb-6">
-                  {[['Start a project', 'From your first idea to launch.', '/contact'], ['Explore products', 'Syncc, Scriblane, and more.', '/products']].map(([title, body, href]) => <Link href={href} key={title} className="group flex min-h-20 items-center gap-3 border-t border-white/10 py-4"><span className="grid min-w-0 flex-1 gap-1"><span className="text-sm font-medium">{title}</span><span className="text-xs text-white/65">{body}</span></span><ArrowUpRight size={18} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>)}
+                  {[['Start a project', 'From your first idea to launch.', '/contact'], ['Explore products', 'slotLane, spotLane, and more.', '/products']].map(([title, body, href]) => <Link href={href} key={title} className="group flex min-h-20 items-center gap-3 border-t border-white/10 py-4"><span className="grid min-w-0 flex-1 gap-1"><span className="text-sm font-medium">{title}</span><span className="text-xs text-white/65">{body}</span></span><ArrowUpRight size={18} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>)}
                   <span className="flex items-center gap-2 pt-3 text-xs text-white/65"><Check size={14} aria-hidden="true" />Illustrative preview. No customer data.</span>
                 </div>
               </div>

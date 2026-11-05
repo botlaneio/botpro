@@ -73,7 +73,7 @@ Ask your proposal to state who supplies copy, photography, branding, and any spe
 
 [Care](/care) is optional and separate from the website build. Ask the proposal to separate website maintenance, intake upkeep where applicable, and AI or messaging usage. Do not assume that a website package includes every connected service’s running costs.
 
-Syncc is now a standalone scheduling product, with cloud subscriptions and a self-hosted licence. Use the [current Syncc plans](/products/syncc) to compare them. A self-hosted licence still needs hosting and ongoing operation; it does not eliminate running costs.
+slotLane is now a standalone scheduling product, with cloud subscriptions and a self-hosted licence. Use the [current slotLane plans](/products/slotlane) to compare them. A self-hosted licence still needs hosting and ongoing operation; it does not eliminate running costs.
 
 ## Compare two proposals without guessing
 

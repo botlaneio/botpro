@@ -44,9 +44,9 @@ import { Keycaps } from "./lab-controls"
 export const metadata: Metadata = { title: "Component lab · Botlane", robots: { index: false, follow: false } }
 
 const ICONS: Record<Lane["id"], React.ComponentType<{ className?: string }>> = {
-  syncc: CalendarDays,
-  scriblane: FileText,
-  flowlane: Workflow,
+  slotlane: CalendarDays,
+  spotlane: FileText,
+  dotlane: Workflow,
 }
 
 function Section({ id, title, note, children }: { id: string; title: string; note: string; children: React.ReactNode }) {
@@ -130,7 +130,7 @@ export default async function Lab() {
             <Kbd className="ml-auto">esc</Kbd>
           </div>
           <ul className="grid gap-0.5 p-2 text-sm">
-            {[["Discovery call", "Syncc · 30 min"], ["Lease_Agreement_Acme.pdf", "Scriblane · 24 pages"], ["Northwind redesign", "Website · week 5 of 7"]].map(([t, s], i) => (
+            {[["Discovery call", "slotLane · 30 min"], ["Lease_Agreement_Acme.pdf", "spotLane · 24 pages"], ["Northwind redesign", "Website · week 5 of 7"]].map(([t, s], i) => (
               <li key={t} className={`flex items-center gap-3 rounded-md px-2.5 py-2 ${i === 0 ? "bg-foreground/[0.06]" : ""}`}>
                 <span>{t}</span><span className="truncate text-muted-foreground">{s}</span>
                 {i === 0 && <Kbd className="ml-auto">↵</Kbd>}
@@ -259,7 +259,7 @@ export default async function Lab() {
       </Section>
 
       <Section id="stats" title="Number cards" note="True numbers only. Each counts up once as it scrolls into view; a short arc of the accent runs round each edge, offset card to card.">
-        <StatCards stats={[{ value: 3, label: "products built and run in-house" }, { value: 700, suffix: "+", label: "app integrations in Flowlane" }, { value: 14, label: "file types Scriblane can read" }, { value: 20, suffix: "%", label: "off for our first 10 clients" }]} />
+        <StatCards stats={[{ value: 3, label: "products built and run in-house" }, { value: 700, suffix: "+", label: "app integrations in dotLane" }, { value: 14, label: "file types spotLane can read" }, { value: 20, suffix: "%", label: "off for our first 10 clients" }]} />
       </Section>
 
       <Section id="products" title="Product cards" note="The Lane products in a fan: one upright in the middle, the others fanned behind. Cards trading places melt as they pass. Buttons, arrow keys, swipe, or tap a side card.">
@@ -282,7 +282,7 @@ export default async function Lab() {
         </Tabs>
         <Accordion type="single" collapsible className="max-w-xl">
           <AccordionItem value="a"><AccordionTrigger>How long does a website take?</AccordionTrigger><AccordionContent>Most sites ship in six to eight weeks.</AccordionContent></AccordionItem>
-          <AccordionItem value="b"><AccordionTrigger>Can I use Syncc and Scriblane together?</AccordionTrigger><AccordionContent>Yes. One account covers every Lane product.</AccordionContent></AccordionItem>
+          <AccordionItem value="b"><AccordionTrigger>Can I use slotLane and spotLane together?</AccordionTrigger><AccordionContent>Yes. One account covers every Lane product.</AccordionContent></AccordionItem>
         </Accordion>
         <div className="flex flex-wrap gap-3">
           <Dialog>

@@ -78,7 +78,7 @@ const opticalFor = (disc: number): SealOptical => (disc < 24 ? "tiny" : disc < 4
  * Hairlines use non-scaling strokes, so they stay exact device-pixel lines at any size.
  *
  * `lanes` picks the colours, one to three, in order: by default Botlane's blue alone, which is the logo. Each
- * lane lights one arc of the rings and one beam on the disc's edge, so `lanes={["teal"]}` is the seal for Syncc alone,
+ * lane lights one arc of the rings and one beam on the disc's edge, so `lanes={["teal"]}` is the seal for slotLane alone,
  * for use inside that product's own scope. The beams turn once every 7 seconds and stop under reduced motion;
  * pass `animated={false}` for a still seal. `tone="white"` is the one-colour version for dark backgrounds and photos:
  * all white, no lanes, no glass fill and no motion.

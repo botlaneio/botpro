@@ -20,7 +20,7 @@ test("every charge has a positive whole amount in both regions", () => {
   }
 })
 
-test("Syncc yearly works out to the advertised monthly price", () => {
+test("slotLane yearly works out to the advertised monthly price", () => {
   const yearly = plan("syncc-cloud-annual").charges[0]
   assert.equal(perMonth(yearly, "US"), 7)
   assert.equal(perMonth(yearly, "IN"), 499)
@@ -62,7 +62,7 @@ test("no prices on the site are placeholders", () => {
   for (const o of OFFERINGS) for (const p of o.plans) assert.ok(!isPlaceholder(p.id), p.id)
 })
 
-test("Syncc Cloud stays under Calendly Standard: $10 a seat a month yearly, $12 monthly", () => {
+test("slotLane Cloud stays under Calendly Standard: $10 a seat a month yearly, $12 monthly", () => {
   assert.equal(plan("syncc-cloud-annual").charges[0].amounts.US, 84)
   assert.ok(plan("syncc-cloud-annual").charges[0].amounts.US / 12 < 10)
   assert.ok(plan("syncc-cloud-monthly").charges[0].amounts.US < 12)

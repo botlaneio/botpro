@@ -7,8 +7,8 @@ import { plan } from "@/lib/pricing"
 import { ChargeText, useRegion } from "./region"
 import { PlanCard } from "./plan-card"
 
-/** Syncc's two ways to buy: Cloud, billed monthly or yearly, and a self-hosted licence. */
-// Syncc takes sign-ups and payment on its own site.
+/** slotLane's two ways to buy (sign-up still runs at syncc.botlane.io until slotlane.cloud opens): Cloud, billed monthly or yearly, and a self-hosted licence. */
+// slotLane takes sign-ups and payment on its own site.
 const SIGN_UP = "https://syncc.botlane.io/#pricing"
 
 export function SynccPlans() {
@@ -20,6 +20,7 @@ export function SynccPlans() {
 
   return (
     <div className="grid gap-5">
+      <p className="label-mono w-fit rounded-full border border-border px-2.5 py-0.5 text-[10px]">COMING SOON · SLOTLANE.CLOUD</p>
       <Tabs value={billing} onValueChange={(v) => setBilling(v as "year" | "month")}>
         <TabsList aria-label="Billing">
           <TabsTrigger value="year">Yearly · save {saving}%</TabsTrigger>

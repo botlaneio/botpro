@@ -4,9 +4,9 @@
  * all read from here. Change a price in this file and nowhere else.
  *
  * Sources, October 2026:
- *   - neural_substrate/plans.ts (central price book): services, Scriblane, add-ons
+ *   - neural_substrate/plans.ts (central price book): services, spotLane, add-ons
  *   - service details (who it's for, inclusions, timelines) agreed October 2026
- *   - syncc/pricing.js: the standalone Syncc scheduling app
+ *   - syncc/pricing.js: the standalone slotLane scheduling app
  *
  * The site shows US dollars only (see SITE_REGION). Rupee amounts stay here for
  * invoicing Indian clients; nothing on the site displays them.
@@ -137,9 +137,9 @@ export const OFFERINGS: readonly Offering[] = [
     // The standalone scheduling app at syncc.botlane.io. These match syncc/pricing.js: keep the two in step.
     // Set under Calendly Standard ($10 a seat a month yearly, $12 monthly) and Cal.com Teams ($12 yearly),
     // checked 28 October 2026.
-    id: "syncc",
-    lane: "syncc",
-    name: "Syncc",
+    id: "slotlane",
+    lane: "slotlane",
+    name: "slotLane",
     kind: "product",
     plans: [
       {
@@ -166,9 +166,9 @@ export const OFFERINGS: readonly Offering[] = [
     ],
   },
   {
-    id: "scriblane",
-    lane: "scriblane",
-    name: "Scriblane",
+    id: "spotlane",
+    lane: "spotlane",
+    name: "spotLane",
     kind: "product",
     plans: [
       { id: "scriblane-starter", name: "Starter", allowance: { unit: "pages", amount: 500, per: "month" }, charges: [{ amounts: { US: 199, IN: 3499 }, interval: "month" }] },
