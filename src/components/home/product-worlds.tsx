@@ -17,13 +17,14 @@ import {
   Plus,
   ShieldCheck,
   Sparkles,
-  Workflow,
 } from "lucide-react";
+
+import { LANE_MARKS } from "@/components/site/lane-logos";
 import { HOME_PRODUCTS } from "@/lib/home-copy";
 import { LANES, type LaneId } from "@/lib/lanes";
 import "./product-worlds.css";
 
-const ICONS = { slotlane: CalendarDays, spotlane: FileText, dotlane: Workflow };
+const ICONS = LANE_MARKS;
 const SUBTITLES = {
   slotlane: "Make room for a good conversation.",
   spotlane: "A little less paperwork. A lot more clarity.",

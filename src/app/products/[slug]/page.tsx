@@ -28,7 +28,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const lane = laneFor((await params).slug)
-  return lane ? { title: `${lane.name} · Botlane`, description: { slotlane: "slotLane makes scheduling simple: share a booking link so people can choose a time that lands in your calendar.", spotlane: "spotLane turns invoices, scans, and Office files into clean, checked data for your document-processing workflow.", dotlane: "dotLane is in development: explore our upcoming automation product, or ask Botlane to connect your business tools today." }[lane.id] } : {}
+  if (!lane) return {}
+  const image = { url: `/brand/og/${lane.id}.png`, width: 1200, height: 630, alt: `${lane.name}: ${lane.tagline}` }
+  return { openGraph: { images: [image] }, twitter: { card: "summary_large_image", images: [image] }, title: `${lane.name} · Botlane`, description: { slotlane: "slotLane makes scheduling simple: share a booking link so people can choose a time that lands in your calendar.", spotlane: "spotLane turns invoices, scans, and Office files into clean, checked data for your document-processing workflow.", dotlane: "dotLane is in development: explore our upcoming automation product, or ask Botlane to connect your business tools today." }[lane.id] }
 }
 
 /**

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
   title: "Botlane",
-  description: "Ultra-premium websites and web apps, and the Lane products: slotLane, spotLane and dotLane.",
+  description: "Design that balances aesthetic polish with technical permanence.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

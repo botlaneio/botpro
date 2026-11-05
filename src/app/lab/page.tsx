@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ArrowUpRight, CalendarDays, ChevronRight, FileText, Pause, RotateCcw, Search, Workflow } from "lucide-react"
+import { ArrowUpRight, ChevronRight, Pause, RotateCcw, Search } from "lucide-react"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
@@ -31,23 +31,21 @@ import { StatCards } from "@/components/home/stat-cards"
 import { PricingSection } from "@/components/pricing/pricing-section"
 import { ProcessWheel } from "@/components/process/process-wheel"
 import { BotlaneMark } from "@/components/site/botlane-mark"
+import { BotlaneLogo } from "@/components/site/botlane-logo"
+import { LANE_MARKS, LaneLogo } from "@/components/site/lane-logos"
 import { BotlaneLockup, BotlaneSeal } from "@/components/site/botlane-seal"
 import { HeroMark } from "@/components/site/hero-mark"
 import { AgentMark } from "@/components/site/agent-mark"
 import { NEED_OPTIONS } from "@/lib/contact-options"
 import { SOLUTIONS } from "@/lib/nav"
-import { LANES, type Lane } from "@/lib/lanes"
+import { LANES } from "@/lib/lanes"
 import { ThemeSwitch } from "@/components/site/theme-switch"
 import { Keycaps } from "./lab-controls"
 
 // The lab is a working page for us, not for visitors: kept out of search results and the sitemap.
 export const metadata: Metadata = { title: "Component lab · Botlane", robots: { index: false, follow: false } }
 
-const ICONS: Record<Lane["id"], React.ComponentType<{ className?: string }>> = {
-  slotlane: CalendarDays,
-  spotlane: FileText,
-  dotlane: Workflow,
-}
+const ICONS = LANE_MARKS
 
 function Section({ id, title, note, children }: { id: string; title: string; note: string; children: React.ReactNode }) {
   return (
@@ -186,12 +184,18 @@ export default async function Lab() {
           <BotlaneMark size={120} id="lab-mark-l" />
         </div>
         <div className="flex flex-wrap items-center gap-10">
-          <span className="flex items-center gap-2"><BotlaneMark size={28} id="lab-lock-s" /><span className="font-semibold tracking-[-0.035em]">botlane</span></span>
-          <span className="flex items-center gap-4"><BotlaneMark size={64} id="lab-lock-l" /><span className="text-5xl font-semibold tracking-[-0.045em]">botlane</span></span>
+          <BotlaneLogo size={28} />
+          <BotlaneLogo size={64} />
         </div>
         <div className="flex flex-wrap items-center gap-6 rounded-[calc(var(--radius)*1.4)] bg-[#0B0C0E] p-8 text-[#EDEEF0]">
           <span className="grid size-24 place-items-center rounded-[22px] bg-[#16181C]"><BotlaneMark size={60} id="lab-app" /></span>
-          <span className="flex items-center gap-3"><BotlaneMark size={40} id="lab-lock-d" /><span className="text-3xl font-semibold tracking-[-0.04em]">botlane</span></span>
+          <BotlaneLogo size={40} />
+        </div>
+        <p className="text-sm text-muted-foreground">The products: b, the calendar, d and p, each with its lane colour.</p>
+        <div className="flex flex-wrap items-center gap-10">
+          <LaneLogo id="slotlane" size={40} />
+          <LaneLogo id="dotlane" size={40} />
+          <LaneLogo id="spotlane" size={40} />
         </div>
         <p className="text-sm text-muted-foreground">Brand artwork: the seal.</p>
         <BotlaneSeal size={420} label="The Botlane seal" />
