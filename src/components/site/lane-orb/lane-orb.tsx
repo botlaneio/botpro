@@ -8,11 +8,11 @@ import { scrollToY } from "@/lib/smooth-scroll"
 import { createLaneOrb } from "./engine"
 
 /**
- * Lane, Botlane's intelligence orchestrator: a particle orb in the bottom-right corner that visitors can
- * type or talk to. Lane answers from the agent's prompt in ElevenLabs, scrolls the homepage to what it is
- * explaining, and opens pages with the router, so the conversation carries on across them. Mounted once
- * in the layout. Stores nothing in the browser (the cookie note promises that), and the ElevenLabs SDK
- * loads only when a visitor starts a conversation.
+ * Lane, Botlane's intelligence orchestrator: one voice button in the bottom-right corner. Tap to talk in
+ * real time, tap again to end. Lane answers from the agent's prompt in ElevenLabs, scrolls the homepage to
+ * what it is explaining, and opens pages with the router, so the conversation carries on across them.
+ * Mounted once in the layout. Stores nothing in the browser (the cookie note promises that), and the
+ * ElevenLabs SDK loads only when a visitor taps the button.
  */
 export function LaneOrb() {
   const router = useRouter()
@@ -35,7 +35,6 @@ export function LaneOrb() {
       sections: { start: () => document.getElementById("cta-title")?.closest("section") },
       headerOffset: 80, // the sections' scroll-mt-20
       scrollTo: scrollToY,
-      storageKey: null,
       avoid: ".cookie-note",
     })
     return () => orb.destroy()
