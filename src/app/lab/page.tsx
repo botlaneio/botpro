@@ -178,12 +178,22 @@ export default async function Lab() {
         </form>
       </Section>
 
-      <Section id="mark" title="The mark" note="The seal: a dark glass disc holding the circuit bolt, with one blue beam round its edge. Each size gets its own drawing. Product versions are for use inside that product's scope.">
+      <Section id="mark" title="The mark" note="The comet: one lane of the loop, tapering into a node in motion, always in the text colour. It sits beside the botlane wordmark and never inside it. Below 24px it switches to a sturdier drawing. The seal below is brand artwork for large, decorative use, not the logo.">
         <div className="flex flex-wrap items-end gap-10">
+          <BotlaneMark size={16} id="lab-mark-xs" />
           <BotlaneMark size={26} id="lab-mark-s" />
           <BotlaneMark size={64} id="lab-mark-m" />
           <BotlaneMark size={120} id="lab-mark-l" />
         </div>
+        <div className="flex flex-wrap items-center gap-10">
+          <span className="flex items-center gap-2"><BotlaneMark size={28} id="lab-lock-s" /><span className="font-semibold tracking-[-0.035em]">botlane</span></span>
+          <span className="flex items-center gap-4"><BotlaneMark size={64} id="lab-lock-l" /><span className="text-5xl font-semibold tracking-[-0.045em]">botlane</span></span>
+        </div>
+        <div className="flex flex-wrap items-center gap-6 rounded-[calc(var(--radius)*1.4)] bg-[#0B0C0E] p-8 text-[#EDEEF0]">
+          <span className="grid size-24 place-items-center rounded-[22px] bg-[#16181C]"><BotlaneMark size={60} id="lab-app" /></span>
+          <span className="flex items-center gap-3"><BotlaneMark size={40} id="lab-lock-d" /><span className="text-3xl font-semibold tracking-[-0.04em]">botlane</span></span>
+        </div>
+        <p className="text-sm text-muted-foreground">Brand artwork: the seal.</p>
         <BotlaneSeal size={420} label="The Botlane seal" />
         <div className="flex flex-wrap items-center gap-8">
           <BotlaneSeal size={180} rings lanes={["teal"]} />
