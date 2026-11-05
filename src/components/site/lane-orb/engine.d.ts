@@ -13,6 +13,8 @@ export interface LaneOrbOptions {
   scrollTo?: (y: number) => void
   /** Milliseconds before the one-time "Talk to Lane" label appears; -1 turns it off. */
   hintDelay?: number
+  /** SVG markup for the button's symbol, drawn in white. A `.node` element inside it pulses with Lane's voice. */
+  mark?: string
   /** CSS selector of an element the button should sit above when it covers the bottom-right corner. */
   avoid?: string | null
 }
