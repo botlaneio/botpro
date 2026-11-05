@@ -22,8 +22,8 @@ import { OFFERS } from "@/lib/pricing"
 import { PRODUCT_NUMBERS } from "@/lib/products"
 
 export const metadata: Metadata = {
-  title: "botLane · Experiences. Worth putting your name on.",
-  description: "Custom websites and software, designed around your business. A clear scope and an agreed price before each project begins.",
+  title: "botLane · Designs that balance aesthetic polish with technical permanence.",
+  description: "Designs that balance aesthetic polish with technical permanence.",
 }
 
 // Only true numbers: what we have built. The product count and the discount come from the data they describe.

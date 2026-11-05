@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
   title: "botLane",
-  description: "Design that balances aesthetic polish with technical permanence.",
+  description: "Designs that balance aesthetic polish with technical permanence.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
