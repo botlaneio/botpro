@@ -5,7 +5,7 @@ import type { FormEvent, ReactNode } from "react"
 import Link from "next/link"
 import { ArrowLeft, CalendarDays, Check, Eye, EyeOff, FileText, LockKeyhole, PanelsTopLeft, Workflow } from "lucide-react"
 
-import { BotlaneMark } from "@/components/site/botlane-mark"
+import { BotlaneLogo } from "@/components/site/botlane-logo"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -104,7 +104,7 @@ function SignUp({ title, description, onSignIn, onSwitchToSignIn, notice }: Omit
           <div className="auth-wash-soft absolute bottom-0 left-[12%] h-[22rem] w-[26rem] rounded-full blur-3xl" />
         </div>
         <div className="relative mx-auto w-full max-w-[28rem]">
-          <Logo id={`${uid}-mark`} className="auth-rise mb-5" />
+          <Logo className="auth-rise mb-5" />
           <div className="auth-rise rounded-[1.5rem] border border-border/80 bg-card px-5 py-6 shadow-[var(--shadow-lift)] sm:px-7 sm:py-8 [--auth-delay:60ms]">
             <h1 id={`${uid}-title`} className="text-[1.75rem] leading-tight font-medium tracking-tight sm:text-[2rem]">
               {title ?? "Get started"}
@@ -228,7 +228,7 @@ function SignIn({ title, description, onSignIn, onResetPassword, onCreateAccount
         </svg>
       </div>
       <div className="relative mx-auto flex w-full max-w-[26.5rem] flex-col items-center">
-        <Logo id={`${uid}-mark`} className="auth-rise mb-8" />
+        <Logo className="auth-rise mb-8" />
         <div className="w-full">
           <Link href="/" className={cn("surface-pill auth-rise mb-3 inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm text-foreground/80 [--auth-delay:40ms]", focusLink)}>
             <ArrowLeft aria-hidden className="size-3.5" />
@@ -405,11 +405,10 @@ function TextField({
   )
 }
 
-function Logo({ id, className }: { id: string; className?: string }) {
+function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className={cn("surface-pill inline-flex h-10 items-center gap-2 rounded-full px-3 text-sm font-semibold tracking-tight", focusLink, className)}>
-      <BotlaneMark size={22} id={id} />
-      botlane
+    <Link href="/" aria-label="botLane" className={cn("inline-flex items-center rounded-sm", focusLink, className)}>
+      <BotlaneLogo size={28} decorative />
     </Link>
   )
 }
