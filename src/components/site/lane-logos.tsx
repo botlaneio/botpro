@@ -20,11 +20,9 @@ const a11yOf = (label: string, decorative?: boolean) => (decorative ? { "aria-hi
 const cls = (className?: string) => (className ? `shrink-0 ${className}` : "shrink-0")
 
 export function SlotlaneMark({ size = 20, className, label = "slotLane", decorative = true }: MarkProps) {
-  const f = CAL.frame
   return (
     <svg width={size} height={size} viewBox={CAL_VIEWBOX} className={cls(className)} {...a11yOf(label, decorative)}>
-      <rect x={f.x} y={f.y} width={f.width} height={f.height} rx={f.rx} fill="none" stroke="currentColor" strokeWidth={f.strokeWidth} />
-      {CAL.rings.map((r) => <rect key={r.x} {...r} fill="currentColor" />)}
+      <path d={CAL.ring} fill="currentColor" fillRule="evenodd" />
       <rect {...CAL.slot} style={{ fill: `var(--slotlane-slot, ${SLOT_LIGHT})` }} />
     </svg>
   )
